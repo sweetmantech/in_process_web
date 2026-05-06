@@ -6,6 +6,7 @@ import { AnalyticsFilters } from "@/types/timeline";
 import MomentCreationsTable from "./MomentCreationsTable";
 import MomentsTimelineChart from "./MomentsTimelineChart";
 import AnalyticsFiltersBar from "./AnalyticsFilters";
+import ArweaveUploadsTable from "./ArweaveUploadsTable";
 
 const AdminAnalyticsPage = () => {
   const [filters, setFilters] = useState<AnalyticsFilters>({});
@@ -35,6 +36,7 @@ const AdminAnalyticsPage = () => {
         >
           <MomentCreationsTable />
         </TimelineProvider>
+        <ArweaveUploadsTable />
       </div>
     </div>
   );

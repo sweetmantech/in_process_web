@@ -9,7 +9,7 @@ interface ArweaveUploadRowProps {
 }
 
 const ArweaveUploadRow = ({ log }: ArweaveUploadRowProps) => {
-  const artist = log.artist.username || truncateAddress(log.artist.artist_address);
+  const artist = log.artist.username || truncateAddress(log.artist.address);
   const fileSizeMb = formatFileSizeMb(log.file_size_bytes);
 
   return (

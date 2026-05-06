@@ -1,5 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
+import formatFileSizeMb from "@/lib/formatFileSizeMb";
+import truncateAddress from "@/lib/truncateAddress";
 import { ArweaveUploadLog } from "@/types/arweave";
 
 interface ArweaveUploadRowProps {
@@ -7,10 +9,8 @@ interface ArweaveUploadRowProps {
 }
 
 const ArweaveUploadRow = ({ log }: ArweaveUploadRowProps) => {
-  const artist =
-    log.artist.username ||
-    `${log.artist.artist_address.slice(0, 6)}...${log.artist.artist_address.slice(-4)}`;
-  const fileSizeMb = (log.file_size_bytes / (1024 * 1024)).toFixed(2);
+  const artist = log.artist.username || truncateAddress(log.artist.artist_address);
+  const fileSizeMb = formatFileSizeMb(log.file_size_bytes);
 
   return (
     <TableRow>

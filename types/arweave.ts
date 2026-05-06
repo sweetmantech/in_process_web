@@ -1,6 +1,6 @@
 export interface ArweaveUploadArtist {
   username: string | null;
-  artist_address: string;
+  address: string;
 }
 
 export interface ArweaveUploadLog {

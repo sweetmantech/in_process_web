@@ -14,8 +14,8 @@ const ArweaveUploadRow = ({ log }: ArweaveUploadRowProps) => {
 
   return (
     <TableRow>
-      <TableCell className="font-mono text-xs">{log.arweave_uri}</TableCell>
       <TableCell>{artist}</TableCell>
+      <TableCell className="font-mono text-xs">{log.arweave_uri}</TableCell>
       <TableCell>{log.winc_cost}</TableCell>
       <TableCell>{log.usdc_cost ?? "-"}</TableCell>
       <TableCell>{fileSizeMb} MB</TableCell>

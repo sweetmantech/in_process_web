@@ -14,8 +14,9 @@ interface ArweaveUploadsTableProps {
 
 const ArweaveUploadsTable = ({ limit = 10 }: ArweaveUploadsTableProps) => {
   const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({ limit });
+  const hasLoadedOnce = Boolean(data);
 
-  if (isLoading) return <MessagesTableLoading />;
+  if (isLoading || !hasLoadedOnce) return <MessagesTableLoading />;
   if (error) return <p className="text-red-500">Error loading arweave uploads</p>;
 
   const logs = data?.logs ?? [];
@@ -28,7 +29,7 @@ const ArweaveUploadsTable = ({ limit = 10 }: ArweaveUploadsTableProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Arweave Upload Logs</span>
+          <span>Arweave Expenses</span>
           <Badge variant="outline">
             Page {currentPage} / {totalPages}
           </Badge>

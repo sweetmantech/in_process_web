@@ -12,8 +12,8 @@ const ArweaveUploadsTableContents = ({ logs }: ArweaveUploadsTableContentsProps)
       <Table className="min-w-[1000px] md:min-w-0">
         <TableHeader>
           <TableRow>
-            <TableHead>Arweave URI</TableHead>
             <TableHead className="w-40">Artist</TableHead>
+            <TableHead>Arweave URI</TableHead>
             <TableHead className="w-28">WINC Cost</TableHead>
             <TableHead className="w-28">USDC Cost</TableHead>
             <TableHead className="w-28">Size</TableHead>

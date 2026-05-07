@@ -1,17 +1,13 @@
-import uploadToArweave from "@/lib/arweave/uploadToArweave";
-import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
+import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useUserProvider } from "@/providers/UserProvider";
 
 const useEmbedCode = () => {
   const { embedCode } = useMetadataFormProvider();
-  const { getAuthHeaders } = useUserProvider();
 
-  const uploadEmbedCode = async () => {
+  const uploadEmbedCode = async (headers: HeadersInit) => {
     const blob = new Blob([`<html>\n      ${embedCode}\n      </html>`], { type: "text/html" });
-    const textImage = new File([blob], "embed", { type: "text/html" });
-    const [result, authHeaders] = await Promise.all([uploadToArweave(textImage), getAuthHeaders()]);
-    logArweaveUpload(result, authHeaders);
+    const file = new File([blob], "embed", { type: "text/html" });
+    const result = await uploadViaApi(file, headers);
     return {
       mime: "text/html" as const,
       animationUrl: result.arweave_uri,

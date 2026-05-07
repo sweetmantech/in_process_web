@@ -5,7 +5,7 @@ export const uploadToBlob = async (file: File, authHeaders: HeadersInit): Promis
   const ext = file.name.split(".").pop();
   const pathname = ext ? `${crypto.randomUUID()}.${ext}` : crypto.randomUUID();
   const { url } = await upload(pathname, file, {
-    access: "public",
+    access: "private",
     handleUploadUrl: `${IN_PROCESS_API}/blob`,
     headers: authHeaders as Record<string, string>,
   });

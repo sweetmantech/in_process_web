@@ -5,10 +5,13 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 const useWriting = () => {
   const { writingText } = useMetadataFormProvider();
 
-  const uploadWriting = async (headers: HeadersInit) => {
+  const uploadWriting = async (
+    headers: HeadersInit,
+    getRecaptchaToken: () => Promise<string | undefined>
+  ) => {
     const [writingResult, previewResult] = await Promise.all([
-      uploadWritingFile(writingText, headers),
-      generateAndUploadPreview(writingText, headers),
+      uploadWritingFile(writingText, headers, getRecaptchaToken),
+      generateAndUploadPreview(writingText, headers, getRecaptchaToken),
     ]);
 
     return {

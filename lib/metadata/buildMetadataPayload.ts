@@ -12,6 +12,7 @@ export const buildMetadataPayload = async (
   mime: string,
   contentUri: string,
   authHeaders: HeadersInit,
+  getRecaptchaToken: () => Promise<string | undefined>,
   existingMetadata?: MomentMetadata | null
 ): Promise<UploadResult> => {
   const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
@@ -29,5 +30,5 @@ export const buildMetadataPayload = async (
     },
   };
 
-  return uploadJson(mergedMetadata, authHeaders);
+  return uploadJson(mergedMetadata, authHeaders, getRecaptchaToken);
 };

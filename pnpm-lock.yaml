@@ -178,6 +178,9 @@ importers:
       react-easy-crop:
         specifier: ^5.5.6
         version: 5.5.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      react-google-recaptcha-v3:
+        specifier: ^1.11.0
+        version: 1.11.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       react-hook-form:
         specifier: ^7.66.0
         version: 7.68.0(react@19.2.1)
@@ -7108,6 +7111,12 @@ packages:
         integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==,
       }
 
+  hoist-non-react-statics@3.3.2:
+    resolution:
+      {
+        integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==,
+      }
+
   hono@4.10.7:
     resolution:
       {
@@ -9231,6 +9240,15 @@ packages:
     peerDependencies:
       react: ">=16.4.0"
       react-dom: ">=16.4.0"
+
+  react-google-recaptcha-v3@1.11.0:
+    resolution:
+      {
+        integrity: sha512-kLQqpz/77m8+trpBwzqcxNtvWZYoZ/YO6Vm2cVTHW8hs80BWUfDpC7RDwuAvpswwtSYApWfaSpIDFWAIBNIYxQ==,
+      }
+    peerDependencies:
+      react: ^16.3 || ^17.0 || ^18.0 || ^19.0
+      react-dom: ^17.0 || ^18.0 || ^19.0
 
   react-hook-form@7.68.0:
     resolution:
@@ -17924,6 +17942,10 @@ snapshots:
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
 
+  hoist-non-react-statics@3.3.2:
+    dependencies:
+      react-is: 16.13.1
+
   hono@4.10.7: {}
 
   html-dom-parser@5.1.2:
@@ -19239,6 +19261,12 @@ snapshots:
       react: 19.2.1
       react-dom: 19.2.1(react@19.2.1)
       tslib: 2.8.1
+
+  react-google-recaptcha-v3@1.11.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1):
+    dependencies:
+      hoist-non-react-statics: 3.3.2
+      react: 19.2.1
+      react-dom: 19.2.1(react@19.2.1)
 
   react-hook-form@7.68.0(react@19.2.1):
     dependencies:

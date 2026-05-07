@@ -13,7 +13,6 @@
   "dependencies": {
     "@ar.io/wayfinder-core": "^1.9.1",
     "@ar.io/wayfinder-react": "^1.0.28",
-    "@ardrive/turbo-sdk": "^1.41.0",
     "@farcaster/frame-sdk": "^0.0.31",
     "@farcaster/frame-wagmi-connector": "^0.0.19",
     "@google/model-viewer": "^4.2.0",
@@ -38,6 +37,7 @@
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^1.6.1",
+    "@vercel/blob": "^2.3.3",
     "@zoralabs/protocol-deployments": "^0.3.8",
     "abitype": "^1.0.8",
     "alchemy-sdk": "^3.5.9",

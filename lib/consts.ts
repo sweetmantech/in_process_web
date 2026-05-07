@@ -4,7 +4,8 @@ import { Address } from "viem";
 
 export const IS_TESTNET = process.env.NEXT_PUBLIC_IS_TESTNET === "true" ? true : false;
 
-export const IN_PROCESS_API = `${IS_TESTNET ? "https://in-process-api-git-test-sweetmantechs-projects.vercel.app" : "https://api.inprocess.world"}/api`;
+// export const IN_PROCESS_API = `${IS_TESTNET ? "https://in-process-api-git-test-sweetmantechs-projects.vercel.app" : "https://api.inprocess.world"}/api`;
+export const IN_PROCESS_API = "http://localhost:3000/api";
 
 // Wagmi
 export const EXPLORER_URL = IS_TESTNET ? "https://sepolia.basescan.org" : "https://basescan.org";

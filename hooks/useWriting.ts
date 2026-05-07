@@ -1,6 +1,5 @@
 import { uploadWritingFile } from "@/lib/arweave/uploadWritingFile";
 import { generateAndUploadPreview } from "@/lib/writing/generateAndUploadPreview";
-import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 
@@ -9,14 +8,11 @@ const useWriting = () => {
   const { getAuthHeaders } = useUserProvider();
 
   const uploadWriting = async () => {
-    const [writingResult, previewResult, authHeaders] = await Promise.all([
-      uploadWritingFile(writingText),
-      generateAndUploadPreview(writingText),
-      getAuthHeaders(),
+    const authHeaders = await getAuthHeaders();
+    const [writingResult, previewResult] = await Promise.all([
+      uploadWritingFile(writingText, authHeaders),
+      generateAndUploadPreview(writingText, authHeaders),
     ]);
-
-    logArweaveUpload(writingResult, authHeaders);
-    if (previewResult) logArweaveUpload(previewResult, authHeaders);
 
     return {
       mime: "text/plain" as const,

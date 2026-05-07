@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
-import MessagesTableLoading from "@/components/AdminMessagesPage/MessagesTableLoading";
-import NoMessagesFound from "@/components/AdminMessagesPage/NoMessagesFound";
 import MomentCreationsTableContents from "./MomentCreationsTableContents";
+import MomentCreationsTableLoading from "./MomentCreationsTableLoading";
+import MomentCreationsTableEmpty from "./MomentCreationsTableEmpty";
 
 const MomentCreationsTable = () => {
   const {
@@ -20,7 +20,7 @@ const MomentCreationsTable = () => {
     setCurrentPage,
   } = useTimelineProvider();
 
-  if (isLoading) return <MessagesTableLoading />;
+  if (isLoading) return <MomentCreationsTableLoading />;
   if (error) return <p className="text-red-500">Error loading moments</p>;
 
   return (
@@ -35,7 +35,7 @@ const MomentCreationsTable = () => {
       </CardHeader>
       <CardContent>
         {moments.length === 0 ? (
-          <NoMessagesFound />
+          <MomentCreationsTableEmpty />
         ) : (
           <>
             <MomentCreationsTableContents moments={moments} />

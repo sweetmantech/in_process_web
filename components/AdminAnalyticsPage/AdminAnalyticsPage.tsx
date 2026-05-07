@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import { AnalyticsFilters } from "@/types/timeline";
-import MomentCreationsTable from "./MomentCreationsTable";
+import ActiveArtistsTable from "./ActiveArtistsTable";
 import MomentsTimelineChart from "./MomentsTimelineChart";
 import AnalyticsFiltersBar from "./AnalyticsFilters";
 import ArweaveUploadsTable from "./ArweaveUploadsTable";
@@ -25,17 +25,7 @@ const AdminAnalyticsPage = () => {
         >
           <MomentsTimelineChart />
         </TimelineProvider>
-        <TimelineProvider
-          includeHidden={true}
-          paginated
-          limit={10}
-          period={filters.period}
-          channel={filters.channel}
-          contentType={filters.contentType}
-          artistAddress={filters.artist}
-        >
-          <MomentCreationsTable />
-        </TimelineProvider>
+        <ActiveArtistsTable period={filters.period} artist={filters.artist} />
         <ArweaveUploadsTable period={filters.period} artist={filters.artist} />
       </div>
     </div>

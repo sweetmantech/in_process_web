@@ -14,6 +14,7 @@ export const uploadFilesToArweave = async (
   imageFile: File | null,
   animationFile: File | null,
   existingAnimationUrl: string,
+  getRecaptchaToken: () => Promise<string | undefined>,
   setUploadProgress?: (progress: number) => void,
   mimeType?: string
 ): Promise<FileUploadResult> => {
@@ -51,7 +52,7 @@ export const uploadFilesToArweave = async (
 
     setUploadProgress?.(Math.round(fileStartProgress));
 
-    const uploadResult = await uploadViaApi(file, authHeaders);
+    const uploadResult = await uploadViaApi(file, authHeaders, getRecaptchaToken);
     const uploadedUri = uploadResult.arweave_uri;
 
     if (name === "preview") {

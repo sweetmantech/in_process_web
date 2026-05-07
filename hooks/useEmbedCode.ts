@@ -4,10 +4,13 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 const useEmbedCode = () => {
   const { embedCode } = useMetadataFormProvider();
 
-  const uploadEmbedCode = async (headers: HeadersInit) => {
+  const uploadEmbedCode = async (
+    headers: HeadersInit,
+    getRecaptchaToken: () => Promise<string | undefined>
+  ) => {
     const blob = new Blob([`<html>\n      ${embedCode}\n      </html>`], { type: "text/html" });
     const file = new File([blob], "embed", { type: "text/html" });
-    const result = await uploadViaApi(file, headers);
+    const result = await uploadViaApi(file, headers, getRecaptchaToken);
     return {
       mime: "text/html" as const,
       animationUrl: result.arweave_uri,

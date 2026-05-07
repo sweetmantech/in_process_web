@@ -3,10 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import MessagesTableLoading from "@/components/AdminMessagesPage/MessagesTableLoading";
-import NoMessagesFound from "@/components/AdminMessagesPage/NoMessagesFound";
 import { useArweaveLogs } from "@/hooks/useArweaveLogs";
 import ArweaveUploadsTableContents from "./ArweaveUploadsTableContents";
+import ArweaveUploadsTableLoading from "./ArweaveUploadsTableLoading";
+import ArweaveUploadsTableEmpty from "./ArweaveUploadsTableEmpty";
 
 interface ArweaveUploadsTableProps {
   limit?: number;
@@ -16,7 +16,7 @@ const ArweaveUploadsTable = ({ limit = 10 }: ArweaveUploadsTableProps) => {
   const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({ limit });
   const hasLoadedOnce = Boolean(data);
 
-  if (isLoading || !hasLoadedOnce) return <MessagesTableLoading />;
+  if (isLoading || !hasLoadedOnce) return <ArweaveUploadsTableLoading />;
   if (error) return <p className="text-red-500">Error loading arweave uploads</p>;
 
   const logs = data?.logs ?? [];
@@ -37,7 +37,7 @@ const ArweaveUploadsTable = ({ limit = 10 }: ArweaveUploadsTableProps) => {
       </CardHeader>
       <CardContent>
         {logs.length === 0 ? (
-          <NoMessagesFound />
+          <ArweaveUploadsTableEmpty />
         ) : (
           <>
             <ArweaveUploadsTableContents logs={logs} />

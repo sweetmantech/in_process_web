@@ -10,10 +10,16 @@ import ArweaveUploadsTableEmpty from "./ArweaveUploadsTableEmpty";
 
 interface ArweaveUploadsTableProps {
   limit?: number;
+  period?: "day" | "week" | "month" | "all";
+  artist?: string;
 }
 
-const ArweaveUploadsTable = ({ limit = 10 }: ArweaveUploadsTableProps) => {
-  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({ limit });
+const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTableProps) => {
+  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({
+    limit,
+    period,
+    artist,
+  });
   const hasLoadedOnce = Boolean(data);
 
   if (isLoading || !hasLoadedOnce) return <ArweaveUploadsTableLoading />;

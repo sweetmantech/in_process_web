@@ -1,5 +1,4 @@
-import uploadToArweave from "@/lib/arweave/uploadToArweave";
-import logArweaveUpload from "@/lib/arweave/logArweaveUpload";
+import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -9,11 +8,6 @@ interface FileUploadResult {
   animationUrl: string;
 }
 
-/**
- * Uploads preview, image, and animation files to Arweave if they exist.
- * Excludes video files (they should be uploaded to Mux instead).
- * Returns uploaded URIs and determines image/animation URLs.
- */
 export const uploadFilesToArweave = async (
   authHeaders: HeadersInit,
   previewFile: File | null,
@@ -29,13 +23,11 @@ export const uploadFilesToArweave = async (
   let image = "";
   let animationUrl = existingAnimationUrl;
 
-  // Exclude video files from Arweave upload (videos go to Mux)
   const isVideo = mimeType?.includes("video");
 
   const filesToUpload = [
     { file: previewFile, name: "preview" },
     { file: imageFile, name: "image" },
-    // Only include animationFile if it's not a video
     ...(isVideo ? [] : [{ file: animationFile, name: "animation" }]),
   ].filter((item) => item.file !== null);
 
@@ -54,19 +46,12 @@ export const uploadFilesToArweave = async (
     const { file, name } = filesToUpload[i];
     if (!file) continue;
 
-    const fileIndex = i; // Capture index to avoid closure issues
-    const fileStartProgress = (fileIndex / totalFiles) * 100;
+    const fileStartProgress = (i / totalFiles) * 100;
     const fileContribution = 100 / totalFiles;
 
-    const fileProgressCallback = (progress: number) => {
-      // Calculate overall progress: each file contributes equally
-      const fileProgressContribution = (progress / 100) * fileContribution;
-      const overallProgress = fileStartProgress + fileProgressContribution;
-      setUploadProgress?.(Math.min(Math.round(overallProgress), 100));
-    };
+    setUploadProgress?.(Math.round(fileStartProgress));
 
-    const uploadResult = await uploadToArweave(file, fileProgressCallback);
-    logArweaveUpload(uploadResult, authHeaders ?? {});
+    const uploadResult = await uploadViaApi(file, authHeaders);
     const uploadedUri = uploadResult.arweave_uri;
 
     if (name === "preview") {
@@ -80,7 +65,6 @@ export const uploadFilesToArweave = async (
     setUploadProgress?.(Math.min(Math.round(fileStartProgress + fileContribution), 100));
   }
 
-  // Determine final image and animationUrl from uploaded URIs
   image = uploadedPreviewUri || "";
   animationUrl = uploadedAnimationUri || uploadedImageUri || existingAnimationUrl;
 

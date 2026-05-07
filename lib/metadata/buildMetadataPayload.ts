@@ -1,15 +1,8 @@
 import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
 import { uploadJson } from "@/lib/arweave/uploadJson";
-import type { UploadFileResult } from "@/lib/arweave/uploadFile";
+import type { UploadResult } from "@/lib/arweave/uploadViaApi";
 import { MomentMetadata } from "@/types/moment";
 
-/**
- * Builds and uploads the metadata JSON to Arweave.
- * Merges new values with existing metadata to preserve unchanged fields.
- *
- * For name/description: Always use new values (user is editing these fields)
- * For media fields (image/animation_url/content): Use new if non-empty (file uploaded), otherwise preserve existing
- */
 export const buildMetadataPayload = async (
   name: string,
   description: string,
@@ -18,23 +11,16 @@ export const buildMetadataPayload = async (
   animationUrl: string,
   mime: string,
   contentUri: string,
+  authHeaders: HeadersInit,
   existingMetadata?: MomentMetadata | null
-): Promise<UploadFileResult> => {
+): Promise<UploadResult> => {
   const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
   const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
 
-  // Merge new values with existing metadata
-  // Strategy:
-  // - Name/description: Always use new values from form (form is initialized with existing in update flow)
-  // - Media fields: Use new if non-empty (file was uploaded), otherwise preserve existing
   const mergedMetadata = {
-    // Always use new name (required field, user is editing)
     name: name || existingMetadata?.name || "",
-    // Always use new description (form value - form is initialized with existing values)
     description: description ?? existingMetadata?.description ?? "",
     external_url: externalUrl || existingMetadata?.external_url || "",
-    // For media fields, only use new values if they're non-empty (file was uploaded)
-    // Otherwise preserve existing values
     image: image || existingMetadata?.image || "",
     animation_url: safeAnimationUrl || existingMetadata?.animation_url || null,
     content: {
@@ -43,5 +29,5 @@ export const buildMetadataPayload = async (
     },
   };
 
-  return uploadJson(mergedMetadata);
+  return uploadJson(mergedMetadata, authHeaders);
 };

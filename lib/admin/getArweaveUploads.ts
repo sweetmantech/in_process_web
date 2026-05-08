@@ -1,5 +1,5 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { ArweaveLogsResponse } from "@/types/arweave";
+import { ArweaveUploadsResponse } from "@/types/arweave";
 
 interface GetArweaveUploadsParams {
   authHeaders: HeadersInit;
@@ -15,7 +15,7 @@ export async function getArweaveUploads({
   limit = 10,
   period,
   artist,
-}: GetArweaveUploadsParams): Promise<ArweaveLogsResponse> {
+}: GetArweaveUploadsParams): Promise<ArweaveUploadsResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),

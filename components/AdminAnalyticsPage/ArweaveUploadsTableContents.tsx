@@ -1,12 +1,12 @@
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArweaveUploadLog } from "@/types/arweave";
+import { ArweaveUpload } from "@/types/arweave";
 import ArweaveUploadRow from "./ArweaveUploadRow";
 
 interface ArweaveUploadsTableContentsProps {
-  logs: ArweaveUploadLog[];
+  uploads: ArweaveUpload[];
 }
 
-const ArweaveUploadsTableContents = ({ logs }: ArweaveUploadsTableContentsProps) => {
+const ArweaveUploadsTableContents = ({ uploads }: ArweaveUploadsTableContentsProps) => {
   return (
     <div className="overflow-auto rounded-md border">
       <Table className="min-w-[1000px] md:min-w-0">
@@ -22,8 +22,8 @@ const ArweaveUploadsTableContents = ({ logs }: ArweaveUploadsTableContentsProps)
           </TableRow>
         </TableHeader>
         <TableBody>
-          {logs.map((log) => (
-            <ArweaveUploadRow key={log.id} log={log} />
+          {uploads.map((upload) => (
+            <ArweaveUploadRow key={upload.id} upload={upload} />
           ))}
         </TableBody>
       </Table>

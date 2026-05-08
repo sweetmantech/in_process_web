@@ -3,7 +3,7 @@ export interface ArweaveUploadArtist {
   address: string;
 }
 
-export interface ArweaveUploadLog {
+export interface ArweaveUpload {
   id: string;
   arweave_uri: string;
   winc_cost: string;
@@ -14,7 +14,7 @@ export interface ArweaveUploadLog {
   artist: ArweaveUploadArtist;
 }
 
-export interface ArweaveLogsResponse {
-  uploads: ArweaveUploadLog[];
+export interface ArweaveUploadsResponse {
+  uploads: ArweaveUpload[];
   count: number;
 }

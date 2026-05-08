@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { usePrivy } from "@privy-io/react-auth";
-import { toast } from "sonner";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
+import { useUserProvider } from "@/providers/UserProvider";
 
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
@@ -21,7 +20,7 @@ const useUpdateMomentURI = () => {
     setLink,
     setWritingText,
   } = useMetadataFormProvider();
-  const { getAccessToken } = usePrivy();
+  const { getAuthHeaders } = useUserProvider();
   const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -47,15 +46,12 @@ const useUpdateMomentURI = () => {
       const existingMetadata = metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 
-      const accessToken = await getAccessToken();
-      if (!accessToken) {
-        throw new Error("Authentication required");
-      }
+      const authHeaders = await getAuthHeaders();
 
       await callUpdateMomentURI({
         moment,
         newUri,
-        accessToken,
+        authHeaders,
       });
 
       // Reset media state after successful save (for all file types)

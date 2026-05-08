@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useActiveArtists } from "@/hooks/useActiveArtists";
 import { AnalyticsPeriod } from "@/types/timeline";
 import ActiveArtistsTableContents from "./ActiveArtistsTableContents";
+import ActiveArtistsTableLoading from "./ActiveArtistsTableLoading";
 
 interface ActiveArtistsTableProps {
   limit?: number;
@@ -20,8 +21,7 @@ const ActiveArtistsTable = ({ limit = 10, period, artist }: ActiveArtistsTablePr
     artist,
   });
 
-  if (isLoading || !data)
-    return <p className="text-sm text-muted-foreground">Loading active artists...</p>;
+  if (isLoading || !data) return <ActiveArtistsTableLoading />;
   if (error) return <p className="text-red-500">Error loading active artists</p>;
 
   const artists = data.data ?? [];

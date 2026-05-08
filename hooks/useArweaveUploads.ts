@@ -3,24 +3,24 @@ import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
 
-interface UseArweaveLogsParams {
+interface UseArweaveUploadsParams {
   initialPage?: number;
   limit?: number;
   period?: "day" | "week" | "month" | "all";
   artist?: string;
 }
 
-export function useArweaveLogs({
+export function useArweaveUploads({
   initialPage = 1,
   limit = 10,
   period,
   artist,
-}: UseArweaveLogsParams = {}) {
+}: UseArweaveUploadsParams = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const { artistWallet, getAuthHeaders } = useUserProvider();
 
   const query = useQuery({
-    queryKey: ["admin-arweave-logs", currentPage, limit, period, artist],
+    queryKey: ["admin-arweave-uploads", currentPage, limit, period, artist],
     queryFn: async () => {
       const authHeaders = await getAuthHeaders();
       return getArweaveUploads({ authHeaders, page: currentPage, limit, period, artist });

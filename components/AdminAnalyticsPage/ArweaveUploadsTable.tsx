@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useArweaveLogs } from "@/hooks/useArweaveLogs";
+import { useArweaveUploads } from "@/hooks/useArweaveUploads";
 import ArweaveUploadsTableContents from "./ArweaveUploadsTableContents";
 import ArweaveUploadsTableLoading from "./ArweaveUploadsTableLoading";
 import ArweaveUploadsTableEmpty from "./ArweaveUploadsTableEmpty";
@@ -15,7 +15,7 @@ interface ArweaveUploadsTableProps {
 }
 
 const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTableProps) => {
-  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({
+  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveUploads({
     limit,
     period,
     artist,

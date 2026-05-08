@@ -1,7 +1,7 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { ArweaveLogsResponse } from "@/types/arweave";
+import { ArweaveUploadsResponse } from "@/types/arweave";
 
-interface GetArweaveLogsParams {
+interface GetArweaveUploadsParams {
   authHeaders: HeadersInit;
   page?: number;
   limit?: number;
@@ -9,13 +9,13 @@ interface GetArweaveLogsParams {
   artist?: string;
 }
 
-export async function getArweaveLogs({
+export async function getArweaveUploads({
   authHeaders,
   page = 1,
   limit = 10,
   period,
   artist,
-}: GetArweaveLogsParams): Promise<ArweaveLogsResponse> {
+}: GetArweaveUploadsParams): Promise<ArweaveUploadsResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
@@ -23,10 +23,10 @@ export async function getArweaveLogs({
   if (period) params.set("period", period);
   if (artist) params.set("artist", artist);
 
-  const res = await fetch(`${IN_PROCESS_API}/arweave/logs?${params.toString()}`, {
+  const res = await fetch(`${IN_PROCESS_API}/uploads?${params.toString()}`, {
     headers: authHeaders,
   });
 
-  if (!res.ok) throw new Error("Failed to fetch arweave logs");
+  if (!res.ok) throw new Error("Failed to fetch arweave uploads");
   return res.json();
 }

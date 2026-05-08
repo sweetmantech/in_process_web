@@ -3,7 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useArweaveLogs } from "@/hooks/useArweaveLogs";
+import { useArweaveUploads } from "@/hooks/useArweaveUploads";
 import ArweaveUploadsTableContents from "./ArweaveUploadsTableContents";
 import ArweaveUploadsTableLoading from "./ArweaveUploadsTableLoading";
 import ArweaveUploadsTableEmpty from "./ArweaveUploadsTableEmpty";
@@ -15,7 +15,7 @@ interface ArweaveUploadsTableProps {
 }
 
 const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTableProps) => {
-  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveLogs({
+  const { data, isLoading, error, currentPage, setCurrentPage } = useArweaveUploads({
     limit,
     period,
     artist,
@@ -25,7 +25,7 @@ const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTable
   if (isLoading || !hasLoadedOnce) return <ArweaveUploadsTableLoading />;
   if (error) return <p className="text-red-500">Error loading arweave uploads</p>;
 
-  const logs = data?.logs ?? [];
+  const uploads = data?.uploads ?? [];
   const count = data?.count ?? 0;
   const totalPages = Math.max(1, Math.ceil(count / limit));
   const hasPrevPage = currentPage > 1;
@@ -42,11 +42,11 @@ const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTable
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {logs.length === 0 ? (
+        {uploads.length === 0 ? (
           <ArweaveUploadsTableEmpty />
         ) : (
           <>
-            <ArweaveUploadsTableContents logs={logs} />
+            <ArweaveUploadsTableContents uploads={uploads} />
             <div className="flex items-center justify-between pt-4">
               <Button
                 variant="outline"

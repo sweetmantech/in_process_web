@@ -61,8 +61,6 @@ const useUpdateMomentURI = () => {
       // Reset media state after successful save (for all file types)
       resetMediaState();
     } catch (error: any) {
-      console.error(error);
-      toast.error(error?.message || "Failed to update token metadata");
       throw error;
     } finally {
       setIsLoading(false);

@@ -10,6 +10,7 @@ import SmartWalletProvider from "./SmartWalletProvider";
 import WayfinderProvider from "./WayfinderProvider";
 import NotificationsProvider from "./NotificationsProvider";
 import LoadingPage from "@/components/LoadingPage/LoadingPage";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -25,20 +26,22 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
   if (!mounted) return <LoadingPage />;
 
   return (
-    <WagmiProvider>
-      <PrivyProvider>
-        <FrameProvider>
-          <UserProvider>
-            <NotificationsProvider>
-              <SmartWalletProvider>
-                <WayfinderProvider>
-                  <LayoutProvider>{children}</LayoutProvider>
-                </WayfinderProvider>
-              </SmartWalletProvider>
-            </NotificationsProvider>
-          </UserProvider>
-        </FrameProvider>
-      </PrivyProvider>
-    </WagmiProvider>
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}>
+      <WagmiProvider>
+        <PrivyProvider>
+          <FrameProvider>
+            <UserProvider>
+              <NotificationsProvider>
+                <SmartWalletProvider>
+                  <WayfinderProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
+                  </WayfinderProvider>
+                </SmartWalletProvider>
+              </NotificationsProvider>
+            </UserProvider>
+          </FrameProvider>
+        </PrivyProvider>
+      </WagmiProvider>
+    </GoogleReCaptchaProvider>
   );
 }

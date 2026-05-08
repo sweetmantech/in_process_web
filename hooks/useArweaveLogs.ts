@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
-import { getArweaveLogs } from "@/lib/admin/getArweaveLogs";
+import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
 
 interface UseArweaveLogsParams {
   initialPage?: number;
@@ -23,7 +23,7 @@ export function useArweaveLogs({
     queryKey: ["admin-arweave-logs", currentPage, limit, period, artist],
     queryFn: async () => {
       const authHeaders = await getAuthHeaders();
-      return getArweaveLogs({ authHeaders, page: currentPage, limit, period, artist });
+      return getArweaveUploads({ authHeaders, page: currentPage, limit, period, artist });
     },
     enabled: Boolean(artistWallet),
     staleTime: 1000 * 60 * 5,

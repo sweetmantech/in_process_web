@@ -47,9 +47,6 @@ const useUpdateMomentURI = () => {
       const newUri = await generateMetadataUri(existingMetadata);
 
       const authHeaders = await getAuthHeaders();
-      if (!authHeaders) {
-        throw new Error("Authentication required");
-      }
 
       await callUpdateMomentURI({
         moment,

@@ -25,7 +25,7 @@ const ArweaveUploadsTable = ({ limit = 10, period, artist }: ArweaveUploadsTable
   if (isLoading || !hasLoadedOnce) return <ArweaveUploadsTableLoading />;
   if (error) return <p className="text-red-500">Error loading arweave uploads</p>;
 
-  const logs = data?.logs ?? [];
+  const logs = data?.uploads ?? [];
   const count = data?.count ?? 0;
   const totalPages = Math.max(1, Math.ceil(count / limit));
   const hasPrevPage = currentPage > 1;

@@ -23,7 +23,7 @@ export async function getArweaveLogs({
   if (period) params.set("period", period);
   if (artist) params.set("artist", artist);
 
-  const res = await fetch(`${IN_PROCESS_API}/arweave/logs?${params.toString()}`, {
+  const res = await fetch(`${IN_PROCESS_API}/uploads?${params.toString()}`, {
     headers: authHeaders,
   });
 

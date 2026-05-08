@@ -15,6 +15,6 @@ export interface ArweaveUploadLog {
 }
 
 export interface ArweaveLogsResponse {
-  logs: ArweaveUploadLog[];
+  uploads: ArweaveUploadLog[];
   count: number;
 }

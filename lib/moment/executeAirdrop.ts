@@ -19,11 +19,7 @@ export const executeAirdrop = async ({
   artistWallet,
   headers,
 }: ExecuteAirdropParams) => {
-  // Create recipients array from airdropToItems
-  const recipients = Array.from({ length: airdropToItems.length }).map((_, i) => ({
-    recipientAddress: airdropToItems[i].address,
-    tokenId: moment.tokenId,
-  }));
+  const recipients = airdropToItems.map((item) => item.address);
   // Check smart wallet permissions
   const smartWalletPermission = await getPermission(moment.collectionAddress, smartWallet);
 

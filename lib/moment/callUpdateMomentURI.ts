@@ -4,24 +4,20 @@ import { IN_PROCESS_API } from "@/lib/consts";
 interface CallUpdateMomentURIInput {
   moment: Moment;
   newUri: string;
-  accessToken: string;
+  authHeaders: HeadersInit;
 }
 
-/**
- * Calls the API endpoint to update moment URI.
- * Handles authentication and error responses.
- */
 export async function callUpdateMomentURI({
   moment,
   newUri,
-  accessToken,
+  authHeaders,
 }: CallUpdateMomentURIInput): Promise<void> {
   try {
     const response = await fetch(`${IN_PROCESS_API}/moment/update-uri`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${accessToken}`,
+        ...authHeaders,
       },
       body: JSON.stringify({
         moment,

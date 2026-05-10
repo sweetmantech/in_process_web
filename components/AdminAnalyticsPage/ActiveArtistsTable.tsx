@@ -4,28 +4,34 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useActiveArtists } from "@/hooks/useActiveArtists";
-import { AnalyticsPeriod } from "@/types/timeline";
 import { useState } from "react";
 import ActiveArtistsTableContents from "./ActiveArtistsTableContents";
+import ActiveArtistsTableFilters, {
+  type ActiveArtistsTableFiltersValue,
+} from "./ActiveArtistsTableFilters";
 import ActiveArtistsTableLoading from "./ActiveArtistsTableLoading";
-import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 
 interface ActiveArtistsTableProps {
   limit?: number;
-  artist?: string;
 }
 
-const ActiveArtistsTable = ({ limit = 10, artist }: ActiveArtistsTableProps) => {
-  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
+const initialFilters: ActiveArtistsTableFiltersValue = {
+  period: undefined,
+  artist: undefined,
+};
+
+const ActiveArtistsTable = ({ limit = 10 }: ActiveArtistsTableProps) => {
+  const [appliedFilters, setAppliedFilters] =
+    useState<ActiveArtistsTableFiltersValue>(initialFilters);
 
   const { data, isLoading, error, currentPage, setCurrentPage } = useActiveArtists({
     limit,
-    period,
-    artist,
+    period: appliedFilters.period,
+    artist: appliedFilters.artist,
   });
 
-  const onPeriodChange = (next: AnalyticsPeriod | undefined) => {
-    setPeriod(next);
+  const applyFilters = (next: ActiveArtistsTableFiltersValue) => {
+    setAppliedFilters(next);
     setCurrentPage(1);
   };
 
@@ -43,7 +49,7 @@ const ActiveArtistsTable = ({ limit = 10, artist }: ActiveArtistsTableProps) => 
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span>Active Artists</span>
           <div className="flex flex-wrap items-center gap-2">
-            <AnalyticsPeriodSelect value={period} onChange={onPeriodChange} />
+            <ActiveArtistsTableFilters onApply={applyFilters} />
             <Badge variant="outline">
               Page {currentPage} / {totalPages}
             </Badge>

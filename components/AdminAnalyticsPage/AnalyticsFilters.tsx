@@ -1,6 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -9,8 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AnalyticsFilters as Filters } from "@/types/timeline";
-import { Search } from "lucide-react";
 import { useState } from "react";
+import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 
 interface AnalyticsFiltersProps {
@@ -26,21 +25,12 @@ const AnalyticsFilters = ({ filters, onChange }: AnalyticsFiltersProps) => {
 
   return (
     <div className="flex flex-wrap justify-end gap-2">
-      <div className="relative">
-        <Input
-          className="h-7 w-44 rounded-full pl-3 pr-8 text-xs"
-          placeholder="Artist name or address"
-          value={artistInput}
-          onChange={(e) => setArtistInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && commitArtist()}
-        />
-        <button
-          onClick={commitArtist}
-          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <Search className="h-3.5 w-3.5" />
-        </button>
-      </div>
+      <AnalyticsArtistSearchInput
+        value={artistInput}
+        onValueChange={setArtistInput}
+        onCommit={commitArtist}
+        placeholder="Artist name or address"
+      />
 
       <AnalyticsPeriodSelect value={filters.period} onChange={(period) => set({ period })} />
 

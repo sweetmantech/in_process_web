@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import { getActiveArtists } from "@/lib/admin/getActiveArtists";
@@ -30,6 +30,10 @@ export function useActiveArtists({
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
   });
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [artist]);
 
   return {
     ...query,

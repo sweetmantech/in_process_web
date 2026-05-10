@@ -11,6 +11,7 @@ import {
 import { AnalyticsFilters as Filters } from "@/types/timeline";
 import { Search } from "lucide-react";
 import { useState } from "react";
+import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 
 interface AnalyticsFiltersProps {
   filters: Filters;
@@ -41,20 +42,7 @@ const AnalyticsFilters = ({ filters, onChange }: AnalyticsFiltersProps) => {
         </button>
       </div>
 
-      <Select
-        value={filters.period ?? "all"}
-        onValueChange={(v) => set({ period: v === "all" ? undefined : (v as Filters["period"]) })}
-      >
-        <SelectTrigger className="h-7 w-28 text-xs">
-          <SelectValue placeholder="Period" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All time</SelectItem>
-          <SelectItem value="day">Last 24h</SelectItem>
-          <SelectItem value="week">Last 7 days</SelectItem>
-          <SelectItem value="month">Last 30 days</SelectItem>
-        </SelectContent>
-      </Select>
+      <AnalyticsPeriodSelect value={filters.period} onChange={(period) => set({ period })} />
 
       <Select
         value={filters.channel ?? "all"}

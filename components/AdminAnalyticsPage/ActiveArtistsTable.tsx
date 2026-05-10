@@ -5,21 +5,29 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useActiveArtists } from "@/hooks/useActiveArtists";
 import { AnalyticsPeriod } from "@/types/timeline";
+import { useState } from "react";
 import ActiveArtistsTableContents from "./ActiveArtistsTableContents";
 import ActiveArtistsTableLoading from "./ActiveArtistsTableLoading";
+import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 
 interface ActiveArtistsTableProps {
   limit?: number;
-  period?: AnalyticsPeriod;
   artist?: string;
 }
 
-const ActiveArtistsTable = ({ limit = 10, period, artist }: ActiveArtistsTableProps) => {
+const ActiveArtistsTable = ({ limit = 10, artist }: ActiveArtistsTableProps) => {
+  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
+
   const { data, isLoading, error, currentPage, setCurrentPage } = useActiveArtists({
     limit,
     period,
     artist,
   });
+
+  const onPeriodChange = (next: AnalyticsPeriod | undefined) => {
+    setPeriod(next);
+    setCurrentPage(1);
+  };
 
   if (isLoading || !data) return <ActiveArtistsTableLoading />;
   if (error) return <p className="text-red-500">Error loading active artists</p>;
@@ -32,11 +40,14 @@ const ActiveArtistsTable = ({ limit = 10, period, artist }: ActiveArtistsTablePr
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span>Active Artists</span>
-          <Badge variant="outline">
-            Page {currentPage} / {totalPages}
-          </Badge>
+          <div className="flex flex-wrap items-center gap-2">
+            <AnalyticsPeriodSelect value={period} onChange={onPeriodChange} />
+            <Badge variant="outline">
+              Page {currentPage} / {totalPages}
+            </Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>

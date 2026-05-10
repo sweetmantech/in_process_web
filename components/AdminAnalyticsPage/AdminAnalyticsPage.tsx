@@ -25,7 +25,7 @@ const AdminAnalyticsPage = () => {
         >
           <MomentsTimelineChart />
         </TimelineProvider>
-        <ActiveArtistsTable period={filters.period} artist={filters.artist} />
+        <ActiveArtistsTable />
         <ArweaveUploadsTable period={filters.period} artist={filters.artist} />
       </div>
     </div>

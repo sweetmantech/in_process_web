@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useActiveArtists } from "@/hooks/useActiveArtists";
 import { useState } from "react";
-import ActiveArtistsTableContents from "./ActiveArtistsTableContents";
+import ActiveArtistsDataTable from "./ActiveArtistsDataTable";
 import ActiveArtistsTableFilters, {
   type ActiveArtistsTableFiltersValue,
 } from "./ActiveArtistsTableFilters";
@@ -61,7 +61,7 @@ const ActiveArtistsTable = ({ limit = 10 }: ActiveArtistsTableProps) => {
           <p className="text-sm text-muted-foreground">No active artists found for this filter.</p>
         ) : (
           <>
-            <ActiveArtistsTableContents artists={artists} />
+            <ActiveArtistsDataTable artists={artists} />
             <div className="flex items-center justify-between pt-4">
               <Button
                 variant="outline"

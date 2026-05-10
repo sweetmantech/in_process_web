@@ -85,9 +85,6 @@ importers:
       "@vercel/analytics":
         specifier: ^1.6.1
         version: 1.6.1(next@16.0.7(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
-      "@vercel/blob":
-        specifier: ^2.3.3
-        version: 2.3.3
       "@zoralabs/protocol-deployments":
         specifier: ^0.3.8
         version: 0.3.11
@@ -15198,6 +15195,7 @@ snapshots:
       is-node-process: 1.2.0
       throttleit: 2.1.0
       undici: 6.25.0
+    optional: true
 
   "@wagmi/connectors@6.2.0(60eba6d20a7dbd23036c18c16ce09106)":
     dependencies:
@@ -18079,7 +18077,8 @@ snapshots:
 
   is-buffer@1.1.6: {}
 
-  is-buffer@2.0.5: {}
+  is-buffer@2.0.5:
+    optional: true
 
   is-bun-module@2.0.0:
     dependencies:
@@ -18136,7 +18135,8 @@ snapshots:
 
   is-negative-zero@2.0.3: {}
 
-  is-node-process@1.2.0: {}
+  is-node-process@1.2.0:
+    optional: true
 
   is-number-object@1.1.1:
     dependencies:
@@ -20016,7 +20016,8 @@ snapshots:
 
   throttle-debounce@3.0.1: {}
 
-  throttleit@2.1.0: {}
+  throttleit@2.1.0:
+    optional: true
 
   through2@2.0.5:
     dependencies:
@@ -20183,7 +20184,8 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@6.25.0: {}
+  undici@6.25.0:
+    optional: true
 
   unrs-resolver@1.11.1:
     dependencies:

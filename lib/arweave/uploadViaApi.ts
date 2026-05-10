@@ -1,5 +1,5 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { uploadToBlob } from "@/lib/blob/uploadToBlob";
+import { uploadToHereNow } from "@/lib/herenow/uploadToHereNow";
 
 export type UploadResult = {
   arweave_uri: string;
@@ -10,7 +10,7 @@ export const uploadViaApi = async (
   authHeaders: HeadersInit,
   getRecaptchaToken: () => Promise<string | undefined>
 ): Promise<UploadResult> => {
-  const blobUrl = await uploadToBlob(file, authHeaders, getRecaptchaToken);
+  const blobUrl = await uploadToHereNow(file, authHeaders);
 
   const uploadToken = await getRecaptchaToken();
   const uploadHeaders = {

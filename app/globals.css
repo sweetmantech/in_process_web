@@ -148,3 +148,7 @@
 div[aria-hidden="true"].text-sm.font-medium {
   display: none !important;
 }
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}

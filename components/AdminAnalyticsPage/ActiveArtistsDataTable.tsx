@@ -8,32 +8,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ActiveArtistStats } from "@/types/activeArtists";
-import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-} from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useActiveArtistsProvider } from "@/providers/ActiveArtistsProvider";
+import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useMemo } from "react";
 import getActiveArtistsColumnDefs from "./getActiveArtistsColumnDefs";
 
-interface ActiveArtistsDataTableProps {
-  artists: ActiveArtistStats[];
-}
+const ActiveArtistsDataTable = () => {
+  const { artists, sorting, onSortingChange } = useActiveArtistsProvider();
 
-const ActiveArtistsDataTable = ({ artists }: ActiveArtistsDataTableProps) => {
-  const [sorting, setSorting] = useState<SortingState>([]);
   const columns = useMemo(() => getActiveArtistsColumnDefs(), []);
 
   const table = useReactTable({
     data: artists,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
+    manualSorting: true,
+    enableSortingRemoval: false,
     sortDescFirst: true,
+    onSortingChange,
     state: { sorting },
     getRowId: (row) => row.address,
   });

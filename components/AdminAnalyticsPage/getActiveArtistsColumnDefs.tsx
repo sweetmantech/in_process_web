@@ -10,9 +10,8 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
     {
       id: "username",
       accessorFn: (row) => row.username ?? row.address,
-      header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="Artist" column={column} align="left" />
-      ),
+      header: () => <span className="text-sm font-medium">Artist</span>,
+      enableSorting: false,
       cell: ({ row }) => (
         <span className="font-medium">
           {row.original.username || truncateAddress(row.original.address)}
@@ -20,14 +19,14 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
       ),
     },
     {
-      accessorKey: "moments_created",
+      accessorKey: "created_count",
       header: ({ column }) => (
         <ActiveArtistsSortableColumnHeader title="Moments Created" column={column} align="right" />
       ),
-      cell: ({ row }) => <div className="text-right">{row.getValue("moments_created")}</div>,
+      cell: ({ row }) => <div className="text-right">{row.getValue("created_count")}</div>,
     },
     {
-      accessorKey: "airdropped",
+      accessorKey: "airdropped_count",
       header: ({ column }) => (
         <ActiveArtistsSortableColumnHeader
           title="Moments Airdropped"
@@ -35,7 +34,7 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
           align="right"
         />
       ),
-      cell: ({ row }) => <div className="text-right">{row.getValue("airdropped")}</div>,
+      cell: ({ row }) => <div className="text-right">{row.getValue("airdropped_count")}</div>,
     },
     {
       accessorKey: "telegram_count",
@@ -57,6 +56,13 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
         <ActiveArtistsSortableColumnHeader title="API" column={column} align="right" />
       ),
       cell: ({ row }) => <div className="text-right">{row.getValue("api_count")}</div>,
+    },
+    {
+      accessorKey: "sms_count",
+      header: ({ column }) => (
+        <ActiveArtistsSortableColumnHeader title="SMS" column={column} align="right" />
+      ),
+      cell: ({ row }) => <div className="text-right">{row.getValue("sms_count")}</div>,
     },
   ];
 }

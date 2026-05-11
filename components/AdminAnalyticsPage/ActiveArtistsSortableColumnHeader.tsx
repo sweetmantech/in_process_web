@@ -20,7 +20,10 @@ const ActiveArtistsSortableColumnHeader = ({
     <Button
       variant="ghost"
       className={align === "right" ? "-mr-3 h-8 px-2 lg:px-3" : "-ml-3 h-8 px-2 lg:px-3"}
-      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      onClick={() => {
+        const sorted = column.getIsSorted();
+        column.toggleSorting(sorted !== "desc");
+      }}
     >
       {title}
       <ArrowUpDown className="ml-2 h-4 w-4" />

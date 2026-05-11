@@ -21,6 +21,7 @@ const ArweaveUploadsTable = () => {
     hasNextPage,
     goPrevPage,
     goNextPage,
+    totalUsdcLabel,
   } = useArweaveUploadsProvider();
 
   if (error && data === undefined)
@@ -34,6 +35,9 @@ const ArweaveUploadsTable = () => {
           <span>Arweave Expenses</span>
           <div className="flex flex-wrap items-center gap-2">
             <ArweaveUploadsTableFilters />
+            {totalUsdcLabel !== null ? (
+              <Badge variant="secondary">Total USDC {totalUsdcLabel}</Badge>
+            ) : null}
             <Badge variant="outline">
               Page {currentPage} / {totalPages}
             </Badge>

@@ -1,4 +1,5 @@
 import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
+import formatUsdcAmount from "@/lib/formatUsdcAmount";
 import { ArweaveUploadsSortBy } from "@/types/arweave";
 import { AnalyticsPeriod } from "@/types/timeline";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -73,6 +74,14 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
 
   const uploads = useMemo(() => query.data?.uploads ?? [], [query.data?.uploads]);
 
+  const totalUsdcLabel = useMemo(
+    () =>
+      query.data !== undefined
+        ? formatUsdcAmount(query.data.total_usdc_cost)
+        : null,
+    [query.data]
+  );
+
   const totalPages = Math.max(1, Math.ceil((query.data?.count ?? 0) / limit));
   const hasPrevPage = currentPage > 1;
   const hasNextPage = currentPage < totalPages;
@@ -102,5 +111,6 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     commitArtist,
     sorting,
     onSortingChange,
+    totalUsdcLabel,
   };
 }

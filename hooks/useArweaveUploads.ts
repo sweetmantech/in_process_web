@@ -1,8 +1,12 @@
 import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
+import { ArweaveUploadsSortBy } from "@/types/arweave";
 import { AnalyticsPeriod } from "@/types/timeline";
 import { useUserProvider } from "@/providers/UserProvider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
+
+const DEFAULT_SORT: SortingState = [{ id: "created_at", desc: true }];
 
 interface UseArweaveUploadsParams {
   initialPage?: number;
@@ -14,7 +18,12 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
   const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
   const [artistDraft, setArtistDraft] = useState("");
   const [appliedArtist, setAppliedArtist] = useState<string | undefined>(undefined);
+  const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
   const { artistWallet, getAuthHeaders } = useUserProvider();
+
+  const activeSort = sorting[0] ?? DEFAULT_SORT[0];
+  const sortBy = activeSort.id as ArweaveUploadsSortBy;
+  const sortOrder = activeSort.desc ? "desc" : "asc";
 
   const applyPeriod = useCallback((next: AnalyticsPeriod | undefined) => {
     setPeriod(next);
@@ -26,8 +35,24 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     setCurrentPage(1);
   }, [artistDraft]);
 
+  const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
+    setSorting((prev) => {
+      const next = typeof updater === "function" ? updater(prev) : updater;
+      return next.length === 0 ? DEFAULT_SORT : next;
+    });
+    setCurrentPage(1);
+  }, []);
+
   const query = useQuery({
-    queryKey: ["admin-arweave-uploads", currentPage, limit, period, appliedArtist],
+    queryKey: [
+      "admin-arweave-uploads",
+      currentPage,
+      limit,
+      period,
+      appliedArtist,
+      sortBy,
+      sortOrder,
+    ],
     queryFn: async () => {
       const authHeaders = await getAuthHeaders();
       return getArweaveUploads({
@@ -36,6 +61,8 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
         limit,
         period,
         artist: appliedArtist,
+        sortBy,
+        sortOrder,
       });
     },
     enabled: Boolean(artistWallet),
@@ -73,5 +100,7 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     artistDraft,
     setArtistDraft,
     commitArtist,
+    sorting,
+    onSortingChange,
   };
 }

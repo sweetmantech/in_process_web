@@ -1,3 +1,5 @@
+export type ArweaveUploadsSortBy = "size" | "usdc_cost" | "created_at";
+
 export interface ArweaveUploadArtist {
   username: string | null;
   address: string;

@@ -1,5 +1,9 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { ActiveArtistsResponse } from "@/types/activeArtists";
+import {
+  ActiveArtistsResponse,
+  ActiveArtistsSortBy,
+  ActiveArtistsSortOrder,
+} from "@/types/activeArtists";
 import { AnalyticsPeriod } from "@/types/timeline";
 
 interface GetActiveArtistsParams {
@@ -8,6 +12,8 @@ interface GetActiveArtistsParams {
   limit?: number;
   period?: AnalyticsPeriod;
   artist?: string;
+  sortBy?: ActiveArtistsSortBy;
+  sortOrder?: ActiveArtistsSortOrder;
 }
 
 export async function getActiveArtists({
@@ -16,6 +22,8 @@ export async function getActiveArtists({
   limit = 10,
   period,
   artist,
+  sortBy,
+  sortOrder,
 }: GetActiveArtistsParams): Promise<ActiveArtistsResponse> {
   const params = new URLSearchParams({
     page: String(page),
@@ -24,6 +32,8 @@ export async function getActiveArtists({
 
   if (period) params.set("period", period);
   if (artist) params.set("artist", artist);
+  if (sortBy) params.set("sort_by", sortBy);
+  if (sortOrder) params.set("sort_order", sortOrder);
 
   const res = await fetch(`${IN_PROCESS_API}/artists/active?${params.toString()}`, {
     headers: authHeaders,

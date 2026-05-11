@@ -3,45 +3,27 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useActiveArtists } from "@/hooks/useActiveArtists";
-import { useState } from "react";
-import ActiveArtistsTableContents from "./ActiveArtistsTableContents";
-import ActiveArtistsTableFilters, {
-  type ActiveArtistsTableFiltersValue,
-} from "./ActiveArtistsTableFilters";
+import { useActiveArtistsProvider } from "@/providers/ActiveArtistsProvider";
+import ActiveArtistsDataTable from "./ActiveArtistsDataTable";
+import ActiveArtistsTableFilters from "./ActiveArtistsTableFilters";
 import ActiveArtistsTableLoading from "./ActiveArtistsTableLoading";
 
-interface ActiveArtistsTableProps {
-  limit?: number;
-}
-
-const initialFilters: ActiveArtistsTableFiltersValue = {
-  period: undefined,
-  artist: undefined,
-};
-
-const ActiveArtistsTable = ({ limit = 10 }: ActiveArtistsTableProps) => {
-  const [appliedFilters, setAppliedFilters] =
-    useState<ActiveArtistsTableFiltersValue>(initialFilters);
-
-  const { data, isLoading, error, currentPage, setCurrentPage } = useActiveArtists({
-    limit,
-    period: appliedFilters.period,
-    artist: appliedFilters.artist,
-  });
-
-  const applyFilters = (next: ActiveArtistsTableFiltersValue) => {
-    setAppliedFilters(next);
-    setCurrentPage(1);
-  };
+const ActiveArtistsTable = () => {
+  const {
+    data,
+    artists,
+    isLoading,
+    error,
+    currentPage,
+    totalPages,
+    hasPrevPage,
+    hasNextPage,
+    goPrevPage,
+    goNextPage,
+  } = useActiveArtistsProvider();
 
   if (isLoading || !data) return <ActiveArtistsTableLoading />;
   if (error) return <p className="text-red-500">Error loading active artists</p>;
-
-  const artists = data.data ?? [];
-  const totalPages = Math.max(1, data.total_pages ?? 1);
-  const hasPrevPage = currentPage > 1;
-  const hasNextPage = currentPage < totalPages;
 
   return (
     <Card>
@@ -49,7 +31,7 @@ const ActiveArtistsTable = ({ limit = 10 }: ActiveArtistsTableProps) => {
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span>Active Artists</span>
           <div className="flex flex-wrap items-center gap-2">
-            <ActiveArtistsTableFilters onApply={applyFilters} />
+            <ActiveArtistsTableFilters />
             <Badge variant="outline">
               Page {currentPage} / {totalPages}
             </Badge>
@@ -61,25 +43,15 @@ const ActiveArtistsTable = ({ limit = 10 }: ActiveArtistsTableProps) => {
           <p className="text-sm text-muted-foreground">No active artists found for this filter.</p>
         ) : (
           <>
-            <ActiveArtistsTableContents artists={artists} />
+            <ActiveArtistsDataTable />
             <div className="flex items-center justify-between pt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={!hasPrevPage}
-              >
+              <Button variant="outline" size="sm" onClick={goPrevPage} disabled={!hasPrevPage}>
                 Previous
               </Button>
               <span className="text-sm text-muted-foreground">
                 {currentPage} of {totalPages}
               </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={!hasNextPage}
-              >
+              <Button variant="outline" size="sm" onClick={goNextPage} disabled={!hasNextPage}>
                 Next
               </Button>
             </div>

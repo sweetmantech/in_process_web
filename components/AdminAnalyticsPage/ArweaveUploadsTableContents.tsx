@@ -1,29 +1,79 @@
-import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArweaveUpload } from "@/types/arweave";
-import ArweaveUploadRow from "./ArweaveUploadRow";
+"use client";
 
-interface ArweaveUploadsTableContentsProps {
-  uploads: ArweaveUpload[];
-}
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
+import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useMemo } from "react";
+import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
 
-const ArweaveUploadsTableContents = ({ uploads }: ArweaveUploadsTableContentsProps) => {
+const ArweaveUploadsTableContents = () => {
+  const { uploads, sorting, onSortingChange } = useArweaveUploadsProvider();
+
+  const columns = useMemo(() => getArweaveUploadsColumnDefs(), []);
+
+  const table = useReactTable({
+    data: uploads,
+    columns,
+    defaultColumn: { enableSorting: false },
+    getCoreRowModel: getCoreRowModel(),
+    manualSorting: true,
+    enableSortingRemoval: false,
+    sortDescFirst: true,
+    onSortingChange,
+    state: { sorting },
+    getRowId: (row) => row.id,
+  });
+
   return (
     <div className="overflow-auto rounded-md border">
       <Table className="min-w-[1000px] md:min-w-0">
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-40">Artist</TableHead>
-            <TableHead>Arweave URI</TableHead>
-            <TableHead className="w-28">WINC Cost</TableHead>
-            <TableHead className="w-28">USDC Cost</TableHead>
-            <TableHead className="w-28">Size</TableHead>
-            <TableHead className="w-36">Type</TableHead>
-            <TableHead className="w-48">Uploaded At</TableHead>
-          </TableRow>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <TableHead
+                  key={header.id}
+                  className={
+                    header.column.id === "usdc_cost" || header.column.id === "size"
+                      ? "w-28 whitespace-normal text-right"
+                      : header.column.id === "artist"
+                        ? "w-40 whitespace-normal"
+                        : header.column.id === "created_at"
+                          ? "w-48 whitespace-normal"
+                          : "whitespace-normal"
+                  }
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(header.column.columnDef.header, header.getContext())}
+                </TableHead>
+              ))}
+            </TableRow>
+          ))}
         </TableHeader>
         <TableBody>
-          {uploads.map((upload) => (
-            <ArweaveUploadRow key={upload.id} upload={upload} />
+          {table.getRowModel().rows.map((row) => (
+            <TableRow key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <TableCell
+                  key={cell.id}
+                  className={
+                    cell.column.id === "usdc_cost" || cell.column.id === "size"
+                      ? "text-right"
+                      : undefined
+                  }
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </TableCell>
+              ))}
+            </TableRow>
           ))}
         </TableBody>
       </Table>

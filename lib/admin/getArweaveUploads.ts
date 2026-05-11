@@ -1,5 +1,5 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { ArweaveUploadsResponse } from "@/types/arweave";
+import { ArweaveUploadsResponse, ArweaveUploadsSortBy } from "@/types/arweave";
 
 interface GetArweaveUploadsParams {
   authHeaders: HeadersInit;
@@ -7,6 +7,8 @@ interface GetArweaveUploadsParams {
   limit?: number;
   period?: "day" | "week" | "month" | "all";
   artist?: string;
+  sortBy?: ArweaveUploadsSortBy;
+  sortOrder?: "asc" | "desc";
 }
 
 export async function getArweaveUploads({
@@ -15,10 +17,14 @@ export async function getArweaveUploads({
   limit = 10,
   period,
   artist,
+  sortBy = "created_at",
+  sortOrder = "desc",
 }: GetArweaveUploadsParams): Promise<ArweaveUploadsResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    sort_by: sortBy,
+    sort_order: sortOrder,
   });
   if (period && period !== "all") params.set("period", period);
   if (artist) params.set("artist", artist);

@@ -20,7 +20,7 @@ export async function getArweaveUploads({
     page: String(page),
     limit: String(limit),
   });
-  if (period) params.set("period", period);
+  if (period && period !== "all") params.set("period", period);
   if (artist) params.set("artist", artist);
 
   const res = await fetch(`${IN_PROCESS_API}/uploads?${params.toString()}`, {

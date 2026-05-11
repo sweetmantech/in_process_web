@@ -1,38 +1,77 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { useUserProvider } from "@/providers/UserProvider";
 import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
+import { AnalyticsPeriod } from "@/types/timeline";
+import { useUserProvider } from "@/providers/UserProvider";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
 
 interface UseArweaveUploadsParams {
   initialPage?: number;
   limit?: number;
-  period?: "day" | "week" | "month" | "all";
-  artist?: string;
 }
 
-export function useArweaveUploads({
-  initialPage = 1,
-  limit = 10,
-  period,
-  artist,
-}: UseArweaveUploadsParams = {}) {
+export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUploadsParams = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
+  const [artistDraft, setArtistDraft] = useState("");
+  const [appliedArtist, setAppliedArtist] = useState<string | undefined>(undefined);
   const { artistWallet, getAuthHeaders } = useUserProvider();
 
+  const applyPeriod = useCallback((next: AnalyticsPeriod | undefined) => {
+    setPeriod(next);
+    setCurrentPage(1);
+  }, []);
+
+  const commitArtist = useCallback(() => {
+    setAppliedArtist(artistDraft || undefined);
+    setCurrentPage(1);
+  }, [artistDraft]);
+
   const query = useQuery({
-    queryKey: ["admin-arweave-uploads", currentPage, limit, period, artist],
+    queryKey: ["admin-arweave-uploads", currentPage, limit, period, appliedArtist],
     queryFn: async () => {
       const authHeaders = await getAuthHeaders();
-      return getArweaveUploads({ authHeaders, page: currentPage, limit, period, artist });
+      return getArweaveUploads({
+        authHeaders,
+        page: currentPage,
+        limit,
+        period,
+        artist: appliedArtist,
+      });
     },
     enabled: Boolean(artistWallet),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
+    placeholderData: keepPreviousData,
   });
+
+  const uploads = useMemo(() => query.data?.uploads ?? [], [query.data?.uploads]);
+
+  const totalPages = Math.max(1, Math.ceil((query.data?.count ?? 0) / limit));
+  const hasPrevPage = currentPage > 1;
+  const hasNextPage = currentPage < totalPages;
+
+  const goPrevPage = useCallback(() => {
+    setCurrentPage((p) => Math.max(1, p - 1));
+  }, []);
+
+  const goNextPage = useCallback(() => {
+    setCurrentPage((p) => p + 1);
+  }, []);
 
   return {
     ...query,
+    uploads,
     currentPage,
-    setCurrentPage,
+    totalPages,
+    hasPrevPage,
+    hasNextPage,
+    goPrevPage,
+    goNextPage,
+    limit,
+    period,
+    applyPeriod,
+    artistDraft,
+    setArtistDraft,
+    commitArtist,
   };
 }

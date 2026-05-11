@@ -8,6 +8,7 @@ import MomentsTimelineChart from "./MomentsTimelineChart";
 import AnalyticsFiltersBar from "./AnalyticsFilters";
 import ArweaveUploadsTable from "./ArweaveUploadsTable";
 import ActiveArtistsProvider from "@/providers/ActiveArtistsProvider";
+import ArweaveUploadsProvider from "@/providers/ArweaveUploadsProvider";
 
 const AdminAnalyticsPage = () => {
   const [filters, setFilters] = useState<AnalyticsFilters>({});
@@ -29,7 +30,9 @@ const AdminAnalyticsPage = () => {
         <ActiveArtistsProvider>
           <ActiveArtistsTable />
         </ActiveArtistsProvider>
-        <ArweaveUploadsTable period={filters.period} artist={filters.artist} />
+        <ArweaveUploadsProvider>
+          <ArweaveUploadsTable />
+        </ArweaveUploadsProvider>
       </div>
     </div>
   );

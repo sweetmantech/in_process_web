@@ -19,4 +19,5 @@ export interface ArweaveUpload {
 export interface ArweaveUploadsResponse {
   uploads: ArweaveUpload[];
   count: number;
+  total_usdc_cost: number;
 }

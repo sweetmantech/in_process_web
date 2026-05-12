@@ -16,7 +16,7 @@ import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
 
 const ArweaveUploadsTableContents = () => {
   const { uploads, sorting, onSortingChange, period } = useArweaveUploadsProvider();
-  const [expandedArtistAddress, setExpandedArtistAddress] = useState<string | null>(null);
+  const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
 
   const columns = useMemo(() => getArweaveUploadsColumnDefs(), []);
 
@@ -30,7 +30,13 @@ const ArweaveUploadsTableContents = () => {
     sortDescFirst: true,
     onSortingChange,
     state: { sorting },
-    getRowId: (row) => row.artist.address,
+    getRowId: (row, index) => {
+      const addr = row.artist.address.trim().toLowerCase();
+      if (addr.length > 0) return addr;
+      const user = row.artist.username?.trim().toLowerCase();
+      if (user) return `username:${user}`;
+      return `arweave-upload-${index}`;
+    },
   });
 
   return (
@@ -62,7 +68,7 @@ const ArweaveUploadsTableContents = () => {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows.map((row) => {
-            const isExpanded = expandedArtistAddress === row.original.artist.address;
+            const isExpanded = expandedRowId === row.id;
             const artistQueryValue =
               row.original.artist.username?.trim() || row.original.artist.address;
             const colSpan = row.getVisibleCells().length;
@@ -72,11 +78,7 @@ const ArweaveUploadsTableContents = () => {
                 <TableRow
                   data-state={isExpanded ? "open" : undefined}
                   className="hover:bg-muted/50 cursor-pointer"
-                  onClick={() =>
-                    setExpandedArtistAddress((prev) =>
-                      prev === row.original.artist.address ? null : row.original.artist.address
-                    )
-                  }
+                  onClick={() => setExpandedRowId((prev) => (prev === row.id ? null : row.id))}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell

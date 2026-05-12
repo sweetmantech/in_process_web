@@ -1,5 +1,6 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 import { ArweaveUploadsResponse, ArweaveUploadsSortBy } from "@/types/arweave";
+import parseArweaveUploadsResponse from "./parseArweaveUploadsResponse";
 
 interface GetArweaveUploadsParams {
   authHeaders: HeadersInit;
@@ -34,5 +35,5 @@ export async function getArweaveUploads({
   });
 
   if (!res.ok) throw new Error("Failed to fetch arweave uploads");
-  return res.json();
+  return parseArweaveUploadsResponse(await res.json());
 }

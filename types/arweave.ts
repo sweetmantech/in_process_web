@@ -1,4 +1,4 @@
-export type ArweaveUploadsSortBy = "usdc_cost" | "winc_cost";
+export type ArweaveUploadsSortBy = "usdc_cost" | "winc_cost" | "size";
 
 export interface ArweaveUploadArtist {
   username: string | null;
@@ -9,6 +9,7 @@ export interface ArweaveUploadArtist {
 export interface ArweaveUpload {
   winc_cost: string;
   usdc_cost: string;
+  file_size_bytes: number;
   artist: ArweaveUploadArtist;
 }
 

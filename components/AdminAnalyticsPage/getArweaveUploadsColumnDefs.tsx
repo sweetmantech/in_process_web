@@ -1,6 +1,7 @@
 "use client";
 
 import truncateAddress from "@/lib/truncateAddress";
+import formatFileSize from "@/lib/formatFileSize";
 import { ArweaveUpload } from "@/types/arweave";
 import { ColumnDef } from "@tanstack/react-table";
 import ArweaveUploadsSortableColumnHeader from "./ArweaveUploadsSortableColumnHeader";
@@ -16,6 +17,17 @@ export default function getArweaveUploadsColumnDefs(): ColumnDef<ArweaveUpload>[
         const artist = row.original.artist.username || truncateAddress(row.original.artist.address);
         return <span className="font-medium">{artist}</span>;
       },
+    },
+    {
+      id: "size",
+      accessorFn: (row) => row.file_size_bytes,
+      enableSorting: true,
+      header: ({ column }) => (
+        <ArweaveUploadsSortableColumnHeader title="Size" column={column} align="right" />
+      ),
+      cell: ({ row }) => (
+        <div className="text-right">{formatFileSize(row.original.file_size_bytes)}</div>
+      ),
     },
     {
       id: "winc_cost",

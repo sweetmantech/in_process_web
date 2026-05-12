@@ -33,7 +33,7 @@ const ArweaveUploadsTableContents = () => {
 
   return (
     <div className="overflow-auto rounded-md border">
-      <Table className="min-w-[480px] md:min-w-0">
+      <Table className="min-w-[560px] md:min-w-0">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -41,7 +41,9 @@ const ArweaveUploadsTableContents = () => {
                 <TableHead
                   key={header.id}
                   className={
-                    header.column.id === "usdc_cost" || header.column.id === "winc_cost"
+                    header.column.id === "usdc_cost" ||
+                    header.column.id === "winc_cost" ||
+                    header.column.id === "size"
                       ? "w-32 whitespace-normal text-right"
                       : header.column.id === "artist"
                         ? "min-w-[12rem] whitespace-normal"
@@ -63,7 +65,9 @@ const ArweaveUploadsTableContents = () => {
                 <TableCell
                   key={cell.id}
                   className={
-                    cell.column.id === "usdc_cost" || cell.column.id === "winc_cost"
+                    cell.column.id === "usdc_cost" ||
+                    cell.column.id === "winc_cost" ||
+                    cell.column.id === "size"
                       ? "text-right"
                       : undefined
                   }

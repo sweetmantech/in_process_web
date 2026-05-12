@@ -18,3 +18,18 @@ export interface ArweaveUploadsResponse {
   count: number;
   total_usdc_cost: number;
 }
+
+export interface ArtistArweaveTransaction {
+  id: string;
+  arweave_uri: string;
+  winc_cost: string;
+  usdc_cost: string;
+  file_size_bytes: number;
+  content_type: string;
+  created_at: string;
+}
+
+export interface ArtistArweaveTransactionsResponse {
+  uploads: ArtistArweaveTransaction[];
+  count: number;
+}

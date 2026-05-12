@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import ArtistArweaveUploadsProvider from "@/providers/ArtistArweaveUploadsProvider";
 import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Fragment, useMemo, useState } from "react";
@@ -15,7 +16,7 @@ import ArtistArweaveTransactions from "./ArtistArweaveTransactions";
 import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
 
 const ArweaveUploadsTableContents = () => {
-  const { uploads, sorting, onSortingChange, period } = useArweaveUploadsProvider();
+  const { uploads, sorting, onSortingChange, period, limit } = useArweaveUploadsProvider();
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
 
   const columns = useMemo(() => getArweaveUploadsColumnDefs(), []);
@@ -98,10 +99,13 @@ const ArweaveUploadsTableContents = () => {
                 {isExpanded ? (
                   <TableRow key={`${row.id}-detail`} className="hover:bg-transparent">
                     <TableCell colSpan={colSpan} className="bg-muted/20 p-3">
-                      <ArtistArweaveTransactions
+                      <ArtistArweaveUploadsProvider
                         artistQueryValue={artistQueryValue}
                         period={period}
-                      />
+                        limit={limit}
+                      >
+                        <ArtistArweaveTransactions />
+                      </ArtistArweaveUploadsProvider>
                     </TableCell>
                   </TableRow>
                 ) : null}

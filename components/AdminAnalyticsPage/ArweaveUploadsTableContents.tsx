@@ -98,7 +98,10 @@ const ArweaveUploadsTableContents = () => {
                 </TableRow>
                 {isExpanded ? (
                   <TableRow key={`${row.id}-detail`} className="hover:bg-transparent">
-                    <TableCell colSpan={colSpan} className="bg-muted/20 p-3">
+                    <TableCell
+                      colSpan={colSpan}
+                      className="bg-muted/20 border-muted-foreground/20 border-l-2 py-3 pr-3 pl-6 sm:pl-8"
+                    >
                       <ArtistArweaveUploadsProvider
                         artistQueryValue={artistQueryValue}
                         period={period}

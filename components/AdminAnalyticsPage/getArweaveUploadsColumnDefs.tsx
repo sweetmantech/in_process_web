@@ -10,11 +10,11 @@ export default function getArweaveUploadsColumnDefs(): ColumnDef<ArweaveUpload>[
   return [
     {
       id: "artist",
-      accessorFn: (row) => row.artist.username ?? row.artist.address,
+      accessorFn: (row) => row.artist_username ?? row.artist_address,
       enableSorting: false,
       header: () => <span className="text-sm font-medium">Artist</span>,
       cell: ({ row }) => {
-        const artist = row.original.artist.username || truncateAddress(row.original.artist.address);
+        const artist = row.original.artist_username || truncateAddress(row.original.artist_address);
         return <span className="font-medium">{artist}</span>;
       },
     },

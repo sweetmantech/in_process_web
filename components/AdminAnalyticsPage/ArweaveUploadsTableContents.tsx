@@ -8,8 +8,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ArtistArweaveUploadsProvider from "@/providers/ArtistArweaveUploadsProvider";
-import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
+import ArweaveUploadsProvider, {
+  useArweaveUploadsProvider,
+} from "@/providers/ArweaveUploadsProvider";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Fragment, useMemo, useState } from "react";
 import ArtistArweaveTransactions from "./ArtistArweaveTransactions";
@@ -32,9 +33,9 @@ const ArweaveUploadsTableContents = () => {
     onSortingChange,
     state: { sorting },
     getRowId: (row, index) => {
-      const addr = row.artist.address.trim().toLowerCase();
+      const addr = row.artist_address.trim().toLowerCase();
       if (addr.length > 0) return addr;
-      const user = row.artist.username?.trim().toLowerCase();
+      const user = row.artist_username?.trim().toLowerCase();
       if (user) return `username:${user}`;
       return `arweave-upload-${index}`;
     },
@@ -71,7 +72,7 @@ const ArweaveUploadsTableContents = () => {
           {table.getRowModel().rows.map((row) => {
             const isExpanded = expandedRowId === row.id;
             const artistQueryValue =
-              row.original.artist.username?.trim() || row.original.artist.address;
+              row.original.artist_username?.trim() || row.original.artist_address;
             const colSpan = row.getVisibleCells().length;
 
             return (
@@ -102,13 +103,13 @@ const ArweaveUploadsTableContents = () => {
                       colSpan={colSpan}
                       className="bg-muted/20 border-muted-foreground/20 border-l-2 py-3 pr-3 pl-6 sm:pl-8"
                     >
-                      <ArtistArweaveUploadsProvider
-                        artistQueryValue={artistQueryValue}
+                      <ArweaveUploadsProvider
+                        detailArtist={artistQueryValue}
                         period={period}
                         limit={limit}
                       >
                         <ArtistArweaveTransactions />
-                      </ArtistArweaveUploadsProvider>
+                      </ArweaveUploadsProvider>
                     </TableCell>
                   </TableRow>
                 ) : null}

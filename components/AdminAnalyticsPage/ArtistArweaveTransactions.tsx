@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import formatDate from "@/lib/date/formateDate";
 import formatFileSize from "@/lib/formatFileSize";
-import { useArtistArweaveUploadsProvider } from "@/providers/ArtistArweaveUploadsProvider";
+import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
 
 const ArtistArweaveTransactions = () => {
   const {
@@ -25,7 +25,7 @@ const ArtistArweaveTransactions = () => {
     hasNextPage,
     goPrevPage,
     goNextPage,
-  } = useArtistArweaveUploadsProvider();
+  } = useArweaveUploadsProvider();
 
   if (isPending && data === undefined) {
     return <p className="text-muted-foreground px-2 py-3 text-xs">Loading uploads…</p>;

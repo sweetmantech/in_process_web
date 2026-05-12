@@ -7,7 +7,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 
-const DEFAULT_SORT: SortingState = [{ id: "created_at", desc: true }];
+const DEFAULT_SORT: SortingState = [{ id: "usdc_cost", desc: true }];
 
 interface UseArweaveUploadsParams {
   initialPage?: number;
@@ -75,10 +75,7 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
   const uploads = useMemo(() => query.data?.uploads ?? [], [query.data?.uploads]);
 
   const totalUsdcLabel = useMemo(
-    () =>
-      query.data !== undefined
-        ? formatUsdcAmount(query.data.total_usdc_cost)
-        : null,
+    () => (query.data !== undefined ? formatUsdcAmount(query.data.total_usdc_cost) : null),
     [query.data]
   );
 

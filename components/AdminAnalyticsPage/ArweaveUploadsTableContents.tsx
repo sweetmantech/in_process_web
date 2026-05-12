@@ -28,12 +28,12 @@ const ArweaveUploadsTableContents = () => {
     sortDescFirst: true,
     onSortingChange,
     state: { sorting },
-    getRowId: (row) => row.id,
+    getRowId: (row) => row.artist.address,
   });
 
   return (
     <div className="overflow-auto rounded-md border">
-      <Table className="min-w-[1000px] md:min-w-0">
+      <Table className="min-w-[480px] md:min-w-0">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -41,13 +41,11 @@ const ArweaveUploadsTableContents = () => {
                 <TableHead
                   key={header.id}
                   className={
-                    header.column.id === "usdc_cost" || header.column.id === "size"
-                      ? "w-28 whitespace-normal text-right"
+                    header.column.id === "usdc_cost" || header.column.id === "winc_cost"
+                      ? "w-32 whitespace-normal text-right"
                       : header.column.id === "artist"
-                        ? "w-40 whitespace-normal"
-                        : header.column.id === "created_at"
-                          ? "w-48 whitespace-normal"
-                          : "whitespace-normal"
+                        ? "min-w-[12rem] whitespace-normal"
+                        : "whitespace-normal"
                   }
                 >
                   {header.isPlaceholder
@@ -65,7 +63,7 @@ const ArweaveUploadsTableContents = () => {
                 <TableCell
                   key={cell.id}
                   className={
-                    cell.column.id === "usdc_cost" || cell.column.id === "size"
+                    cell.column.id === "usdc_cost" || cell.column.id === "winc_cost"
                       ? "text-right"
                       : undefined
                   }

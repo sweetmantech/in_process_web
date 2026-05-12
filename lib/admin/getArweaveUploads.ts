@@ -17,7 +17,7 @@ export async function getArweaveUploads({
   limit = 10,
   period,
   artist,
-  sortBy = "created_at",
+  sortBy = "usdc_cost",
   sortOrder = "desc",
 }: GetArweaveUploadsParams): Promise<ArweaveUploadsResponse> {
   const params = new URLSearchParams({

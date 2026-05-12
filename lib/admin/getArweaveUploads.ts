@@ -1,5 +1,6 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { ArweaveUploadsResponse, ArweaveUploadsSortBy } from "@/types/arweave";
+import { parseArweaveUploadsResponse } from "@/lib/admin/parseArweaveUploadsResponse";
+import { ArweaveUploadsParsedResponse, ArweaveUploadsSortBy } from "@/types/arweave";
 
 interface GetArweaveUploadsParams {
   authHeaders: HeadersInit;
@@ -19,7 +20,7 @@ export async function getArweaveUploads({
   artist,
   sortBy = "usdc_cost",
   sortOrder = "desc",
-}: GetArweaveUploadsParams): Promise<ArweaveUploadsResponse> {
+}: GetArweaveUploadsParams): Promise<ArweaveUploadsParsedResponse> {
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
@@ -34,5 +35,5 @@ export async function getArweaveUploads({
   });
 
   if (!res.ok) throw new Error("Failed to fetch arweave uploads");
-  return res.json();
+  return parseArweaveUploadsResponse(await res.json());
 }

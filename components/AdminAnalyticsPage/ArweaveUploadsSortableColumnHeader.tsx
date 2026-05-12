@@ -1,21 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ArweaveUpload } from "@/types/arweave";
 import { Column } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-interface ArweaveUploadsSortableColumnHeaderProps {
+interface ArweaveUploadsSortableColumnHeaderProps<TData> {
   title: string;
-  column: Column<ArweaveUpload, unknown>;
+  column: Column<TData, unknown>;
   align?: "left" | "right";
 }
 
-const ArweaveUploadsSortableColumnHeader = ({
+const ArweaveUploadsSortableColumnHeader = <TData,>({
   title,
   column,
   align = "left",
-}: ArweaveUploadsSortableColumnHeaderProps) => {
+}: ArweaveUploadsSortableColumnHeaderProps<TData>) => {
   const button = (
     <Button
       variant="ghost"

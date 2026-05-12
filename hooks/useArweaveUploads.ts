@@ -5,7 +5,7 @@ import { AnalyticsPeriod } from "@/types/timeline";
 import { useUserProvider } from "@/providers/UserProvider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_SORT: SortingState = [{ id: "usdc_cost", desc: true }];
 
@@ -20,11 +20,12 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
   const [artistDraft, setArtistDraft] = useState("");
   const [appliedArtist, setAppliedArtist] = useState<string | undefined>(undefined);
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
+  const [expandedArtistAddress, setExpandedArtistAddress] = useState<string | null>(null);
   const { artistWallet, getAuthHeaders } = useUserProvider();
 
   const activeSort = sorting[0] ?? DEFAULT_SORT[0];
   const sortBy = activeSort.id as ArweaveUploadsSortBy;
-  const sortOrder = activeSort.desc ? "desc" : "asc";
+  const sortOrder: "asc" | "desc" = activeSort.desc ? "desc" : "asc";
 
   const applyPeriod = useCallback((next: AnalyticsPeriod | undefined) => {
     setPeriod(next);
@@ -36,6 +37,11 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     setCurrentPage(1);
   }, [artistDraft]);
 
+  const toggleExpandedArtist = useCallback((address: string) => {
+    const normalized = address.toLowerCase();
+    setExpandedArtistAddress((prev) => (prev === normalized ? null : normalized));
+  }, []);
+
   const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
     setSorting((prev) => {
       const next = typeof updater === "function" ? updater(prev) : updater;
@@ -43,6 +49,10 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     });
     setCurrentPage(1);
   }, []);
+
+  useEffect(() => {
+    setExpandedArtistAddress(null);
+  }, [appliedArtist, period, sortBy, sortOrder]);
 
   const query = useQuery({
     queryKey: [
@@ -72,14 +82,17 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     placeholderData: keepPreviousData,
   });
 
-  const uploads = useMemo(() => query.data?.uploads ?? [], [query.data?.uploads]);
+  const parsed = query.data;
+  const viewVariant = parsed?.variant ?? "aggregate";
 
-  const totalUsdcLabel = useMemo(
-    () => (query.data !== undefined ? formatUsdcAmount(query.data.total_usdc_cost) : null),
-    [query.data]
-  );
+  const uploads = useMemo(() => parsed?.uploads ?? [], [parsed?.uploads]);
 
-  const totalPages = Math.max(1, Math.ceil((query.data?.count ?? 0) / limit));
+  const totalUsdcLabel = useMemo(() => {
+    if (parsed?.variant !== "aggregate" || parsed.total_usdc_cost == null) return null;
+    return formatUsdcAmount(parsed.total_usdc_cost);
+  }, [parsed]);
+
+  const totalPages = Math.max(1, Math.ceil((parsed?.count ?? 0) / limit));
   const hasPrevPage = currentPage > 1;
   const hasNextPage = currentPage < totalPages;
 
@@ -94,6 +107,7 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
   return {
     ...query,
     uploads,
+    viewVariant,
     currentPage,
     totalPages,
     hasPrevPage,
@@ -108,6 +122,10 @@ export function useArweaveUploads({ initialPage = 1, limit = 10 }: UseArweaveUpl
     commitArtist,
     sorting,
     onSortingChange,
+    sortBy,
+    sortOrder,
     totalUsdcLabel,
+    expandedArtistAddress,
+    toggleExpandedArtist,
   };
 }

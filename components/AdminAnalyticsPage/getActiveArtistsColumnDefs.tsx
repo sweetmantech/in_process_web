@@ -3,6 +3,7 @@
 import truncateAddress from "@/lib/truncateAddress";
 import { ActiveArtistStats } from "@/types/activeArtists";
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
 import SortableColumnHeader from "./SortableColumnHeader";
 
 export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStats>[] {
@@ -12,11 +13,21 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
       accessorFn: (row) => row.username ?? row.address,
       header: () => <span className="text-sm font-medium">Artist</span>,
       enableSorting: false,
-      cell: ({ row }) => (
-        <span className="font-medium">
-          {row.original.username || truncateAddress(row.original.address)}
-        </span>
-      ),
+      cell: ({ row }) => {
+        const { address, username } = row.original;
+        const href = `/${address.toLowerCase()}`;
+        const label = username || truncateAddress(address);
+        return (
+          <Link
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium hover:underline"
+          >
+            {label}
+          </Link>
+        );
+      },
     },
     {
       accessorKey: "created_count",

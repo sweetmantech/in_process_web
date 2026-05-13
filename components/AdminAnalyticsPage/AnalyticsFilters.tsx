@@ -8,7 +8,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AnalyticsFilters as Filters } from "@/types/timeline";
-import { useState } from "react";
 import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 

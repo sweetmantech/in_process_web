@@ -1,4 +1,4 @@
-export type ArweaveUploadsSortBy = "usdc_cost" | "winc_cost" | "size";
+export type ArweaveUploadsSortBy = "usdc_cost" | "winc_cost" | "size" | "created_at";
 
 /** One aggregated row per artist from GET /uploads (aggregate mode) */
 export interface ArweaveUpload {

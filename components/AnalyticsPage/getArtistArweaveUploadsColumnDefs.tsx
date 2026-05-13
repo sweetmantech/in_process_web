@@ -54,8 +54,10 @@ export default function getArtistArweaveUploadsColumnDefs(): ColumnDef<ArtistArw
     {
       id: "created_at",
       accessorKey: "created_at",
-      enableSorting: false,
-      header: () => <div className="text-right text-xs font-medium">Created</div>,
+      enableSorting: true,
+      header: ({ column }) => (
+        <SortableColumnHeader title="Created" column={column} align="right" size="compact" />
+      ),
       cell: ({ row }) => (
         <div className="whitespace-nowrap text-right">{formatDate(row.original.created_at)}</div>
       ),

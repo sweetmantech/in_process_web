@@ -37,7 +37,6 @@ export async function getArweaveUploads({
   });
   if (period && period !== "all") searchParams.set("period", period);
   if (artist) searchParams.set("artist", artist);
-  if (!aggregation) searchParams.set("aggregation", "false");
 
   const res = await fetch(`${IN_PROCESS_API}/uploads?${searchParams.toString()}`, {
     headers: authHeaders,

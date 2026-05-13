@@ -12,7 +12,7 @@ interface AnalyticsArtistSearchInputProps {
 
 const AnalyticsArtistSearchInput = ({
   onChanged,
-  placeholder = "Username or address — press Enter",
+  placeholder = "Artist name or address",
   inputClassName = "h-7 w-44 rounded-full pl-3 pr-8 text-xs",
 }: AnalyticsArtistSearchInputProps) => {
   const [inputValue, setInputValue] = useState<string>("");

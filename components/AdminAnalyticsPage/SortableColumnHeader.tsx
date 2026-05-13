@@ -39,6 +39,7 @@ const SortableColumnHeader = <TData,>({
 
   const button = (
     <Button
+      type="button"
       variant="ghost"
       className={align === "right" ? classes.right : classes.left}
       onClick={() => {

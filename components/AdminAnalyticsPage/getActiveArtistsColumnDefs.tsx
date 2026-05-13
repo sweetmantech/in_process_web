@@ -3,7 +3,7 @@
 import truncateAddress from "@/lib/truncateAddress";
 import { ActiveArtistStats } from "@/types/activeArtists";
 import { ColumnDef } from "@tanstack/react-table";
-import ActiveArtistsSortableColumnHeader from "./ActiveArtistsSortableColumnHeader";
+import SortableColumnHeader from "./SortableColumnHeader";
 
 export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStats>[] {
   return [
@@ -21,47 +21,37 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
     {
       accessorKey: "created_count",
       header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="Moments Created" column={column} align="right" />
+        <SortableColumnHeader title="Moments Created" column={column} align="right" />
       ),
       cell: ({ row }) => <div className="text-right">{row.getValue("created_count")}</div>,
     },
     {
       accessorKey: "airdropped_count",
       header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader
-          title="Moments Airdropped"
-          column={column}
-          align="right"
-        />
+        <SortableColumnHeader title="Moments Airdropped" column={column} align="right" />
       ),
       cell: ({ row }) => <div className="text-right">{row.getValue("airdropped_count")}</div>,
     },
     {
       accessorKey: "telegram_count",
       header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="Telegram" column={column} align="right" />
+        <SortableColumnHeader title="Telegram" column={column} align="right" />
       ),
       cell: ({ row }) => <div className="text-right">{row.getValue("telegram_count")}</div>,
     },
     {
       accessorKey: "web_count",
-      header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="Web" column={column} align="right" />
-      ),
+      header: ({ column }) => <SortableColumnHeader title="Web" column={column} align="right" />,
       cell: ({ row }) => <div className="text-right">{row.getValue("web_count")}</div>,
     },
     {
       accessorKey: "api_count",
-      header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="API" column={column} align="right" />
-      ),
+      header: ({ column }) => <SortableColumnHeader title="API" column={column} align="right" />,
       cell: ({ row }) => <div className="text-right">{row.getValue("api_count")}</div>,
     },
     {
       accessorKey: "sms_count",
-      header: ({ column }) => (
-        <ActiveArtistsSortableColumnHeader title="SMS" column={column} align="right" />
-      ),
+      header: ({ column }) => <SortableColumnHeader title="SMS" column={column} align="right" />,
       cell: ({ row }) => <div className="text-right">{row.getValue("sms_count")}</div>,
     },
   ];

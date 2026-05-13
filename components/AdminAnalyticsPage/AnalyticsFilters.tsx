@@ -18,17 +18,12 @@ interface AnalyticsFiltersProps {
 }
 
 const AnalyticsFilters = ({ filters, onChange }: AnalyticsFiltersProps) => {
-  const [artistInput, setArtistInput] = useState(filters.artist ?? "");
   const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
-
-  const commitArtist = () => set({ artist: artistInput || undefined });
 
   return (
     <div className="flex flex-wrap justify-end gap-2">
       <AnalyticsArtistSearchInput
-        value={artistInput}
-        onValueChange={setArtistInput}
-        onCommit={commitArtist}
+        onChanged={(value) => set({ artist: value })}
         placeholder="Artist name or address"
       />
 

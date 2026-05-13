@@ -17,7 +17,7 @@ import ArtistArweaveTransactions from "./ArtistArweaveTransactions";
 import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
 
 const ArweaveUploadsTableContents = () => {
-  const { uploads, sorting, onSortingChange, period, limit } = useArweaveUploadsProvider();
+  const { uploads, sorting, onSortingChange } = useArweaveUploadsProvider();
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
 
   const columns = useMemo(() => getArweaveUploadsColumnDefs(), []);
@@ -71,8 +71,6 @@ const ArweaveUploadsTableContents = () => {
         <TableBody>
           {table.getRowModel().rows.map((row) => {
             const isExpanded = expandedRowId === row.id;
-            const artistQueryValue =
-              row.original.artist_username?.trim() || row.original.artist_address;
             const colSpan = row.getVisibleCells().length;
 
             return (
@@ -103,12 +101,12 @@ const ArweaveUploadsTableContents = () => {
                       colSpan={colSpan}
                       className="bg-muted/20 border-muted-foreground/20 border-l-2 py-3 pr-3 pl-6 sm:pl-8"
                     >
-                      <ArweaveUploadsProvider
-                        detailArtist={artistQueryValue}
-                        period={period}
-                        limit={limit}
-                      >
-                        <ArtistArweaveTransactions />
+                      <ArweaveUploadsProvider aggregation={false}>
+                        <ArtistArweaveTransactions
+                          artist={
+                            row.original.artist_username?.trim() || row.original.artist_address
+                          }
+                        />
                       </ArweaveUploadsProvider>
                     </TableCell>
                   </TableRow>

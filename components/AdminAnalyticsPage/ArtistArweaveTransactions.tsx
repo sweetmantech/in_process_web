@@ -12,8 +12,9 @@ import {
 import formatDate from "@/lib/date/formateDate";
 import formatFileSize from "@/lib/formatFileSize";
 import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
+import { Fragment, useEffect } from "react";
 
-const ArtistArweaveTransactions = () => {
+const ArtistArweaveTransactions = ({ artist }: { artist: string }) => {
   const {
     transactions,
     isPending,
@@ -25,7 +26,14 @@ const ArtistArweaveTransactions = () => {
     hasNextPage,
     goPrevPage,
     goNextPage,
+    setArtist,
   } = useArweaveUploadsProvider();
+
+  useEffect(() => {
+    setArtist(artist);
+  }, [artist]);
+
+  if (!artist) return <Fragment />;
 
   if (isPending && data === undefined) {
     return <p className="text-muted-foreground px-2 py-3 text-xs">Loading uploads…</p>;

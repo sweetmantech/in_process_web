@@ -4,15 +4,9 @@ import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
 import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 
 const ArweaveUploadsArtistSearchInput = () => {
-  const { artistDraft, setArtistDraft, commitArtist } = useArweaveUploadsProvider();
+  const { setArtist } = useArweaveUploadsProvider();
 
-  return (
-    <AnalyticsArtistSearchInput
-      value={artistDraft}
-      onValueChange={setArtistDraft}
-      onCommit={commitArtist}
-    />
-  );
+  return <AnalyticsArtistSearchInput onChanged={setArtist} />;
 };
 
 export default ArweaveUploadsArtistSearchInput;

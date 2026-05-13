@@ -32,7 +32,7 @@ const ArweaveUploadsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span>Arweave expenses (by artist)</span>
+          <span>Arweave expenses</span>
           <div className="flex flex-wrap items-center gap-2">
             <ArweaveUploadsTableFilters />
             {totalUsdcLabel !== null ? (

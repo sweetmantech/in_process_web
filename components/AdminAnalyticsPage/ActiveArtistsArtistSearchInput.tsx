@@ -4,15 +4,9 @@ import { useActiveArtistsProvider } from "@/providers/ActiveArtistsProvider";
 import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 
 const ActiveArtistsArtistSearchInput = () => {
-  const { artistDraft, setArtistDraft, commitArtist } = useActiveArtistsProvider();
+  const { setArtist } = useActiveArtistsProvider();
 
-  return (
-    <AnalyticsArtistSearchInput
-      value={artistDraft}
-      onValueChange={setArtistDraft}
-      onCommit={commitArtist}
-    />
-  );
+  return <AnalyticsArtistSearchInput onChanged={setArtist} />;
 };
 
 export default ActiveArtistsArtistSearchInput;

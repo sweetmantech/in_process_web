@@ -1,7 +1,6 @@
 "use client";
 
 import { useArweaveUploads } from "@/hooks/useArweaveUploads";
-import { AnalyticsPeriod } from "@/types/timeline";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
 type ArweaveUploadsContextValue = ReturnType<typeof useArweaveUploads>;
@@ -10,22 +9,12 @@ const ArweaveUploadsContext = createContext<ArweaveUploadsContextValue | null>(n
 
 export const ArweaveUploadsProvider = ({
   children,
-  limit = 10,
-  detailArtist,
-  period,
+  aggregation,
 }: {
   children: ReactNode;
-  limit?: number;
-  /**
-   * When set, context serves the expanded per-upload sub-table for this artist.
-   * Pass `period` from the parent admin table so both use the same date window.
-   */
-  detailArtist?: string;
-  period?: AnalyticsPeriod | undefined;
+  aggregation: boolean;
 }) => {
-  const arweaveUploads = useArweaveUploads(
-    detailArtist !== undefined ? { limit, detailArtist, detailPeriod: period } : { limit }
-  );
+  const arweaveUploads = useArweaveUploads({ aggregation });
 
   const value = useMemo(() => arweaveUploads, [arweaveUploads]);
 

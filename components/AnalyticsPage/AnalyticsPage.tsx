@@ -10,12 +10,12 @@ import ArweaveUploadsTable from "./ArweaveUploadsTable";
 import ActiveArtistsProvider from "@/providers/ActiveArtistsProvider";
 import ArweaveUploadsProvider from "@/providers/ArweaveUploadsProvider";
 
-const AdminAnalyticsPage = () => {
+const AnalyticsPage = () => {
   const [filters, setFilters] = useState<AnalyticsFilters>({});
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-bold">Admin Analytics</h1>
+      <h1 className="mb-6 text-2xl font-bold">Analytics</h1>
       <div className="flex flex-col gap-6">
         <AnalyticsFiltersBar filters={filters} onChange={setFilters} />
         <TimelineProvider
@@ -38,4 +38,4 @@ const AdminAnalyticsPage = () => {
   );
 };
 
-export default AdminAnalyticsPage;
+export default AnalyticsPage;

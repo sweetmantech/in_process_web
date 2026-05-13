@@ -7,7 +7,6 @@ import {
 import { AnalyticsPeriod } from "@/types/timeline";
 
 interface GetActiveArtistsParams {
-  authHeaders: HeadersInit;
   page?: number;
   limit?: number;
   period?: AnalyticsPeriod;
@@ -17,7 +16,6 @@ interface GetActiveArtistsParams {
 }
 
 export async function getActiveArtists({
-  authHeaders,
   page = 1,
   limit = 10,
   period,
@@ -35,9 +33,7 @@ export async function getActiveArtists({
   if (sortBy) params.set("sort_by", sortBy);
   if (sortOrder) params.set("sort_order", sortOrder);
 
-  const res = await fetch(`${IN_PROCESS_API}/artists/active?${params.toString()}`, {
-    headers: authHeaders,
-  });
+  const res = await fetch(`${IN_PROCESS_API}/artists/active?${params.toString()}`);
 
   if (!res.ok) throw new Error("Failed to fetch active artists");
   return res.json();

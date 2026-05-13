@@ -6,7 +6,6 @@ import type {
   ArweaveUploadsSortBy,
 } from "@/types/arweave";
 import { AnalyticsPeriod } from "@/types/timeline";
-import { useUserProvider } from "@/providers/UserProvider";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -23,8 +22,6 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
   const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
   const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
-  const { artistWallet, getAuthHeaders } = useUserProvider();
-
   const activeSort = sorting[0] ?? DEFAULT_SORT[0];
   const sortBy = activeSort.id as ArweaveUploadsSortBy;
   const sortOrder: "asc" | "desc" = activeSort.desc ? "desc" : "asc";
@@ -50,10 +47,8 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
     queryKey: aggregation
       ? ["arweave-uploads", artist, period, sortBy, sortOrder, currentPage]
       : ["artist-arweave-uploads", artist, currentPage, period, sortBy, sortOrder],
-    queryFn: async () => {
-      const authHeaders = await getAuthHeaders();
-      return getArweaveUploads({
-        authHeaders,
+    queryFn: () =>
+      getArweaveUploads({
         page: currentPage,
         limit,
         artist,
@@ -61,9 +56,7 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
         sortBy,
         sortOrder,
         aggregation,
-      });
-    },
-    enabled: Boolean(artistWallet),
+      }),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
     placeholderData: keepPreviousData,

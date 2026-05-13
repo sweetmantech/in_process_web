@@ -6,7 +6,6 @@ import type {
 } from "@/types/arweave";
 
 interface GetArweaveUploadsBaseParams {
-  authHeaders: HeadersInit;
   page?: number;
   limit?: number;
   period?: "day" | "week" | "month" | "all";
@@ -16,7 +15,6 @@ interface GetArweaveUploadsBaseParams {
 }
 
 export async function getArweaveUploads({
-  authHeaders,
   artist,
   page = 1,
   limit = 10,
@@ -38,9 +36,7 @@ export async function getArweaveUploads({
   if (period && period !== "all") searchParams.set("period", period);
   if (artist) searchParams.set("artist", artist);
 
-  const res = await fetch(`${IN_PROCESS_API}/uploads?${searchParams.toString()}`, {
-    headers: authHeaders,
-  });
+  const res = await fetch(`${IN_PROCESS_API}/uploads?${searchParams.toString()}`);
 
   if (!res.ok) throw new Error("Failed to fetch arweave uploads");
 

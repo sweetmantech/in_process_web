@@ -1,7 +1,6 @@
 import { getActiveArtists } from "@/lib/admin/getActiveArtists";
 import { ActiveArtistsSortBy } from "@/types/activeArtists";
 import { AnalyticsPeriod } from "@/types/timeline";
-import { useUserProvider } from "@/providers/UserProvider";
 import { useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
@@ -23,23 +22,17 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
   const sortBy = activeSort.id as ActiveArtistsSortBy;
   const sortOrder = activeSort.desc ? "desc" : "asc";
 
-  const { artistWallet, getAuthHeaders } = useUserProvider();
-
   const query = useQuery({
     queryKey: ["admin-active-artists", currentPage, limit, period, artist, sortBy, sortOrder],
-    queryFn: async () => {
-      const authHeaders = await getAuthHeaders();
-      return getActiveArtists({
-        authHeaders,
+    queryFn: () =>
+      getActiveArtists({
         page: currentPage,
         limit,
         period,
         artist,
         sortBy,
         sortOrder,
-      });
-    },
-    enabled: Boolean(artistWallet),
+      }),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
   });

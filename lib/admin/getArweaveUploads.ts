@@ -12,33 +12,28 @@ interface GetArweaveUploadsBaseParams {
   period?: "day" | "week" | "month" | "all";
   sortBy?: ArweaveUploadsSortBy;
   sortOrder?: "asc" | "desc";
+  aggregation: boolean;
 }
-
-/* eslint-disable no-redeclare -- TypeScript overload signatures share one implementation */
-export async function getArweaveUploads(
-  params: GetArweaveUploadsBaseParams & { artist: string }
-): Promise<ArtistArweaveTransactionsResponse>;
-
-export async function getArweaveUploads(
-  params: GetArweaveUploadsBaseParams & { artist?: undefined }
-): Promise<ArweaveUploadsResponse>;
 
 export async function getArweaveUploads({
   authHeaders,
+  artist,
   page = 1,
   limit = 10,
   period,
-  artist,
   sortBy = "usdc_cost",
   sortOrder = "desc",
-}: GetArweaveUploadsBaseParams & { artist?: string }): Promise<
-  ArweaveUploadsResponse | ArtistArweaveTransactionsResponse
-> {
+  aggregation,
+}: GetArweaveUploadsBaseParams & {
+  aggregation: boolean;
+  artist?: string;
+}): Promise<ArweaveUploadsResponse | ArtistArweaveTransactionsResponse> {
   const searchParams = new URLSearchParams({
     page: String(page),
     limit: String(limit),
     sort_by: sortBy,
     sort_order: sortOrder,
+    aggregation: aggregation ? "true" : "false",
   });
   if (period && period !== "all") searchParams.set("period", period);
   if (artist) searchParams.set("artist", artist);
@@ -50,7 +45,7 @@ export async function getArweaveUploads({
   if (!res.ok) throw new Error("Failed to fetch arweave uploads");
 
   const body: unknown = await res.json();
-  if (artist) return body as ArtistArweaveTransactionsResponse;
-  return body as ArweaveUploadsResponse;
+  if (aggregation) return body as ArweaveUploadsResponse;
+  return body as ArtistArweaveTransactionsResponse;
 }
 /* eslint-enable no-redeclare */

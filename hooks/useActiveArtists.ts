@@ -16,8 +16,7 @@ interface UseActiveArtistsOptions {
 export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtistsOptions = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
-  const [artistDraft, setArtistDraft] = useState("");
-  const [appliedArtist, setAppliedArtist] = useState<string | undefined>(undefined);
+  const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
 
   const activeSort = sorting[0] ?? DEFAULT_SORT[0];
@@ -27,15 +26,7 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
   const { artistWallet, getAuthHeaders } = useUserProvider();
 
   const query = useQuery({
-    queryKey: [
-      "admin-active-artists",
-      currentPage,
-      limit,
-      period,
-      appliedArtist,
-      sortBy,
-      sortOrder,
-    ],
+    queryKey: ["admin-active-artists", currentPage, limit, period, artist, sortBy, sortOrder],
     queryFn: async () => {
       const authHeaders = await getAuthHeaders();
       return getActiveArtists({
@@ -43,7 +34,7 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
         page: currentPage,
         limit,
         period,
-        artist: appliedArtist,
+        artist,
         sortBy,
         sortOrder,
       });
@@ -57,11 +48,6 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
     setPeriod(next);
     setCurrentPage(1);
   }, []);
-
-  const commitArtist = useCallback(() => {
-    setAppliedArtist(artistDraft || undefined);
-    setCurrentPage(1);
-  }, [artistDraft]);
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
     setSorting((prev) => {
@@ -96,9 +82,8 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
     goNextPage,
     period,
     applyPeriod,
-    artistDraft,
-    setArtistDraft,
-    commitArtist,
+    artist,
+    setArtist,
     sorting,
     onSortingChange,
   };

@@ -22,9 +22,6 @@ const ActiveArtistsTable = () => {
     goNextPage,
   } = useActiveArtistsProvider();
 
-  if (isLoading || !data) return <ActiveArtistsTableLoading />;
-  if (error) return <p className="text-red-500">Error loading active artists</p>;
-
   return (
     <Card>
       <CardHeader>
@@ -39,7 +36,11 @@ const ActiveArtistsTable = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {artists.length === 0 ? (
+        {isLoading || !data ? (
+          <ActiveArtistsTableLoading />
+        ) : error ? (
+          <p className="text-red-500">Error loading active artists</p>
+        ) : artists.length === 0 ? (
           <p className="text-sm text-muted-foreground">No active artists found for this filter.</p>
         ) : (
           <>

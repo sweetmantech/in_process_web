@@ -30,7 +30,7 @@ const AdminAnalyticsPage = () => {
         <ActiveArtistsProvider>
           <ActiveArtistsTable />
         </ActiveArtistsProvider>
-        <ArweaveUploadsProvider>
+        <ArweaveUploadsProvider aggregation>
           <ArweaveUploadsTable />
         </ArweaveUploadsProvider>
       </div>

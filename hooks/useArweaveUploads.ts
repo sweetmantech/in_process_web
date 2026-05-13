@@ -85,7 +85,7 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
   }, [aggregation, query.data]);
 
   const transactions = useMemo((): ArtistArweaveTransaction[] => {
-    if (!aggregation || !query.data?.uploads?.length) return [];
+    if (aggregation || !query.data?.uploads?.length) return [];
     const first = query.data.uploads[0];
     if (first && typeof first === "object" && "arweave_uri" in first) {
       return query.data.uploads as ArtistArweaveTransaction[];

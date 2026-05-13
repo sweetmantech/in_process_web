@@ -24,10 +24,6 @@ const ArweaveUploadsTable = () => {
     totalUsdcLabel,
   } = useArweaveUploadsProvider();
 
-  if (error && data === undefined)
-    return <p className="text-red-500">Error loading arweave uploads</p>;
-  if (isPending && data === undefined) return <ArweaveUploadsTableLoading />;
-
   return (
     <Card>
       <CardHeader>
@@ -45,7 +41,11 @@ const ArweaveUploadsTable = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        {uploads.length === 0 ? (
+        {error && data === undefined ? (
+          <p className="text-red-500">Error loading arweave uploads</p>
+        ) : isPending && data === undefined ? (
+          <ArweaveUploadsTableLoading />
+        ) : uploads.length === 0 ? (
           <ArweaveUploadsTableEmpty />
         ) : (
           <>

@@ -1,42 +1,44 @@
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { searchByQuery, SearchByQueryResponse } from "@/lib/searchByQuery";
+import useArtistAutocomplete from "@/hooks/useArtistAutocomplete";
 
 const useSearch = () => {
-  const [searchKey, setSearchKey] = useState<string>("");
   const { push } = useRouter();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const { setIsExpandedSearchInput } = useLayoutProvider();
-  const { data: userSearchData, isLoading: isLoadingSearch } = useQuery<SearchByQueryResponse>({
-    queryKey: ["search", searchKey],
-    queryFn: () => searchByQuery(searchKey),
-    enabled: !!searchKey, // Only run if query is non-empty
-    staleTime: 1000 * 30, // 30 seconds (adjust as needed)
-  });
+  const {
+    inputValue: searchKey,
+    setInputValue,
+    artists,
+    isLoading: isLoadingSearch,
+  } = useArtistAutocomplete();
+
+  const firstArtist = artists[0] ?? null;
+  const userSearchData = useMemo(() => ({ artist: firstArtist }), [firstArtist]);
+
   const suffixHint = useMemo(() => {
-    if (!userSearchData?.artist || !userSearchData?.artist?.username) return "";
-    return userSearchData?.artist?.username.slice(searchKey.length);
-  }, [userSearchData, searchKey]);
+    if (!firstArtist?.username) return "";
+    return firstArtist.username.slice(searchKey.length);
+  }, [firstArtist, searchKey]);
 
   const redirectToArtist = () => {
-    if (!userSearchData?.artist) return;
+    if (!firstArtist) return;
     setIsOpenModal(false);
     setIsExpandedSearchInput(false);
-    push(`/${userSearchData?.artist?.address}`);
+    push(`/${firstArtist.address}`);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>) => {
     if (e.key === "Tab") {
-      setSearchKey(userSearchData?.artist?.username || "");
+      setInputValue(firstArtist?.username || "");
       return;
     }
     if (e.key === "Enter") redirectToArtist();
   };
+
   const onChangeSearchKey = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchKey(value);
+    setInputValue(e.target.value);
   };
 
   useEffect(() => {
@@ -49,8 +51,7 @@ const useSearch = () => {
 
     window.addEventListener("keydown", preventTab);
 
-    // Call this when modal window closes/unmounts
-    window.removeEventListener("keydown", preventTab);
+    return () => window.removeEventListener("keydown", preventTab);
   }, [isOpenModal]);
 
   return {

@@ -6,7 +6,7 @@ import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 const ArweaveUploadsArtistSearchInput = () => {
   const { setArtist } = useArweaveUploadsProvider();
 
-  return <AnalyticsArtistSearchInput onChanged={setArtist} />;
+  return <AnalyticsArtistSearchInput onChanged={setArtist} selectionField="username" />;
 };
 
 export default ArweaveUploadsArtistSearchInput;

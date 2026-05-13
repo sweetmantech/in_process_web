@@ -135,6 +135,7 @@ CommandShortcut.displayName = "CommandShortcut";
 
 export {
   Command,
+  CommandPrimitive,
   CommandDialog,
   CommandInput,
   CommandList,

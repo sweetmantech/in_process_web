@@ -10,19 +10,24 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const DEFAULT_SORT: SortingState = [{ id: "usdc_cost", desc: true }];
-
 export interface UseArweaveUploadsParams {
   aggregation: boolean;
 }
 
 export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
   const limit = 10;
+  const defaultSort = useMemo<SortingState>(
+    () =>
+      aggregation
+        ? [{ id: "usdc_cost", desc: true }]
+        : [{ id: "created_at", desc: true }],
+    [aggregation]
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
   const [artist, setArtist] = useState<string>("");
-  const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
-  const activeSort = sorting[0] ?? DEFAULT_SORT[0];
+  const [sorting, setSorting] = useState<SortingState>(defaultSort);
+  const activeSort = sorting[0] ?? defaultSort[0];
   const sortBy = activeSort.id as ArweaveUploadsSortBy;
   const sortOrder: "asc" | "desc" = activeSort.desc ? "desc" : "asc";
 
@@ -38,10 +43,10 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
   const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
     setSorting((prev) => {
       const next = typeof updater === "function" ? updater(prev) : updater;
-      return next.length === 0 ? DEFAULT_SORT : next;
+      return next.length === 0 ? defaultSort : next;
     });
     setCurrentPage(1);
-  }, []);
+  }, [defaultSort]);
 
   const query = useQuery({
     queryKey: aggregation

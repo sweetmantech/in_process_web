@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Address } from "viem";
-import { useMutation } from "@tanstack/react-query";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
@@ -16,6 +15,7 @@ import { isUserRejection } from "@/lib/viem/isUserRejection";
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { artistWallet, isFarcasterMiniApp } = useUserProvider();
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
@@ -24,8 +24,9 @@ const useMomentCollect = () => {
   const { topup } = useFarcasterTopup();
   const { smartWallet, isLoading: isSmartWalletLoading } = useSmartWalletProvider();
 
-  const mutation = useMutation({
-    mutationFn: async () => {
+  const collectWithComment = async () => {
+    setIsLoading(true);
+    try {
       if (!artistWallet) throw new Error("No wallet connected");
       if (!saleConfig) throw new Error("Sale config not found");
       if (isSmartWalletLoading) throw new Error("Wallet is loading");
@@ -44,9 +45,8 @@ const useMomentCollect = () => {
       }
 
       const headers = await getAuthHeaders();
-      return collectMomentApi(moment, amountToCollect, comment, headers);
-    },
-    onSuccess: () => {
+      await collectMomentApi(moment, amountToCollect, comment, headers);
+
       if (protocol !== Protocol.Catalog) {
         addComment({
           sender: artistWallet as Address,
@@ -58,19 +58,20 @@ const useMomentCollect = () => {
       }
       setCollected(true);
       toast.success("collected!");
-    },
-    onError: (error: any) => {
+    } catch (error: any) {
       if (isUserRejection(error)) {
         toast.error("Topup rejected");
       } else if (!error?.message?.includes("funds")) {
         toast.error("Failed to collect moment");
       }
-    },
-  });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
-    collectWithComment: () => mutation.mutate(),
-    isLoading: mutation.isPending,
+    collectWithComment,
+    isLoading,
     amountToCollect,
     setAmountToCollect,
     comment,

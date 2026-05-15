@@ -4,13 +4,13 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import Image from "next/image";
 import { toast } from "sonner";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import useCollectionParam from "@/hooks/useCollectionParam";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useRouter } from "next/navigation";
 
 const Buttons = () => {
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { resetForm } = useMetadataFormProvider();
-  const collection = useCollectionParam();
+  const { selectedCollection: collection } = useCollectionsProvider();
   const { push } = useRouter();
 
   const share = async () => {

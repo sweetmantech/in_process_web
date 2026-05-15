@@ -13,6 +13,7 @@ import { Address } from "viem";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
+import { CollectionsProvider } from "@/providers/CollectionsProvider";
 import Admins from "./Admins";
 
 const MomentManagePage = () => {
@@ -24,31 +25,33 @@ const MomentManagePage = () => {
   if (!data) return <Fragment />;
 
   return (
-    <MetadataFormProvider>
-      <MetadataUploadProvider>
-        <MomentProvider
-          moment={{
-            collectionAddress: data.address as Address,
-            tokenId,
-            chainId: data.chain_id,
-          }}
-        >
-          <MomentUriUpdateProvider>
-            <MomentOverview />
-            <ManageTabs
-              selectedTab={selectedTab}
-              onChangeTab={(value: number) => setSelectedTab(value)}
-            />
-            <div className="md:px-10">
-              {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
-              {selectedTab === MANAGE_TABS.SALE && <Sale />}
-              {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
-              {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
-            </div>
-          </MomentUriUpdateProvider>
-        </MomentProvider>
-      </MetadataUploadProvider>
-    </MetadataFormProvider>
+    <CollectionsProvider>
+      <MetadataFormProvider>
+        <MetadataUploadProvider>
+          <MomentProvider
+            moment={{
+              collectionAddress: data.address as Address,
+              tokenId,
+              chainId: data.chain_id,
+            }}
+          >
+            <MomentUriUpdateProvider>
+              <MomentOverview />
+              <ManageTabs
+                selectedTab={selectedTab}
+                onChangeTab={(value: number) => setSelectedTab(value)}
+              />
+              <div className="md:px-10">
+                {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
+                {selectedTab === MANAGE_TABS.SALE && <Sale />}
+                {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
+                {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
+              </div>
+            </MomentUriUpdateProvider>
+          </MomentProvider>
+        </MetadataUploadProvider>
+      </MetadataFormProvider>
+    </CollectionsProvider>
   );
 };
 

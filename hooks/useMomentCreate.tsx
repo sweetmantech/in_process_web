@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -17,6 +18,7 @@ export default function useMomentCreate() {
   const { setUploadProgress, setIsUploading } = useMetadataFormProvider();
   const { push } = useRouter();
   const type = useTypeParam();
+  const { setSelectedCollection } = useCollectionsProvider();
 
   const create = async () => {
     try {
@@ -30,6 +32,7 @@ export default function useMomentCreate() {
         throw new Error("Parameters not ready");
       }
       const result = await createMomentApi(parameters);
+      setSelectedCollection(result.contractAddress);
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       setIsUploading(false);

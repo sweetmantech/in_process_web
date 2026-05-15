@@ -1,6 +1,6 @@
 import { usePrivy } from "@privy-io/react-auth";
 import useConnectedWallet from "./useConnectedWallet";
-import { useFrameProvider } from "@/providers/FrameProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useConnection, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
 import { Address } from "viem";
@@ -11,7 +11,7 @@ const useUser = () => {
   const { user, login } = usePrivy();
   const getAuthHeaders = useAuthHeaders();
   const { privyWallet } = useConnectedWallet();
-  const { context } = useFrameProvider();
+  const { context } = useMiniAppProvider();
   const { isConnected, address: farcasterAddress } = useConnection();
   const { mutate: connect } = useConnect();
   const { artistWallet, isExternalWallet, artistWalletLoaded, fetchArtistWallet } =

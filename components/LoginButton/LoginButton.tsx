@@ -8,9 +8,9 @@ interface LoginButtonProps {
   className?: string;
 }
 export function LoginButton({ className = "" }: LoginButtonProps) {
-  const { context } = useMiniAppProvider();
+  const { isMiniApp } = useMiniAppProvider();
 
-  if (context) return <WarpcastButton className={className} />;
+  if (isMiniApp) return <WarpcastButton className={className} />;
 
   return <PrivyButton className={className} />;
 }

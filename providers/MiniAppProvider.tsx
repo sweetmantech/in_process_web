@@ -5,7 +5,8 @@ import { useState, useEffect, ReactNode, createContext, useContext, useMemo } fr
 
 interface MiniAppContextType {
   context: Context.MiniAppContext | undefined;
-  miniAppReady: boolean; // true once sdk.context has resolved (distinguishes "not Farcaster" from "not yet loaded")
+  miniAppReady: boolean;
+  isMiniApp: boolean;
 }
 
 const MiniAppContext = createContext<MiniAppContextType>({} as MiniAppContextType);
@@ -14,13 +15,19 @@ export default function MiniAppProvider({ children }: { children: ReactNode }) {
   const [isSDKLoaded, setIsSDKLoaded] = useState<boolean>(false);
   const [context, setContext] = useState<Context.MiniAppContext>();
   const [miniAppReady, setMiniAppReady] = useState<boolean>(false);
+  const [isInMiniApp, setIsInMiniApp] = useState<boolean>(false);
+
+  const isMiniApp = isInMiniApp && miniAppReady;
 
   useEffect(() => {
     const load = async () => {
       try {
-        const context = await sdk.context;
-        setContext(context);
-        sdk.actions.ready();
+        const [inMiniApp, ctx] = await Promise.all([sdk.isInMiniApp(), sdk.context]);
+        setIsInMiniApp(inMiniApp);
+        if (inMiniApp) {
+          setContext(ctx);
+          await sdk.actions.ready();
+        }
       } finally {
         setMiniAppReady(true);
       }
@@ -36,8 +43,9 @@ export default function MiniAppProvider({ children }: { children: ReactNode }) {
     () => ({
       context,
       miniAppReady,
+      isMiniApp,
     }),
-    [context, miniAppReady]
+    [context, miniAppReady, isMiniApp]
   );
 
   return <MiniAppContext.Provider value={value}>{children}</MiniAppContext.Provider>;

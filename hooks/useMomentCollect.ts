@@ -16,20 +16,20 @@ const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { artistWallet, isFarcasterMiniApp } = useUserProvider();
+  const { artistWallet, isMiniApp } = useUserProvider();
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { checkBalance } = useCollectBalanceValidation();
   const { getAuthHeaders } = useUserProvider();
   const { topup } = useFarcasterTopup();
-  const { smartWallet, isLoading: isSmartWalletLoading } = useSmartWalletProvider();
+  const { smartWallet } = useSmartWalletProvider();
 
   const collectWithComment = async () => {
     setIsLoading(true);
     try {
       if (!artistWallet) throw new Error("No wallet connected");
       if (!saleConfig) throw new Error("Sale config not found");
-      if (isSmartWalletLoading) throw new Error("Wallet is loading");
+      if (!smartWallet) throw new Error("Wallet is loading");
 
       if (protocol !== Protocol.InProcess) {
         throw new Error("Collecting is not supported for Sound.xyz or Catalog moments");
@@ -37,7 +37,7 @@ const useMomentCollect = () => {
 
       const { sufficient, currency, shortfall } = checkBalance(saleConfig, amountToCollect);
       if (!sufficient) {
-        if (isFarcasterMiniApp && smartWallet) {
+        if (isMiniApp) {
           await topup(currency, shortfall, smartWallet as Address);
         } else {
           showInsufficientBalanceError(currency);

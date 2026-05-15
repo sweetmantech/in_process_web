@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
-import { useFrameProvider } from "@/providers/FrameProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useConnection } from "wagmi";
 import { Address } from "viem";
 import getArtistWallet from "@/lib/artists/getArtistWallet";
@@ -16,12 +16,12 @@ const INITIAL_STATE: ArtistWalletState = { wallet: undefined, isExternal: false,
 
 const useArtistWallet = () => {
   const { user } = usePrivy();
-  const { context, frameReady } = useFrameProvider();
+  const { context, miniAppReady } = useMiniAppProvider();
   const { address: farcasterAddress } = useConnection();
   const { privyWallet, isPrivyReady } = useConnectedWallet();
 
-  const isFarcasterMiniApp = frameReady && Boolean(context);
-  const isSocialWallet = frameReady && Boolean(context || user?.email?.address);
+  const isFarcasterMiniApp = miniAppReady && Boolean(context);
+  const isSocialWallet = miniAppReady && Boolean(context || user?.email?.address);
 
   const [state, setState] = useState<ArtistWalletState>(INITIAL_STATE);
 

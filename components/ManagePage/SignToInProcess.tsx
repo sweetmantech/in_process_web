@@ -1,11 +1,11 @@
-import { useFrameProvider } from "@/providers/FrameProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { config } from "@/providers/WagmiProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { useConnect } from "wagmi";
 
 const SignToInProcess = () => {
   const { connect } = useConnect();
-  const { context } = useFrameProvider();
+  const { context } = useMiniAppProvider();
   const { login } = usePrivy();
 
   const handleSign = () => {

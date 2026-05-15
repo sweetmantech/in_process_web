@@ -6,14 +6,14 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
-import useCollectionParam from "./useCollectionParam";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const useMomentCreateParameters = () => {
   const { artistWallet, isExternalWallet, isFarcasterMiniApp } = useUserProvider();
   const { smartWallet } = useSmartWalletProvider();
   const { form, priceUnit, price, startDate, name } = useMetadataFormProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
-  const collection = useCollectionParam();
+  const { selectedCollection: collection } = useCollectionsProvider();
 
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";

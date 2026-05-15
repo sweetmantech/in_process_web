@@ -14,6 +14,7 @@ const MomentMedia = () => {
       isLoading={isLoading}
       isSaving={isSaving}
       SaveButton={SaveMediaButton}
+      isMomentMetadata
     />
   );
 };

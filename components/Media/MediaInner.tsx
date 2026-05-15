@@ -9,6 +9,7 @@ import MediaSkeleton from "./MediaSkeleton";
 import OwnerWarning from "./OwnerWarning";
 import TitleInput from "./TitleInput";
 import DescriptionInput from "./DescriptionInput";
+import Collections from "@/components/Collections";
 import { MomentMetadata } from "@/types/moment";
 
 interface MediaProps {
@@ -17,10 +18,18 @@ interface MediaProps {
   isLoading: boolean;
   isSaving: boolean;
   SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
+  isMomentMetadata?: boolean;
   hasMedia?: boolean;
 }
 
-const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: MediaProps) => {
+const MediaInner = ({
+  metadata,
+  isOwner,
+  isLoading,
+  isSaving,
+  SaveButton,
+  isMomentMetadata,
+}: MediaProps) => {
   const [editActive, setEditActive] = useState(false);
 
   useMediaInitialization(metadata ?? undefined);
@@ -34,6 +43,7 @@ const MediaInner = ({ metadata, isOwner, isLoading, isSaving, SaveButton }: Medi
       <div className="w-full font-archivo">
         <div className="mt-4 max-w-md rounded-lg bg-white p-4 md:p-6 shadow-sm">
           <div className="space-y-4">
+            {isMomentMetadata && <Collections />}
             <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
             <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
             <div className="relative aspect-[571/692] overflow-hidden bg-[url('/grid.svg')] bg-contain">

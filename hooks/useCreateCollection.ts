@@ -3,7 +3,7 @@ import { Address } from "viem";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { useUserProvider } from "@/providers/UserProvider";
-import { useCollectionsSelection } from "@/hooks/useCollectionsSelection";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import { callCreateCollectionApi } from "@/lib/collections/callCreateCollectionApi";
@@ -14,7 +14,7 @@ export const useCreateCollection = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const { getAccessToken } = usePrivy();
   const { artistWallet } = useUserProvider();
-  const { handleValueChange } = useCollectionsSelection();
+  const { setSelectedCollection } = useCollectionsProvider();
   const { name, imageFile, resetForm } = useMetadataFormProvider();
   const { closeModal } = useCreateCollectionModalTriggerProvider();
   const { fetchParameters } = useCreateCollectionParameters();
@@ -63,10 +63,10 @@ export const useCreateCollection = () => {
   const handleSubmit = useCallback(async () => {
     const result = await createCollection();
     if (!result) return;
-    handleValueChange(result.contractAddress.toLowerCase());
+    setSelectedCollection(result.contractAddress.toLowerCase());
     resetForm();
     closeModal();
-  }, [createCollection, handleValueChange, resetForm, closeModal]);
+  }, [createCollection, setSelectedCollection, resetForm, closeModal]);
 
   return {
     createCollection,

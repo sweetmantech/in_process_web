@@ -17,10 +17,7 @@ export interface UseArweaveUploadsParams {
 export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
   const limit = 10;
   const defaultSort = useMemo<SortingState>(
-    () =>
-      aggregation
-        ? [{ id: "usdc_cost", desc: true }]
-        : [{ id: "created_at", desc: true }],
+    () => (aggregation ? [{ id: "usdc_cost", desc: true }] : [{ id: "created_at", desc: true }]),
     [aggregation]
   );
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,13 +37,16 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
     setCurrentPage(1);
   }, []);
 
-  const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
-    setSorting((prev) => {
-      const next = typeof updater === "function" ? updater(prev) : updater;
-      return next.length === 0 ? defaultSort : next;
-    });
-    setCurrentPage(1);
-  }, [defaultSort]);
+  const onSortingChange: OnChangeFn<SortingState> = useCallback(
+    (updater) => {
+      setSorting((prev) => {
+        const next = typeof updater === "function" ? updater(prev) : updater;
+        return next.length === 0 ? defaultSort : next;
+      });
+      setCurrentPage(1);
+    },
+    [defaultSort]
+  );
 
   const query = useQuery({
     queryKey: aggregation

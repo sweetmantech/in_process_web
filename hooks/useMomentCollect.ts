@@ -22,12 +22,13 @@ const useMomentCollect = () => {
   const { checkBalance } = useCollectBalanceValidation();
   const { getAuthHeaders } = useUserProvider();
   const { topup } = useFarcasterTopup();
-  const { smartWallet } = useSmartWalletProvider();
+  const { smartWallet, isLoading: isSmartWalletLoading } = useSmartWalletProvider();
 
   const mutation = useMutation({
     mutationFn: async () => {
       if (!artistWallet) throw new Error("No wallet connected");
       if (!saleConfig) throw new Error("Sale config not found");
+      if (isSmartWalletLoading) throw new Error("Wallet is loading");
 
       if (protocol !== Protocol.InProcess) {
         throw new Error("Collecting is not supported for Sound.xyz or Catalog moments");

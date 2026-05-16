@@ -7,7 +7,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useUserProvider } from "@/providers/UserProvider";
 
 export function DropdownMenu() {
-  const { context } = useMiniAppProvider();
+  const { isMiniApp } = useMiniAppProvider();
   const { push } = useRouter();
   const { toggleNavbar } = useLayoutProvider();
   const { logout } = usePrivy();
@@ -35,7 +35,7 @@ export function DropdownMenu() {
       >
         manage
       </button>
-      {!context && (
+      {!isMiniApp && (
         <>
           <Divider />
           <button

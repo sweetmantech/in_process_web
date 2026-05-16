@@ -5,11 +5,11 @@ import { useConnect } from "wagmi";
 
 const SignToInProcess = () => {
   const { connect } = useConnect();
-  const { context } = useMiniAppProvider();
+  const { isMiniApp } = useMiniAppProvider();
   const { login } = usePrivy();
 
   const handleSign = () => {
-    if (context) {
+    if (isMiniApp) {
       connect({
         connector: config.connectors[0],
       });

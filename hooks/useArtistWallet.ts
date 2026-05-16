@@ -16,17 +16,16 @@ const INITIAL_STATE: ArtistWalletState = { wallet: undefined, isExternal: false,
 
 const useArtistWallet = () => {
   const { user } = usePrivy();
-  const { context, miniAppReady } = useMiniAppProvider();
+  const { isMiniApp, miniAppReady } = useMiniAppProvider();
   const { address: farcasterAddress } = useConnection();
   const { privyWallet, isPrivyReady } = useConnectedWallet();
 
-  const isFarcasterMiniApp = miniAppReady && Boolean(context);
-  const isSocialWallet = miniAppReady && Boolean(context || user?.email?.address);
+  const isSocialWallet = miniAppReady && (isMiniApp || Boolean(user?.email?.address));
 
   const [state, setState] = useState<ArtistWalletState>(INITIAL_STATE);
 
   const fetchArtistWallet = useCallback(async () => {
-    if (isFarcasterMiniApp) {
+    if (isMiniApp) {
       if (!farcasterAddress) return;
       setState({ wallet: farcasterAddress, isExternal: false, isLoaded: true });
       return;
@@ -41,7 +40,7 @@ const useArtistWallet = () => {
     const privyAddress = privyWallet.address as Address;
     const linked = isSocialWallet ? await getArtistWallet(privyAddress) : null;
     setState({ wallet: linked ?? privyAddress, isExternal: Boolean(linked), isLoaded: true });
-  }, [isFarcasterMiniApp, farcasterAddress, privyWallet, isSocialWallet, isPrivyReady]);
+  }, [isMiniApp, farcasterAddress, privyWallet, isSocialWallet, isPrivyReady]);
 
   useEffect(() => {
     fetchArtistWallet();

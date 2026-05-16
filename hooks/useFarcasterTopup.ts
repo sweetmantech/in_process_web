@@ -16,7 +16,7 @@ const useFarcasterTopup = () => {
   const { mutateAsync: sendTransactionAsync } = useSendTransaction();
   const { mutateAsync: writeContractAsync } = useWriteContract();
   const { mutateAsync: switchChainAsync } = useSwitchChain();
-  const publicClient = usePublicClient();
+  const publicClient = usePublicClient({ chainId: CHAIN_ID });
   const chainId = useChainId();
 
   const topup = async (currency: Currency, amount: bigint, smartWallet: Address): Promise<void> => {

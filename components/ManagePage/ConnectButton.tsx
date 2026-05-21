@@ -5,9 +5,11 @@ import { Fragment, useState } from "react";
 import { Address } from "viem";
 import CopyButton from "../CopyButton";
 import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
+import useAuthHeaders from "@/hooks/useAuthHeaders";
 
 const ConnectButton = () => {
   const { getAccessToken } = usePrivy();
+  const getAuthHeaders = useAuthHeaders();
   const { artistWallet, fetchArtistWallet, isSocialWallet, socialWalletAddress } =
     useUserProvider();
   const shouldConnect =
@@ -31,7 +33,8 @@ const ConnectButton = () => {
 
   const disconnect = async () => {
     setIsLoading(true);
-    await disconnectSocialWallet(socialWalletAddress as Address);
+    const authHeaders = await getAuthHeaders();
+    await disconnectSocialWallet(authHeaders);
     await fetchArtistWallet();
     setIsLoading(false);
   };

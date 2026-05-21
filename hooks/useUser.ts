@@ -4,17 +4,15 @@ import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useConnection, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
 import { Address } from "viem";
-import useAuthHeaders from "./useAuthHeaders";
 import useArtistWallet from "./useArtistWallet";
 
 const useUser = () => {
   const { user, login } = usePrivy();
-  const getAuthHeaders = useAuthHeaders();
   const { privyWallet } = useConnectedWallet();
   const { isMiniApp } = useMiniAppProvider();
   const { isConnected, address: farcasterAddress } = useConnection();
   const { mutate: connect } = useConnect();
-  const { artistWallet, isExternalWallet, artistWalletLoaded, fetchArtistWallet } =
+  const { artistWallet, isExternalWallet, artistWalletLoaded, fetchArtistWallet, getAuthHeaders } =
     useArtistWallet();
 
   const isSocialWallet = Boolean(isMiniApp || user?.email?.address);

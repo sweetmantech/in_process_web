@@ -4,7 +4,7 @@ import { useConnectWallet, usePrivy } from "@privy-io/react-auth";
 import { Fragment, useState } from "react";
 import { Address } from "viem";
 import CopyButton from "../CopyButton";
-import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
+import DisconnectButton from "./DisconnectButton";
 
 const ConnectButton = () => {
   const { getAccessToken } = usePrivy();
@@ -12,7 +12,6 @@ const ConnectButton = () => {
     useUserProvider();
   const shouldConnect =
     artistWallet === socialWalletAddress && Boolean(artistWallet) && isSocialWallet;
-  const buttonText = shouldConnect ? "connect wallet" : "disconnect wallet";
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { connectWallet } = useConnectWallet({
@@ -29,26 +28,25 @@ const ConnectButton = () => {
     },
   });
 
-  const disconnect = async () => {
-    setIsLoading(true);
-    await disconnectSocialWallet(socialWalletAddress as Address);
-    await fetchArtistWallet();
-    setIsLoading(false);
-  };
-
   if (!isSocialWallet || !artistWallet) return <Fragment />;
 
+  if (!shouldConnect) {
+    return (
+      <div className="flex w-full md:w-fit flex-col items-end gap-2 md:flex-row md:justify-end">
+        <CopyButton text={artistWallet as Address} />
+        <DisconnectButton label="disconnect wallet" />
+      </div>
+    );
+  }
+
   return (
-    <div className="flex w-full md:w-fit flex-col items-end gap-2 md:flex-row md:justify-end">
-      {!shouldConnect && <CopyButton text={artistWallet as Address} />}
-      <button
-        disabled={isLoading}
-        onClick={shouldConnect ? connectWallet : disconnect}
-        className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
-      >
-        {isLoading ? "connecting..." : buttonText}
-      </button>
-    </div>
+    <button
+      disabled={isLoading}
+      onClick={connectWallet}
+      className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
+    >
+      {isLoading ? "connecting..." : "connect wallet"}
+    </button>
   );
 };
 

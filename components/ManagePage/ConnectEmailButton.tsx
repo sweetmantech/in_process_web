@@ -6,9 +6,18 @@ import { useEmailVerificationProvider } from "@/providers/EmailVerificationProvi
 import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import EmailAddressInput from "./EmailAddressInput";
 import EmailCodeInput from "./EmailCodeInput";
+import { useUserProvider } from "@/providers/UserProvider";
+import DisconnectButton from "./DisconnectButton";
+import { Fragment } from "react";
 
 const ConnectEmailButton = () => {
   const { isDialogOpen, setIsDialogOpen, status } = useEmailVerificationProvider();
+  const { isExternalWallet, artistWallet } = useUserProvider();
+
+  if (!artistWallet) return <Fragment />;
+  if (isExternalWallet) {
+    return <DisconnectButton label="disconnect email" />;
+  }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

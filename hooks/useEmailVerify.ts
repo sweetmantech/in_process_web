@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import sendCode from "@/lib/oauth/sendCode";
@@ -16,6 +16,13 @@ export const useEmailVerify = () => {
     EMAIL_VERIFICATION_STATUS.ENTER_EMAIL
   );
   const { socialWalletAddress: farcasterAddress } = useUserProvider();
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
 
   const handleSendCode = async () => {
     if (!email.trim()) {
@@ -44,7 +51,8 @@ export const useEmailVerify = () => {
       if (!farcasterAddress) throw new Error("No Farcaster wallet found");
       await connectSocialWallet(token, farcasterAddress as Address);
       setStatus(EMAIL_VERIFICATION_STATUS.VERIFIED);
-      setTimeout(() => setIsDialogOpen(false), 10000);
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = setTimeout(() => setIsDialogOpen(false), 10000);
     } catch (error: any) {
       toast.error(error?.message || "Failed to verify code");
     } finally {
@@ -54,6 +62,7 @@ export const useEmailVerify = () => {
 
   const resetDialog = (open: boolean) => {
     if (!open) {
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
       setEmail("");
       setCode("");
       setStatus(EMAIL_VERIFICATION_STATUS.ENTER_EMAIL);

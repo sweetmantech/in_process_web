@@ -7,36 +7,16 @@ import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import EmailAddressInput from "./EmailAddressInput";
 import EmailCodeInput from "./EmailCodeInput";
 import { useUserProvider } from "@/providers/UserProvider";
-import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
-import { useState } from "react";
+import DisconnectButton from "./DisconnectButton";
+import { Fragment } from "react";
 
 const ConnectEmailButton = () => {
   const { isDialogOpen, setIsDialogOpen, status } = useEmailVerificationProvider();
-  const { isExternalWallet, fetchArtistWallet, getAuthHeaders } = useUserProvider();
-  const [isDisconnecting, setIsDisconnecting] = useState(false);
+  const { isExternalWallet, artistWallet } = useUserProvider();
 
-  const handleDisconnect = async () => {
-    setIsDisconnecting(true);
-    try {
-      const authHeaders = await getAuthHeaders();
-      await disconnectSocialWallet(authHeaders);
-      await fetchArtistWallet();
-    } finally {
-      setIsDisconnecting(false);
-    }
-  };
-
+  if (!artistWallet) return <Fragment />;
   if (isExternalWallet) {
-    return (
-      <button
-        type="button"
-        disabled={isDisconnecting}
-        onClick={handleDisconnect}
-        className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
-      >
-        {isDisconnecting ? "disconnecting..." : "disconnect email"}
-      </button>
-    );
+    return <DisconnectButton label="disconnect email" />;
   }
 
   return (

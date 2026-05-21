@@ -6,14 +6,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUserProvider } from "@/providers/UserProvider";
 import useUpdateProfile from "@/hooks/useUpdateProfile";
 import ConnectButton from "./ConnectButton";
+import ConnectEmailButton from "./ConnectEmailButton";
 import PhoneButton from "./PhoneButton";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
+import { EmailVerificationProvider } from "@/providers/EmailVerificationProvider";
 import AccountPageSkeleton from "./AccountPageSkeleton";
 import SignToInProcess from "./SignToInProcess";
 import TelegramMomentHint from "./TelegramMomentHint";
 
 const AccountPage = () => {
   const { artistWallet, artistWalletLoaded } = useUserProvider();
+  const { isMiniApp } = useUserProvider();
   const {
     isLoading,
     onSave,
@@ -109,7 +112,13 @@ const AccountPage = () => {
         <PhoneVerificationProvider>
           <PhoneButton />
         </PhoneVerificationProvider>
-        <ConnectButton />
+        {isMiniApp ? (
+          <EmailVerificationProvider>
+            <ConnectEmailButton />
+          </EmailVerificationProvider>
+        ) : (
+          <ConnectButton />
+        )}
         <button
           className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:mr-4 md:w-fit md:min-w-[100px]"
           onClick={onSave}

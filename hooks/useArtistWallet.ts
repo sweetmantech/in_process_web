@@ -33,7 +33,7 @@ const useArtistWallet = () => {
       if (!farcasterAddress) return;
       setState({
         wallet: farcasterAddress,
-        isExternal: Boolean(wallets?.social_wallet),
+        isExternal: false,
         isLoaded: true,
       });
       return;

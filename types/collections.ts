@@ -53,7 +53,7 @@ export interface CreateCollectionResult {
   chainId: number;
 }
 
-export interface CreateCollectionsItem {
+export interface CreateCollectionItem {
   uri: string;
   name: string;
   splits?: Array<{
@@ -64,8 +64,8 @@ export interface CreateCollectionsItem {
 
 export interface CreateCollectionsParams {
   account: Address;
-  collections: CreateCollectionsItem[];
+  collection: CreateCollectionItem;
   chainId: number;
 }
 
-export type CreateCollectionsResult = CreateCollectionResult[];
+export type CreateCollectionsResult = CreateCollectionResult;

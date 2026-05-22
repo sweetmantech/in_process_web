@@ -1,7 +1,7 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 import type { CreateCollectionsParams, CreateCollectionsResult } from "@/types/collections";
 
-export async function createCollections(
+export async function createCollection(
   params: CreateCollectionsParams
 ): Promise<CreateCollectionsResult> {
   const response = await fetch(`${IN_PROCESS_API}/collections`, {

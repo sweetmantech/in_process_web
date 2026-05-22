@@ -16,7 +16,7 @@ const useCreateCollectionParameters = () => {
 
     return {
       account: artistWallet as Address,
-      collections: [{ uri, name }],
+      collection: { uri, name },
       chainId: CHAIN_ID,
     };
   };

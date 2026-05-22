@@ -18,7 +18,7 @@ export const useEmailVerify = () => {
   const [status, setStatus] = useState<EMAIL_VERIFICATION_STATUS>(
     EMAIL_VERIFICATION_STATUS.ENTER_EMAIL
   );
-  const { socialWalletAddress: farcasterAddress, fetchArtistWallet } = useUserProvider();
+  const { socialWalletAddress: farcasterAddress } = useUserProvider();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -52,7 +52,6 @@ export const useEmailVerify = () => {
     try {
       const { social_wallet } = await loginWithOtp(email.trim(), code.trim());
       if (!farcasterAddress) throw new Error("No Farcaster wallet found");
-      await fetchArtistWallet();
       const profile = await fetchArtistProfile(social_wallet as Address);
       await updateProfile({
         ...profile,

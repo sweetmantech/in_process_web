@@ -6,7 +6,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
-import { callCreateCollectionApi } from "@/lib/collection/callCreateCollectionApi";
+import { createCollections } from "@/lib/collections/createCollections";
 import useCreateCollectionParameters from "./useCreateCollectionParameters";
 
 export const useCreateCollection = () => {
@@ -44,11 +44,11 @@ export const useCreateCollection = () => {
       throw new Error("Parameters not ready");
     }
     try {
-      const result = await callCreateCollectionApi(parameters);
+      const results = await createCollections(parameters);
       toast.success("Collection created successfully");
       return {
-        contractAddress: result.contractAddress as Address,
-        metadataUri: parameters.uri,
+        contractAddress: results[0].contractAddress as Address,
+        metadataUri: parameters.collections[0].uri,
       };
     } catch (error: any) {
       console.error("Error creating collection:", error);

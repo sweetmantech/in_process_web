@@ -47,8 +47,13 @@ export interface FetchCollectionParams {
   chainId?: string;
 }
 
-export interface CreateCollectionInput {
-  account: Address;
+export interface CreateCollectionResult {
+  contractAddress: Address;
+  hash: Hash;
+  chainId: number;
+}
+
+export interface CreateCollectionsItem {
   uri: string;
   name: string;
   splits?: Array<{
@@ -57,8 +62,10 @@ export interface CreateCollectionInput {
   }>;
 }
 
-export interface CreateCollectionResult {
-  contractAddress: Address;
-  hash: Hash;
+export interface CreateCollectionsParams {
+  account: Address;
+  collections: CreateCollectionsItem[];
   chainId: number;
 }
+
+export type CreateCollectionsResult = CreateCollectionResult[];

@@ -44,7 +44,7 @@ export interface CollectionResponse {
 
 export interface FetchCollectionParams {
   collectionAddress: string;
-  chainId?: string;
+  chainId: string;
 }
 
 export interface CreateCollectionResult {

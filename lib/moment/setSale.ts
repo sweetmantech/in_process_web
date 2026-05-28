@@ -23,6 +23,9 @@ export const setSale = async (
       ...(pricePerToken !== undefined && { pricePerToken }),
     }),
   });
-  if (!res.ok) throw new Error("Failed to update sale");
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.message || "Failed to update sale");
+  }
   return res.json();
 };

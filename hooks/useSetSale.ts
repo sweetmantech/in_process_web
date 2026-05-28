@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
 import { MomentType } from "@/types/moment";
+import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSetSale = () => {
   const { moment, saleConfig: sale } = useMomentProvider();
@@ -13,6 +14,7 @@ const useSetSale = () => {
   const [saleStart, setSaleStart] = useState<Date>(new Date());
   const [priceInput, setPriceInput] = useState<string>("");
   const [isErc20, setIsErc20] = useState(false);
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   const priceUnit = isErc20 ? "USDC" : "ETH";
 
@@ -41,6 +43,13 @@ const useSetSale = () => {
       return setSale(accessToken, moment, saleStartUnix, pricePerToken);
     },
     onSuccess: () => toast.success("Sale updated successfully"),
+    onError: (error: any) => {
+      if (isPermissionError(error)) {
+        setShowPermissionModal(true);
+      } else {
+        toast.error(error?.message || "Failed to update sale");
+      }
+    },
   });
 
   return {
@@ -51,6 +60,8 @@ const useSetSale = () => {
     priceUnit,
     setSale: () => mutate(),
     isLoading: isPending,
+    showPermissionModal,
+    closePermissionModal: () => setShowPermissionModal(false),
   };
 };
 

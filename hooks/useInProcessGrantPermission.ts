@@ -11,13 +11,7 @@ import { toast } from "sonner";
 import { isUserRejection } from "@/lib/viem/isUserRejection";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
-// Core hook: grants PERMISSION_BIT_ADMIN to the smart wallet on an InProcess (Zora ERC1155) contract.
-// - tokenId "0" → collection level
-// - tokenId actual → moment level
-const useInProcessGrantPermission = (
-  contractAddress: Address | undefined,
-  tokenId: string | undefined
-) => {
+const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
   const { primaryWallet } = useWalletsProvider();
   const { smartWallet } = useSmartAccountProvider();
   const { externalWallet } = useConnectedWallet();
@@ -25,7 +19,7 @@ const useInProcessGrantPermission = (
   const { connectWallet } = useConnectWallet();
 
   const grantPermission = async () => {
-    if (!contractAddress || tokenId === undefined) {
+    if (!contractAddress) {
       toast.error("Contract data not available");
       return;
     }
@@ -63,7 +57,7 @@ const useInProcessGrantPermission = (
         address: contractAddress,
         abi: zoraCreator1155ImplABI,
         functionName: "addPermission",
-        args: [BigInt(tokenId), smartWallet as Address, BigInt(PERMISSION_BIT_ADMIN)],
+        args: [BigInt(0), smartWallet as Address, BigInt(PERMISSION_BIT_ADMIN)],
       });
 
       const publicClient = getPublicClient(CHAIN_ID);

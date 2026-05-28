@@ -5,11 +5,13 @@ import { usePrivy } from "@privy-io/react-auth";
 import { getAddress } from "viem";
 import { addMomentAdmin } from "@/lib/moment/addMomentAdmin";
 import { resolveAddressOrEns } from "@/lib/ens/resolveAddressOrEns";
+import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useAddCollectionAdmin = () => {
   const { data } = useCollectionProvider();
   const [newAdminAddress, setNewAdminAddress] = useState("");
   const [isAdding, setIsAdding] = useState(false);
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
   const { getAccessToken } = usePrivy();
 
   const handleAddAdmin = async () => {
@@ -26,10 +28,8 @@ const useAddCollectionAdmin = () => {
 
       setIsAdding(true);
 
-      // Resolve address or ENS name
       const normalizedAddress = await resolveAddressOrEns(newAdminAddress);
 
-      // Check if address is already an admin
       if (data.admins?.some((admin: string) => getAddress(admin) === normalizedAddress)) {
         toast.error("This address is already an admin.");
         setNewAdminAddress("");
@@ -37,13 +37,11 @@ const useAddCollectionAdmin = () => {
         return;
       }
 
-      // Get access token
       const accessToken = await getAccessToken();
       if (!accessToken) {
         throw new Error("Authentication required");
       }
 
-      // Call API to add admin using moment with tokenId "0" for collection-level permissions
       await addMomentAdmin({
         moment: {
           collectionAddress: data.address as `0x${string}`,
@@ -57,7 +55,11 @@ const useAddCollectionAdmin = () => {
       toast.success("Admin added successfully.");
     } catch (error: any) {
       console.error("Error adding admin:", error);
-      toast.error(error?.message || "Failed to add admin");
+      if (isPermissionError(error)) {
+        setShowPermissionModal(true);
+      } else {
+        toast.error(error?.message || "Failed to add admin");
+      }
     } finally {
       setIsAdding(false);
       setNewAdminAddress("");
@@ -69,6 +71,8 @@ const useAddCollectionAdmin = () => {
     setNewAdminAddress,
     handleAddAdmin,
     isAdding,
+    showPermissionModal,
+    closePermissionModal: () => setShowPermissionModal(false),
   };
 };
 

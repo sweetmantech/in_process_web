@@ -2,18 +2,14 @@ import { AirdropItem } from "@/types/airdrop";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
 
 const AirdropButton = () => {
   const { airdropToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner, momentAdmins } = useMomentProvider();
   const { primaryWallet } = useWalletsProvider();
-  const hasWarning = useMomentLegacyWarning();
   const canAirdrop =
     Boolean(owner?.toLowerCase() === primaryWallet?.toLowerCase()) ||
     Boolean(primaryWallet && momentAdmins?.includes(primaryWallet.toLowerCase()));
-
-  if (hasWarning) return null;
 
   return (
     <button

@@ -1,18 +1,19 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { useFormState } from "react-hook-form";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import { SaveCollectionButtonProps } from "@/components/CollectionManagePage/SaveCollectionButton";
+import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const isOwner = useIsCollectionOwner();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
 
-  // Watch name value reactively
   const nameValue = form.watch("name");
   const nameError = errors.name;
   const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;
@@ -38,9 +39,12 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
       toast.info(
         "Successfully saved collection. Metadata update will show up after a few seconds..."
       );
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to save collection");
+    } catch (error: any) {
+      if (isPermissionError(error)) {
+        setShowPermissionModal(true);
+      } else {
+        toast.error(error?.message || "Failed to save collection");
+      }
     }
   }, [form, updateCollectionURI, onSuccess]);
 
@@ -48,6 +52,8 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
     isSaving,
     isDisabled,
     onSave,
+    showPermissionModal,
+    closePermissionModal: () => setShowPermissionModal(false),
   };
 };
 

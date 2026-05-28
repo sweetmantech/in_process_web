@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useConnectWallet } from "@privy-io/react-auth";
 import useConnectedWallet from "./useConnectedWallet";
-import useSmartWallet from "./useSmartWallet";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { createWalletClient, custom, Address } from "viem";
 import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
@@ -18,8 +18,8 @@ const useInProcessGrantPermission = (
   contractAddress: Address | undefined,
   tokenId: string | undefined
 ) => {
-  const { artistWallet } = useUserProvider();
-  const { smartWallet } = useSmartWallet();
+  const { primaryWallet } = useWalletsProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const { externalWallet } = useConnectedWallet();
   const [isGranting, setIsGranting] = useState(false);
   const { connectWallet } = useConnectWallet();
@@ -30,7 +30,7 @@ const useInProcessGrantPermission = (
       return;
     }
 
-    if (!artistWallet) {
+    if (!primaryWallet) {
       toast.error("Please connect your wallet first");
       return;
     }

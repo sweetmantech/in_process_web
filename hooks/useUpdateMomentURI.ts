@@ -3,7 +3,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { callUpdateMomentURI } from "@/lib/moment/callUpdateMomentURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useMetadataUpload from "@/hooks/useMetadataUpload";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { Address } from "viem";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
@@ -24,7 +24,7 @@ const useUpdateMomentURI = () => {
     setLink,
     setWritingText,
   } = useMetadataFormProvider();
-  const { getAuthHeaders } = useUserProvider();
+  const { authorization } = useAuthorizationProvider();
   const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { selectedCollection } = useCollectionsProvider();
@@ -52,7 +52,7 @@ const useUpdateMomentURI = () => {
       const existingMetadata = metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 
-      const authHeaders = await getAuthHeaders();
+      const authHeaders = authorization;
 
       const newCollectionAddress =
         selectedCollection && selectedCollection !== moment?.collectionAddress

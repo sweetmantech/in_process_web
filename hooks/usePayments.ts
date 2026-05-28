@@ -2,21 +2,21 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getTransferPayments } from "@/lib/payments/getTransferPayments";
 import type { PaymentTransferRow, PaymentsTab, TransferPaymentsResponse } from "@/types/payments";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 /** Matches API default and other list endpoints (e.g. notifications, timeline). */
 const PAYMENTS_QUERY_PAGE_LIMIT = 20;
 
 const usePayments = () => {
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
   const [paymentsTab, setPaymentsTab] = useState<PaymentsTab>("income");
 
   const paymentsQuery = useInfiniteQuery({
-    queryKey: ["payments-transfers", PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, artistWallet],
+    queryKey: ["payments-transfers", PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, primaryWallet],
     queryFn: async ({ pageParam = 1 }) => {
-      return getTransferPayments(pageParam, PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, artistWallet!);
+      return getTransferPayments(pageParam, PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, primaryWallet!);
     },
-    enabled: Boolean(artistWallet),
+    enabled: Boolean(primaryWallet),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage: TransferPaymentsResponse) => {
@@ -37,7 +37,7 @@ const usePayments = () => {
     () => ({
       paymentsTab,
       setPaymentsTab,
-      artistWallet,
+      primaryWallet,
       payments,
       fetchMore: paymentsQuery.fetchNextPage,
       hasNextPage: Boolean(paymentsQuery.hasNextPage),
@@ -47,7 +47,7 @@ const usePayments = () => {
       error: paymentsQuery.error instanceof Error ? paymentsQuery.error : null,
     }),
     [
-      artistWallet,
+      primaryWallet,
       isExpense,
       payments,
       paymentsTab,

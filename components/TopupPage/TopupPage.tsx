@@ -7,16 +7,16 @@ import { UsdcBalance } from "../Balances/UsdcBalance";
 import { EthBalance } from "../Balances/EthBalance";
 import { Address } from "viem";
 import { Wallet } from "../Balances/Wallet";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { usePrivy } from "@privy-io/react-auth";
 
 const TopupPage = () => {
-  const { socialWalletAddress } = useUserProvider();
+  const { signedAddress } = useUserProvider();
   const { ready } = usePrivy();
-  const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartWalletProvider();
+  const { smartWallet, isLoading, balance: usdcBalance, ethBalance } = useSmartAccountProvider();
 
   if (!ready) return <Fragment />;
-  if (!socialWalletAddress) return <SignToInProcess />;
+  if (!signedAddress) return <SignToInProcess />;
 
   return (
     <main className="min-h-screen p-4 md:p-8">

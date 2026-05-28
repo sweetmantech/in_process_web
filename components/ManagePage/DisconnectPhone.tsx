@@ -3,8 +3,7 @@ import CopyButton from "../CopyButton";
 import useDisconnectPhone from "@/hooks/useDisconnectPhone";
 
 const DisconnectPhone = () => {
-  const { profile } = useUserProvider();
-  const { phoneNumber } = profile;
+  const { phoneNumber } = useUserProvider();
   const { handleDisconnect, isDisconnecting } = useDisconnectPhone();
 
   return (

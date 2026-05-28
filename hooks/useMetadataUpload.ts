@@ -9,12 +9,12 @@ import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
 import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
 import { MomentMetadata } from "@/types/moment";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
-  const { getAuthHeaders } = useUserProvider();
+  const { authorization } = useAuthorizationProvider();
   const {
     description,
     mimeType,
@@ -38,8 +38,6 @@ const useMetadataUpload = () => {
   };
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
-    const authHeaders = await getAuthHeaders();
-
     let mime = mimeType;
     let animation_url = "";
     let contentUri = "";
@@ -55,7 +53,7 @@ const useMetadataUpload = () => {
     const videoResult = await uploadVideoToMuxIfNeeded(
       animationFile,
       mimeType,
-      authHeaders,
+      authorization,
       setUploadProgress
     );
     if (videoResult.animationUrl) {
@@ -72,7 +70,7 @@ const useMetadataUpload = () => {
     }
 
     const fileUploadResult = await uploadFilesToArweave(
-      authHeaders,
+      authorization,
       previewFile,
       imageFile,
       animationFile,
@@ -110,7 +108,7 @@ const useMetadataUpload = () => {
     }
 
     if (type === "writing") {
-      const writingResult = await uploadWriting(authHeaders, getRecaptchaToken);
+      const writingResult = await uploadWriting(authorization, getRecaptchaToken);
       mime = writingResult.mime;
       animation_url = writingResult.animationUrl;
       contentUri = writingResult.contentUri;
@@ -118,7 +116,7 @@ const useMetadataUpload = () => {
     }
 
     if (type === "embed") {
-      const embedResult = await uploadEmbedCode(authHeaders, getRecaptchaToken);
+      const embedResult = await uploadEmbedCode(authorization, getRecaptchaToken);
       mime = embedResult.mime;
       animation_url = embedResult.animationUrl;
       contentUri = embedResult.contentUri;
@@ -132,7 +130,7 @@ const useMetadataUpload = () => {
       animation_url,
       mime,
       contentUri,
-      authHeaders,
+      authorization,
       getRecaptchaToken,
       existingMetadata
     );

@@ -8,7 +8,7 @@ import NotificationDateCell from "@/components/NotificationsPage/NotificationDat
 import BuyerCell from "./BuyerCell";
 import { getPaymentAmount } from "@/lib/payments/getPaymentAmount";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 interface PaymentRowProps {
   payment: PaymentTransferRow;
@@ -16,8 +16,8 @@ interface PaymentRowProps {
 
 const PaymentRow = ({ payment }: PaymentRowProps) => {
   const { isExpense, paymentsTab } = usePaymentsProvider();
-  const { artistWallet } = useUserProvider();
-  const amount = getPaymentAmount(payment, artistWallet, paymentsTab);
+  const { primaryWallet } = useWalletsProvider();
+  const amount = getPaymentAmount(payment, primaryWallet, paymentsTab);
   return (
     <TableRow className="border border-transparent hover:border-b-grey-moss-200">
       <BuyerCell payment={payment} />

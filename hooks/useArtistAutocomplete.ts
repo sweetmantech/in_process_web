@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import searchArtists, { SearchArtistsResponse, SearchedArtist } from "@/lib/artists/searchArtists";
+import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 
 const useArtistAutocomplete = () => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -23,10 +24,13 @@ const useArtistAutocomplete = () => {
     const list = data?.artists ?? [];
     const seen = new Set<string>();
     return list.filter((artist) => {
+      const address = getPrimaryWalletAddress(artist.wallets);
       const key = artist.username
         ? `username:${artist.username.toLowerCase()}`
-        : `address:${artist.address.toLowerCase()}`;
-      if (seen.has(key)) return false;
+        : address
+          ? `address:${address.toLowerCase()}`
+          : null;
+      if (!key || seen.has(key)) return false;
       seen.add(key);
       return true;
     });

@@ -4,12 +4,14 @@ import { Address } from "viem";
 import useProfile from "./useProfile";
 import useArtistEditable from "./useArtistEditable";
 import updateProfile from "@/lib/artists/updateProfile";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 
 const useArtistEdit = (
   artistProfile: ReturnType<typeof useProfile>,
   artistAddress: Address | undefined
 ) => {
-  const { setSaving, username, bio, instagram, telegram, twitter, farcaster } = artistProfile;
+  const { setSaving, username, bio, instagram, telegram, twitter } = artistProfile;
+  const { authorization } = useAuthorizationProvider();
   const usernameRef = useRef(null) as any;
   const bioRef = useRef(null) as any;
   const statusRef = useRef(null) as any;
@@ -41,19 +43,21 @@ const useArtistEdit = (
       )
         return;
       setSaving(true);
-      await updateProfile({
-        address: artistAddress as Address,
-        username,
-        bio,
-        instagram_username: instagram,
-        twitter_username: twitter,
-        farcaster_username: farcaster,
-        telegram_username: telegram,
-      });
-      setTimeout(() => {
-        toggleEditing();
-        setSaving(false);
-      }, 500);
+      try {
+        await updateProfile({
+          authHeaders: authorization,
+          username,
+          bio,
+          instagram,
+          x: twitter,
+          telegram,
+        });
+      } finally {
+        setTimeout(() => {
+          toggleEditing();
+          setSaving(false);
+        }, 500);
+      }
     };
 
     document.addEventListener("mousedown", handleMouseDown);

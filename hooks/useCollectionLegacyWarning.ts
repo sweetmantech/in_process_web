@@ -1,10 +1,10 @@
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { Address } from "viem";
 import useIsCollectionOwner from "./useIsCollectionOwner";
 
 const useCollectionLegacyWarning = () => {
-  const { smartWallet } = useSmartWalletProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const { data } = useCollectionProvider();
   const isOwner = useIsCollectionOwner();
 

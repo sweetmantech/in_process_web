@@ -6,17 +6,17 @@ import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
 import useRemoveMomentAdmin from "@/hooks/useRemoveMomentAdmin";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 const MomentAdmin = ({ address }: { address: Address }) => {
   const { handleRemoveAdmin, isRemoving } = useRemoveMomentAdmin();
   const { data: artistProfile } = useArtistProfile(address);
-  const { smartWallet } = useSmartWalletProvider();
-  const { artistWallet } = useUserProvider();
+  const { smartWallet } = useSmartAccountProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   const isRemovable =
-    address.toLowerCase() !== artistWallet?.toLowerCase() &&
+    address.toLowerCase() !== primaryWallet?.toLowerCase() &&
     address.toLowerCase() !== smartWallet.toLowerCase();
 
   return (

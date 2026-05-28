@@ -5,16 +5,12 @@ import { toast } from "sonner";
 import { Address } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMomentAdminHidden } from "./useMomentAdminHidden";
-import useAuthHeaders from "./useAuthHeaders";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 
-/**
- * Hook for toggling moment visibility state
- * Manages local hidden state and handles API call to toggle moment
- */
 export const useToggleMoment = (moment: TimelineMoment) => {
   const hidden = useMomentAdminHidden(moment);
   const [isHidden, setIsHidden] = useState(false);
-  const getAuthHeaders = useAuthHeaders();
+  const { authorization } = useAuthorizationProvider();
   const queryClient = useQueryClient();
 
   // Sync local state when hidden value changes
@@ -24,8 +20,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
 
   const toggle = async (): Promise<void> => {
     try {
-      const authHeaders = await getAuthHeaders();
-      const response = await toggleMoment(authHeaders, {
+      const response = await toggleMoment(authorization, {
         collectionAddress: moment.address as Address,
         tokenId: moment.token_id,
         chainId: moment.chain_id,

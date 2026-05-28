@@ -1,13 +1,13 @@
 "use client";
 
 import { ReactNode } from "react";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
 import NavButton from "@/components/ManagePage/NavButton";
 
 const ManagePage = ({ children }: { children: ReactNode }) => {
-  const { artistWallet } = useUserProvider();
-  const { hasMutualMoments } = useHasMutualMoments(artistWallet);
+  const { primaryWallet } = useWalletsProvider();
+  const { hasMutualMoments } = useHasMutualMoments(primaryWallet);
 
   return (
     <main className="flex flex-col md:flex-row grow gap-4 px-2 pt-6 md:gap-6 md:px-8 md:pt-16">

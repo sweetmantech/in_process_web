@@ -1,8 +1,10 @@
 import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useState } from "react";
 import { Address, isAddress } from "viem";
 import { toast } from "sonner";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { executeAirdrop } from "@/lib/moment/executeAirdrop";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { AirdropItem } from "@/types/airdrop";
@@ -12,8 +14,10 @@ import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
   const [airdropToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
-  const { artistWallet, isPrepared, getAuthHeaders } = useUserProvider();
-  const { smartWallet } = useSmartWalletProvider();
+  const { isPrepared } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
+  const { authorization } = useAuthorizationProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeAddress = async (value: string) => {
@@ -72,7 +76,7 @@ const useAirdrop = () => {
   const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
-      if (!Boolean(artistWallet) || !smartWallet) return;
+      if (!Boolean(primaryWallet) || !smartWallet) return;
 
       // Check if we have existing items
       if (airdropToItems.length === 0) return;
@@ -90,13 +94,13 @@ const useAirdrop = () => {
         return;
       }
 
-      const headers = await getAuthHeaders();
+      const headers = authorization;
 
       const hash = await executeAirdrop({
         airdropToItems: validItems,
         moment,
         smartWallet: smartWallet as Address,
-        artistWallet: artistWallet as Address,
+        artistWallet: primaryWallet as Address,
         headers,
       });
 

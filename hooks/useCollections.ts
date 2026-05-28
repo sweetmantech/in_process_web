@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
 import { fetchCollections } from "@/lib/collections/fetchCollections";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 
 export function useCollections() {
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
   const params = useParams();
   const searchParams = useSearchParams();
 
@@ -18,9 +18,9 @@ export function useCollections() {
   const [selectedCollection, setSelectedCollection] = useState<string | undefined>(initialAddress);
 
   const query = useQuery({
-    queryKey: ["collections", artistWallet],
-    queryFn: () => fetchCollections(1, 100, artistWallet),
-    enabled: Boolean(artistWallet),
+    queryKey: ["collections", primaryWallet],
+    queryFn: () => fetchCollections(1, 100, primaryWallet),
+    enabled: Boolean(primaryWallet),
     staleTime: 60_000,
   });
 

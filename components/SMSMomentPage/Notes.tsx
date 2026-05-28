@@ -1,16 +1,16 @@
 import { Fragment } from "react";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { LoginButton } from "../LoginButton/LoginButton";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import Note from "./Note";
 
 const Notes = () => {
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
   const { isOwner } = useMomentProvider();
 
-  if (artistWallet && !isOwner) return <Note>you are not an admin of this moment.</Note>;
+  if (primaryWallet && !isOwner) return <Note>you are not an admin of this moment.</Note>;
 
-  if (artistWallet) return <Fragment />;
+  if (primaryWallet) return <Fragment />;
 
   return (
     <>

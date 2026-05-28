@@ -2,15 +2,17 @@ import { Address } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
 import getSaleConfigType from "@/lib/getSaleConfigType";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const useMomentCreateParameters = () => {
-  const { artistWallet, isExternalWallet, isMiniApp } = useUserProvider();
-  const { smartWallet } = useSmartWalletProvider();
+  const { isMiniApp } = useMiniAppProvider();
+  const { primaryWallet, hasEOA } = useWalletsProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const { form, priceUnit, price, startDate, name } = useMetadataFormProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const { selectedCollection: collection } = useCollectionsProvider();
@@ -47,10 +49,10 @@ const useMomentCreateParameters = () => {
         createReferral: REFERRAL_RECIPIENT,
         salesConfig,
         mintToCreatorCount: 1,
-        payoutRecipient: isMiniApp || isExternalWallet ? artistWallet : smartWallet,
+        payoutRecipient: isMiniApp || hasEOA ? primaryWallet : smartWallet,
         ...(totalSupply !== undefined && { maxSupply: totalSupply }),
       },
-      account: artistWallet as Address,
+      account: primaryWallet as Address,
       ...(splitsData && { splits: splitsData }),
     };
   };

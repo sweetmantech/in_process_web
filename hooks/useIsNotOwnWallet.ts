@@ -1,6 +1,6 @@
 import { Address } from "viem";
-import { useUserProvider } from "@/providers/UserProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 
 /**
  * Determines if an address is not the signed artist wallet or the connected smart wallet.
@@ -10,20 +10,20 @@ import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
  * @returns true if the address is not the artist wallet and not the smart wallet, false otherwise
  */
 export const useIsNotOwnWallet = (address: Address): boolean => {
-  const { artistWallet } = useUserProvider();
-  const { smartWallet } = useSmartWalletProvider();
+  const { primaryWallet } = useWalletsProvider();
+  const { smartWallet } = useSmartAccountProvider();
 
   // Guard against undefined/null/empty values before calling toLowerCase
   if (!address) return false;
 
   const normalizedAddress = address.toLowerCase();
-  const normalizedArtistWallet = artistWallet?.toLowerCase() ?? undefined;
+  const normalizedPrimaryWallet = primaryWallet?.toLowerCase() ?? undefined;
   // Handle empty string case for smartWallet
   const normalizedSmartWallet =
     smartWallet && smartWallet.trim() !== "" ? smartWallet.toLowerCase() : undefined;
 
   // Address is not own wallet if it's not the artist wallet and not the smart wallet
   return (
-    normalizedAddress !== normalizedArtistWallet && normalizedAddress !== normalizedSmartWallet
+    normalizedAddress !== normalizedPrimaryWallet && normalizedAddress !== normalizedSmartWallet
   );
 };

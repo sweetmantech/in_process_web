@@ -3,7 +3,8 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import useUpdateProfile from "@/hooks/useUpdateProfile";
 import ConnectButton from "./ConnectButton";
 import ConnectEmailButton from "./ConnectEmailButton";
@@ -15,27 +16,25 @@ import SignToInProcess from "./SignToInProcess";
 import TelegramMomentHint from "./TelegramMomentHint";
 
 const AccountPage = () => {
-  const { artistWallet, artistWalletLoaded } = useUserProvider();
-  const { isMiniApp } = useUserProvider();
+  const { isMiniApp } = useMiniAppProvider();
+  const { primaryWallet, walletsReady } = useWalletsProvider();
   const {
     isLoading,
     onSave,
     twitter,
     instagram,
-    farcaster,
     username,
     bio,
     telegram,
     setBio,
     setTwitter,
     setInstagram,
-    setFarcaster,
     setTelegram,
     setUserName,
   } = useUpdateProfile();
 
-  if (!artistWalletLoaded) return <AccountPageSkeleton />;
-  if (!artistWallet) return <SignToInProcess />;
+  if (!walletsReady) return <AccountPageSkeleton />;
+  if (!primaryWallet) return <SignToInProcess />;
 
   return (
     <main className="flex flex-col font-archivo">
@@ -85,15 +84,6 @@ const AccountPage = () => {
               className="mt-1 resize-none font-spectral"
               value={twitter}
               onChange={(e) => setTwitter(e.target.value)}
-            />
-          </fieldset>
-          <fieldset>
-            <Label>farcaster</Label>
-            <Input
-              placeholder="ex: https://farcaster.xyz/helly"
-              className="mt-1 resize-none font-spectral"
-              value={farcaster}
-              onChange={(e) => setFarcaster(e.target.value)}
             />
           </fieldset>
           <fieldset>

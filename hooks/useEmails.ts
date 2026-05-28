@@ -1,13 +1,13 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { usePrivy } from "@privy-io/react-auth";
 import { fetchEmails } from "@/lib/admin/fetchEmails";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 const LIMIT = 20;
 
 export function useEmails() {
   const { getAccessToken } = usePrivy();
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   return useInfiniteQuery({
     queryKey: ["admin-emails"],
@@ -18,7 +18,7 @@ export function useEmails() {
     },
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.next_cursor ?? undefined,
-    enabled: Boolean(artistWallet),
+    enabled: Boolean(primaryWallet),
     staleTime: 1000 * 60 * 5,
   });
 }

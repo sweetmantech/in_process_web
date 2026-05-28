@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { type TimelineMoment } from "@/types/moment";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 /**
  * Hook to get the hidden state for the current user's admin status on a moment
@@ -8,14 +8,14 @@ import { useUserProvider } from "@/providers/UserProvider";
  * otherwise returns the hidden state from the matching admin entry
  */
 export const useMomentAdminHidden = (moment: TimelineMoment): boolean => {
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   return useMemo(() => {
-    if (!artistWallet) {
+    if (!primaryWallet) {
       return moment.creator.hidden;
     }
 
-    const normalizedWallet = artistWallet.toLowerCase();
+    const normalizedWallet = primaryWallet.toLowerCase();
     const normalizedCreator = moment.creator.address.toLowerCase();
 
     // Check if user is the creator
@@ -28,5 +28,5 @@ export const useMomentAdminHidden = (moment: TimelineMoment): boolean => {
 
     // Return admin's hidden state if found, otherwise default to creator
     return admin?.hidden ?? moment.creator.hidden;
-  }, [moment, artistWallet]);
+  }, [moment, primaryWallet]);
 };

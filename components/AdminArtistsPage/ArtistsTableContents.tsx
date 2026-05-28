@@ -1,5 +1,6 @@
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Artist } from "@/types/artist";
+import { getArtistAddress } from "@/lib/artists/getArtistAddress";
 import ArtistRow from "./ArtistRow";
 
 interface ArtistsTableContentsProps {
@@ -18,7 +19,7 @@ const ArtistsTableContents = ({ artists }: ArtistsTableContentsProps) => {
         </TableHeader>
         <TableBody>
           {artists.map((artist) => (
-            <ArtistRow key={artist.address} artist={artist} />
+            <ArtistRow key={artist.id || getArtistAddress(artist)} artist={artist} />
           ))}
         </TableBody>
       </Table>

@@ -1,10 +1,10 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { Protocol } from "@/types/moment";
 
 const useCollectAvailability = () => {
   const { isSoldOut, isSaleActive, protocol } = useMomentProvider();
-  const { isLoading: isSmartWalletLoading } = useSmartWalletProvider();
+  const { isLoading: isSmartWalletLoading } = useSmartAccountProvider();
 
   const isInProcess = protocol === Protocol.InProcess;
   const isWalletLoading = isSmartWalletLoading;

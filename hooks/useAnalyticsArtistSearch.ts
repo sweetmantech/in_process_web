@@ -1,6 +1,7 @@
 import { KeyboardEvent, useCallback, useEffect, useRef } from "react";
 
 import useArtistAutocomplete from "@/hooks/useArtistAutocomplete";
+import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import { SearchedArtist } from "@/lib/artists/searchArtists";
 
 interface UseAnalyticsArtistSearchParams {
@@ -28,9 +29,10 @@ const useAnalyticsArtistSearch = ({
 
   const handleSelect = useCallback(
     (artist: SearchedArtist) => {
-      setInputValue(artist.username || artist.address);
+      const address = getPrimaryWalletAddress(artist.wallets);
+      setInputValue(artist.username || address || "");
       const emittedValue =
-        selectionField === "username" ? artist.username || artist.address : artist.address;
+        selectionField === "username" ? artist.username || address || "" : address || "";
       onChanged(emittedValue);
       setIsOpen(false);
     },

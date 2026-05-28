@@ -11,11 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useWithdraw } from "@/hooks/useWithdraw";
 import { TotalBalances } from "./TotalBalances";
-import { WalletBalancesList } from "./WalletBalancesList";
+import { SmartWalletAddress } from "./SmartWalletAddress";
 import { WithdrawForm } from "./WithdrawForm";
 
 export function WithdrawModal() {
-  const { isOpen, setIsOpen } = useWithdraw();
+  const withdrawState = useWithdraw();
+  const { isOpen, setIsOpen } = withdrawState;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -34,14 +35,14 @@ export function WithdrawModal() {
             Withdraw from Smart Wallet
           </DialogTitle>
           <DialogDescription className="text-xs font-spectral-italic text-grey-secondary">
-            Withdraw funds from all social smart wallets connected to your artist wallet.
+            Withdraw funds from your smart wallet to an external address.
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 overflow-y-auto flex-1 min-h-0">
           <TotalBalances />
-          <WithdrawForm />
-          <WalletBalancesList />
+          <SmartWalletAddress />
+          <WithdrawForm {...withdrawState} />
         </div>
       </DialogContent>
     </Dialog>

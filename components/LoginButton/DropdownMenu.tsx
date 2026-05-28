@@ -4,14 +4,14 @@ import { useRouter } from "next/navigation";
 import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { usePrivy } from "@privy-io/react-auth";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 export function DropdownMenu() {
   const { isMiniApp } = useMiniAppProvider();
   const { push } = useRouter();
   const { toggleNavbar } = useLayoutProvider();
   const { logout } = usePrivy();
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   return (
     <div className="fixed left-0 right-0 top-[100px] z-[999999999] h-screen rounded-b-sm border-t-0 bg-grey-moss-900 font-archivo shadow-lg md:absolute md:top-full md:h-fit">
@@ -19,7 +19,7 @@ export function DropdownMenu() {
       <button
         onClick={() => {
           toggleNavbar();
-          push(`/${artistWallet}`);
+          push(`/${primaryWallet}`);
         }}
         className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
       >

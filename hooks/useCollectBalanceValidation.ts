@@ -1,5 +1,5 @@
 import { MomentSaleConfig, MomentType } from "@/types/moment";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { parseEther, parseUnits } from "viem";
 import { Currency } from "@/types/balances";
 
@@ -10,7 +10,7 @@ interface BalanceCheckResult {
 }
 
 const useCollectBalanceValidation = () => {
-  const { balance, ethBalance } = useSmartWalletProvider();
+  const { balance, ethBalance } = useSmartAccountProvider();
 
   const checkBalance = (
     saleConfig: MomentSaleConfig,

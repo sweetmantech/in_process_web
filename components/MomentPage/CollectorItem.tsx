@@ -2,11 +2,11 @@ import truncateAddress from "@/lib/truncateAddress";
 import { Collector } from "@/types/moment";
 import CopyButton from "@/components/CopyButton";
 import { EXPLORER_URL } from "@/lib/consts";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 const CollectorItem = ({ collector, username, amount, transactionHash, timestamp }: Collector) => {
-  const { artistWallet } = useUserProvider();
-  const isYou = artistWallet?.toLowerCase() === collector.toLowerCase();
+  const { primaryWallet } = useWalletsProvider();
+  const isYou = primaryWallet?.toLowerCase() === collector.toLowerCase();
   return (
     <div className="px-1 md:px-2 space-y-0.5">
       <div className="flex items-center justify-between">

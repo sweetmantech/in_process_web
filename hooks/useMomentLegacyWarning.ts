@@ -1,8 +1,8 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 
 const useMomentLegacyWarning = () => {
-  const { smartWallet } = useSmartWalletProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const { momentAdmins, isOwner } = useMomentProvider();
   const hasMomentAdmins = Array.isArray(momentAdmins);
 

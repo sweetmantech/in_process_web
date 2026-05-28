@@ -11,8 +11,7 @@ export const usePhoneVerify = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { getAccessToken } = usePrivy();
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { profile } = useUserProvider();
-  const { refetch } = profile;
+  const { refetch, phoneVerified } = useUserProvider();
   const [status, setStatus] = useState<PHONE_VERIFICATION_STATUS>(
     PHONE_VERIFICATION_STATUS.READY_TO_VERIFY
   );
@@ -32,15 +31,13 @@ export const usePhoneVerify = () => {
   }, [status]);
 
   useEffect(() => {
-    if (profile) {
-      if (profile.phoneVerified) {
-        setStatus(PHONE_VERIFICATION_STATUS.VERIFIED);
-        setTimeout(() => {
-          setIsDialogOpen(false);
-        }, 1000);
-      }
+    if (phoneVerified) {
+      setStatus(PHONE_VERIFICATION_STATUS.VERIFIED);
+      setTimeout(() => {
+        setIsDialogOpen(false);
+      }, 1000);
     }
-  }, [profile]);
+  }, [phoneVerified]);
 
   const handlePhoneNumberChange = (value: string) => {
     setPhoneNumber(value);

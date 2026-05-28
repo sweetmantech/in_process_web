@@ -16,7 +16,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
   const { login, ready } = usePrivy();
   const { privyWallet } = useConnectedWallet();
   const { toggleNavbar, isOpenNavbar } = useLayoutProvider();
-  const { profile } = useUserProvider();
+  const { username } = useUserProvider();
 
   if (!ready) return null;
 
@@ -43,8 +43,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
         {privyWallet ? (
           <>
             <p className="min-w-20 text-left">
-              {truncated(profile?.username || "", 9) ||
-                truncateAddress(privyWallet.address as string)}
+              {truncated(username || "", 9) || truncateAddress(privyWallet.address as string)}
             </p>
             <Image
               src="/images/down-arrow.svg"

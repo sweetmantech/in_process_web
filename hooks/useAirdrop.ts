@@ -2,7 +2,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useState } from "react";
-import { Address, isAddress } from "viem";
+import { isAddress } from "viem";
 import { toast } from "sonner";
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { executeAirdrop } from "@/lib/moment/executeAirdrop";
@@ -99,8 +99,6 @@ const useAirdrop = () => {
       const hash = await executeAirdrop({
         airdropToItems: validItems,
         moment,
-        smartWallet: smartWallet as Address,
-        artistWallet: primaryWallet as Address,
         headers,
       });
 

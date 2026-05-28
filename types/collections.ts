@@ -33,10 +33,8 @@ export interface CollectionResponse {
   uri: string;
   protocol?: Protocol;
   metadata: MomentMetadata;
-  creator: {
-    address: string;
-    username: string | null;
-  };
+  creator: string;
+  creator_username: string | null;
   admins: Address[];
   created_at: string;
   updated_at: string;

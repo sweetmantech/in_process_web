@@ -9,9 +9,8 @@ const useIsCollectionOwner = () => {
 
   const isOwner = useMemo(() => {
     if (!collection || !primaryWallet) return false;
-    const defaultAdminAddress = collection.creator?.address;
-    if (!defaultAdminAddress) return false;
-    return getAddress(primaryWallet) === getAddress(defaultAdminAddress);
+    if (!collection.creator) return false;
+    return getAddress(primaryWallet) === getAddress(collection.creator);
   }, [collection, primaryWallet]);
 
   return isOwner;

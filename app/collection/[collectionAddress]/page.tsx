@@ -23,12 +23,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const chainIdInt = chainId || CHAIN_ID;
 
   try {
-    const { uri, creator } = await callGetCollectionApi({
+    const { uri, creator, creator_username } = await callGetCollectionApi({
       collectionAddress: address,
       chainId: String(chainIdInt),
     });
     if (!uri) return { title: "In Process", description: "Imagined by LATASHÁ" };
-    const username = creator.username || truncateAddress(creator.address);
+    const username = creator_username || truncateAddress(creator);
     const metadata = await fetchMetadata(uri);
     const title = metadata?.name || "In Process";
     const description = metadata?.description || `Imagined by ${username}`;

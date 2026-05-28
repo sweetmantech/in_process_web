@@ -1,8 +1,9 @@
 import { IN_PROCESS_API } from "@/lib/consts";
+import { ArtistWallet } from "@/types/artist";
 
 export type SearchedArtist = {
-  address: string;
   username: string | null;
+  wallets: ArtistWallet[];
 };
 
 export type SearchArtistsResponse = {

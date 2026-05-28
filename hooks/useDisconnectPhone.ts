@@ -9,8 +9,7 @@ import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 const useDisconnectPhone = () => {
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const { getAccessToken } = usePrivy();
-  const { profile } = useUserProvider();
-  const { refetch } = profile;
+  const { refetch } = useUserProvider();
   const { setStatus } = usePhoneVerificationProvider();
 
   const handleDisconnect = async () => {

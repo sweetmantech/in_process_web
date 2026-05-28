@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useConnectWallet } from "@privy-io/react-auth";
 import useConnectedWallet from "./useConnectedWallet";
-import useSmartWallet from "./useSmartWallet";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { createWalletClient, custom, Address } from "viem";
 import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
@@ -11,26 +11,20 @@ import { toast } from "sonner";
 import { isUserRejection } from "@/lib/viem/isUserRejection";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
-// Core hook: grants PERMISSION_BIT_ADMIN to the smart wallet on an InProcess (Zora ERC1155) contract.
-// - tokenId "0" → collection level
-// - tokenId actual → moment level
-const useInProcessGrantPermission = (
-  contractAddress: Address | undefined,
-  tokenId: string | undefined
-) => {
-  const { artistWallet } = useUserProvider();
-  const { smartWallet } = useSmartWallet();
+const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
+  const { primaryWallet } = useWalletsProvider();
+  const { smartWallet } = useSmartAccountProvider();
   const { externalWallet } = useConnectedWallet();
   const [isGranting, setIsGranting] = useState(false);
   const { connectWallet } = useConnectWallet();
 
   const grantPermission = async () => {
-    if (!contractAddress || tokenId === undefined) {
+    if (!contractAddress) {
       toast.error("Contract data not available");
       return;
     }
 
-    if (!artistWallet) {
+    if (!primaryWallet) {
       toast.error("Please connect your wallet first");
       return;
     }
@@ -63,7 +57,7 @@ const useInProcessGrantPermission = (
         address: contractAddress,
         abi: zoraCreator1155ImplABI,
         functionName: "addPermission",
-        args: [BigInt(tokenId), smartWallet as Address, BigInt(PERMISSION_BIT_ADMIN)],
+        args: [BigInt(0), smartWallet as Address, BigInt(PERMISSION_BIT_ADMIN)],
       });
 
       const publicClient = getPublicClient(CHAIN_ID);

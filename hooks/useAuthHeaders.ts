@@ -1,22 +1,27 @@
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { getFarcasterToken } from "@/lib/auth/getFarcasterToken";
 
 const useAuthHeaders = () => {
-  const { getAccessToken } = usePrivy();
+  const { getAccessToken, ready } = usePrivy();
   const { isMiniApp, miniAppReady } = useMiniAppProvider();
+  const [authorization, setAuthorization] = useState<HeadersInit>({});
 
-  return useCallback(async (): Promise<HeadersInit> => {
-    if (!miniAppReady) throw new Error("auth context not ready");
+  useEffect(() => {
+    if (!miniAppReady || !ready) return;
     if (isMiniApp) {
-      const token = await getFarcasterToken();
-      return { Authorization: `Farcaster ${token}` };
+      getFarcasterToken().then((token) =>
+        setAuthorization({ Authorization: `Farcaster ${token}` })
+      );
+    } else {
+      getAccessToken().then((token) => {
+        if (token) setAuthorization({ Authorization: `Bearer ${token}` });
+      });
     }
-    const token = await getAccessToken();
-    if (!token) throw new Error("Privy access token unavailable");
-    return { Authorization: `Bearer ${token}` };
-  }, [miniAppReady, isMiniApp, getAccessToken]);
+  }, [miniAppReady, ready, isMiniApp, getAccessToken]);
+
+  return authorization;
 };
 
 export default useAuthHeaders;

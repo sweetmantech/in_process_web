@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 
 import { Command, CommandItem, CommandList, CommandPrimitive } from "@/components/ui/command";
 import useAnalyticsArtistSearch from "@/hooks/useAnalyticsArtistSearch";
+import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import truncateAddress from "@/lib/truncateAddress";
 import { cn } from "@/lib/utils";
 
@@ -60,18 +61,23 @@ const AnalyticsArtistSearchInput = ({
               <div className="px-3 py-2 text-xs text-muted-foreground">No artists found</div>
             )}
             {!isLoading &&
-              artists.map((artist) => (
-                <CommandItem
-                  key={artist.address}
-                  value={artist.address}
-                  onSelect={() => handleSelect(artist)}
-                  className="flex w-full cursor-pointer flex-col items-start gap-0.5 rounded-none px-3 py-1.5"
-                >
-                  <span className="truncate text-xs font-medium">
-                    {artist.username || truncateAddress(artist.address)}
-                  </span>
-                </CommandItem>
-              ))}
+              artists.map((artist) => {
+                const address = getPrimaryWalletAddress(artist.wallets);
+                if (!address) return null;
+
+                return (
+                  <CommandItem
+                    key={address}
+                    value={address}
+                    onSelect={() => handleSelect(artist)}
+                    className="flex w-full cursor-pointer flex-col items-start gap-0.5 rounded-none px-3 py-1.5"
+                  >
+                    <span className="truncate text-xs font-medium">
+                      {artist.username || truncateAddress(address)}
+                    </span>
+                  </CommandItem>
+                );
+              })}
           </CommandList>
         )}
       </div>

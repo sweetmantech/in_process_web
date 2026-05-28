@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Address } from "viem";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useUserProvider } from "@/providers/UserProvider";
-import { useSmartWalletProvider } from "@/providers/SmartWalletProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import useFarcasterTopup from "./useFarcasterTopup";
@@ -16,18 +18,19 @@ const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
   const [collected, setCollected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { artistWallet, isMiniApp } = useUserProvider();
+  const { isMiniApp } = useMiniAppProvider();
+  const { primaryWallet } = useWalletsProvider();
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { checkBalance } = useCollectBalanceValidation();
-  const { getAuthHeaders } = useUserProvider();
+  const { authorization } = useAuthorizationProvider();
   const { topup } = useFarcasterTopup();
-  const { smartWallet } = useSmartWalletProvider();
+  const { smartWallet } = useSmartAccountProvider();
 
   const collectWithComment = async () => {
     setIsLoading(true);
     try {
-      if (!artistWallet) throw new Error("No wallet connected");
+      if (!primaryWallet) throw new Error("No wallet connected");
       if (!saleConfig) throw new Error("Sale config not found");
       if (!smartWallet) throw new Error("Wallet is loading");
 
@@ -44,12 +47,12 @@ const useMomentCollect = () => {
         }
       }
 
-      const headers = await getAuthHeaders();
+      const headers = authorization;
       await collectMomentApi(moment, amountToCollect, comment, headers);
 
       if (protocol !== Protocol.Catalog) {
         addComment({
-          sender: artistWallet as Address,
+          sender: primaryWallet as Address,
           comment,
           timestamp: new Date().getTime(),
         } as any);

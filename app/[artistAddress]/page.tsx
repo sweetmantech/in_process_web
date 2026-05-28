@@ -3,7 +3,7 @@ import ArtistPage from "@/components/ArtistPage";
 import { SITE_ORIGINAL_URL, IN_PROCESS_API } from "@/lib/consts";
 import truncateAddress from "@/lib/truncateAddress";
 import { Address } from "viem";
-import fetchArtistProfile from "@/lib/fetchArtistProfile";
+import { getArtistProfile } from "@/lib/artists/getArtistProfile";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -13,9 +13,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { artistAddress } = await params;
 
   try {
-    const profile = await fetchArtistProfile(artistAddress as Address);
-    const title = profile.username || truncateAddress(artistAddress);
-    const description = profile.bio || "Imagined by LATASHÁ";
+    const profile = await getArtistProfile(artistAddress as Address);
+    const title = profile?.username || truncateAddress(artistAddress);
+    const description = profile?.bio || "Imagined by LATASHÁ";
 
     return {
       title: title,

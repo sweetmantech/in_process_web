@@ -1,6 +1,6 @@
 import { IN_PROCESS_API } from "@/lib/consts";
 
-const disconnectSocialWallet = async (authHeaders: HeadersInit) => {
+const disconnectWallet = async (authHeaders: HeadersInit) => {
   const response = await fetch(`${IN_PROCESS_API}/artists/wallets`, {
     method: "DELETE",
     headers: authHeaders,
@@ -9,4 +9,4 @@ const disconnectSocialWallet = async (authHeaders: HeadersInit) => {
   return data;
 };
 
-export default disconnectSocialWallet;
+export default disconnectWallet;

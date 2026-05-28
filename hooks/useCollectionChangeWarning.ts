@@ -3,12 +3,14 @@ import { toast } from "sonner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
+import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 export const useCollectionChangeWarning = (onSuccess?: () => void) => {
   const { moment } = useMomentProvider();
   const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { selectedCollection, setSelectedCollection } = useCollectionsProvider();
   const [open, setOpen] = useState(false);
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   const isCollectionChanged = Boolean(
     selectedCollection && selectedCollection !== moment.collectionAddress
@@ -20,7 +22,11 @@ export const useCollectionChangeWarning = (onSuccess?: () => void) => {
       onSuccess?.();
       toast.info("Successfully saved media. Metadata update will show up after a few seconds...");
     } catch (error: any) {
-      toast.error(error?.message || "Failed to save media");
+      if (isPermissionError(error)) {
+        setShowPermissionModal(true);
+      } else {
+        toast.error(error?.message || "Failed to save media");
+      }
     }
   };
 
@@ -44,5 +50,7 @@ export const useCollectionChangeWarning = (onSuccess?: () => void) => {
     openWarning,
     handleConfirm,
     handleCancel,
+    showPermissionModal,
+    closePermissionModal: () => setShowPermissionModal(false),
   };
 };

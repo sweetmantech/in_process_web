@@ -2,18 +2,24 @@
 
 import useSetSale from "@/hooks/useSetSale";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import useMomentLegacyWarning from "@/hooks/useMomentLegacyWarning";
-import Warning from "./Warning";
-import GrantMomentPermissionButton from "./GrantMomentPermissionButton";
 import SaleSkeleton from "./SaleSkeleton";
 import SaleStartPicker from "./SaleStartPicker";
 import SalePriceInput from "./SalePriceInput";
+import PermissionErrorModal from "@/components/PermissionErrorModal";
 
 const SaleInner = () => {
-  const { saleStart, setSaleStart, priceInput, setPriceInput, priceUnit, setSale, isLoading } =
-    useSetSale();
-  const { saleConfig, isOwner } = useMomentProvider();
-  const hasWarning = useMomentLegacyWarning();
+  const {
+    saleStart,
+    setSaleStart,
+    priceInput,
+    setPriceInput,
+    priceUnit,
+    setSale,
+    isLoading,
+    showPermissionModal,
+    closePermissionModal,
+  } = useSetSale();
+  const { saleConfig, isOwner, moment } = useMomentProvider();
 
   if (!saleConfig) return <SaleSkeleton />;
 
@@ -24,7 +30,6 @@ const SaleInner = () => {
           <div>sale is not yet activated.</div>
         ) : (
           <>
-            <Warning />
             <SaleStartPicker
               saleStart={saleStart}
               currentSaleStart={saleConfig.saleStart}
@@ -36,20 +41,21 @@ const SaleInner = () => {
               disabled={isLoading}
               setPriceInput={setPriceInput}
             />
-            {hasWarning ? (
-              <GrantMomentPermissionButton />
-            ) : (
-              <button
-                className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
-                onClick={setSale}
-                disabled={isLoading || !isOwner}
-              >
-                {isLoading ? "setting..." : "set sale"}
-              </button>
-            )}
+            <button
+              className="w-fit rounded-md bg-black px-8 py-2 text-grey-eggshell disabled:opacity-50"
+              onClick={setSale}
+              disabled={isLoading || !isOwner}
+            >
+              {isLoading ? "setting..." : "set sale"}
+            </button>
           </>
         )}
       </div>
+      <PermissionErrorModal
+        open={showPermissionModal}
+        onClose={closePermissionModal}
+        contractAddress={moment.collectionAddress}
+      />
     </div>
   );
 };

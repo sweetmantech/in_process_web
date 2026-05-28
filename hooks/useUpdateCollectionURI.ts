@@ -6,6 +6,7 @@ import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionUR
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Address } from "viem";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useUpdateCollectionURI = () => {
   const { data: collection } = useCollectionProvider();
@@ -45,7 +46,9 @@ const useUpdateCollectionURI = () => {
       });
     } catch (error: any) {
       console.error(error);
-      toast.error(error?.message || "Failed to update collection metadata");
+      if (!isPermissionError(error)) {
+        toast.error(error?.message || "Failed to update collection metadata");
+      }
       throw error;
     } finally {
       setIsLoading(false);

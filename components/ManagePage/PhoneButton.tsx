@@ -10,8 +10,7 @@ import { useUserProvider } from "@/providers/UserProvider";
 
 const PhoneButton = () => {
   const { status, setIsDialogOpen, isDialogOpen, phoneNumber } = usePhoneVerificationProvider();
-  const { profile } = useUserProvider();
-  const { phoneVerified } = profile;
+  const { phoneVerified } = useUserProvider();
 
   if (phoneVerified) {
     return <DisconnectPhone />;

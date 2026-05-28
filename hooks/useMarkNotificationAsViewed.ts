@@ -3,17 +3,17 @@ import { markNotificationsAsViewed } from "@/lib/notifications/markNotifications
 import { useUserProvider } from "@/providers/UserProvider";
 
 const useMarkNotificationAsViewed = () => {
-  const { artistWallet } = useUserProvider();
+  const { userId } = useUserProvider();
 
   useEffect(() => {
-    if (!artistWallet) return;
+    if (!userId) return;
     const timer = setTimeout(() => {
-      markNotificationsAsViewed(artistWallet).catch((error) => {
+      markNotificationsAsViewed(userId).catch((error) => {
         console.error("Failed to mark notifications as viewed:", error);
       });
     }, 10000);
     return () => clearTimeout(timer);
-  }, [artistWallet]);
+  }, [userId]);
 };
 
 export default useMarkNotificationAsViewed;

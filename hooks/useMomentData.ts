@@ -1,7 +1,7 @@
 import { getAddress } from "viem";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
 import useIsSoldOut from "./useIsSoldOut";
@@ -9,7 +9,7 @@ import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
   const { isLoading: isCheckingSoldOut, data: isSoldOut } = useIsSoldOut(moment);
 
   const query = useQuery({
@@ -32,8 +32,8 @@ const useMomentData = (moment: Moment) => {
   }, [saleConfig]);
 
   const isOwner = useMemo(() => {
-    return Boolean(artistWallet && owner && getAddress(artistWallet) === getAddress(owner));
-  }, [artistWallet, owner]);
+    return Boolean(primaryWallet && owner && getAddress(primaryWallet) === getAddress(owner));
+  }, [primaryWallet, owner]);
 
   const isSaleActive = useMemo(() => {
     if (!saleConfig) return false;

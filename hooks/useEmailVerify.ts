@@ -4,10 +4,8 @@ import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import sendCode from "@/lib/oauth/sendCode";
 import loginWithOtp from "@/lib/oauth/loginWithOtp";
 import { useUserProvider } from "@/providers/UserProvider";
-import { Address } from "viem";
 import updateProfile from "@/lib/artists/updateProfile";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
-import fetchArtistProfile from "@/lib/fetchArtistProfile";
 
 export const useEmailVerify = () => {
   const { context } = useMiniAppProvider();
@@ -18,7 +16,7 @@ export const useEmailVerify = () => {
   const [status, setStatus] = useState<EMAIL_VERIFICATION_STATUS>(
     EMAIL_VERIFICATION_STATUS.ENTER_EMAIL
   );
-  const { socialWalletAddress: farcasterAddress } = useUserProvider();
+  const { signedAddress: farcasterAddress } = useUserProvider();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -50,13 +48,11 @@ export const useEmailVerify = () => {
     }
     setIsLoading(true);
     try {
-      const { social_wallet } = await loginWithOtp(email.trim(), code.trim());
+      const { token } = await loginWithOtp(email.trim(), code.trim());
       if (!farcasterAddress) throw new Error("No Farcaster wallet found");
-      const profile = await fetchArtistProfile(social_wallet as Address);
       await updateProfile({
-        ...profile,
-        address: social_wallet as Address,
-        farcaster_username: context?.user?.displayName || farcasterAddress,
+        authHeaders: { Authorization: `Bearer ${token}` },
+        username: context?.user?.displayName || undefined,
       });
       setStatus(EMAIL_VERIFICATION_STATUS.VERIFIED);
       if (closeTimerRef.current) clearTimeout(closeTimerRef.current);

@@ -1,7 +1,8 @@
-import { useLayoutProvider } from "@/providers/LayoutProvider";
-import { useRouter } from "next/navigation";
 import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useState } from "react";
 import useArtistAutocomplete from "@/hooks/useArtistAutocomplete";
+import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
+import { useLayoutProvider } from "@/providers/LayoutProvider";
+import { useRouter } from "next/navigation";
 
 const useSearch = () => {
   const { push } = useRouter();
@@ -15,6 +16,7 @@ const useSearch = () => {
   } = useArtistAutocomplete();
 
   const firstArtist = artists[0] ?? null;
+  const firstArtistAddress = firstArtist ? getPrimaryWalletAddress(firstArtist.wallets) : undefined;
   const userSearchData = useMemo(() => ({ artist: firstArtist }), [firstArtist]);
 
   const suffixHint = useMemo(() => {
@@ -23,10 +25,10 @@ const useSearch = () => {
   }, [firstArtist, searchKey]);
 
   const redirectToArtist = () => {
-    if (!firstArtist) return;
+    if (!firstArtistAddress) return;
     setIsOpenModal(false);
     setIsExpandedSearchInput(false);
-    push(`/${firstArtist.address}`);
+    push(`/${firstArtistAddress}`);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLInputElement | HTMLButtonElement>) => {

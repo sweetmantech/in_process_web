@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { Address } from "viem";
 import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
@@ -13,7 +13,7 @@ export const useCreateCollection = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const { getAccessToken } = usePrivy();
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
   const { setSelectedCollection } = useCollectionsProvider();
   const { name, imageFile, resetForm } = useMetadataFormProvider();
   const { closeModal } = useCreateCollectionModalTriggerProvider();
@@ -33,7 +33,7 @@ export const useCreateCollection = () => {
       return null;
     }
 
-    if (!artistWallet) {
+    if (!primaryWallet) {
       toast.error("Please connect your artist wallet");
       return null;
     }
@@ -58,7 +58,7 @@ export const useCreateCollection = () => {
       setIsCreating(false);
       setUploadProgress(0);
     }
-  }, [name, imageFile, artistWallet, getAccessToken]);
+  }, [name, imageFile, primaryWallet, getAccessToken]);
 
   const handleSubmit = useCallback(async () => {
     const result = await createCollection();

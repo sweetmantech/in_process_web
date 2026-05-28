@@ -1,18 +1,18 @@
 import { getAddress } from "viem";
 import { useMemo } from "react";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 const useIsCollectionOwner = () => {
   const { data: collection } = useCollectionProvider();
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   const isOwner = useMemo(() => {
-    if (!collection || !artistWallet) return false;
+    if (!collection || !primaryWallet) return false;
     const defaultAdminAddress = collection.creator?.address;
     if (!defaultAdminAddress) return false;
-    return getAddress(artistWallet) === getAddress(defaultAdminAddress);
-  }, [collection, artistWallet]);
+    return getAddress(primaryWallet) === getAddress(defaultAdminAddress);
+  }, [collection, primaryWallet]);
 
   return isOwner;
 };

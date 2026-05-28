@@ -1,15 +1,15 @@
 "use client";
 
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 interface OwnerWarningProps {
   isOwner: boolean;
 }
 
 const OwnerWarning = ({ isOwner }: OwnerWarningProps) => {
-  const { artistWalletLoaded } = useUserProvider();
+  const { walletsReady } = useWalletsProvider();
 
-  if (!artistWalletLoaded || isOwner) return null;
+  if (!walletsReady || isOwner) return null;
 
   return <p className="text-grey-moss-500 text-xs">Only the contract owner can save changes.</p>;
 };

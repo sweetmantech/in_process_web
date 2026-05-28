@@ -1,19 +1,20 @@
 "use client";
 
-import { useUserProvider } from "@/providers/UserProvider";
-import disconnectSocialWallet from "@/lib/artists/disconnectSocialWallet";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
+import disconnectWallet from "@/lib/wallets/disconnectWallet";
 import { useState } from "react";
 
 const DisconnectButton = ({ label = "disconnect" }: { label?: string }) => {
-  const { fetchArtistWallet, getAuthHeaders } = useUserProvider();
+  const { refetchWallets } = useWalletsProvider();
+  const { authorization } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDisconnect = async () => {
     setIsLoading(true);
     try {
-      const authHeaders = await getAuthHeaders();
-      await disconnectSocialWallet(authHeaders);
-      await fetchArtistWallet();
+      await disconnectWallet(authorization);
+      await refetchWallets();
     } finally {
       setIsLoading(false);
     }

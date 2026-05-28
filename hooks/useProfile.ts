@@ -10,7 +10,6 @@ const useProfile = (artistAddress?: Address) => {
   const [saving, setSaving] = useState<boolean>(false);
   const [twitter, setTwitter] = useState<string>("");
   const [instagram, setInstagram] = useState<string>("");
-  const [farcaster, setFarcaster] = useState<string>("");
   const [telegram, setTelegram] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
@@ -19,22 +18,13 @@ const useProfile = (artistAddress?: Address) => {
     if (data) {
       setUserName(data.username || "");
       setBio(data.bio || "");
-      setTwitter(data.twitter_username || "");
-      setTelegram(data.telegram_username || "");
-      setInstagram(data.instagram_username || "");
-      setFarcaster(data.farcaster_username || "");
+      setTwitter(data.x || "");
+      setTelegram(data.telegram || "");
+      setInstagram(data.instagram || "");
+      setPhoneNumber(data.phone?.phone_number ?? "");
+      setPhoneVerified(data.phone?.verified ?? false);
     }
   }, [data, artistAddress]);
-
-  useEffect(() => {
-    if (data?.phone) {
-      setPhoneNumber(data.phone.phone_number);
-      setPhoneVerified(data.phone.verified);
-      return;
-    }
-    setPhoneNumber("");
-    setPhoneVerified(false);
-  }, [data?.phone]);
 
   const displayName = useMemo(
     () => username || truncateAddress(artistAddress as string),
@@ -42,6 +32,7 @@ const useProfile = (artistAddress?: Address) => {
   );
 
   return {
+    userId: data?.id,
     displayName,
     username,
     setUserName,
@@ -56,8 +47,6 @@ const useProfile = (artistAddress?: Address) => {
     setTwitter,
     setTelegram,
     setInstagram,
-    farcaster,
-    setFarcaster,
     refetch,
     phoneNumber,
     phoneVerified,

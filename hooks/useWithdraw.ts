@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { toast } from "sonner";
 import { CHAIN_ID } from "@/lib/consts";
 import { withdrawApi } from "@/lib/smartwallets/withdrawApi";
-import { useSocialSmartWalletsBalancesProvider } from "@/providers/SocialSmartWalletsBalancesProvider";
+import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { Currency } from "@/types/balances";
 
 export const useWithdraw = () => {
   const [withdrawAmount, setWithdrawAmount] = useState<string>("");
   const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
-  const { isExternalWallet, artistWallet, getAuthHeaders } = useUserProvider();
+  const { hasEOA, primaryWallet } = useWalletsProvider();
+  const { authorization } = useAuthorizationProvider();
   const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
-  const { refetch, totalEthBalance, totalUsdcBalance } = useSocialSmartWalletsBalancesProvider();
+  const { refetch, ethBalance, usdcBalance } = useSmartAccountProvider();
 
   useEffect(() => {
-    if (isOpen && isExternalWallet && artistWallet) {
-      setRecipientAddress(artistWallet as string);
-    } else if (isOpen && !isExternalWallet) {
+    if (isOpen && hasEOA && primaryWallet) {
+      setRecipientAddress(primaryWallet as string);
+    } else if (isOpen && !hasEOA) {
       setRecipientAddress("");
     }
-  }, [isOpen, isExternalWallet, artistWallet]);
+  }, [isOpen, hasEOA, primaryWallet]);
 
   const setMax = () => {
-    const maxAmount = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    const maxAmount = currency === "eth" ? ethBalance : usdcBalance;
     setWithdrawAmount(maxAmount);
   };
 
@@ -34,8 +36,7 @@ export const useWithdraw = () => {
       return;
     }
 
-    // Check if withdraw amount is valid
-    const availableBalance = currency === "eth" ? totalEthBalance : totalUsdcBalance;
+    const availableBalance = currency === "eth" ? ethBalance : usdcBalance;
     const withdrawAmountNum = parseFloat(withdrawAmount);
     const availableBalanceNum = parseFloat(availableBalance);
 
@@ -51,7 +52,7 @@ export const useWithdraw = () => {
 
     setIsWithdrawing(true);
     try {
-      const headers = await getAuthHeaders();
+      const headers = authorization;
 
       await withdrawApi({
         headers,

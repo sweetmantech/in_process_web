@@ -2,16 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { getAirdropsApi } from "@/lib/airdrop/getAirdropsApi";
 import { AirdropRecipient } from "@/types/airdrop";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { Address } from "viem";
 
 const useAirdropRecipients = () => {
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   const query = useQuery({
-    queryKey: ["airdrop-recipients", artistWallet],
-    queryFn: () => getAirdropsApi(artistWallet as Address),
-    enabled: Boolean(artistWallet),
+    queryKey: ["airdrop-recipients", primaryWallet],
+    queryFn: () => getAirdropsApi(primaryWallet as Address),
+    enabled: Boolean(primaryWallet),
     staleTime: 60_000,
   });
 

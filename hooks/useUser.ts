@@ -3,21 +3,24 @@ import useConnectedWallet from "./useConnectedWallet";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useConnection, useConnect } from "wagmi";
 import { config } from "@/providers/WagmiProvider";
+import useProfile from "./useProfile";
 import { Address } from "viem";
-import useArtistWallet from "./useArtistWallet";
 
 const useUser = () => {
-  const { user, login } = usePrivy();
-  const { privyWallet } = useConnectedWallet();
+  const { login } = usePrivy();
+  const { privyWallet, isPrivyReady } = useConnectedWallet();
   const { isMiniApp } = useMiniAppProvider();
   const { isConnected, address: farcasterAddress } = useConnection();
   const { mutate: connect } = useConnect();
-  const { artistWallet, isExternalWallet, artistWalletLoaded, fetchArtistWallet, getAuthHeaders } =
-    useArtistWallet();
 
-  const isSocialWallet = Boolean(isMiniApp || user?.email?.address);
+  const signedAddress = (isMiniApp ? farcasterAddress : privyWallet?.address) as
+    | Address
+    | undefined;
 
-  // Triggers login/connect if not ready; returns false until the user is connected.
+  const authReady = isMiniApp ? Boolean(farcasterAddress) : isPrivyReady;
+
+  const profile = useProfile(signedAddress);
+  const userReady = authReady && !profile.isLoading;
   const isPrepared = () => {
     if (isMiniApp) {
       if (!isConnected) connect({ connector: config.connectors[0] });
@@ -31,18 +34,11 @@ const useUser = () => {
   };
 
   return {
-    email: user?.email?.address,
+    ...profile,
     isPrepared,
-    isSocialWallet,
-    isMiniApp,
-    socialWalletAddress: (isMiniApp ? farcasterAddress : privyWallet?.address) as
-      | Address
-      | undefined,
-    artistWallet,
-    fetchArtistWallet,
-    isExternalWallet,
-    artistWalletLoaded,
-    getAuthHeaders,
+    signedAddress,
+    userReady,
+    refetchUser: profile.refetch,
   };
 };
 

@@ -6,7 +6,6 @@ import { AirdropItem } from "@/types/airdrop";
 import AirdropBadge from "./AirdropBadge";
 import AirdropInput from "./AirdropInput";
 import AirdropRecipientsPopup from "./AirdropRecipientsPopup";
-import Warning from "../MomentManagePage/Warning";
 
 const Airdrop = () => {
   const { airdropToItems } = useAirdropProvider();
@@ -22,7 +21,6 @@ const Airdrop = () => {
         </div>
         <AirdropRecipientsPopup />
       </div>
-      <Warning />
       <AirdropButton />
     </div>
   );

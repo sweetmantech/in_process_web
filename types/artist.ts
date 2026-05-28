@@ -1,12 +1,31 @@
-export interface Artist {
+export interface ArtistWallet {
   address: string;
-  bio: string | null;
-  farcaster_username: string | null;
-  instagram_username: string | null;
-  smart_wallet: string | null;
-  telegram_username: string | null;
-  twitter_username: string | null;
+  type?: string | null;
+}
+
+export interface ArtistProfilePhone {
+  phone_number: string;
+  verified: boolean;
+}
+
+export interface ArtistProfile {
+  id: string;
   username: string | null;
+  bio: string | null;
+  instagram: string | null;
+  x: string | null;
+  telegram: string | null;
+  phone?: ArtistProfilePhone;
+}
+
+export interface Artist {
+  id: string;
+  username: string | null;
+  bio: string | null;
+  instagram: string | null;
+  x: string | null;
+  telegram: string | null;
+  wallets: ArtistWallet[];
 }
 
 interface ArtistsPagination {

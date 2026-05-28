@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { toast } from "sonner";
 import { createApiKey } from "@/lib/api-keys/createApiKey";
 import { fetchApiKeys } from "@/lib/api-keys/fetchApiKeys";
@@ -23,7 +23,7 @@ export default function useApiKey(): UseApiKeyReturn {
   const [apiKeys, setApiKeys] = useState<any[]>([]);
   const [loadingKeys, setLoadingKeys] = useState(true);
   const { getAccessToken } = usePrivy();
-  const { artistWallet } = useUserProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   const createApiKeyHandler = async (keyName: string): Promise<void> => {
     if (apiKeys.length >= 5) {
@@ -82,7 +82,7 @@ export default function useApiKey(): UseApiKeyReturn {
 
   useEffect(() => {
     loadApiKeys();
-  }, [artistWallet]);
+  }, [primaryWallet]);
 
   return {
     createApiKey: createApiKeyHandler,

@@ -2,26 +2,23 @@
 
 import PaymentsTable from "@/components/PaymentsPage/PaymentsTable";
 import PaymentsTabs from "@/components/PaymentsPage/PaymentsTabs";
-import { useUserProvider } from "@/providers/UserProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { WithdrawModal } from "@/components/PaymentsPage/WithdrawModal";
-import SocialSmartWalletsBalancesProvider from "@/providers/SocialSmartWalletsBalancesProvider";
 import PaymentsPageSkeleton from "./PaymentsPageSkeleton";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { PaymentsProvider } from "@/providers/PaymentsProvider";
 
 const PaymentsPage = () => {
-  const { artistWallet, artistWalletLoaded } = useUserProvider();
+  const { primaryWallet, walletsReady } = useWalletsProvider();
 
-  if (!artistWalletLoaded) return <PaymentsPageSkeleton />;
-  if (!artistWallet) return <SignToInProcess />;
+  if (!walletsReady) return <PaymentsPageSkeleton />;
+  if (!primaryWallet) return <SignToInProcess />;
 
   return (
     <PaymentsProvider>
       <main className="flex flex-col gap-4 font-archivo">
         <div className="flex justify-end">
-          <SocialSmartWalletsBalancesProvider>
-            <WithdrawModal />
-          </SocialSmartWalletsBalancesProvider>
+          <WithdrawModal />
         </div>
         <PaymentsTabs />
         <PaymentsTable />

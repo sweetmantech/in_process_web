@@ -3,21 +3,31 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useWithdraw } from "@/hooks/useWithdraw";
 import { Currency } from "@/types/balances";
 
-export function WithdrawForm() {
-  const {
-    recipientAddress,
-    setRecipientAddress,
-    withdrawAmount,
-    setWithdrawAmount,
-    currency,
-    setCurrency,
-    withdraw,
-    isWithdrawing,
-    setMax,
-  } = useWithdraw();
+interface WithdrawFormProps {
+  recipientAddress: string;
+  setRecipientAddress: (value: string) => void;
+  withdrawAmount: string;
+  setWithdrawAmount: (value: string) => void;
+  currency: Currency;
+  setCurrency: (value: Currency) => void;
+  withdraw: () => Promise<void>;
+  isWithdrawing: boolean;
+  setMax: () => void;
+}
+
+export function WithdrawForm({
+  recipientAddress,
+  setRecipientAddress,
+  withdrawAmount,
+  setWithdrawAmount,
+  currency,
+  setCurrency,
+  withdraw,
+  isWithdrawing,
+  setMax,
+}: WithdrawFormProps) {
   return (
     <div className="space-y-2">
       <div>

@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { callUpdateCollectionURI } from "@/lib/collection/callUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Address } from "viem";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
+import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 
 const useUpdateCollectionURI = () => {
   const { data: collection } = useCollectionProvider();
   const { name } = useMetadataFormProvider();
-  const { getAccessToken } = usePrivy();
+  const { authorization } = useAuthorizationProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -30,11 +30,6 @@ const useUpdateCollectionURI = () => {
       const existingMetadata = collection.metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 
-      const accessToken = await getAccessToken();
-      if (!accessToken) {
-        throw new Error("Authentication required");
-      }
-
       await callUpdateCollectionURI({
         collection: {
           address: collection.address as Address,
@@ -42,7 +37,7 @@ const useUpdateCollectionURI = () => {
         },
         newCollectionName: name,
         newUri,
-        accessToken,
+        authHeaders: authorization,
       });
     } catch (error: any) {
       console.error(error);

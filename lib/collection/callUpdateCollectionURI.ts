@@ -8,27 +8,25 @@ export interface CallUpdateCollectionURIInput {
   };
   newCollectionName: string;
   newUri: string;
-  accessToken: string;
+  authHeaders: HeadersInit;
 }
 
 export async function callUpdateCollectionURI({
   collection,
   newUri,
   newCollectionName,
-  accessToken,
+  authHeaders,
 }: CallUpdateCollectionURIInput): Promise<string> {
   try {
-    const response = await fetch(`${IN_PROCESS_API}/collection`, {
+    const network = `eip155:${collection.chainId}`;
+    const contract = `erc1155:${collection.address.toLowerCase()}`;
+    const response = await fetch(`${IN_PROCESS_API}/collections/${network}/${contract}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${accessToken}`,
+        ...authHeaders,
       },
-      body: JSON.stringify({
-        collection,
-        newUri,
-        newCollectionName,
-      }),
+      body: JSON.stringify({ newUri, newCollectionName }),
     });
 
     const data = await response.json();

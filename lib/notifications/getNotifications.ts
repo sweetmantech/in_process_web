@@ -4,7 +4,7 @@ import { NotificationsResponse } from "@/types/notification";
 export async function getNotifications(
   page = 1,
   limit = 20,
-  artist?: string,
+  artistId?: string,
   viewed?: boolean
 ): Promise<NotificationsResponse> {
   const params = new URLSearchParams({
@@ -12,7 +12,7 @@ export async function getNotifications(
     limit: String(limit),
   });
 
-  if (artist) params.append("artist", artist);
+  if (artistId) params.append("artist_id", artistId);
   if (viewed !== undefined) params.append("viewed", String(viewed));
 
   const res = await fetch(`${IN_PROCESS_API}/notifications?${params.toString()}`);

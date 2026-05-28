@@ -4,9 +4,11 @@ import React, { ReactNode, useState, useEffect } from "react";
 import PrivyProvider from "./PrivyProvider";
 import { WagmiProvider } from "./WagmiProvider";
 import UserProvider from "./UserProvider";
+import WalletsProvider from "./WalletsProvider";
+import AuthorizationProvider from "./AuthorizationProvider";
 import MiniAppProvider from "./MiniAppProvider";
 import LayoutProvider from "./LayoutProvider";
-import SmartWalletProvider from "./SmartWalletProvider";
+import SmartWalletAccountProvider from "./SmartWalletAccountProvider";
 import WayfinderProvider from "./WayfinderProvider";
 import NotificationsProvider from "./NotificationsProvider";
 import LoadingPage from "@/components/LoadingPage/LoadingPage";
@@ -30,15 +32,19 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
       <WagmiProvider>
         <PrivyProvider>
           <MiniAppProvider>
-            <UserProvider>
-              <NotificationsProvider>
-                <SmartWalletProvider>
-                  <WayfinderProvider>
-                    <LayoutProvider>{children}</LayoutProvider>
-                  </WayfinderProvider>
-                </SmartWalletProvider>
-              </NotificationsProvider>
-            </UserProvider>
+            <AuthorizationProvider>
+              <UserProvider>
+                <WalletsProvider>
+                  <SmartWalletAccountProvider>
+                    <NotificationsProvider>
+                      <WayfinderProvider>
+                        <LayoutProvider>{children}</LayoutProvider>
+                      </WayfinderProvider>
+                    </NotificationsProvider>
+                  </SmartWalletAccountProvider>
+                </WalletsProvider>
+              </UserProvider>
+            </AuthorizationProvider>
           </MiniAppProvider>
         </PrivyProvider>
       </WagmiProvider>

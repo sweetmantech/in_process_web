@@ -7,10 +7,10 @@ interface MarkNotificationsAsViewedResponse {
 }
 
 export async function markNotificationsAsViewed(
-  artist?: string
+  artistId?: string
 ): Promise<MarkNotificationsAsViewedResponse> {
   const params = new URLSearchParams();
-  if (artist) params.append("artist", artist);
+  if (artistId) params.append("artist_id", artistId);
 
   const res = await fetch(`${IN_PROCESS_API}/notifications?${params.toString()}`, {
     method: "PUT",

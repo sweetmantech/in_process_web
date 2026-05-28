@@ -1,25 +1,12 @@
-import useProfile from "@/hooks/useProfile";
 import useUser from "@/hooks/useUser";
 import { createContext, useMemo, useContext } from "react";
 
-const UserContext = createContext<
-  | (ReturnType<typeof useUser> & {
-      profile: ReturnType<typeof useProfile>;
-    })
-  | null
->(null);
+const UserContext = createContext<ReturnType<typeof useUser> | null>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
-  const profile = useProfile(user.artistWallet);
 
-  const value = useMemo(
-    () => ({
-      ...user,
-      profile,
-    }),
-    [user, profile]
-  );
+  const value = useMemo(() => user, [user]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

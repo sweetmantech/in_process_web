@@ -1,5 +1,6 @@
 import { upload } from "@vercel/blob/client";
 import { IN_PROCESS_API } from "@/lib/consts";
+import { v4 as uuidv4 } from "uuid";
 
 export const uploadToBlob = async (
   file: File,
@@ -7,7 +8,10 @@ export const uploadToBlob = async (
   getRecaptchaToken: () => Promise<string | undefined>
 ): Promise<string> => {
   const ext = file.name.split(".").pop();
-  const pathname = ext ? `${crypto.randomUUID()}.${ext}` : crypto.randomUUID();
+  // Use uuid v4 with explicit options to bypass native crypto.randomUUID(),
+  // which throws DOMException in Firefox on non-secure (HTTP) contexts.
+  const id = uuidv4({});
+  const pathname = ext ? `${id}.${ext}` : id;
   const recaptchaToken = await getRecaptchaToken();
   const headers = {
     ...(authHeaders as Record<string, string>),

@@ -5,7 +5,7 @@ import getArtistWallets from "@/lib/wallets/getArtistWallets";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 
 const useWallets = () => {
-  const { userId, userReady, signedAddress } = useUserProvider();
+  const { userId, userReady, signedAddress, refetchUser } = useUserProvider();
   const { isMiniApp } = useMiniAppProvider();
 
   const {
@@ -31,12 +31,18 @@ const useWallets = () => {
     };
   }, [wallets, signedAddress, isMiniApp]);
 
+  const refetchWallets = async () => {
+    const result = await refetchUser();
+    if (!result.data?.id) return;
+    await refetch();
+  };
+
   return {
     wallets,
     walletsReady,
     primaryWallet,
     hasEOA,
-    refetchWallets: refetch,
+    refetchWallets,
   };
 };
 

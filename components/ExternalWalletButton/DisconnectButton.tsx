@@ -6,7 +6,7 @@ import disconnectWallet from "@/lib/wallets/disconnectWallet";
 import { useState } from "react";
 import { Address } from "viem";
 
-const DisconnectButton = ({ label = "disconnect" }: { label?: string }) => {
+const DisconnectButton = ({ label = "disconnect wallet" }: { label?: string }) => {
   const { refetchWallets, primaryWallet } = useWalletsProvider();
   const { authorization } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);

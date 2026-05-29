@@ -4,11 +4,12 @@ import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import sendCode from "@/lib/oauth/sendCode";
 import loginWithOtp from "@/lib/oauth/loginWithOtp";
 import { useUserProvider } from "@/providers/UserProvider";
-import updateProfile from "@/lib/artists/updateProfile";
-import { useMiniAppProvider } from "@/providers/MiniAppProvider";
+import connectEOA from "@/lib/wallets/connectEOA";
+import { buildWalletConnectMessage } from "@/lib/wallets/buildWalletConnectMessage";
+import { useWalletClient } from "wagmi";
+import { Address } from "viem";
 
 export const useEmailVerify = () => {
-  const { context } = useMiniAppProvider();
   const [email, setEmail] = useState<string>("");
   const [code, setCode] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -17,6 +18,7 @@ export const useEmailVerify = () => {
     EMAIL_VERIFICATION_STATUS.ENTER_EMAIL
   );
   const { signedAddress: farcasterAddress } = useUserProvider();
+  const { data: walletClient } = useWalletClient();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -50,9 +52,13 @@ export const useEmailVerify = () => {
     try {
       const { token } = await loginWithOtp(email.trim(), code.trim());
       if (!farcasterAddress) throw new Error("No Farcaster wallet found");
-      await updateProfile({
+      if (!walletClient) throw new Error("No wallet client found");
+      const message = buildWalletConnectMessage(farcasterAddress as Address, "farcaster");
+      const signature = await walletClient.signMessage({ message });
+      await connectEOA({
         authHeaders: { Authorization: `Bearer ${token}` },
-        username: context?.user?.displayName || undefined,
+        message,
+        signature,
       });
       setStatus(EMAIL_VERIFICATION_STATUS.VERIFIED);
       if (closeTimerRef.current) clearTimeout(closeTimerRef.current);

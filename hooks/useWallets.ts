@@ -2,9 +2,11 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useUserProvider } from "@/providers/UserProvider";
 import getArtistWallets from "@/lib/wallets/getArtistWallets";
+import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 
 const useWallets = () => {
   const { userId, userReady, signedAddress } = useUserProvider();
+  const { isMiniApp } = useMiniAppProvider();
 
   const {
     data: wallets = [],
@@ -23,9 +25,11 @@ const useWallets = () => {
     const eoa = wallets.find((w) => w.type === "external");
     return {
       hasEOA: Boolean(eoa),
-      primaryWallet: (eoa?.address ?? signedAddress) as typeof signedAddress,
+      primaryWallet: (isMiniApp
+        ? signedAddress
+        : (eoa?.address ?? signedAddress)) as typeof signedAddress,
     };
-  }, [wallets, signedAddress]);
+  }, [wallets, signedAddress, isMiniApp]);
 
   return {
     wallets,

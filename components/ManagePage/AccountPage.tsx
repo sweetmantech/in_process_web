@@ -2,8 +2,7 @@
 
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
-import ExternalWalletButton from "../ExternalWalletButton";
-import ConnectEmailButton from "./ConnectEmailButton";
+import ExternalWalletButton from "@/components/ExternalWalletButton";
 import PhoneButton from "./PhoneButton";
 import { PhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 import { EmailVerificationProvider } from "@/providers/EmailVerificationProvider";
@@ -11,6 +10,7 @@ import AccountPageSkeleton from "./AccountPageSkeleton";
 import SignToInProcess from "./SignToInProcess";
 import ProfileForm from "./ProfileForm";
 import useUpdateProfile from "@/hooks/useUpdateProfile";
+import ConnectEmail from "@/components/ConnectEmail";
 
 const AccountPage = () => {
   const { isMiniApp } = useMiniAppProvider();
@@ -29,7 +29,7 @@ const AccountPage = () => {
         </PhoneVerificationProvider>
         {isMiniApp ? (
           <EmailVerificationProvider>
-            <ConnectEmailButton />
+            <ConnectEmail />
           </EmailVerificationProvider>
         ) : (
           <ExternalWalletButton />

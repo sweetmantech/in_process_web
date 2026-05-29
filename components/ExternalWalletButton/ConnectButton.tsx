@@ -3,17 +3,14 @@ import { signWalletConnectMessage } from "@/lib/wallets/signWalletConnectMessage
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useConnectWallet } from "@privy-io/react-auth";
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import { Address } from "viem";
-import CopyButton from "../CopyButton";
-import DisconnectButton from "./DisconnectButton";
 
 const ConnectButton = () => {
-  const { refetchWallets, primaryWallet, hasEOA } = useWalletsProvider();
+  const { refetchWallets } = useWalletsProvider();
   const { authorization } = useAuthorizationProvider();
-  const shouldConnect = !hasEOA && Boolean(primaryWallet);
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { connectWallet } = useConnectWallet({
     onSuccess: async ({ wallet }: any) => {
       setIsLoading(true);
@@ -31,17 +28,6 @@ const ConnectButton = () => {
       }
     },
   });
-
-  if (!primaryWallet) return <Fragment />;
-
-  if (!shouldConnect) {
-    return (
-      <div className="flex w-full md:w-fit flex-col items-end gap-2 md:flex-row md:justify-end">
-        <CopyButton text={primaryWallet as Address} />
-        <DisconnectButton label="disconnect wallet" />
-      </div>
-    );
-  }
 
   return (
     <button

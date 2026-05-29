@@ -7,7 +7,7 @@ import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import EmailAddressInput from "./EmailAddressInput";
 import EmailCodeInput from "./EmailCodeInput";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import DisconnectButton from "./DisconnectButton";
+import DisconnectButton from "../ExternalWalletButton/DisconnectButton";
 import { Fragment } from "react";
 
 const ConnectEmailButton = () => {

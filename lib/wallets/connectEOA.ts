@@ -13,7 +13,7 @@ const connectEOA = async ({ authHeaders, message, signature }: ConnectEOAInput) 
       ...authHeaders,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ message, signature }),
+    body: JSON.stringify({ walletProof: { message, signature } }),
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {

@@ -8,6 +8,7 @@ import connectEOA from "@/lib/wallets/connectEOA";
 import { buildWalletConnectMessage } from "@/lib/wallets/buildWalletConnectMessage";
 import { useWalletClient } from "wagmi";
 import { Address } from "viem";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 export const useEmailVerify = () => {
   const [email, setEmail] = useState<string>("");
@@ -20,6 +21,7 @@ export const useEmailVerify = () => {
   const { signedAddress: farcasterAddress } = useUserProvider();
   const { data: walletClient } = useWalletClient();
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { refetchWallets } = useWalletsProvider();
 
   useEffect(() => {
     return () => {
@@ -60,6 +62,7 @@ export const useEmailVerify = () => {
         message,
         signature,
       });
+      await refetchWallets();
       setStatus(EMAIL_VERIFICATION_STATUS.VERIFIED);
       if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
       closeTimerRef.current = setTimeout(() => setIsDialogOpen(false), 10000);

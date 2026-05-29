@@ -4,30 +4,25 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useEmailVerificationProvider } from "@/providers/EmailVerificationProvider";
 import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
-import EmailAddressInput from "./EmailAddressInput";
-import EmailCodeInput from "./EmailCodeInput";
+import EmailAddressInput from "../ManagePage/EmailAddressInput";
+import EmailCodeInput from "../ManagePage/EmailCodeInput";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import DisconnectButton from "../ExternalWalletButton/DisconnectButton";
+import DisconnectButton from "./DisconnectButton";
 import { Fragment } from "react";
+import ConnectButton from "./ConnectButton";
 
-const ConnectEmailButton = () => {
+const ConnectEmail = () => {
   const { isDialogOpen, setIsDialogOpen, status } = useEmailVerificationProvider();
-  const { hasEOA, primaryWallet } = useWalletsProvider();
+  const { primaryWallet, wallets } = useWalletsProvider();
+  const privy = wallets.find((w) => w.type === "privy");
 
   if (!primaryWallet) return <Fragment />;
-  if (hasEOA) {
-    return <DisconnectButton label="disconnect email" />;
-  }
+  if (Boolean(privy)) return <DisconnectButton />;
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <button
-          type="button"
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
-        >
-          connect email
-        </button>
+        <ConnectButton />
       </DialogTrigger>
       <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
         <VisuallyHidden>
@@ -45,4 +40,4 @@ const ConnectEmailButton = () => {
   );
 };
 
-export default ConnectEmailButton;
+export default ConnectEmail;

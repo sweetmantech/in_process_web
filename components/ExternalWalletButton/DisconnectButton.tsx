@@ -4,16 +4,17 @@ import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import disconnectWallet from "@/lib/wallets/disconnectWallet";
 import { useState } from "react";
+import { Address } from "viem";
 
 const DisconnectButton = ({ label = "disconnect" }: { label?: string }) => {
-  const { refetchWallets } = useWalletsProvider();
+  const { refetchWallets, primaryWallet } = useWalletsProvider();
   const { authorization } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDisconnect = async () => {
     setIsLoading(true);
     try {
-      await disconnectWallet(authorization);
+      await disconnectWallet(authorization, primaryWallet as Address);
       await refetchWallets();
     } finally {
       setIsLoading(false);

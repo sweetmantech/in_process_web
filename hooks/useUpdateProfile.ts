@@ -6,18 +6,7 @@ import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 import { toast } from "sonner";
 
 const useUpdateProfile = () => {
-  const {
-    twitter,
-    instagram,
-    username,
-    bio,
-    telegram,
-    setBio,
-    setTwitter,
-    setInstagram,
-    setTelegram,
-    setUserName,
-  } = useUserProvider();
+  const { twitter, instagram, username, bio, telegram } = useUserProvider();
   const { authorization } = useAuthorizationProvider();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -44,16 +33,6 @@ const useUpdateProfile = () => {
   return {
     isLoading,
     onSave,
-    twitter,
-    instagram,
-    username,
-    bio,
-    telegram,
-    setBio,
-    setTwitter,
-    setInstagram,
-    setTelegram,
-    setUserName,
   };
 };
 

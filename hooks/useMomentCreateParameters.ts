@@ -20,6 +20,9 @@ const useMomentCreateParameters = () => {
   // Use priceUnit to determine if USDC
   const isUsdc = priceUnit === "usdc";
   const fetchParameters = async () => {
+    const payoutRecipient = isMiniApp || hasEOA ? primaryWallet : smartWallet;
+    if (!payoutRecipient) throw new Error("Wallet not ready. Please try again.");
+
     const momentMetadataUri = await generateMetadataUri();
     if (!name) return;
     const salesConfig = getSalesConfig(
@@ -49,7 +52,7 @@ const useMomentCreateParameters = () => {
         createReferral: REFERRAL_RECIPIENT,
         salesConfig,
         mintToCreatorCount: 1,
-        payoutRecipient: isMiniApp || hasEOA ? primaryWallet : smartWallet,
+        payoutRecipient,
         ...(totalSupply !== undefined && { maxSupply: totalSupply }),
       },
       account: primaryWallet as Address,

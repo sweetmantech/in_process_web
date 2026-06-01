@@ -32,8 +32,8 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
       <WagmiProvider>
         <PrivyProvider>
           <MiniAppProvider>
-            <AuthorizationProvider>
-              <UserProvider>
+            <UserProvider>
+              <AuthorizationProvider>
                 <WalletsProvider>
                   <SmartWalletAccountProvider>
                     <NotificationsProvider>
@@ -43,8 +43,8 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
                     </NotificationsProvider>
                   </SmartWalletAccountProvider>
                 </WalletsProvider>
-              </UserProvider>
-            </AuthorizationProvider>
+              </AuthorizationProvider>
+            </UserProvider>
           </MiniAppProvider>
         </PrivyProvider>
       </WagmiProvider>

@@ -8,13 +8,13 @@ import { Address } from "viem";
 
 const DisconnectButton = ({ label = "disconnect wallet" }: { label?: string }) => {
   const { refetchWallets, primaryWallet } = useWalletsProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDisconnect = async () => {
     setIsLoading(true);
     try {
-      await disconnectWallet(authorization, primaryWallet as Address);
+      await disconnectWallet(await getAuthHeaders(), primaryWallet as Address);
       await refetchWallets();
     } finally {
       setIsLoading(false);

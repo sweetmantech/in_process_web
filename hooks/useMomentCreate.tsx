@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
@@ -18,7 +17,6 @@ export default function useMomentCreate() {
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
   const { walletsReady } = useWalletsProvider();
-  const { authorization } = useAuthorizationProvider();
   const { setUploadProgress, setIsUploading } = useMetadataFormProvider();
   const { push } = useRouter();
   const type = useTypeParam();
@@ -27,7 +25,7 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
-      if (!walletsReady || !authorization) return;
+      if (!walletsReady) return;
       setCreating(true);
       setIsUploading(true);
       setUploadProgress(0);

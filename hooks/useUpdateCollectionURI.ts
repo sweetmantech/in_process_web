@@ -11,7 +11,7 @@ import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 const useUpdateCollectionURI = () => {
   const { data: collection } = useCollectionProvider();
   const { name } = useMetadataFormProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -37,7 +37,7 @@ const useUpdateCollectionURI = () => {
         },
         newCollectionName: name,
         newUri,
-        authHeaders: authorization,
+        authHeaders: await getAuthHeaders(),
       });
     } catch (error: any) {
       console.error(error);

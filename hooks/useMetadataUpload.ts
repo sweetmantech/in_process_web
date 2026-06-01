@@ -14,7 +14,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const {
     description,
     mimeType,
@@ -38,6 +38,7 @@ const useMetadataUpload = () => {
   };
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
+    const authorization = await getAuthHeaders();
     let mime = mimeType;
     let animation_url = "";
     let contentUri = "";

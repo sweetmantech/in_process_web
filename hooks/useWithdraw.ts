@@ -12,7 +12,7 @@ export const useWithdraw = () => {
   const [currency, setCurrency] = useState<Currency>("usdc");
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { hasEOA, primaryWallet } = useWalletsProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const { refetch, ethBalance, usdcBalance } = useSmartAccountProvider();
@@ -52,7 +52,7 @@ export const useWithdraw = () => {
 
     setIsWithdrawing(true);
     try {
-      const headers = authorization;
+      const headers = await getAuthHeaders();
 
       await withdrawApi({
         headers,

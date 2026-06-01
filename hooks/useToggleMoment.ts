@@ -10,7 +10,7 @@ import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 export const useToggleMoment = (moment: TimelineMoment) => {
   const hidden = useMomentAdminHidden(moment);
   const [isHidden, setIsHidden] = useState(false);
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const queryClient = useQueryClient();
 
   // Sync local state when hidden value changes
@@ -20,7 +20,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
 
   const toggle = async (): Promise<void> => {
     try {
-      const response = await toggleMoment(authorization, {
+      const response = await toggleMoment(await getAuthHeaders(), {
         collectionAddress: moment.address as Address,
         tokenId: moment.token_id,
         chainId: moment.chain_id,

@@ -11,7 +11,7 @@ const useArtistEdit = (
   artistAddress: Address | undefined
 ) => {
   const { setSaving, username, bio, instagram, telegram, twitter } = artistProfile;
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const usernameRef = useRef(null) as any;
   const bioRef = useRef(null) as any;
   const statusRef = useRef(null) as any;
@@ -45,7 +45,7 @@ const useArtistEdit = (
       setSaving(true);
       try {
         await updateProfile({
-          authHeaders: authorization,
+          authHeaders: await getAuthHeaders(),
           username,
           bio,
           instagram,

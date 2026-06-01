@@ -23,7 +23,7 @@ const useMomentCollect = () => {
   const { moment, saleConfig, protocol } = useMomentProvider();
   const { comment, addComment, setComment, setIsOpenCommentModal } = useMomentCommentsProvider();
   const { checkBalance } = useCollectBalanceValidation();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const { topup } = useFarcasterTopup();
   const { smartWallet } = useSmartAccountProvider();
 
@@ -47,7 +47,7 @@ const useMomentCollect = () => {
         }
       }
 
-      const headers = authorization;
+      const headers = await getAuthHeaders();
       await collectMomentApi(moment, amountToCollect, comment, headers);
 
       if (protocol !== Protocol.Catalog) {

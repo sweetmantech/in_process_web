@@ -9,12 +9,14 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 export default function useMomentCreate() {
   const [creating, setCreating] = useState<boolean>(false);
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
+  const { walletsReady } = useWalletsProvider();
   const { setUploadProgress, setIsUploading } = useMetadataFormProvider();
   const { push } = useRouter();
   const type = useTypeParam();
@@ -23,6 +25,7 @@ export default function useMomentCreate() {
   const create = async () => {
     try {
       if (!isPrepared()) return;
+      if (!walletsReady) return;
       setCreating(true);
       setIsUploading(true);
       setUploadProgress(0);

@@ -8,7 +8,7 @@ import { Address } from "viem";
 
 const ConnectButton = () => {
   const { refetchWallets } = useWalletsProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { connectWallet } = useConnectWallet({
@@ -21,7 +21,7 @@ const ConnectButton = () => {
           wallet.address as Address,
           provider
         );
-        await connectEOA({ authHeaders: authorization, message, signature });
+        await connectEOA({ authHeaders: await getAuthHeaders(), message, signature });
         await refetchWallets();
       } finally {
         setIsLoading(false);

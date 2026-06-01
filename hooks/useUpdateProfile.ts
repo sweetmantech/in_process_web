@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 const useUpdateProfile = () => {
   const { twitter, instagram, username, bio, telegram } = useUserProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +15,7 @@ const useUpdateProfile = () => {
     setIsLoading(true);
     try {
       await updateProfile({
-        authHeaders: authorization,
+        authHeaders: await getAuthHeaders(),
         username,
         bio,
         x: extractSocialUsername(twitter),

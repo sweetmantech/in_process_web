@@ -1,17 +1,17 @@
 import { createContext, useContext } from "react";
-import useAuthHeaders from "@/hooks/useAuthHeaders";
+import useAuthorization from "@/hooks/useAuthorization";
 
 type AuthorizationContextType = {
-  authorization: HeadersInit;
+  getAuthHeaders: () => Promise<HeadersInit>;
 };
 
 const AuthorizationContext = createContext<AuthorizationContextType | null>(null);
 
 export const AuthorizationProvider = ({ children }: { children: React.ReactNode }) => {
-  const authorization = useAuthHeaders();
+  const { getAuthHeaders } = useAuthorization();
 
   return (
-    <AuthorizationContext.Provider value={{ authorization }}>
+    <AuthorizationContext.Provider value={{ getAuthHeaders }}>
       {children}
     </AuthorizationContext.Provider>
   );

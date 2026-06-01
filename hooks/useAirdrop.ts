@@ -16,7 +16,7 @@ const useAirdrop = () => {
   const [airdropToItems, setAirdropToItems] = useState<AirdropItem[]>([]);
   const { isPrepared } = useUserProvider();
   const { primaryWallet } = useWalletsProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const { smartWallet } = useSmartAccountProvider();
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -94,7 +94,7 @@ const useAirdrop = () => {
         return;
       }
 
-      const headers = authorization;
+      const headers = await getAuthHeaders();
 
       const hash = await executeAirdrop({
         airdropToItems: validItems,

@@ -24,7 +24,7 @@ const useUpdateMomentURI = () => {
     setLink,
     setWritingText,
   } = useMetadataFormProvider();
-  const { authorization } = useAuthorizationProvider();
+  const { getAuthHeaders } = useAuthorizationProvider();
   const { generateMetadataUri } = useMetadataUpload();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { selectedCollection } = useCollectionsProvider();
@@ -52,7 +52,7 @@ const useUpdateMomentURI = () => {
       const existingMetadata = metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 
-      const authHeaders = authorization;
+      const authHeaders = await getAuthHeaders();
 
       const newCollectionAddress =
         selectedCollection && selectedCollection !== moment?.collectionAddress

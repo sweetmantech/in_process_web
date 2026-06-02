@@ -63,12 +63,14 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
   const totalPages = Math.max(1, query.data?.total_pages ?? 1);
   const hasPrevPage = currentPage > 1;
   const hasNextPage = currentPage < totalPages;
+  const totalCount = query.data?.total_count ?? 0;
 
   return {
     ...query,
     artists,
     currentPage,
     totalPages,
+    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

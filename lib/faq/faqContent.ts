@@ -53,12 +53,21 @@ export const faqSections = {
         "Yes! In Process supports:\n    • Onchain content (NFTs, token links, DAOs)\n    • Offchain content (YouTube, Substack, Instagram, Google Docs)\n\nThis makes your timeline a hub for everything you create, no matter where it lives.",
     },
   ],
+  telegram: [
+    {
+      question: "can i post moments via telegram?",
+      answer:
+        'Yes! In Process has a <strong>Telegram client</strong> — <a href="https://t.me/in_process_chat_bot" target="_blank" rel="noopener noreferrer">@in_process_chat_bot</a> — that lets you create moments directly from Telegram.\n\n<strong>Getting started:</strong>\n    1. Go to <a href="/manage/account">your account page</a> and set your <strong>Telegram username</strong>\n    2. Open Telegram and start a conversation with <a href="https://t.me/in_process_chat_bot" target="_blank" rel="noopener noreferrer">@in_process_chat_bot</a>\n    3. Send any photo, video, audio, or text — it will be minted as a moment on your timeline\n\n<strong>Commands:</strong>\n    • <strong>/start</strong> – verify your Telegram and connect it to your In Process account\n    • <strong>/collections</strong> – choose which collection your next moments will be minted into\n    • <strong>/remind</strong> – toggle nudges on/off; when on, the bot will remind you if you haven\'t posted in a while (every day, every 3 days, or every week)\n    • <strong>/notify</strong> – toggle airdrop notifications on/off; get alerted when someone sends your wallet an airdrop\n    • <strong>/me</strong> – view the email address linked to your In Process account',
+    },
+  ],
   final: [
     {
       question: "what tech powers in process?",
       answer:
         "    • <strong>base</strong> – fast, affordable l2 blockchain\n    • <strong>zora protocol</strong> – for minting and managing posts\n    • <strong>next.js & vercel</strong> – smooth mobile-first ux\n    • <strong>privy</strong> – web2 login with web3 access\n    • <strong>crypto + card payments</strong> – for collectors everywhere",
     },
+  ],
+  join: [
     {
       question: "how do i join?",
       answer: "",

@@ -16,6 +16,7 @@ const ActiveArtistsTable = () => {
     error,
     currentPage,
     totalPages,
+    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
@@ -26,7 +27,7 @@ const ActiveArtistsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span>Active Artists</span>
+          <span>{totalCount} Active Artists</span>
           <div className="flex flex-wrap items-center gap-2">
             <ActiveArtistsTableFilters />
             <Badge variant="outline">

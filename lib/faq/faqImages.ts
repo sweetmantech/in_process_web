@@ -29,6 +29,23 @@ export const faqImageGalleries = {
       caption: "new embedded",
     },
   ],
+  telegramCommands: [
+    {
+      src: "/images/faq/telegram/creating.png",
+      alt: "creating a moment",
+      caption: "creating a moment",
+    },
+    {
+      src: "/images/faq/telegram/start-remind-notify.png",
+      alt: "/start /remind /notify commands",
+      caption: "/start /remind /notify",
+    },
+    {
+      src: "/images/faq/telegram/collections.png",
+      alt: "/collections command",
+      caption: "/collections",
+    },
+  ],
   gettingStarted: [
     {
       src: "/images/faq/faq5.png",

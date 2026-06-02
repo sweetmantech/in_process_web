@@ -5,20 +5,29 @@ import { getCaptionClasses } from "@/lib/faq/getCaptionClasses";
 const DEFAULT_CAPTION_CLASSNAME =
   "font-spectral text-left font-medium tracking-tight text-[#4E4E4E] text-[16px] leading-[100%] md:text-[24px] ml-2 md:ml-4 italic antialiased";
 
+const COLUMN_WIDTH: Record<number, string> = {
+  2: "lg:w-1/2",
+  3: "lg:w-1/3",
+};
+
 interface ImageGalleryProps {
   images: ImageGalleryItem[];
   captionClassName?: string;
+  columns?: 2 | 3;
 }
 
 const ImageGallery = ({
   images,
   captionClassName = DEFAULT_CAPTION_CLASSNAME,
+  columns = 2,
 }: ImageGalleryProps) => {
+  const colClass = COLUMN_WIDTH[columns];
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col items-start justify-start gap-4 lg:flex-row lg:gap-6">
         {images.map((image, index) => (
-          <div key={index} className="w-full items-start space-y-4 lg:w-1/2 lg:max-w-none">
+          <div key={index} className={`w-full items-start space-y-4 lg:max-w-none ${colClass}`}>
             <div className="flex justify-center md:justify-start">
               <Image
                 src={image.src}

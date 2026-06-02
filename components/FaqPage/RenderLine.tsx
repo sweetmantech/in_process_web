@@ -6,11 +6,12 @@ export const RenderLine = (line: string, lineIndex: number) => {
   }
 
   const isBulletPoint = line.trim().startsWith("•");
+  const isNumberedItem = /^\s*\d+\./.test(line);
 
   return (
-    <div key={lineIndex} className={`mb-1 ${isBulletPoint ? "ml-4" : ""}`}>
+    <div key={lineIndex} className={`mb-1 ${isBulletPoint || isNumberedItem ? "ml-4" : ""}`}>
       <span
-        className={`font-spectral text-[14px] font-normal leading-[200%] tracking-[-0.05em] text-[#1B1504] antialiased md:text-[18px]`}
+        className={`font-spectral text-[14px] font-normal leading-[200%] tracking-[-0.05em] text-[#1B1504] antialiased md:text-[18px] [&_a]:font-spectral-italic [&_a]:italic [&_a]:text-grey-moss-300 [&_a]:underline [&_a]:underline-offset-2`}
       >
         {parseHTML(line, false)}
       </span>

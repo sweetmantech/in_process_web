@@ -10,7 +10,9 @@ const FaqPage = () => {
   const {
     main: faqData,
     additional: additionalFaqData,
+    telegram: telegramFaqData,
     final: finalFaqData,
+    join: joinFaqData,
     community: communityFaqData,
   } = faqSections;
 
@@ -34,7 +36,19 @@ const FaqPage = () => {
         </div>
 
         <div className="md:mt-18 mt-14">
+          <FaqSection faqData={telegramFaqData} />
+        </div>
+
+        <div className="md:mt-18 mt-14 px-1 md:px-2">
+          <ImageGallery images={faqImageGalleries.telegramCommands} columns={3} />
+        </div>
+
+        <div className="md:mt-18 mt-14">
           <FaqSection faqData={finalFaqData} />
+        </div>
+
+        <div className="md:mt-18 mt-14">
+          <FaqSection faqData={joinFaqData} />
         </div>
 
         <div className="px-1 md:px-2">

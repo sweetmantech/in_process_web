@@ -29,8 +29,8 @@ const ActiveArtistsTable = () => {
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span className="inline-flex items-center gap-1.5">
-            {isLoading || !data ? <Skeleton className="h-6 w-10" /> : totalCount}
-            Active Artists
+            {isLoading || !data ? <Skeleton className="h-6 w-10" /> : <span>{totalCount}</span>}
+            <span>Active Artists</span>
           </span>
           <div className="flex flex-wrap items-center gap-2">
             <ActiveArtistsTableFilters />

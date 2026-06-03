@@ -25,8 +25,14 @@ export async function createMomentApi(
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      const errorMessage = error.message || "Failed to create moment";
+      const text = await response.text();
+      let errorMessage = "Failed to create moment";
+      try {
+        const error = JSON.parse(text);
+        errorMessage = error.message || errorMessage;
+      } catch {
+        // non-JSON response (HTML error page from proxy/CDN)
+      }
 
       // Retry on gas estimation errors
       if (errorMessage.includes("failed to estimate gas") && attempt < maxRetries - 1) {

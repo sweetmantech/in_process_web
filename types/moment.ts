@@ -100,7 +100,7 @@ export interface Collector {
 
 export interface MomentCollectorsInput {
   moment: Moment;
-  offset?: number;
+  page?: number;
 }
 
 export interface MomentCollectorsResult {

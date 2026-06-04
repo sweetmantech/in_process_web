@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMomentTransfersProvider } from "@/providers/MomentCollectorsProvider";
-import CollectorItem from "./CollectorItem";
+import TransferItem from "./TransferItem";
 import FetchMore from "../FetchMore";
 import { ChevronDown } from "lucide-react";
 
@@ -29,7 +29,7 @@ const Collectors = () => {
         <div className="no-scrollbar mt-2 max-h-[200px] overflow-hidden overflow-y-auto">
           <div className="space-y-2">
             {transfers.map((c) => (
-              <CollectorItem key={c.id} {...c} />
+              <TransferItem key={c.id} {...c} />
             ))}
           </div>
           {hasMore && <FetchMore fetchMore={() => fetchMore()} />}

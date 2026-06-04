@@ -1,10 +1,10 @@
 import truncateAddress from "@/lib/truncateAddress";
-import { Collector } from "@/types/moment";
+import { Transfer } from "@/types/moment";
 import CopyButton from "@/components/CopyButton";
 import { EXPLORER_URL } from "@/lib/consts";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 
-const CollectorItem = ({ collector, username, amount, transactionHash, timestamp }: Collector) => {
+const TransferItem = ({ collector, username, amount, transactionHash, timestamp }: Transfer) => {
   const { primaryWallet } = useWalletsProvider();
   const isYou = primaryWallet?.toLowerCase() === collector.toLowerCase();
   return (
@@ -36,4 +36,4 @@ const CollectorItem = ({ collector, username, amount, transactionHash, timestamp
   );
 };
 
-export default CollectorItem;
+export default TransferItem;

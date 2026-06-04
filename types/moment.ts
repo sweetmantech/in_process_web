@@ -89,7 +89,7 @@ export interface MigrateMomentsApiResult {
   results: MigrateMomentsResult[];
 }
 
-export interface Collector {
+export interface Transfer {
   id: string;
   collector: string;
   username: string;
@@ -98,11 +98,11 @@ export interface Collector {
   timestamp: number;
 }
 
-export interface MomentCollectorsInput {
+export interface MomentTransfersInput {
   moment: Moment;
   page?: number;
 }
 
-export interface MomentCollectorsResult {
-  collectors: Collector[];
+export interface MomentTransfersResult {
+  collectors: Transfer[];
 }

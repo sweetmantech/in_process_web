@@ -1,7 +1,7 @@
-import { Collector, MomentCollectorsInput } from "@/types/moment";
+import { Transfer, MomentTransfersInput } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-async function getCollectors({ moment, page }: MomentCollectorsInput): Promise<Collector[]> {
+async function getTransfers({ moment, page }: MomentTransfersInput): Promise<Transfer[]> {
   try {
     const queryString = new URLSearchParams({
       collection: moment.collectionAddress,
@@ -32,4 +32,4 @@ async function getCollectors({ moment, page }: MomentCollectorsInput): Promise<C
   }
 }
 
-export default getCollectors;
+export default getTransfers;

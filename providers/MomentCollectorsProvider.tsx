@@ -1,24 +1,22 @@
-import { useCollectors } from "@/hooks/useCollectors";
+import { useMomentTransfers } from "@/hooks/useMomentTransfers";
 import { createContext, useContext, ReactNode } from "react";
 
-const MomentCollectorsContext = createContext<ReturnType<typeof useCollectors> | undefined>(
+const MomentTransfersContext = createContext<ReturnType<typeof useMomentTransfers> | undefined>(
   undefined
 );
 
-export function MomentCollectorsProvider({ children }: { children: ReactNode }) {
-  const collectors = useCollectors();
+export function MomentTransfersProvider({ children }: { children: ReactNode }) {
+  const transfers = useMomentTransfers();
 
   return (
-    <MomentCollectorsContext.Provider value={collectors}>
-      {children}
-    </MomentCollectorsContext.Provider>
+    <MomentTransfersContext.Provider value={transfers}>{children}</MomentTransfersContext.Provider>
   );
 }
 
-export function useMomentCollectorsProvider() {
-  const context = useContext(MomentCollectorsContext);
+export function useMomentTransfersProvider() {
+  const context = useContext(MomentTransfersContext);
   if (context === undefined) {
-    throw new Error("useMomentCollectorsProvider must be used within a MomentCollectorsProvider");
+    throw new Error("useMomentTransfersProvider must be used within a MomentTransfersProvider");
   }
   return context;
 }

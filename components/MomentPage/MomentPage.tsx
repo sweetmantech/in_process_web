@@ -4,7 +4,7 @@ import Moment from "./Moment";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
-import { MomentCollectorsProvider } from "@/providers/MomentCollectorsProvider";
+import { MomentTransfersProvider } from "@/providers/MomentCollectorsProvider";
 import { useParams } from "next/navigation";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
@@ -32,9 +32,9 @@ const MomentPage = () => {
         >
           <MomentCommentsProvider>
             <MomentCollectProvider>
-              <MomentCollectorsProvider>
+              <MomentTransfersProvider>
                 <Moment />
-              </MomentCollectorsProvider>
+              </MomentTransfersProvider>
             </MomentCollectProvider>
           </MomentCommentsProvider>
         </MomentProvider>

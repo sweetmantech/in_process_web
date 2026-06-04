@@ -9,6 +9,8 @@ import AnalyticsFiltersBar from "./AnalyticsFilters";
 import ArweaveUploadsTable from "./ArweaveUploadsTable";
 import ActiveArtistsProvider from "@/providers/ActiveArtistsProvider";
 import ArweaveUploadsProvider from "@/providers/ArweaveUploadsProvider";
+import CollectorsProvider from "@/providers/CollectorsProvider";
+import CollectorsTable from "./CollectorsTable";
 
 const AnalyticsPage = () => {
   const [filters, setFilters] = useState<AnalyticsFilters>({});
@@ -30,6 +32,9 @@ const AnalyticsPage = () => {
         <ActiveArtistsProvider>
           <ActiveArtistsTable />
         </ActiveArtistsProvider>
+        <CollectorsProvider>
+          <CollectorsTable />
+        </CollectorsProvider>
         <ArweaveUploadsProvider aggregation>
           <ArweaveUploadsTable />
         </ArweaveUploadsProvider>

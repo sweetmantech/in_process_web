@@ -46,6 +46,28 @@ export const faqImageGalleries = {
       caption: "/collections",
     },
   ],
+  externalWallet: [
+    {
+      src: "/images/faq/external_wallet/step_1.jpg",
+      alt: "Connect external wallet step 1",
+      caption: '1. go to your account page and click "Connect wallet"',
+    },
+    {
+      src: "/images/faq/external_wallet/step_2.jpg",
+      alt: "Connect external wallet step 2",
+      caption: "2. select your wallet provider",
+    },
+    {
+      src: "/images/faq/external_wallet/step_3.jpg",
+      alt: "Connect external wallet step 3",
+      caption: "3. approve the connection in your wallet",
+    },
+    {
+      src: "/images/faq/external_wallet/step_4.jpg",
+      alt: "Connect external wallet step 4",
+      caption: '4. click "Disconnect" to unlink your wallet',
+    },
+  ],
   gettingStarted: [
     {
       src: "/images/faq/faq5.png",

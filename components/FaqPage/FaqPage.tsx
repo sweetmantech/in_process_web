@@ -14,6 +14,7 @@ const FaqPage = () => {
     final: finalFaqData,
     join: joinFaqData,
     community: communityFaqData,
+    wallet: walletFaqData,
   } = faqSections;
 
   return (
@@ -70,6 +71,14 @@ const FaqPage = () => {
             images={faqImageGalleries.gettingStarted.slice(4, 6)}
             captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
           />
+        </div>
+
+        <div className="md:mt-18 mt-14">
+          <FaqSection faqData={walletFaqData} />
+        </div>
+
+        <div className="md:mt-18 mt-14 px-1 md:px-2">
+          <ImageGallery images={faqImageGalleries.externalWallet} shadow className="lg:gap-16" />
         </div>
 
         <div className="md:mt-18 mt-14">

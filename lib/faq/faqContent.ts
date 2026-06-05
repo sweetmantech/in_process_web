@@ -79,4 +79,11 @@ export const faqSections = {
       answer: "connect with us on social\n     • x\n\n     • farcaster",
     },
   ],
+  wallet: [
+    {
+      question: "how do i connect or disconnect an external wallet?",
+      answer:
+        'You can connect or disconnect an external wallet to your account at any time from the <a href="/manage/account">account page</a>.\n\n<strong>To connect:</strong>\n    1. Click <strong>"Connect wallet"</strong>\n    2. Choose your wallet provider from the list\n    3. Approve the connection in your wallet extension or app\n\n<strong>To disconnect:</strong>\n    1. Find the wallet under the <strong>linked wallets</strong> section\n    2. Click <strong>"Disconnect"</strong> next to the wallet address\n    3. Confirm the action\n\n<strong>Note:</strong> Disconnecting a wallet does not delete your In Process account or any of your onchain content. It only removes the link between that wallet and your account.',
+    },
+  ],
 };

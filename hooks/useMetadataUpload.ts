@@ -90,8 +90,9 @@ const useMetadataUpload = () => {
 
       const isPdf = mimeType.includes("pdf");
       const isImage = mimeType.includes("image");
+      const isAudio = mimeType.includes("audio");
       const isModel = isModelGltfLike(mimeType, animationFile?.name ?? null);
-      if ((isPdf || isImage) && animation_url) {
+      if ((isPdf || isImage || isAudio) && animation_url) {
         contentUri = animation_url;
       }
       if (isModel && animation_url) {

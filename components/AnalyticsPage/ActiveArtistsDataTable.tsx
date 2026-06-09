@@ -27,7 +27,7 @@ const ActiveArtistsDataTable = () => {
     sortDescFirst: true,
     onSortingChange,
     state: { sorting },
-    getRowId: (row) => row.address,
+    getRowId: (row) => row.artist_id,
   });
 
   return (

@@ -1,6 +1,7 @@
 export interface ActiveArtistStats {
-  address: string;
+  artist_id: string;
   username: string | null;
+  wallets: { address: string; type: string }[];
   created_count: number;
   airdropped_count: number;
   telegram_count: number;
@@ -10,7 +11,7 @@ export interface ActiveArtistStats {
 }
 
 export interface ActiveArtistsResponse {
-  data: ActiveArtistStats[];
+  artists: ActiveArtistStats[];
   total_count: number;
   page: number;
   total_pages: number;

@@ -27,7 +27,7 @@ const CollectorsDataTable = () => {
     sortDescFirst: true,
     onSortingChange,
     state: { sorting },
-    getRowId: (row) => row.collector,
+    getRowId: (row) => row.artist_id,
   });
 
   return (

@@ -8,15 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useActiveArtistsProvider } from "@/providers/ActiveArtistsProvider";
+import { useArtistsCollectorsStatsProvider } from "@/providers/ArtistsCollectorsStatsProvider";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
-import getActiveArtistsColumnDefs from "./getActiveArtistsColumnDefs";
+import getArtistsCollectorsStatsColumnDefs from "./getArtistsCollectorsStatsColumnDefs";
 
-const ActiveArtistsDataTable = () => {
-  const { artists, sorting, onSortingChange } = useActiveArtistsProvider();
+const ArtistsCollectorsStatsDataTable = () => {
+  const { artists, sorting, onSortingChange } = useArtistsCollectorsStatsProvider();
 
-  const columns = useMemo(() => getActiveArtistsColumnDefs(), []);
+  const columns = useMemo(() => getArtistsCollectorsStatsColumnDefs(), []);
 
   const table = useReactTable({
     data: artists,
@@ -32,7 +32,7 @@ const ActiveArtistsDataTable = () => {
 
   return (
     <div className="overflow-auto rounded-md border">
-      <Table className="min-w-[860px] md:min-w-0">
+      <Table className="min-w-[640px] md:min-w-0">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -70,4 +70,4 @@ const ActiveArtistsDataTable = () => {
   );
 };
 
-export default ActiveArtistsDataTable;
+export default ArtistsCollectorsStatsDataTable;

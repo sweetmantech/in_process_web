@@ -11,6 +11,8 @@ import ActiveArtistsProvider from "@/providers/ActiveArtistsProvider";
 import ArweaveUploadsProvider from "@/providers/ArweaveUploadsProvider";
 import CollectorsProvider from "@/providers/CollectorsProvider";
 import CollectorsTable from "./CollectorsTable";
+import ArtistsCollectorsStatsProvider from "@/providers/ArtistsCollectorsStatsProvider";
+import ArtistsCollectorsStatsTable from "./ArtistsCollectorsStatsTable";
 
 const AnalyticsPage = () => {
   const [filters, setFilters] = useState<AnalyticsFilters>({});
@@ -35,6 +37,9 @@ const AnalyticsPage = () => {
         <CollectorsProvider>
           <CollectorsTable />
         </CollectorsProvider>
+        <ArtistsCollectorsStatsProvider>
+          <ArtistsCollectorsStatsTable />
+        </ArtistsCollectorsStatsProvider>
         <ArweaveUploadsProvider aggregation>
           <ArweaveUploadsTable />
         </ArweaveUploadsProvider>

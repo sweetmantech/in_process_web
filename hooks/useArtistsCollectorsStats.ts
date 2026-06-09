@@ -1,31 +1,45 @@
-import { getActiveArtists } from "@/lib/admin/getActiveArtists";
-import { ActiveArtistsSortBy } from "@/types/activeArtists";
+import { getArtistsCollectorsStats } from "@/lib/admin/getArtistsCollectorsStats";
+import {
+  ArtistsCollectorsStatsSortBy,
+  ArtistsCollectorsStatsSortOrder,
+} from "@/types/artistsCollectorsStats";
 import { AnalyticsPeriod } from "@/types/timeline";
 import { useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
 import { useCallback, useMemo, useState } from "react";
 
-const DEFAULT_SORT: SortingState = [{ id: "created_count", desc: true }];
+const DEFAULT_SORT: SortingState = [{ id: "total_created_count", desc: true }];
 
-interface UseActiveArtistsOptions {
+interface UseArtistsCollectorsStatsOptions {
   initialPage?: number;
   limit?: number;
 }
 
-export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtistsOptions = {}) {
+export function useArtistsCollectorsStats({
+  initialPage = 1,
+  limit = 10,
+}: UseArtistsCollectorsStatsOptions = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
   const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
 
   const activeSort = sorting[0] ?? DEFAULT_SORT[0];
-  const sortBy = activeSort.id as ActiveArtistsSortBy;
-  const sortOrder = activeSort.desc ? "desc" : "asc";
+  const sortBy = activeSort.id as ArtistsCollectorsStatsSortBy;
+  const sortOrder = activeSort.desc ? "desc" : ("asc" as ArtistsCollectorsStatsSortOrder);
 
   const query = useQuery({
-    queryKey: ["admin-active-artists", currentPage, limit, period, artist, sortBy, sortOrder],
+    queryKey: [
+      "analytics-artists-collectors-stats",
+      currentPage,
+      limit,
+      period,
+      artist,
+      sortBy,
+      sortOrder,
+    ],
     queryFn: () =>
-      getActiveArtists({
+      getArtistsCollectorsStats({
         page: currentPage,
         limit,
         period,

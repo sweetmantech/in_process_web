@@ -8,18 +8,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useCollectorsProvider } from "@/providers/CollectorsProvider";
+import { useArtistsCollectorsStatsProvider } from "@/providers/ArtistsCollectorsStatsProvider";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useMemo } from "react";
-import getCollectorsColumnDefs from "./getCollectorsColumnDefs";
+import getArtistsCollectorsStatsColumnDefs from "./getArtistsCollectorsStatsColumnDefs";
 
-const CollectorsDataTable = () => {
-  const { collectors, sorting, onSortingChange } = useCollectorsProvider();
+const ArtistsCollectorsStatsDataTable = () => {
+  const { artists, sorting, onSortingChange } = useArtistsCollectorsStatsProvider();
 
-  const columns = useMemo(() => getCollectorsColumnDefs(), []);
+  const columns = useMemo(() => getArtistsCollectorsStatsColumnDefs(), []);
 
   const table = useReactTable({
-    data: collectors,
+    data: artists,
     columns,
     getCoreRowModel: getCoreRowModel(),
     manualSorting: true,
@@ -70,4 +70,4 @@ const CollectorsDataTable = () => {
   );
 };
 
-export default CollectorsDataTable;
+export default ArtistsCollectorsStatsDataTable;

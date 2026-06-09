@@ -1,6 +1,7 @@
 "use client";
 
 import truncateAddress from "@/lib/truncateAddress";
+import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import { ActiveArtistStats } from "@/types/activeArtists";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
@@ -10,13 +11,14 @@ export default function getActiveArtistsColumnDefs(): ColumnDef<ActiveArtistStat
   return [
     {
       id: "username",
-      accessorFn: (row) => row.username ?? row.address,
+      accessorFn: (row) => row.username ?? row.artist_id,
       header: () => <span className="text-sm font-medium">Artist</span>,
       enableSorting: false,
       cell: ({ row }) => {
-        const { address, username } = row.original;
-        const href = `/${address.toLowerCase()}`;
-        const label = username || truncateAddress(address);
+        const { wallets, username, artist_id } = row.original;
+        const primaryAddress = getPrimaryWalletAddress(wallets);
+        const href = primaryAddress ? `/${primaryAddress.toLowerCase()}` : `/${artist_id}`;
+        const label = username || (primaryAddress ? truncateAddress(primaryAddress) : artist_id);
         return (
           <Link
             href={href}

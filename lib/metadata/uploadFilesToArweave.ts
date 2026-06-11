@@ -1,4 +1,5 @@
 import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
+import type { UploadClient } from "@/types/upload";
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -9,12 +10,11 @@ interface FileUploadResult {
 }
 
 export const uploadFilesToArweave = async (
-  authHeaders: HeadersInit,
+  client: UploadClient,
   previewFile: File | null,
   imageFile: File | null,
   animationFile: File | null,
   existingAnimationUrl: string,
-  getRecaptchaToken: () => Promise<string | undefined>,
   setUploadProgress?: (progress: number) => void,
   mimeType?: string
 ): Promise<FileUploadResult> => {
@@ -52,7 +52,7 @@ export const uploadFilesToArweave = async (
 
     setUploadProgress?.(Math.round(fileStartProgress));
 
-    const uploadResult = await uploadViaApi(file, authHeaders, getRecaptchaToken);
+    const uploadResult = await uploadViaApi(file, client);
     const uploadedUri = uploadResult.arweave_uri;
 
     if (name === "preview") {

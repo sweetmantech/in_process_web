@@ -1,20 +1,32 @@
 import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
 import { uploadJson } from "@/lib/arweave/uploadJson";
 import type { UploadResult } from "@/lib/arweave/uploadViaApi";
+import type { UploadClient } from "@/types/upload";
 import { MomentMetadata } from "@/types/moment";
 
-export const buildMetadataPayload = async (
-  name: string,
-  description: string,
-  externalUrl: string,
-  image: string,
-  animationUrl: string,
-  mime: string,
-  contentUri: string,
-  authHeaders: HeadersInit,
-  getRecaptchaToken: () => Promise<string | undefined>,
-  existingMetadata?: MomentMetadata | null
-): Promise<UploadResult> => {
+export interface BuildMetadataPayloadParams {
+  name: string;
+  description: string;
+  externalUrl: string;
+  image: string;
+  animationUrl: string;
+  mime: string;
+  contentUri: string;
+  client: UploadClient;
+  existingMetadata?: MomentMetadata | null;
+}
+
+export const buildMetadataPayload = async ({
+  name,
+  description,
+  externalUrl,
+  image,
+  animationUrl,
+  mime,
+  contentUri,
+  client,
+  existingMetadata,
+}: BuildMetadataPayloadParams): Promise<UploadResult> => {
   const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
   const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
 
@@ -30,5 +42,5 @@ export const buildMetadataPayload = async (
     },
   };
 
-  return uploadJson(mergedMetadata, authHeaders, getRecaptchaToken);
+  return uploadJson(mergedMetadata, client);
 };

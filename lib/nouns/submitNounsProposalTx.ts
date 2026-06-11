@@ -3,7 +3,8 @@ import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { NOUNS_GOVERNOR_ADDRESS } from "./consts";
 import { nounsGovernorAbi } from "./abi/nounsGovernorAbi";
-import { NounsProposalTransaction } from "@/types/nouns";
+import { parseNounsProposalCreatedLog } from "./parseNounsProposalCreatedLog";
+import { NounsProposalTransaction, SubmitNounsProposalResult } from "@/types/nouns";
 
 interface SubmitNounsProposalParams {
   externalWallet: any;
@@ -19,7 +20,7 @@ export const submitNounsProposalTx = async ({
   transaction,
   proposalTitle,
   proposalDescription,
-}: SubmitNounsProposalParams): Promise<`0x${string}`> => {
+}: SubmitNounsProposalParams): Promise<SubmitNounsProposalResult> => {
   const governorAddress = NOUNS_GOVERNOR_ADDRESS[chainId];
   if (!governorAddress) throw new Error("Governor address not found for chain");
 
@@ -46,7 +47,17 @@ export const submitNounsProposalTx = async ({
   });
 
   const publicClient = getPublicClient(chainId);
-  await publicClient.waitForTransactionReceipt({ hash });
+  const receipt = await publicClient.waitForTransactionReceipt({ hash });
+  const { proposalId, proposer, startBlock, endBlock } = parseNounsProposalCreatedLog(
+    receipt,
+    governorAddress
+  );
 
-  return hash;
+  return {
+    txHash: hash,
+    proposalId,
+    proposer,
+    startBlock,
+    endBlock,
+  };
 };

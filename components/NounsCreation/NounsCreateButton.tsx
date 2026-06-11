@@ -6,7 +6,7 @@ import { useNounsProposalProvider } from "@/providers/NounsCreateProvider/NounsP
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
 const NounsCreateButton = () => {
-  const { form, build, building } = useNounsProposalProvider();
+  const { form, create, creating, submitting } = useNounsProposalProvider();
   const {
     link,
     embedCode,
@@ -20,7 +20,7 @@ const NounsCreateButton = () => {
   const hasMedia = Boolean(link || embedCode || imageFile || animationFile || writingText);
   const hasPreview = Boolean(previewFile || writingText);
 
-  const handleBuild = async () => {
+  const handleCreate = async () => {
     const [isProposalValid, isMetadataValid] = await Promise.all([
       form.trigger(),
       metadataForm.trigger(),
@@ -36,17 +36,17 @@ const NounsCreateButton = () => {
       return;
     }
 
-    form.handleSubmit(build)();
+    form.handleSubmit(create)();
   };
 
   return (
     <Button
       type="button"
-      onClick={handleBuild}
-      disabled={building}
+      onClick={handleCreate}
+      disabled={creating || submitting}
       className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm bg-black px-14 py-5 !font-archivo !text-xl text-grey-eggshell transition-transform duration-150 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full md:py-6"
     >
-      {building ? "building..." : "build proposal"}
+      {creating ? "creating..." : submitting ? "submitting..." : "create proposal"}
     </Button>
   );
 };

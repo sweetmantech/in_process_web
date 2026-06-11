@@ -6,8 +6,7 @@ import useNounsSubmitProposal from "@/hooks/useNounsSubmitProposal";
 
 const NounsSubmitResult = () => {
   const { result, reset, form } = useNounsProposalProvider();
-  const { submit, submitting, txHash, votingPower, checkingVotingPower } =
-    useNounsSubmitProposal();
+  const { submit, submitting, txHash, votingPower, checkingVotingPower } = useNounsSubmitProposal();
 
   if (!result) return null;
 
@@ -29,14 +28,12 @@ const NounsSubmitResult = () => {
           <p className="font-spectral text-sm text-grey-moss-400">Checking voting power...</p>
         ) : isEligible ? (
           <p className="font-spectral text-sm text-grey-moss-900">
-            ✓ You have{" "}
-            <span className="font-semibold">{votingPower}</span> Noun
+            ✓ You have <span className="font-semibold">{votingPower}</span> Noun
             {votingPower !== 1 ? "s" : ""} — eligible to submit.
           </p>
         ) : (
           <p className="font-spectral text-sm text-red-500">
-            You need at least{" "}
-            <span className="font-semibold">{proposalThreshold}</span> Noun
+            You need at least <span className="font-semibold">{proposalThreshold}</span> Noun
             {proposalThreshold !== 1 ? "s" : ""} to submit this proposal. You currently have{" "}
             <span className="font-semibold">{votingPower ?? 0}</span>.
           </p>

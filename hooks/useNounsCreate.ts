@@ -17,10 +17,7 @@ import { Address } from "viem";
 export interface NounsCreateFormValues {
   proposalTitle: string;
   proposalDescription: string;
-  contractType: "existing" | "new";
   contractAddress: string;
-  collectionName: string;
-  collectionUri: string;
 }
 
 export default function useNounsCreate() {
@@ -34,10 +31,7 @@ export default function useNounsCreate() {
     defaultValues: {
       proposalTitle: "",
       proposalDescription: "",
-      contractType: "new",
       contractAddress: "",
-      collectionName: "",
-      collectionUri: "",
     },
   });
 
@@ -53,10 +47,7 @@ export default function useNounsCreate() {
       const tokenMetadataURI = await generateMetadataUri();
       if (!tokenMetadataURI) throw new Error("Failed to upload media");
 
-      const contract =
-        values.contractType === "existing"
-          ? { address: values.contractAddress }
-          : { name: values.collectionName, uri: values.collectionUri };
+      const contract = { address: values.contractAddress };
 
       const data = await createNounsProposalApi({
         chainId: NOUNS_CHAIN_ID,

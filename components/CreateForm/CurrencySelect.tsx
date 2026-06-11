@@ -3,14 +3,14 @@
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 
-export default function CurrencySelect() {
+export default function CurrencySelect({ disabled }: { disabled?: boolean }) {
   const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
 
   return (
     <select
       {...form.register("priceUnit")}
-      disabled={Boolean(creating)}
+      disabled={Boolean(creating) || disabled}
       className="h-auto min-w-[70px] cursor-pointer appearance-none !rounded-[0px] !border-none bg-white px-3 py-0 text-center font-spectral focus-visible:ring-0 focus-visible:ring-offset-0"
     >
       <option value="eth">ETH</option>

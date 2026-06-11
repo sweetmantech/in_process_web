@@ -14,7 +14,9 @@ export const useCollectionsDropdown = (onSelect?: (collection: CollectionItem) =
   } = useCollectionsProvider();
   const [open, setOpen] = useState(false);
 
-  const selectedItem = collections.find((c) => c.address === selectedCollection);
+  const selectedItem = collections.find(
+    (c) => c.address.toLowerCase() === selectedCollection?.toLowerCase()
+  );
   const { data: metadata, isLoading } = useMetadata(selectedItem?.uri ?? "");
 
   const displayName = selectedItem?.name ?? "Please select a collection";

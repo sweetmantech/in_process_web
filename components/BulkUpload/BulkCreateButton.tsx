@@ -12,7 +12,7 @@ const BulkCreateButton = () => {
   const label = isCreating
     ? uploadingCount > 0
       ? `uploading ${doneCount + 1} of ${count}...`
-      : "minting onchain..."
+      : "creating..."
     : `create ${count} moment${count !== 1 ? "s" : ""}`;
 
   return (

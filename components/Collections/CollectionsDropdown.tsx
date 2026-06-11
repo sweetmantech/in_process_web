@@ -20,9 +20,10 @@ import { useCollectionsDropdown } from "@/hooks/useCollectionsDropdown";
 interface CollectionsDropdownProps {
   onSelect?: (collection: CollectionItem) => void;
   onCreateNew?: () => void;
+  disabled?: boolean;
 }
 
-const CollectionsDropdown = ({ onSelect, onCreateNew }: CollectionsDropdownProps) => {
+const CollectionsDropdown = ({ onSelect, onCreateNew, disabled }: CollectionsDropdownProps) => {
   const {
     open,
     handleOpenChange,
@@ -43,7 +44,8 @@ const CollectionsDropdown = ({ onSelect, onCreateNew }: CollectionsDropdownProps
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0"
+          disabled={disabled}
+          className="h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0 disabled:opacity-50"
         >
           <div className="flex items-center gap-2">
             {isLoading || !currentCollection ? (

@@ -6,9 +6,10 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CurrencySelect from "./CurrencySelect";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 
-export default function Price() {
+export default function Price({ disabled }: { disabled?: boolean }) {
   const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
+  const isDisabled = Boolean(creating) || disabled;
 
   return (
     <div className="w-full pt-2">
@@ -34,12 +35,12 @@ export default function Price() {
             e.currentTarget.blur();
           }}
           className="flex-grow !rounded-[0px] !border-none bg-white !font-spectral [appearance:textfield] focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          disabled={Boolean(creating)}
+          disabled={isDisabled}
         />
         <div className="bg-white">
           <div className="my-2 h-6 w-[1px] bg-grey-secondary" />
         </div>
-        <CurrencySelect />
+        <CurrencySelect disabled={disabled} />
       </div>
       {form.formState.errors.price && (
         <p className="mt-1 font-spectral text-xs text-red-500">

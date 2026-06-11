@@ -55,8 +55,10 @@ export default function useNounsCreate() {
     try {
       setCreating(true);
 
-      const proposerAddress = externalWallet.address as Address;
-      const isEligible = await getNounsProposalEligibility(proposerAddress, NOUNS_CHAIN_ID);
+      const isEligible = await getNounsProposalEligibility(
+        primaryWallet as Address,
+        NOUNS_CHAIN_ID
+      );
       if (!isEligible) return;
 
       const tokenMetadataURI = await generateMetadataUri();

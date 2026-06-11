@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
+import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { createNounsProposalApi } from "@/lib/nouns/createNounsProposalApi";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import { NOUNS_CHAIN_ID } from "@/lib/nouns/consts";
+import getSalesConfig from "@/lib/zora/getSalesConfig";
+import getSaleConfigType from "@/lib/getSaleConfigType";
 import { CreateNounsProposalResult, NounsSalesConfig } from "@/types/nouns";
 import { Address } from "viem";
 
@@ -20,16 +23,10 @@ export interface NounsCreateFormValues {
   collectionUri: string;
 }
 
-const DEFAULT_SALES_CONFIG: NounsSalesConfig = {
-  type: "ZoraTimedSaleStrategy",
-  pricePerToken: "0",
-  saleStart: "0",
-  saleEnd: "18446744073709551615",
-};
-
 export default function useNounsCreate() {
   const { primaryWallet } = useWalletsProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
+  const { price, priceUnit, startDate } = useMetadataFormProvider();
   const [building, setBuilding] = useState(false);
   const [result, setResult] = useState<CreateNounsProposalResult | null>(null);
 
@@ -69,7 +66,11 @@ export default function useNounsCreate() {
           {
             tokenMetadataURI,
             createReferral: REFERRAL_RECIPIENT,
-            salesConfig: DEFAULT_SALES_CONFIG,
+            salesConfig: getSalesConfig(
+              getSaleConfigType(priceUnit === "usdc" ? "erc20Mint" : "fixedPrice"),
+              price,
+              startDate
+            ) as NounsSalesConfig,
             mintToCreatorCount: 1,
             payoutRecipient: primaryWallet,
           },

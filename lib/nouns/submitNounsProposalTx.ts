@@ -2,23 +2,8 @@ import { createWalletClient, custom, Address, parseEther } from "viem";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { getPublicClient } from "@/lib/viem/publicClient";
 import { NOUNS_GOVERNOR_ADDRESS } from "./consts";
+import { nounsGovernorAbi } from "./abi/nounsGovernorAbi";
 import { NounsProposalTransaction } from "@/types/nouns";
-
-const NOUNS_GOVERNOR_ABI = [
-  {
-    name: "propose",
-    type: "function",
-    stateMutability: "nonpayable",
-    inputs: [
-      { name: "targets", type: "address[]" },
-      { name: "values", type: "uint256[]" },
-      { name: "signatures", type: "string[]" },
-      { name: "calldatas", type: "bytes[]" },
-      { name: "description", type: "string" },
-    ],
-    outputs: [{ name: "proposalId", type: "uint256" }],
-  },
-] as const;
 
 interface SubmitNounsProposalParams {
   externalWallet: any;
@@ -49,7 +34,7 @@ export const submitNounsProposalTx = async ({
 
   const hash = await client.writeContract({
     address: governorAddress,
-    abi: NOUNS_GOVERNOR_ABI,
+    abi: nounsGovernorAbi,
     functionName: "propose",
     args: [
       [transaction.to as Address],

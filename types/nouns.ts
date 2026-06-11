@@ -2,10 +2,12 @@ import { Address } from "viem";
 
 export interface NounsSalesConfig {
   type: string;
-  pricePerToken: string;
-  saleStart: string;
-  saleEnd: string;
+  pricePerToken?: string;
+  saleStart?: string;
+  saleEnd?: string;
   currency?: string;
+  erc20Name?: string;
+  erc20Symbol?: string;
 }
 
 export interface NounsSplitRecipient {

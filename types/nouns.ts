@@ -55,15 +55,9 @@ export interface CreateNounsProposalResult {
   proposalThreshold: number;
 }
 
-export type NounsContractType = "existing" | "new";
-
 export interface NounsProposalFormValues {
   chainId: number;
   proposalTitle: string;
   proposalDescription: string;
-  contractType: NounsContractType;
-  contractAddress: string;
-  collectionName: string;
-  collectionUri: string;
   tokenMetadataURI: string;
 }

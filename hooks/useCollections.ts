@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
 import { fetchCollections } from "@/lib/collections/fetchCollections";
@@ -24,8 +24,17 @@ export function useCollections() {
     staleTime: 60_000,
   });
 
+  const collections = query.data?.collections ?? [];
+
+  useEffect(() => {
+    if (selectedCollection) return;
+    const loadedCollections = query.data?.collections;
+    if (!loadedCollections?.length) return;
+    setSelectedCollection(loadedCollections[0].address);
+  }, [selectedCollection, query.data?.collections]);
+
   return {
-    collections: query.data?.collections ?? [],
+    collections,
     isLoading: query.isLoading || query.isPending,
     error: query.error instanceof Error ? query.error : null,
     selectedCollection,

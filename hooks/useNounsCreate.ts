@@ -10,7 +10,7 @@ import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import { createNounsProposalApi } from "@/lib/nouns/createNounsProposalApi";
-import { getNounsProposalEligibility } from "@/lib/nouns/getNounsProposalEligibility";
+import { checkNounsProposalEligibility } from "@/lib/nouns/checkNounsProposalEligibility";
 import { submitNounsProposalTx } from "@/lib/nouns/submitNounsProposalTx";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import { NOUNS_CHAIN_ID } from "@/lib/nouns/consts";
@@ -55,7 +55,7 @@ export default function useNounsCreate() {
     try {
       setCreating(true);
 
-      const isEligible = await getNounsProposalEligibility(
+      const isEligible = await checkNounsProposalEligibility(
         primaryWallet as Address,
         NOUNS_CHAIN_ID
       );

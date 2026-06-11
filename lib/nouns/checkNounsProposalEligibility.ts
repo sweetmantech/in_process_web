@@ -4,7 +4,7 @@ import { getPublicClient } from "@/lib/viem/publicClient";
 import { getNounsProposerVotesCall } from "./getNounsProposerVotesCall";
 import { getNounsProposalThresholdCall } from "./getNounsProposalThresholdCall";
 
-export const getNounsProposalEligibility = async (
+export const checkNounsProposalEligibility = async (
   account: Address,
   chainId: number
 ): Promise<boolean> => {

@@ -55,6 +55,14 @@ export interface CreateNounsProposalResult {
   proposalThreshold: number;
 }
 
+export interface SubmitNounsProposalResult {
+  txHash: `0x${string}`;
+  proposalId: bigint;
+  proposer: Address;
+  startBlock: bigint;
+  endBlock: bigint;
+}
+
 export interface NounsProposalFormValues {
   chainId: number;
   proposalTitle: string;

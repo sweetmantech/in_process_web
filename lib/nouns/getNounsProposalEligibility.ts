@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { toast } from "sonner";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { getNounsVotingPowerCall } from "./getNounsVotingPowerCall";
+import { getNounsProposerVotesCall } from "./getNounsProposerVotesCall";
 import { getNounsProposalThresholdCall } from "./getNounsProposalThresholdCall";
 
 export const getNounsProposalEligibility = async (
@@ -9,8 +9,12 @@ export const getNounsProposalEligibility = async (
   chainId: number
 ): Promise<boolean> => {
   const client = getPublicClient(chainId);
+  const blockNumber = await client.getBlockNumber();
   const [votingPowerResult, proposalThresholdResult] = await client.multicall({
-    contracts: [getNounsVotingPowerCall(account, chainId), getNounsProposalThresholdCall(chainId)],
+    contracts: [
+      getNounsProposerVotesCall(account, blockNumber - 1n, chainId),
+      getNounsProposalThresholdCall(chainId),
+    ],
   });
 
   if (votingPowerResult.status === "failure") {
@@ -23,9 +27,10 @@ export const getNounsProposalEligibility = async (
   const votingPower = Number(votingPowerResult.result);
   const proposalThreshold = Number(proposalThresholdResult.result);
 
-  if (votingPower < proposalThreshold) {
+  // Governor requires getPriorVotes(msg.sender, block.number - 1) > proposalThreshold
+  if (votingPower <= proposalThreshold) {
     toast.error(
-      `You need at least ${proposalThreshold} Noun${proposalThreshold !== 1 ? "s" : ""} to submit this proposal. You currently have ${votingPower}.`
+      `You need more than ${proposalThreshold} Noun${proposalThreshold !== 1 ? "s" : ""} to submit this proposal. You currently have ${votingPower}.`
     );
     return false;
   }

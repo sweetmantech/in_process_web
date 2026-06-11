@@ -17,13 +17,12 @@ import { Address } from "viem";
 export interface NounsCreateFormValues {
   proposalTitle: string;
   proposalDescription: string;
-  contractAddress: string;
 }
 
 export default function useNounsCreate() {
   const { primaryWallet } = useWalletsProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
-  const { price, priceUnit, startDate } = useMetadataFormProvider();
+  const { price, priceUnit, startDate, name } = useMetadataFormProvider();
   const [building, setBuilding] = useState(false);
   const [result, setResult] = useState<CreateNounsProposalResult | null>(null);
 
@@ -31,7 +30,6 @@ export default function useNounsCreate() {
     defaultValues: {
       proposalTitle: "",
       proposalDescription: "",
-      contractAddress: "",
     },
   });
 
@@ -46,8 +44,12 @@ export default function useNounsCreate() {
 
       const tokenMetadataURI = await generateMetadataUri();
       if (!tokenMetadataURI) throw new Error("Failed to upload media");
+      if (!name) throw new Error("Collection name is required");
 
-      const contract = { address: values.contractAddress };
+      const contract = {
+        name,
+        uri: tokenMetadataURI,
+      };
 
       const data = await createNounsProposalApi({
         chainId: NOUNS_CHAIN_ID,

@@ -107,6 +107,7 @@ const useMetadataUpload = () => {
 
     if (hasFilesToUpload) {
       setUploadProgress(100);
+      setIsUploading(false);
     }
 
     if (type === "writing") {

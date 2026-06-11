@@ -12,7 +12,7 @@ export const getNounsProposalEligibility = async (
   const blockNumber = await client.getBlockNumber();
   const [votingPowerResult, proposalThresholdResult] = await client.multicall({
     contracts: [
-      getNounsProposerVotesCall(account, blockNumber - 1n, chainId),
+      getNounsProposerVotesCall(account, blockNumber - BigInt(1), chainId),
       getNounsProposalThresholdCall(chainId),
     ],
   });

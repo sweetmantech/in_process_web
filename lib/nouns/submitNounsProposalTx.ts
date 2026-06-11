@@ -27,26 +27,43 @@ export const submitNounsProposalTx = async ({
   await externalWallet.switchChain(chainId);
   const provider = await externalWallet.getEthereumProvider();
 
+  const account = externalWallet.address as Address;
+  const publicClient = getPublicClient(chainId);
   const client = createWalletClient({
-    account: externalWallet.address as Address,
+    account,
     chain: getViemNetwork(chainId),
     transport: custom(provider),
   });
 
-  const hash = await client.writeContract({
-    address: governorAddress,
-    abi: nounsGovernorAbi,
-    functionName: "propose",
-    args: [
-      [transaction.to as Address],
-      [parseEther(transaction.value)],
-      [""],
-      [transaction.data as `0x${string}`],
-      `# ${proposalTitle}\n\n${proposalDescription}`,
-    ],
-  });
+  const proposeArgs = [
+    [transaction.to as Address],
+    [parseEther(transaction.value)],
+    [""],
+    [transaction.data as `0x${string}`],
+    `# ${proposalTitle}\n\n${proposalDescription}`,
+  ] as const;
 
-  const publicClient = getPublicClient(chainId);
+  let request;
+  try {
+    const simulation = await publicClient.simulateContract({
+      address: governorAddress,
+      abi: nounsGovernorAbi,
+      functionName: "propose",
+      args: proposeArgs,
+      account,
+    });
+    console.log("[nouns] propose simulation succeeded", {
+      proposalId: simulation.result,
+      account,
+      governorAddress,
+    });
+    request = simulation.request;
+  } catch (err) {
+    console.error("[nouns] propose simulation failed", err);
+    throw err;
+  }
+
+  const hash = await client.writeContract(request);
   const receipt = await publicClient.waitForTransactionReceipt({ hash });
   const { proposalId, proposer, startBlock, endBlock } = parseNounsProposalCreatedLog(
     receipt,

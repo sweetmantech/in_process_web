@@ -1,28 +1,36 @@
-import { createWalletClient, custom, Address, parseEther } from "viem";
+import { createWalletClient, custom, Address } from "viem";
 import getViemNetwork from "@/lib/viem/getViemNetwork";
 import { getPublicClient } from "@/lib/viem/publicClient";
-import { NOUNS_GOVERNOR_ADDRESS } from "./consts";
 import { nounsGovernorAbi } from "./abi/nounsGovernorAbi";
 import { parseNounsProposalCreatedLog } from "./parseNounsProposalCreatedLog";
-import { NounsProposalTransaction, SubmitNounsProposalResult } from "@/types/nouns";
+import { getNounsProposalSubmitErrorMessage } from "./getNounsProposalSubmitErrorMessage";
+import { NounsProposeArgs, SubmitNounsProposalResult } from "@/types/nouns";
 
 interface SubmitNounsProposalParams {
   externalWallet: any;
   chainId: number;
-  transaction: NounsProposalTransaction;
-  proposalTitle: string;
-  proposalDescription: string;
+  governor: string;
+  args: NounsProposeArgs;
 }
+
+const toProposeContractArgs = (args: NounsProposeArgs) => {
+  const [targets, values, signatures, calldatas, description] = args;
+  return [
+    targets as Address[],
+    values.map((value) => BigInt(value)),
+    signatures,
+    calldatas as `0x${string}`[],
+    description,
+  ] as const;
+};
 
 export const submitNounsProposalTx = async ({
   externalWallet,
   chainId,
-  transaction,
-  proposalTitle,
-  proposalDescription,
+  governor,
+  args,
 }: SubmitNounsProposalParams): Promise<SubmitNounsProposalResult> => {
-  const governorAddress = NOUNS_GOVERNOR_ADDRESS[chainId];
-  if (!governorAddress) throw new Error("Governor address not found for chain");
+  const governorAddress = governor as Address;
 
   await externalWallet.switchChain(chainId);
   const provider = await externalWallet.getEthereumProvider();
@@ -35,13 +43,7 @@ export const submitNounsProposalTx = async ({
     transport: custom(provider),
   });
 
-  const proposeArgs = [
-    [transaction.to as Address],
-    [parseEther(transaction.value)],
-    [""],
-    [transaction.data as `0x${string}`],
-    `# ${proposalTitle}\n\n${proposalDescription}`,
-  ] as const;
+  const proposeArgs = toProposeContractArgs(args);
 
   let request;
   try {
@@ -60,10 +62,16 @@ export const submitNounsProposalTx = async ({
     request = simulation.request;
   } catch (err) {
     console.error("[nouns] propose simulation failed", err);
-    throw err;
+    throw new Error(getNounsProposalSubmitErrorMessage(err));
   }
 
-  const hash = await client.writeContract(request);
+  let hash;
+  try {
+    hash = await client.writeContract(request);
+  } catch (err) {
+    console.error("[nouns] propose transaction failed", err);
+    throw new Error(getNounsProposalSubmitErrorMessage(err));
+  }
   const receipt = await publicClient.waitForTransactionReceipt({ hash });
   const { proposalId, proposer, startBlock, endBlock } = parseNounsProposalCreatedLog(
     receipt,

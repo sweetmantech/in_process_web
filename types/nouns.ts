@@ -35,7 +35,7 @@ export interface NounsProposal {
   description: string;
 }
 
-export interface CreateNounsProposalParams {
+export interface GetNounsProposalActionParams {
   chainId: number;
   account: Address;
   contract: NounsContract;
@@ -44,15 +44,18 @@ export interface CreateNounsProposalParams {
   proposal: NounsProposal;
 }
 
-export interface NounsProposalTransaction {
-  to: string;
-  data: string;
-  value: string;
-}
+export type NounsProposeArgs = [
+  targets: string[],
+  values: string[],
+  signatures: string[],
+  calldatas: string[],
+  description: string,
+];
 
-export interface CreateNounsProposalResult {
-  transaction: NounsProposalTransaction;
-  proposalThreshold: number;
+export interface GetNounsProposalActionResult {
+  governor: string;
+  args: NounsProposeArgs;
+  value: string;
 }
 
 export interface SubmitNounsProposalResult {

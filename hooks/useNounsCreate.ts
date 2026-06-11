@@ -9,7 +9,7 @@ import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import { createNounsProposalApi } from "@/lib/nouns/createNounsProposalApi";
+import { getNounsProposalActionApi } from "@/lib/nouns/getNounsProposalActionApi";
 import { checkNounsProposalEligibility } from "@/lib/nouns/checkNounsProposalEligibility";
 import { submitNounsProposalTx } from "@/lib/nouns/submitNounsProposalTx";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
@@ -70,7 +70,7 @@ export default function useNounsCreate() {
         uri: tokenMetadataURI,
       };
 
-      const data = await createNounsProposalApi({
+      const data = await getNounsProposalActionApi({
         chainId: NOUNS_CHAIN_ID,
         account: primaryWallet as Address,
         contract,
@@ -99,9 +99,8 @@ export default function useNounsCreate() {
       const { proposalId, txHash } = await submitNounsProposalTx({
         externalWallet,
         chainId: NOUNS_CHAIN_ID,
-        transaction: data.transaction,
-        proposalTitle: values.proposalTitle,
-        proposalDescription: values.proposalDescription,
+        governor: data.governor,
+        args: data.args,
       });
 
       push(`/nouns/success?proposalId=${proposalId.toString()}&txHash=${txHash}`);

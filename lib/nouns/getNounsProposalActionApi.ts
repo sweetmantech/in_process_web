@@ -1,9 +1,9 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import { CreateNounsProposalParams, CreateNounsProposalResult } from "@/types/nouns";
+import { GetNounsProposalActionParams, GetNounsProposalActionResult } from "@/types/nouns";
 
-export async function createNounsProposalApi(
-  params: CreateNounsProposalParams
-): Promise<CreateNounsProposalResult> {
+export async function getNounsProposalActionApi(
+  params: GetNounsProposalActionParams
+): Promise<GetNounsProposalActionResult> {
   const response = await fetch(`${IN_PROCESS_API}/nouns`, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -12,7 +12,7 @@ export async function createNounsProposalApi(
 
   if (!response.ok) {
     const text = await response.text();
-    let message = "Failed to build Nouns proposal";
+    let message = "Failed to get Nouns proposal action";
     try {
       message = JSON.parse(text).message ?? message;
     } catch {}

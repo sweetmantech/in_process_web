@@ -21,7 +21,8 @@ const NounsResult = ({ result, onReset }: NounsResultProps) => {
       <div>
         <p className="mb-1 font-archivo font-medium">proposal threshold</p>
         <p className="font-spectral text-sm text-grey-moss-400">
-          You need at least <span className="font-semibold text-grey-moss-900">{proposalThreshold}</span> Noun
+          You need at least{" "}
+          <span className="font-semibold text-grey-moss-900">{proposalThreshold}</span> Noun
           {proposalThreshold !== 1 ? "s" : ""} to submit this proposal.
         </p>
       </div>

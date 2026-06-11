@@ -20,7 +20,13 @@ const CHAIN_OPTIONS = [
 ];
 
 const NounsForm = ({ form, onSubmit, submitting }: NounsFormProps) => {
-  const { register, handleSubmit, watch, setValue, formState: { errors } } = form;
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = form;
   const contractType = watch("contractType");
   const chainId = watch("chainId");
 
@@ -111,7 +117,9 @@ const NounsForm = ({ form, onSubmit, submitting }: NounsFormProps) => {
                 disabled={submitting}
               />
               {errors.collectionName && (
-                <p className="font-spectral text-xs text-red-500">{errors.collectionName.message}</p>
+                <p className="font-spectral text-xs text-red-500">
+                  {errors.collectionName.message}
+                </p>
               )}
             </div>
             <div className="flex flex-col gap-1">

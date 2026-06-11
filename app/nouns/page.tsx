@@ -1,7 +1,7 @@
 "use client";
 
-import NounsProposal from "@/components/NounsProposal";
+import NounsCreation from "@/components/NounsCreation";
 
-const NounsPage = () => <NounsProposal />;
+const NounsPage = () => <NounsCreation />;
 
 export default NounsPage;

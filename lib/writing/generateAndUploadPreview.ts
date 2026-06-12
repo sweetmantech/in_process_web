@@ -1,16 +1,16 @@
-import { uploadViaApi, type UploadResult } from "@/lib/arweave/uploadViaApi";
+import { uploadToSupabase } from "@/lib/supabase/storage/uploadToSupabase";
 import { generateTextPreview } from "./generateTextPreview";
-import type { UploadClient } from "@/types/upload";
+import type { UploadResult } from "@/types/upload";
 
 export const generateAndUploadPreview = async (
-  writingText: string,
-  client: UploadClient
+  writingText: string
 ): Promise<UploadResult | null> => {
   if (!writingText.trim()) return null;
 
   try {
     const previewFile = await generateTextPreview(writingText);
-    return uploadViaApi(previewFile, client);
+    const uri = await uploadToSupabase(previewFile);
+    return { uri };
   } catch (error) {
     console.error("Failed to generate text preview:", error);
     return null;

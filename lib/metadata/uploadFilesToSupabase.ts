@@ -1,5 +1,4 @@
-import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
-import type { UploadClient } from "@/types/upload";
+import { uploadToSupabase } from "@/lib/supabase/storage/uploadToSupabase";
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -9,8 +8,7 @@ interface FileUploadResult {
   animationUrl: string;
 }
 
-export const uploadFilesToArweave = async (
-  client: UploadClient,
+export const uploadFilesToSupabase = async (
   previewFile: File | null,
   imageFile: File | null,
   animationFile: File | null,
@@ -21,8 +19,7 @@ export const uploadFilesToArweave = async (
   let uploadedPreviewUri = "";
   let uploadedImageUri = "";
   let uploadedAnimationUri = "";
-  let image = "";
-  let animationUrl = existingAnimationUrl;
+  const animationUrl = existingAnimationUrl;
 
   const isVideo = mimeType?.includes("video");
 
@@ -52,8 +49,7 @@ export const uploadFilesToArweave = async (
 
     setUploadProgress?.(Math.round(fileStartProgress));
 
-    const uploadResult = await uploadViaApi(file, client);
-    const uploadedUri = uploadResult.arweave_uri;
+    const uploadedUri = await uploadToSupabase(file);
 
     if (name === "preview") {
       uploadedPreviewUri = uploadedUri;
@@ -66,14 +62,11 @@ export const uploadFilesToArweave = async (
     setUploadProgress?.(Math.min(Math.round(fileStartProgress + fileContribution), 100));
   }
 
-  image = uploadedPreviewUri || "";
-  animationUrl = uploadedAnimationUri || uploadedImageUri || existingAnimationUrl;
-
   return {
     uploadedPreviewUri,
     uploadedImageUri,
     uploadedAnimationUri,
-    image,
-    animationUrl,
+    image: uploadedPreviewUri || "",
+    animationUrl: uploadedAnimationUri || uploadedImageUri || animationUrl,
   };
 };

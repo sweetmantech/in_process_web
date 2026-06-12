@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
-import getSalesConfig from "@/lib/zora/getSalesConfig";
-import getSaleConfigType from "@/lib/getSaleConfigType";
+import buildSalesConfig from "@/lib/zora/buildSalesConfig";
+import resolvePayoutRecipient from "@/lib/wallets/resolvePayoutRecipient";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -17,19 +17,13 @@ const useMomentCreateParameters = () => {
   const { generateMetadataUri } = useMetadataUploadProvider();
   const { selectedCollection: collection } = useCollectionsProvider();
 
-  // Use priceUnit to determine if USDC
-  const isUsdc = priceUnit === "usdc";
   const fetchParameters = async () => {
-    const payoutRecipient = isMiniApp || hasEOA ? primaryWallet : smartWallet;
+    const payoutRecipient = resolvePayoutRecipient(isMiniApp, hasEOA, primaryWallet, smartWallet);
     if (!payoutRecipient) throw new Error("Wallet not ready. Please try again.");
 
     const momentMetadataUri = await generateMetadataUri();
     if (!name) return;
-    const salesConfig = getSalesConfig(
-      getSaleConfigType(isUsdc ? "erc20Mint" : "fixedPrice"),
-      price,
-      startDate
-    );
+    const salesConfig = buildSalesConfig(priceUnit, price, startDate);
 
     const formSplits = form.getValues("splits");
     const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;

@@ -5,10 +5,13 @@ import { Label } from "@/components/ui/label";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CurrencySelect from "./CurrencySelect";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
+import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
 
 export default function Price() {
   const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
+  const { isCreating } = useBulkCreateProvider();
+  const isDisabled = Boolean(creating) || isCreating;
 
   return (
     <div className="w-full pt-2">
@@ -34,7 +37,7 @@ export default function Price() {
             e.currentTarget.blur();
           }}
           className="flex-grow !rounded-[0px] !border-none bg-white !font-spectral [appearance:textfield] focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-          disabled={Boolean(creating)}
+          disabled={isDisabled}
         />
         <div className="bg-white">
           <div className="my-2 h-6 w-[1px] bg-grey-secondary" />

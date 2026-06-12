@@ -36,7 +36,8 @@ export default function useMomentCreate() {
       }
       const result = await createMomentApi(parameters);
       setSelectedCollection(result.contractAddress);
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      const INDEXER_SETTLE_MS = 3000; // wait for indexer to pick up newly minted token
+      await new Promise((resolve) => setTimeout(resolve, INDEXER_SETTLE_MS));
 
       setIsUploading(false);
       setUploadProgress(100);

@@ -2,15 +2,13 @@ import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useFileSelect from "./useFileSelect";
+import useRecaptchaToken from "./useRecaptchaToken";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
-import { uploadVideoToMuxIfNeeded } from "@/lib/metadata/uploadVideoToMuxIfNeeded";
-import { uploadFilesToArweave } from "@/lib/metadata/uploadFilesToArweave";
+import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
-import { isModelGltfLike } from "@/lib/media/isModelGltfLike";
-import { MomentMetadata } from "@/types/moment";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { MomentMetadata } from "@/types/moment";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
@@ -29,115 +27,57 @@ const useMetadataUpload = () => {
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const { selectFile } = useFileSelect();
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const recaptcha = useRecaptchaToken("upload");
   useLinkPreview();
 
-  const getRecaptchaToken = async () => {
-    if (!executeRecaptcha) throw new Error("Recaptcha is not initialized");
-    return executeRecaptcha("upload").catch(() => undefined);
-  };
-
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
-    const authorization = await getAuthHeaders();
-    let mime = mimeType;
-    let animation_url = "";
-    let contentUri = "";
-    let image = "";
+    const headers = await getAuthHeaders();
+    const client = { headers, recaptcha };
+
+    if (type === "writing" || type === "embed") {
+      const uploadResult =
+        type === "writing" ? await uploadWriting(client) : await uploadEmbedCode(client);
+      const metadataResult = await buildMetadataPayload({
+        name,
+        description,
+        externalUrl: link,
+        image: "image" in uploadResult ? uploadResult.image : "",
+        animationUrl: uploadResult.animationUrl,
+        mime: uploadResult.mime,
+        contentUri: uploadResult.contentUri,
+        client,
+        existingMetadata,
+      });
+      return metadataResult.arweave_uri;
+    }
 
     const hasFilesToUpload = Boolean(previewFile || imageFile || animationFile);
-
-    const isVideo = animationFile && mimeType.includes("video");
-    if (isVideo) {
+    if (hasFilesToUpload) {
       setIsUploading(true);
       setUploadProgress(0);
     }
-    const videoResult = await uploadVideoToMuxIfNeeded(
-      animationFile,
-      mimeType,
-      authorization,
-      setUploadProgress
-    );
-    if (videoResult.animationUrl) {
-      animation_url = videoResult.animationUrl;
-      contentUri = videoResult.contentUri;
+
+    try {
+      const arweaveUri = await generateSingleFileMetadata({
+        imageFile,
+        animationFile,
+        previewFile,
+        mimeType,
+        name,
+        description,
+        link,
+        client,
+        onProgress: setUploadProgress,
+        existingMetadata,
+      });
+      if (hasFilesToUpload) setUploadProgress(100);
+      return arweaveUri;
+    } catch (err) {
+      if (hasFilesToUpload) setUploadProgress(0);
+      throw err;
+    } finally {
+      if (hasFilesToUpload) setIsUploading(false);
     }
-
-    const hasNonVideoFiles = Boolean(previewFile || imageFile);
-    if (hasNonVideoFiles) {
-      if (!isVideo) {
-        setIsUploading(true);
-        setUploadProgress(0);
-      }
-    }
-
-    const fileUploadResult = await uploadFilesToArweave(
-      authorization,
-      previewFile,
-      imageFile,
-      animationFile,
-      animation_url,
-      getRecaptchaToken,
-      setUploadProgress,
-      mimeType
-    );
-
-    image = fileUploadResult.image;
-
-    if (isVideo) {
-      // Keep Mux URLs
-    } else {
-      animation_url = fileUploadResult.animationUrl || animation_url;
-
-      const isPdf = mimeType.includes("pdf");
-      const isImage = mimeType.includes("image");
-      const isAudio = mimeType.includes("audio");
-      const isModel = isModelGltfLike(mimeType, animationFile?.name ?? null);
-      if ((isPdf || isImage || isAudio) && animation_url) {
-        contentUri = animation_url;
-      }
-      if (isModel && animation_url) {
-        contentUri = animation_url;
-        if (!mime.trim()) {
-          mime = /\.glb$/i.test(animationFile?.name ?? "")
-            ? "model/gltf-binary"
-            : "model/gltf+json";
-        }
-      }
-    }
-
-    if (hasFilesToUpload) {
-      setUploadProgress(100);
-      setIsUploading(false);
-    }
-
-    if (type === "writing") {
-      const writingResult = await uploadWriting(authorization, getRecaptchaToken);
-      mime = writingResult.mime;
-      animation_url = writingResult.animationUrl;
-      contentUri = writingResult.contentUri;
-      image = writingResult.image;
-    }
-
-    if (type === "embed") {
-      const embedResult = await uploadEmbedCode(authorization, getRecaptchaToken);
-      mime = embedResult.mime;
-      animation_url = embedResult.animationUrl;
-      contentUri = embedResult.contentUri;
-    }
-
-    const metadataResult = await buildMetadataPayload(
-      name,
-      description,
-      link,
-      image,
-      animation_url,
-      mime,
-      contentUri,
-      authorization,
-      getRecaptchaToken,
-      existingMetadata
-    );
-    return metadataResult.arweave_uri;
   };
 
   return {

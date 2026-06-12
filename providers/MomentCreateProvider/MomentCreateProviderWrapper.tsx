@@ -4,6 +4,7 @@ import React from "react";
 import { MetadataFormProvider } from "../MetadataFormProvider";
 import { MetadataUploadProvider } from "../MetadataUploadProvider";
 import { MomentCreateProvider } from "./MomentCreateProvider";
+import { BulkCreateProvider } from "../BulkCreateProvider";
 
 interface MomentCreateProviderWrapperProps {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ const MomentCreateProviderWrapper = ({ children }: MomentCreateProviderWrapperPr
   return (
     <MetadataFormProvider>
       <MetadataUploadProvider>
-        <MomentCreateProvider>{children}</MomentCreateProvider>
+        <MomentCreateProvider>
+          <BulkCreateProvider>{children}</BulkCreateProvider>
+        </MomentCreateProvider>
       </MetadataUploadProvider>
     </MetadataFormProvider>
   );

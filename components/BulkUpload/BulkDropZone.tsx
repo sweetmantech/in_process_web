@@ -59,7 +59,7 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
         </p>
         <p className="font-archivo text-xs text-grey-moss-400">
           drop <span className="font-archivo-medium text-grey-moss-600">multiple files</span> to
-          bulk mint
+          bulk create
         </p>
       </div>
     </div>

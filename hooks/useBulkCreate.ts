@@ -8,7 +8,7 @@ import { Address } from "viem";
 import { BulkResult } from "@/types/bulk";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { createMomentBatchApi } from "@/lib/moment/createMomentBatchApi";
-import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
+
 import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
@@ -20,7 +20,7 @@ import buildSalesConfig from "@/lib/zora/buildSalesConfig";
 import resolvePayoutRecipient from "@/lib/wallets/resolvePayoutRecipient";
 import buildBatchContract from "@/lib/moment/buildBatchContract";
 import buildBatchTokens from "@/lib/moment/buildBatchTokens";
-import useRecaptchaToken from "./useRecaptchaToken";
+
 import useBulkItems from "./useBulkItems";
 
 const useBulkCreate = () => {
@@ -37,7 +37,6 @@ const useBulkCreate = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [result, setResult] = useState<BulkResult | null>(null);
 
-  const { getAuthHeaders } = useAuthorizationProvider();
   const { isPrepared } = useUserProvider();
   const { walletsReady, primaryWallet, hasEOA } = useWalletsProvider();
   const { isMiniApp } = useMiniAppProvider();
@@ -45,7 +44,6 @@ const useBulkCreate = () => {
   const { priceUnit, price, startDate } = useMetadataFormProvider();
   const { selectedCollection: collection, setSelectedCollection } = useCollectionsProvider();
   const { push } = useRouter();
-  const recaptcha = useRecaptchaToken("bulk_upload");
 
   const clearAll = useCallback(() => {
     clearItems();
@@ -65,8 +63,6 @@ const useBulkCreate = () => {
 
     try {
       setIsCreating(true);
-      const headers = await getAuthHeaders();
-      const client = { headers, recaptcha };
       const payoutRecipient = resolvePayoutRecipient(isMiniApp, hasEOA, primaryWallet, smartWallet);
       if (!payoutRecipient) throw new Error("Wallet not ready. Please try again.");
 
@@ -86,7 +82,6 @@ const useBulkCreate = () => {
           name: item.name,
           description: "",
           link: "",
-          client,
           onProgress: (p) => updateItemStatus(item.id, { progress: p }),
         });
 
@@ -130,7 +125,6 @@ const useBulkCreate = () => {
     bulkItems,
     isPrepared,
     walletsReady,
-    getAuthHeaders,
     isMiniApp,
     hasEOA,
     primaryWallet,
@@ -141,7 +135,6 @@ const useBulkCreate = () => {
     collection,
     setSelectedCollection,
     push,
-    recaptcha,
     updateItemStatus,
     markUploadingAsError,
   ]);

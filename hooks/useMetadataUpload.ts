@@ -2,17 +2,14 @@ import useLinkPreview from "./useLinkPreview";
 import useEmbedCode from "./useEmbedCode";
 import useWriting from "./useWriting";
 import useFileSelect from "./useFileSelect";
-import useRecaptchaToken from "./useRecaptchaToken";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
-import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { MomentMetadata } from "@/types/moment";
 
 const useMetadataUpload = () => {
   const type = useTypeParam();
-  const { getAuthHeaders } = useAuthorizationProvider();
   const {
     description,
     mimeType,
@@ -27,16 +24,11 @@ const useMetadataUpload = () => {
   const { uploadWriting } = useWriting();
   const { uploadEmbedCode } = useEmbedCode();
   const { selectFile } = useFileSelect();
-  const recaptcha = useRecaptchaToken("upload");
   useLinkPreview();
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
-    const headers = await getAuthHeaders();
-    const client = { headers, recaptcha };
-
     if (type === "writing" || type === "embed") {
-      const uploadResult =
-        type === "writing" ? await uploadWriting(client) : await uploadEmbedCode(client);
+      const uploadResult = type === "writing" ? await uploadWriting() : await uploadEmbedCode();
       const metadataResult = await buildMetadataPayload({
         name,
         description,
@@ -45,10 +37,9 @@ const useMetadataUpload = () => {
         animationUrl: uploadResult.animationUrl,
         mime: uploadResult.mime,
         contentUri: uploadResult.contentUri,
-        client,
         existingMetadata,
       });
-      return metadataResult.arweave_uri;
+      return metadataResult.uri;
     }
 
     const hasFilesToUpload = Boolean(previewFile || imageFile || animationFile);
@@ -58,7 +49,7 @@ const useMetadataUpload = () => {
     }
 
     try {
-      const arweaveUri = await generateSingleFileMetadata({
+      const uri = await generateSingleFileMetadata({
         imageFile,
         animationFile,
         previewFile,
@@ -66,12 +57,11 @@ const useMetadataUpload = () => {
         name,
         description,
         link,
-        client,
         onProgress: setUploadProgress,
         existingMetadata,
       });
       if (hasFilesToUpload) setUploadProgress(100);
-      return arweaveUri;
+      return uri;
     } catch (err) {
       if (hasFilesToUpload) setUploadProgress(0);
       throw err;

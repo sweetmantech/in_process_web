@@ -1,5 +1,4 @@
-import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
-import type { UploadClient } from "@/types/upload";
+import { uploadToSupabase } from '@/lib/supabase/storage/uploadToSupabase';
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -9,8 +8,7 @@ interface FileUploadResult {
   animationUrl: string;
 }
 
-export const uploadFilesToArweave = async (
-  client: UploadClient,
+export const uploadFilesToSupabase = async (
   previewFile: File | null,
   imageFile: File | null,
   animationFile: File | null,
@@ -18,27 +16,26 @@ export const uploadFilesToArweave = async (
   setUploadProgress?: (progress: number) => void,
   mimeType?: string
 ): Promise<FileUploadResult> => {
-  let uploadedPreviewUri = "";
-  let uploadedImageUri = "";
-  let uploadedAnimationUri = "";
-  let image = "";
-  let animationUrl = existingAnimationUrl;
+  let uploadedPreviewUri = '';
+  let uploadedImageUri = '';
+  let uploadedAnimationUri = '';
+  const animationUrl = existingAnimationUrl;
 
-  const isVideo = mimeType?.includes("video");
+  const isVideo = mimeType?.includes('video');
 
   const filesToUpload = [
-    { file: previewFile, name: "preview" },
-    { file: imageFile, name: "image" },
-    ...(isVideo ? [] : [{ file: animationFile, name: "animation" }]),
+    { file: previewFile, name: 'preview' },
+    { file: imageFile, name: 'image' },
+    ...(isVideo ? [] : [{ file: animationFile, name: 'animation' }]),
   ].filter((item) => item.file !== null);
 
   const totalFiles = filesToUpload.length;
   if (totalFiles === 0) {
     return {
-      uploadedPreviewUri: "",
-      uploadedImageUri: "",
-      uploadedAnimationUri: "",
-      image: "",
+      uploadedPreviewUri: '',
+      uploadedImageUri: '',
+      uploadedAnimationUri: '',
+      image: '',
       animationUrl: existingAnimationUrl,
     };
   }
@@ -52,28 +49,24 @@ export const uploadFilesToArweave = async (
 
     setUploadProgress?.(Math.round(fileStartProgress));
 
-    const uploadResult = await uploadViaApi(file, client);
-    const uploadedUri = uploadResult.arweave_uri;
+    const uploadedUri = await uploadToSupabase(file);
 
-    if (name === "preview") {
+    if (name === 'preview') {
       uploadedPreviewUri = uploadedUri;
-    } else if (name === "image") {
+    } else if (name === 'image') {
       uploadedImageUri = uploadedUri;
-    } else if (name === "animation") {
+    } else if (name === 'animation') {
       uploadedAnimationUri = uploadedUri;
     }
 
     setUploadProgress?.(Math.min(Math.round(fileStartProgress + fileContribution), 100));
   }
 
-  image = uploadedPreviewUri || "";
-  animationUrl = uploadedAnimationUri || uploadedImageUri || existingAnimationUrl;
-
   return {
     uploadedPreviewUri,
     uploadedImageUri,
     uploadedAnimationUri,
-    image,
-    animationUrl,
+    image: uploadedPreviewUri || '',
+    animationUrl: uploadedAnimationUri || uploadedImageUri || animationUrl,
   };
 };

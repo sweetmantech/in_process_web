@@ -1,9 +1,8 @@
-import { uploadVideoToMuxIfNeeded } from "./uploadVideoToMuxIfNeeded";
-import { uploadFilesToArweave } from "./uploadFilesToArweave";
-import { buildMetadataPayload } from "./buildMetadataPayload";
-import { resolveContentUri } from "./resolveContentUri";
-import type { UploadClient } from "@/types/upload";
-import { MomentMetadata } from "@/types/moment";
+import { uploadVideoToMuxIfNeeded } from './uploadVideoToMuxIfNeeded';
+import { uploadFilesToSupabase } from './uploadFilesToSupabase';
+import { buildMetadataPayload } from './buildMetadataPayload';
+import { resolveContentUri } from './resolveContentUri';
+import { MomentMetadata } from '@/types/moment';
 
 export interface SingleFileMetadataParams {
   imageFile: File | null;
@@ -13,7 +12,6 @@ export interface SingleFileMetadataParams {
   name: string;
   description: string;
   link: string;
-  client: UploadClient;
   onProgress?: (progress: number) => void;
   existingMetadata?: MomentMetadata | null;
 }
@@ -26,21 +24,14 @@ export const generateSingleFileMetadata = async ({
   name,
   description,
   link,
-  client,
   onProgress,
   existingMetadata,
 }: SingleFileMetadataParams): Promise<string> => {
-  const isVideo = mimeType.includes("video");
+  const isVideo = mimeType.includes('video');
 
-  const videoResult = await uploadVideoToMuxIfNeeded(
-    animationFile,
-    mimeType,
-    client.headers,
-    onProgress
-  );
+  const videoResult = await uploadVideoToMuxIfNeeded(animationFile, mimeType, onProgress);
 
-  const fileUploadResult = await uploadFilesToArweave(
-    client,
+  const fileUploadResult = await uploadFilesToSupabase(
     previewFile,
     imageFile,
     animationFile,
@@ -65,9 +56,8 @@ export const generateSingleFileMetadata = async ({
     animationUrl: animation_url,
     mime,
     contentUri,
-    client,
     existingMetadata,
   });
 
-  return metadataResult.arweave_uri;
+  return metadataResult.uri;
 };

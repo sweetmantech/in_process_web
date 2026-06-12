@@ -26,7 +26,6 @@ export const useUploadPreview = () => {
         toast.error("please, select only image file.");
         return;
       }
-      // Store file blob for deferred upload (upload happens later in uploadFilesToArweave)
       setPreviewFile(file);
     },
     [setPreviewFile]

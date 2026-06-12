@@ -5,12 +5,12 @@ type CreateUploadUrlResponse = {
   uploadId: string;
 };
 
-const createUploadUrl = async (authHeaders: HeadersInit): Promise<CreateUploadUrlResponse> => {
+const createUploadUrl = async (): Promise<CreateUploadUrlResponse> => {
   const response = await fetch(`${IN_PROCESS_API}/mux/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...authHeaders,
+      "x-upload-key": process.env.NEXT_PUBLIC_IN_PROCESS_UPLOAD_KEY!,
     },
   });
 

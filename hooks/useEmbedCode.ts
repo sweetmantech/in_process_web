@@ -1,18 +1,17 @@
-import { uploadViaApi } from "@/lib/arweave/uploadViaApi";
+import { uploadToSupabase } from "@/lib/supabase/storage/uploadToSupabase";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import type { UploadClient } from "@/types/upload";
 
 const useEmbedCode = () => {
   const { embedCode } = useMetadataFormProvider();
 
-  const uploadEmbedCode = async (client: UploadClient) => {
+  const uploadEmbedCode = async () => {
     const blob = new Blob([`<html>\n      ${embedCode}\n      </html>`], { type: "text/html" });
-    const file = new File([blob], "embed", { type: "text/html" });
-    const result = await uploadViaApi(file, client);
+    const file = new File([blob], "embed.html", { type: "text/html" });
+    const uri = await uploadToSupabase(file);
     return {
       mime: "text/html" as const,
-      animationUrl: result.arweave_uri,
-      contentUri: result.arweave_uri,
+      animationUrl: uri,
+      contentUri: uri,
     };
   };
 

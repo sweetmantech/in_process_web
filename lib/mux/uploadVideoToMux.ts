@@ -14,14 +14,13 @@ export interface MuxUploadResult {
  */
 export const uploadVideoToMux = async (
   file: File,
-  authHeaders: HeadersInit,
   onProgress?: (progress: number) => void
 ): Promise<MuxUploadResult> => {
   if (!file) {
     throw new Error("No file provided");
   }
 
-  const { uploadURL, uploadId } = await createUploadUrl(authHeaders);
+  const { uploadURL, uploadId } = await createUploadUrl();
 
   if (!uploadId) {
     throw new Error("Upload ID not available");

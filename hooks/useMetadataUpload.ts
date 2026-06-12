@@ -28,8 +28,7 @@ const useMetadataUpload = () => {
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
     if (type === "writing" || type === "embed") {
-      const uploadResult =
-        type === "writing" ? await uploadWriting() : await uploadEmbedCode();
+      const uploadResult = type === "writing" ? await uploadWriting() : await uploadEmbedCode();
       const metadataResult = await buildMetadataPayload({
         name,
         description,

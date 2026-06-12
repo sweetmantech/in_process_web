@@ -1,4 +1,4 @@
-import { uploadToSupabase } from '@/lib/supabase/storage/uploadToSupabase';
+import { uploadToSupabase } from "@/lib/supabase/storage/uploadToSupabase";
 
 interface FileUploadResult {
   uploadedPreviewUri: string;
@@ -16,26 +16,26 @@ export const uploadFilesToSupabase = async (
   setUploadProgress?: (progress: number) => void,
   mimeType?: string
 ): Promise<FileUploadResult> => {
-  let uploadedPreviewUri = '';
-  let uploadedImageUri = '';
-  let uploadedAnimationUri = '';
+  let uploadedPreviewUri = "";
+  let uploadedImageUri = "";
+  let uploadedAnimationUri = "";
   const animationUrl = existingAnimationUrl;
 
-  const isVideo = mimeType?.includes('video');
+  const isVideo = mimeType?.includes("video");
 
   const filesToUpload = [
-    { file: previewFile, name: 'preview' },
-    { file: imageFile, name: 'image' },
-    ...(isVideo ? [] : [{ file: animationFile, name: 'animation' }]),
+    { file: previewFile, name: "preview" },
+    { file: imageFile, name: "image" },
+    ...(isVideo ? [] : [{ file: animationFile, name: "animation" }]),
   ].filter((item) => item.file !== null);
 
   const totalFiles = filesToUpload.length;
   if (totalFiles === 0) {
     return {
-      uploadedPreviewUri: '',
-      uploadedImageUri: '',
-      uploadedAnimationUri: '',
-      image: '',
+      uploadedPreviewUri: "",
+      uploadedImageUri: "",
+      uploadedAnimationUri: "",
+      image: "",
       animationUrl: existingAnimationUrl,
     };
   }
@@ -51,11 +51,11 @@ export const uploadFilesToSupabase = async (
 
     const uploadedUri = await uploadToSupabase(file);
 
-    if (name === 'preview') {
+    if (name === "preview") {
       uploadedPreviewUri = uploadedUri;
-    } else if (name === 'image') {
+    } else if (name === "image") {
       uploadedImageUri = uploadedUri;
-    } else if (name === 'animation') {
+    } else if (name === "animation") {
       uploadedAnimationUri = uploadedUri;
     }
 
@@ -66,7 +66,7 @@ export const uploadFilesToSupabase = async (
     uploadedPreviewUri,
     uploadedImageUri,
     uploadedAnimationUri,
-    image: uploadedPreviewUri || '',
+    image: uploadedPreviewUri || "",
     animationUrl: uploadedAnimationUri || uploadedImageUri || animationUrl,
   };
 };

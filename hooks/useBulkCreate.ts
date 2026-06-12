@@ -37,7 +37,6 @@ const useBulkCreate = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [result, setResult] = useState<BulkResult | null>(null);
 
-
   const { isPrepared } = useUserProvider();
   const { walletsReady, primaryWallet, hasEOA } = useWalletsProvider();
   const { isMiniApp } = useMiniAppProvider();
@@ -45,7 +44,6 @@ const useBulkCreate = () => {
   const { priceUnit, price, startDate } = useMetadataFormProvider();
   const { selectedCollection: collection, setSelectedCollection } = useCollectionsProvider();
   const { push } = useRouter();
-
 
   const clearAll = useCallback(() => {
     clearItems();

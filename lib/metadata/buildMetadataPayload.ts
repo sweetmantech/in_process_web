@@ -1,7 +1,7 @@
-import { isInvalidArUri } from '@/lib/arweave/isInvalidArUri';
-import { uploadJson } from '@/lib/arweave/uploadJson';
-import type { UploadResult } from '@/types/upload';
-import { MomentMetadata } from '@/types/moment';
+import { isInvalidArUri } from "@/lib/arweave/isInvalidArUri";
+import { uploadJson } from "@/lib/arweave/uploadJson";
+import type { UploadResult } from "@/types/upload";
+import { MomentMetadata } from "@/types/moment";
 
 export interface BuildMetadataPayloadParams {
   name: string;
@@ -24,18 +24,18 @@ export const buildMetadataPayload = async ({
   contentUri,
   existingMetadata,
 }: BuildMetadataPayloadParams): Promise<UploadResult> => {
-  const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : '';
-  const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : '';
+  const safeAnimationUrl = animationUrl && !isInvalidArUri(animationUrl) ? animationUrl : "";
+  const safeContentUri = contentUri && !isInvalidArUri(contentUri) ? contentUri : "";
 
   const mergedMetadata = {
-    name: name || existingMetadata?.name || '',
-    description: description ?? existingMetadata?.description ?? '',
-    external_url: externalUrl || existingMetadata?.external_url || '',
-    image: image || existingMetadata?.image || '',
+    name: name || existingMetadata?.name || "",
+    description: description ?? existingMetadata?.description ?? "",
+    external_url: externalUrl || existingMetadata?.external_url || "",
+    image: image || existingMetadata?.image || "",
     animation_url: safeAnimationUrl || existingMetadata?.animation_url || null,
     content: {
-      mime: mime || existingMetadata?.content?.mime || '',
-      uri: safeContentUri || existingMetadata?.content?.uri || '',
+      mime: mime || existingMetadata?.content?.mime || "",
+      uri: safeContentUri || existingMetadata?.content?.uri || "",
     },
   };
 

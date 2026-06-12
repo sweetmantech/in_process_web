@@ -1,8 +1,8 @@
-import { uploadVideoToMuxIfNeeded } from './uploadVideoToMuxIfNeeded';
-import { uploadFilesToSupabase } from './uploadFilesToSupabase';
-import { buildMetadataPayload } from './buildMetadataPayload';
-import { resolveContentUri } from './resolveContentUri';
-import { MomentMetadata } from '@/types/moment';
+import { uploadVideoToMuxIfNeeded } from "./uploadVideoToMuxIfNeeded";
+import { uploadFilesToSupabase } from "./uploadFilesToSupabase";
+import { buildMetadataPayload } from "./buildMetadataPayload";
+import { resolveContentUri } from "./resolveContentUri";
+import { MomentMetadata } from "@/types/moment";
 
 export interface SingleFileMetadataParams {
   imageFile: File | null;
@@ -27,7 +27,7 @@ export const generateSingleFileMetadata = async ({
   onProgress,
   existingMetadata,
 }: SingleFileMetadataParams): Promise<string> => {
-  const isVideo = mimeType.includes('video');
+  const isVideo = mimeType.includes("video");
 
   const videoResult = await uploadVideoToMuxIfNeeded(animationFile, mimeType, onProgress);
 

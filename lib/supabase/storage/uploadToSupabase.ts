@@ -1,10 +1,10 @@
-import { supabase } from '@/lib/supabase/client';
-import { v4 as uuidv4 } from 'uuid';
+import { supabase } from "@/lib/supabase/client";
+import { v4 as uuidv4 } from "uuid";
 
-const BUCKET = 'in_process_files';
+const BUCKET = "in_process_files";
 
 export const uploadToSupabase = async (file: File): Promise<string> => {
-  const ext = file.name.split('.').pop();
+  const ext = file.name.split(".").pop();
   const path = ext ? `${uuidv4({})}.${ext}` : uuidv4({});
   const { error } = await supabase.storage
     .from(BUCKET)

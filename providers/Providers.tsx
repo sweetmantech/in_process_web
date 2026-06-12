@@ -13,7 +13,6 @@ import WayfinderProvider from "./WayfinderProvider";
 import NotificationsProvider from "./NotificationsProvider";
 import LoadingPage from "@/components/LoadingPage/LoadingPage";
 
-
 interface ProvidersProps {
   children: ReactNode;
 }

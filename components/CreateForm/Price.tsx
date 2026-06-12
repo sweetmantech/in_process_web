@@ -5,11 +5,13 @@ import { Label } from "@/components/ui/label";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CurrencySelect from "./CurrencySelect";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
+import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
 
-export default function Price({ disabled }: { disabled?: boolean }) {
+export default function Price() {
   const { form } = useMetadataFormProvider();
   const { creating } = useMomentCreateProvider();
-  const isDisabled = Boolean(creating) || disabled;
+  const { isCreating } = useBulkCreateProvider();
+  const isDisabled = Boolean(creating) || isCreating;
 
   return (
     <div className="w-full pt-2">
@@ -40,7 +42,7 @@ export default function Price({ disabled }: { disabled?: boolean }) {
         <div className="bg-white">
           <div className="my-2 h-6 w-[1px] bg-grey-secondary" />
         </div>
-        <CurrencySelect disabled={disabled} />
+        <CurrencySelect />
       </div>
       {form.formState.errors.price && (
         <p className="mt-1 font-spectral text-xs text-red-500">

@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Address } from "viem";
 
-import { BulkItem, BulkResult } from "@/types/bulk";
-import { validateFile } from "@/lib/fileSelect/validateFile";
-import { processFileToItem } from "@/lib/fileSelect/processFileToItem";
+import { BulkResult } from "@/types/bulk";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { createMomentBatchApi } from "@/lib/moment/createMomentBatchApi";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
@@ -23,11 +21,18 @@ import resolvePayoutRecipient from "@/lib/wallets/resolvePayoutRecipient";
 import buildBatchContract from "@/lib/moment/buildBatchContract";
 import buildBatchTokens from "@/lib/moment/buildBatchTokens";
 import useRecaptchaToken from "./useRecaptchaToken";
+import useBulkItems from "./useBulkItems";
 
 const useBulkCreate = () => {
-  const [bulkItems, setBulkItems] = useState<BulkItem[]>([]);
-  const bulkItemsRef = useRef(bulkItems);
-  bulkItemsRef.current = bulkItems;
+  const {
+    bulkItems,
+    addFiles,
+    removeFile,
+    setItemName,
+    updateItemStatus,
+    markUploadingAsError,
+    clearItems,
+  } = useBulkItems();
 
   const [isCreating, setIsCreating] = useState(false);
   const [result, setResult] = useState<BulkResult | null>(null);
@@ -42,52 +47,10 @@ const useBulkCreate = () => {
   const { push } = useRouter();
   const recaptcha = useRecaptchaToken("bulk_upload");
 
-  const addFiles = useCallback(async (files: File[]) => {
-    const validFiles = files.filter((f) => {
-      try {
-        return validateFile(f);
-      } catch {
-        return false;
-      }
-    });
-
-    const incomingVideos = validFiles.filter((f) => f.type.includes("video"));
-    const alreadyHasVideo = bulkItemsRef.current.some((i) => i.mimeType.includes("video"));
-
-    if (incomingVideos.length > 1 || (alreadyHasVideo && incomingVideos.length > 0)) {
-      toast.error("Only one video is allowed per batch upload");
-      return;
-    }
-
-    const processed = await Promise.all(validFiles.map(processFileToItem));
-    setBulkItems((prev) => [...prev, ...processed]);
-  }, []);
-
-  const removeFile = useCallback((id: string) => {
-    setBulkItems((prev) => {
-      const item = prev.find((i) => i.id === id);
-      if (item?.previewUrl) URL.revokeObjectURL(item.previewUrl);
-      return prev.filter((i) => i.id !== id);
-    });
-  }, []);
-
-  const setItemName = useCallback((id: string, name: string) => {
-    setBulkItems((prev) => prev.map((i) => (i.id === id ? { ...i, name } : i)));
-  }, []);
-
   const clearAll = useCallback(() => {
-    setBulkItems((prev) => {
-      prev.forEach((i) => {
-        if (i.previewUrl) URL.revokeObjectURL(i.previewUrl);
-      });
-      return [];
-    });
+    clearItems();
     setResult(null);
-  }, []);
-
-  const updateItemStatus = (id: string, patch: Partial<BulkItem>) => {
-    setBulkItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...patch } : i)));
-  };
+  }, [clearItems]);
 
   const createBatch = useCallback(async () => {
     if (!isPrepared()) return;
@@ -108,24 +71,18 @@ const useBulkCreate = () => {
       if (!payoutRecipient) throw new Error("Wallet not ready. Please try again.");
 
       const salesConfig = buildSalesConfig(priceUnit, price, startDate);
-
       const metadataUris: string[] = [];
 
       for (let i = 0; i < bulkItems.length; i++) {
         const item = bulkItems[i];
         updateItemStatus(item.id, { status: "uploading", progress: 0 });
 
-        const mimeType = item.mimeType;
-        const isImage = mimeType.includes("image");
-
-        const imageFile = isImage ? item.file : null;
-        const animationFile = !isImage ? item.file : null;
-
+        const isImage = item.mimeType.includes("image");
         const uri = await generateSingleFileMetadata({
-          imageFile,
-          animationFile,
+          imageFile: isImage ? item.file : null,
+          animationFile: isImage ? null : item.file,
           previewFile: item.previewFile,
-          mimeType,
+          mimeType: item.mimeType,
           name: item.name,
           description: "",
           link: "",
@@ -165,9 +122,7 @@ const useBulkCreate = () => {
       );
     } catch (err: any) {
       toast.error(err?.message || "Error creating moments");
-      setBulkItems((prev) =>
-        prev.map((i) => (i.status === "uploading" ? { ...i, status: "error" } : i))
-      );
+      markUploadingAsError();
     } finally {
       setIsCreating(false);
     }
@@ -187,6 +142,8 @@ const useBulkCreate = () => {
     setSelectedCollection,
     push,
     recaptcha,
+    updateItemStatus,
+    markUploadingAsError,
   ]);
 
   return {

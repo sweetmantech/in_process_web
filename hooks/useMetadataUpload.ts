@@ -34,32 +34,17 @@ const useMetadataUpload = () => {
     const headers = await getAuthHeaders();
     const client = { headers, recaptcha };
 
-    if (type === "writing") {
-      const writingResult = await uploadWriting(client);
+    if (type === "writing" || type === "embed") {
+      const uploadResult =
+        type === "writing" ? await uploadWriting(client) : await uploadEmbedCode(client);
       const metadataResult = await buildMetadataPayload({
         name,
         description,
         externalUrl: link,
-        image: writingResult.image,
-        animationUrl: writingResult.animationUrl,
-        mime: writingResult.mime,
-        contentUri: writingResult.contentUri,
-        client,
-        existingMetadata,
-      });
-      return metadataResult.arweave_uri;
-    }
-
-    if (type === "embed") {
-      const embedResult = await uploadEmbedCode(client);
-      const metadataResult = await buildMetadataPayload({
-        name,
-        description,
-        externalUrl: link,
-        image: "",
-        animationUrl: embedResult.animationUrl,
-        mime: embedResult.mime,
-        contentUri: embedResult.contentUri,
+        image: "image" in uploadResult ? uploadResult.image : "",
+        animationUrl: uploadResult.animationUrl,
+        mime: uploadResult.mime,
+        contentUri: uploadResult.contentUri,
         client,
         existingMetadata,
       });

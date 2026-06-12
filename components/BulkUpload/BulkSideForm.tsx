@@ -25,9 +25,9 @@ const BulkSideForm = () => {
           {bulkItems.length} file{bulkItems.length !== 1 ? "s" : ""} selected
         </p>
 
-        <Collections onCreateNew={openModal} disabled={isCreating} />
+        <Collections onCreateNew={openModal} />
 
-        <Price disabled={isCreating} />
+        <Price />
 
         <input
           ref={inputRef}

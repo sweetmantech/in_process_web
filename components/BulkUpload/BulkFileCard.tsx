@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { BulkItem } from "@/types/bulk";
+import { getStatusClass } from "@/lib/bulkUpload/getStatusClass";
+import { getMimeTypeIcon } from "@/lib/bulkUpload/getMimeTypeIcon";
 
 interface BulkFileCardProps {
   item: BulkItem;
@@ -10,17 +12,10 @@ interface BulkFileCardProps {
   isCreating: boolean;
 }
 
-const statusColor: Record<BulkItem["status"], string> = {
-  idle: "border-grey-moss-300",
-  uploading: "border-blue-400",
-  done: "border-green-400",
-  error: "border-red-400",
-};
-
 const BulkFileCard = ({ item, onRemove, onNameChange, isCreating }: BulkFileCardProps) => {
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-lg border-2 bg-grey-moss-100 transition-colors ${statusColor[item.status]}`}
+      className={`relative flex flex-col overflow-hidden rounded-lg border-2 bg-grey-moss-100 transition-colors ${getStatusClass(item.status)}`}
     >
       {!isCreating && (
         <button
@@ -38,7 +33,7 @@ const BulkFileCard = ({ item, onRemove, onNameChange, isCreating }: BulkFileCard
           <Image src={item.previewUrl} alt={item.name} fill className="object-cover" unoptimized />
         ) : (
           <div className="flex size-full items-center justify-center text-2xl text-grey-moss-400">
-            {item.mimeType.includes("pdf") ? "PDF" : item.mimeType.includes("audio") ? "♪" : "?"}
+            {getMimeTypeIcon(item.mimeType)}
           </div>
         )}
 

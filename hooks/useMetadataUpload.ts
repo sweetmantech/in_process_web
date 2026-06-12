@@ -57,25 +57,27 @@ const useMetadataUpload = () => {
       setUploadProgress(0);
     }
 
-    const arweaveUri = await generateSingleFileMetadata({
-      imageFile,
-      animationFile,
-      previewFile,
-      mimeType,
-      name,
-      description,
-      link,
-      client,
-      onProgress: setUploadProgress,
-      existingMetadata,
-    });
-
-    if (hasFilesToUpload) {
-      setUploadProgress(100);
-      setIsUploading(false);
+    try {
+      const arweaveUri = await generateSingleFileMetadata({
+        imageFile,
+        animationFile,
+        previewFile,
+        mimeType,
+        name,
+        description,
+        link,
+        client,
+        onProgress: setUploadProgress,
+        existingMetadata,
+      });
+      if (hasFilesToUpload) setUploadProgress(100);
+      return arweaveUri;
+    } catch (err) {
+      if (hasFilesToUpload) setUploadProgress(0);
+      throw err;
+    } finally {
+      if (hasFilesToUpload) setIsUploading(false);
     }
-
-    return arweaveUri;
   };
 
   return {

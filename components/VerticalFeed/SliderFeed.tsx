@@ -1,5 +1,6 @@
 import { TimelineMoment } from "@/types/moment";
 import ContentRenderer from "../Renderers";
+import { useMomentClick } from "@/hooks/useMomentClick";
 
 interface SliderFeedProps {
   feed: TimelineMoment;
@@ -7,9 +8,13 @@ interface SliderFeedProps {
 
 const SliderFeed = ({ feed }: SliderFeedProps) => {
   const metadata = feed.metadata;
+  const { handleMomentClick } = useMomentClick(feed);
 
   return (
-    <div className="relative h-[250px] w-full overflow-hidden md:h-auto">
+    <div
+      className="relative h-[250px] w-full overflow-hidden md:h-auto cursor-pointer"
+      onClick={handleMomentClick}
+    >
       <div className="flex size-full flex-col gap-2">
         <div className="relative w-full grow overflow-hidden rounded-[0px] bg-grey-moss-100">
           <ContentRenderer metadata={metadata} />

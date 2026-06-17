@@ -7,6 +7,7 @@ import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
 import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
+
 import ProtocolBadge from "./ProtocolBadge";
 import ChainLogo from "./ChainLogo";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
@@ -50,7 +51,6 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
             <HideButton moment={m} />
           </div>
         )}
-        <ChainLogo chainId={m.chain_id} />
         {data ? (
           <Preview data={data} />
         ) : (
@@ -70,19 +70,22 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
             {new Date(m.created_at).toLocaleDateString("en-US")}
           </span>
         </div>
-        <div className="mt-1 flex items-center justify-between gap-2 font-archivo text-xs text-grey-moss-200">
-          <button
-            type="button"
-            onClick={copy}
-            className="flex items-center gap-1 truncate transition-colors hover:text-grey-moss-400"
-          >
-            <span className="truncate">{truncateAddress(m.address)}</span>
-            {copied ? (
-              <Check className="size-3 shrink-0 text-green-500" />
-            ) : (
-              <Copy className="size-3 shrink-0" />
-            )}
-          </button>
+        <div className="mt-1 flex items-center justify-between gap-2 font-archivo text-xs text-grey-moss-400">
+          <div className="flex min-w-0 items-center gap-1">
+            <ChainLogo chainId={m.chain_id} />
+            <button
+              type="button"
+              onClick={copy}
+              className="flex items-center gap-1 truncate transition-colors hover:text-grey-moss-400"
+            >
+              <span className="truncate">{truncateAddress(m.address)}</span>
+              {copied ? (
+                <Check className="size-3 shrink-0 text-green-500" />
+              ) : (
+                <Copy className="size-3 shrink-0" />
+              )}
+            </button>
+          </div>
           <span className="shrink-0">{`#${m.token_id}`}</span>
         </div>
       </div>

@@ -30,7 +30,7 @@ const CollectModal = () => {
     setIsOpenCommentModal(true);
   };
 
-  if (isLoading || !metadata || !saleConfig) return <Fragment />;
+  if (isLoading || !metadata) return <Fragment />;
 
   return (
     <>

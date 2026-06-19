@@ -4,13 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
-import useIsSoldOut from "./useIsSoldOut";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
 const useMomentData = (moment: Moment) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { primaryWallet } = useWalletsProvider();
-  const { isLoading: isCheckingSoldOut, data: isSoldOut } = useIsSoldOut(moment);
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
@@ -20,12 +18,13 @@ const useMomentData = (moment: Moment) => {
     retry: (failureCount) => failureCount < 2,
   });
 
-  const saleConfig = (query.data?.saleConfig as MomentSaleConfig) ?? null;
+  const saleConfig = (query.data?.sale as MomentSaleConfig) ?? null;
   const metadata = query.data?.metadata ?? null;
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
-  const momentAdmins = query.data?.momentAdmins ?? null;
+  const momentAdmins = query.data?.admins ?? null;
   const protocol = query.data?.protocol ?? null;
+  const apiSoldOut = query.data?.soldOut ?? false;
 
   const isSetSale = useMemo(() => {
     return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
@@ -53,13 +52,13 @@ const useMomentData = (moment: Moment) => {
     metadata,
     tokenUri,
     momentAdmins,
-    isLoading: query.isLoading || isCheckingSoldOut,
+    isLoading: query.isLoading,
     isSetSale,
     fetchMomentData: query.refetch,
     owner,
     isOwner,
     isSaleActive,
-    isSoldOut: isSoldOut || saleEndMs < Date.now() || protocol !== Protocol.InProcess,
+    isSoldOut: apiSoldOut || saleEndMs < Date.now() || protocol !== Protocol.InProcess,
   };
 };
 

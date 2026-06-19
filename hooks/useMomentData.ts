@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
-import { Moment, MomentSaleConfig, Protocol } from "@/types/moment";
+import { Moment, MomentSaleConfig } from "@/types/moment";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
 const useMomentData = (moment: Moment) => {
@@ -24,7 +24,7 @@ const useMomentData = (moment: Moment) => {
   const tokenUri = query.data?.uri ?? null;
   const momentAdmins = query.data?.admins ?? null;
   const protocol = query.data?.protocol ?? null;
-  const apiSoldOut = query.data?.soldOut ?? false;
+  const soldOut = query.data?.soldOut ?? false;
 
   const isSetSale = useMemo(() => {
     return saleConfig ? BigInt(saleConfig.saleEnd) > BigInt(0) : false;
@@ -38,10 +38,6 @@ const useMomentData = (moment: Moment) => {
     if (!saleConfig) return false;
     const saleStartMs = saleConfig.saleStart * 1000;
     return saleStartMs < Date.now();
-  }, [saleConfig]);
-
-  const saleEndMs = useMemo(() => {
-    return saleConfig?.saleEnd ? saleConfig.saleEnd * 1000 : 0;
   }, [saleConfig]);
 
   useMigratedCollectionRedirect(metadata);
@@ -58,7 +54,7 @@ const useMomentData = (moment: Moment) => {
     owner,
     isOwner,
     isSaleActive,
-    isSoldOut: apiSoldOut || saleEndMs < Date.now() || protocol !== Protocol.InProcess,
+    soldOut,
   };
 };
 

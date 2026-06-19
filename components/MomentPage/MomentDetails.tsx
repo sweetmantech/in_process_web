@@ -11,9 +11,11 @@ import DetailButtons from "./DetailButtons";
 import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import Collectors from "./Collectors";
 import ContentRenderer from "../Renderers";
+import useCollectAvailability from "@/hooks/useCollectAvailability";
 
 const MomentDetails = () => {
   const { metadata, fetchMomentData } = useMomentProvider();
+  const { isCollectDisabled } = useCollectAvailability();
   const isMobile = useIsMobile();
   if (!metadata) return null;
 
@@ -42,7 +44,7 @@ const MomentDetails = () => {
       <div className="md:!min-w-[420px]">
         <CollectModal />
         {isMobile && <Comments />}
-        <MomentAirdrop />
+        {!isCollectDisabled && <MomentAirdrop />}
         <Collectors />
       </div>
     </>

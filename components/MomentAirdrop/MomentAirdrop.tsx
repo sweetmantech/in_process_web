@@ -5,9 +5,9 @@ import Airdrop from "@/components/MomentAirdrop/Airdrop";
 import { useMomentProvider } from "@/providers/MomentProvider";
 
 const MomentAirdrop = () => {
-  const { isOwner, isSoldOut } = useMomentProvider();
+  const { isOwner } = useMomentProvider();
 
-  if (!isOwner || isSoldOut) return null;
+  if (!isOwner) return null;
 
   return (
     <AirdropProvider>

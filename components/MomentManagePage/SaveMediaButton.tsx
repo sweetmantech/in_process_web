@@ -6,6 +6,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCollectionChangeWarning } from "@/hooks/useCollectionChangeWarning";
 import CollectionChangeWarningModal from "./CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
+import useIsManageableCollection from "@/hooks/useIsManageableCollection";
 
 interface SaveMediaButtonProps {
   onSuccess?: () => void;
@@ -13,6 +14,7 @@ interface SaveMediaButtonProps {
 
 const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
   const { isOwner, moment } = useMomentProvider();
+  const isManageable = useIsManageableCollection();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
   const {
@@ -57,7 +59,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
       <button
         className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
         onClick={handleSave}
-        disabled={isSaving || !isOwner || !isFormValid}
+        disabled={isSaving || !isOwner || !isFormValid || !isManageable}
       >
         {isSaving ? "saving..." : "Save"}
       </button>

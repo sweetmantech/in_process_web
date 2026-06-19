@@ -1,6 +1,5 @@
 import TabButton from "./TabButton";
-import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { Protocol } from "@/types/moment";
+import useIsManageableCollection from "@/hooks/useIsManageableCollection";
 
 export enum MANAGE_TABS {
   MEDIA,
@@ -13,8 +12,7 @@ interface ManageTabsProps {
   selectedTab: number;
 }
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
-  const { data } = useCollectionProvider();
-  const hideNonMedia = data?.protocol === Protocol.SoundXyz || data?.protocol === Protocol.Catalog;
+  const hideNonMedia = !useIsManageableCollection();
   return (
     <section className="w-full pt-4 md:px-10">
       <div className="flex gap-1 md:gap-4">

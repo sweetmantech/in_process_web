@@ -4,11 +4,13 @@ import { useFormState } from "react-hook-form";
 import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
+import useIsManageableCollection from "@/hooks/useIsManageableCollection";
 import { SaveCollectionButtonProps } from "@/components/CollectionManagePage/SaveCollectionButton";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const isOwner = useIsCollectionOwner();
+  const isManageable = useIsManageableCollection();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
@@ -19,7 +21,7 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
   const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;
   const isFormValid = hasValidName && !nameError;
 
-  const isDisabled = !isOwner || !isFormValid;
+  const isDisabled = !isOwner || !isFormValid || !isManageable;
 
   const onSave = useCallback(async () => {
     const isValid = await form.trigger();

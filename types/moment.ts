@@ -56,12 +56,9 @@ export interface TimelineMoment {
   creator: {
     address: string;
     username: string | null;
-    hidden: boolean;
   };
-  admins: Array<{
-    address: string;
-    hidden: boolean;
-  }>;
+  admins: string[];
+  hidden: string[];
   created_at: string;
   metadata?: MomentMetadata;
 }

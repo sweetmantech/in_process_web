@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { type TimelineMoment } from "@/types/moment";
 import { toggleMoment } from "@/lib/timeline/toggleMoment";
 import { toast } from "sonner";
-import { Address } from "viem";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMomentAdminHidden } from "./useMomentAdminHidden";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
@@ -20,11 +19,7 @@ export const useToggleMoment = (moment: TimelineMoment) => {
 
   const toggle = async (): Promise<void> => {
     try {
-      const response = await toggleMoment(await getAuthHeaders(), {
-        collectionAddress: moment.address as Address,
-        tokenId: moment.token_id,
-        chainId: moment.chain_id,
-      });
+      const response = await toggleMoment(await getAuthHeaders(), moment.id);
 
       if (response.success) {
         const newHidden = !isHidden;

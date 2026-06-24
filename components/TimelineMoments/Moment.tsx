@@ -6,7 +6,7 @@ import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import { TimelineMoment } from "@/types/moment";
 import { useMomentClick } from "@/hooks/useMomentClick";
-import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
+import useCanHideMoment from "@/hooks/useCanHideMoment";
 
 interface MomentProps {
   moment: TimelineMoment;
@@ -20,7 +20,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
   const { handleMomentClick, data } = useMomentClick(moment);
   const [isFadingOut, setIsFadingOut] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const isMomentAdmin = useIsMomentAdmin(moment);
+  const canHideMoment = useCanHideMoment(moment);
 
   if (isHidden) return null;
 
@@ -74,7 +74,7 @@ const Moment: FC<MomentProps> = ({ moment, hovered, step, height, index }) => {
         {hovered && (
           <div className="relative flex translate-y-6 items-center gap-2 pt-2">
             <p className="font-spectral-italic text-sm md:text-xl">{truncated(data?.name || "")}</p>
-            {isMomentAdmin && <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />}
+            {canHideMoment && <HideButton moment={moment} onClick={() => setIsFadingOut(true)} />}
           </div>
         )}
         <p

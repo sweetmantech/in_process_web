@@ -6,7 +6,7 @@ import { type TimelineMoment } from "@/types/moment";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
-import useIsMomentAdmin from "@/hooks/useIsMomentAdmin";
+import useCanHideMoment from "@/hooks/useCanHideMoment";
 
 import ProtocolBadge from "./ProtocolBadge";
 import ChainLogo from "./ChainLogo";
@@ -23,7 +23,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const data = m.metadata;
   const { push } = useRouter();
   const { copied, copy } = useCopy(m.address);
-  const isMomentAdmin = useIsMomentAdmin(m);
+  const canHideMoment = useCanHideMoment(m);
   const pathname = usePathname();
   const isManagePage = pathname.includes("/manage");
 
@@ -46,7 +46,7 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
         <div className="absolute left-1.5 top-1.5 z-20">
           <ProtocolBadge protocol={m.protocol} />
         </div>
-        {isMomentAdmin && (
+        {canHideMoment && (
           <div className="absolute right-1.5 top-1.5 z-20">
             <HideButton moment={m} />
           </div>

@@ -15,7 +15,7 @@ import ArtistsCollectorsStatsProvider from "@/providers/ArtistsCollectorsStatsPr
 import ArtistsCollectorsStatsTable from "./ArtistsCollectorsStatsTable";
 
 const AnalyticsPage = () => {
-  const [filters, setFilters] = useState<AnalyticsFilters>({});
+  const [filters, setFilters] = useState<AnalyticsFilters>({ period: "week" });
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">

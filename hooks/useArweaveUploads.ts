@@ -21,7 +21,7 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
     [aggregation]
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
+  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>("week");
   const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(defaultSort);
   const activeSort = sorting[0] ?? defaultSort[0];

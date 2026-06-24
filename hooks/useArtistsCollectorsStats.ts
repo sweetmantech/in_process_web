@@ -20,7 +20,7 @@ export function useArtistsCollectorsStats({
   limit = 10,
 }: UseArtistsCollectorsStatsOptions = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>(undefined);
+  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>("week");
   const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
 

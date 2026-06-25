@@ -2,7 +2,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
-import { type TimelineMoment } from "@/types/moment";
+import { type TimelineMoment, Protocol } from "@/types/moment";
 import { Copy, Check } from "lucide-react";
 import Preview from "./Preview";
 import useCopy from "@/hooks/useCopy";
@@ -30,8 +30,9 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const handleClick = () => {
     const shortName = getShortNameFromChainId(m.chain_id);
     if (!shortName) return;
+    const includeTokenId = variant === "moment" || m.protocol === Protocol.ZoraMedia;
     push(
-      `/${isManagePage ? "manage" : "collect"}/${shortName}:${m.address}${variant === "moment" ? `/${m.token_id}` : ""}`
+      `/${isManagePage ? "manage" : "collect"}/${shortName}:${m.address}${includeTokenId ? `/${m.token_id}` : ""}`
     );
   };
   return (

@@ -4,6 +4,7 @@ export enum Protocol {
   InProcess = "in_process",
   Catalog = "catalog",
   SoundXyz = "sound.xyz",
+  ZoraMedia = "zora_media",
 }
 export interface Moment {
   collectionAddress: Address;

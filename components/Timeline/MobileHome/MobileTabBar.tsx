@@ -24,7 +24,7 @@ const MobileTabBar = () => {
       </button>
       <button type="button" onClick={() => push("/notifications")} className="relative">
         <Bell className="h-[23px] w-[23px] text-[#B6B2A8]" strokeWidth={1.75} />
-        <NotificationCountBadge />
+        <NotificationCountBadge className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full p-0 text-[9px] font-bold leading-none" />
       </button>
       <MobileFeedbackDrawer />
       <MobileUserDrawer />

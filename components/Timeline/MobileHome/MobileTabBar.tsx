@@ -4,6 +4,7 @@ import { House, Search, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import NotificationCountBadge from "@/components/Header/NotificationCountBadge";
 import MobileUserDrawer from "./MobileUserDrawer";
+import MobileFeedbackDrawer from "./MobileFeedbackDrawer";
 
 const MobileTabBar = () => {
   const { push } = useRouter();
@@ -25,6 +26,7 @@ const MobileTabBar = () => {
         <Bell className="h-[23px] w-[23px] text-[#B6B2A8]" strokeWidth={1.75} />
         <NotificationCountBadge />
       </button>
+      <MobileFeedbackDrawer />
       <MobileUserDrawer />
     </div>
   );

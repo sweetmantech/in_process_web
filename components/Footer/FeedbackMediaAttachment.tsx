@@ -31,7 +31,7 @@ const FeedbackMediaAttachment = ({
   return (
     <div className="mb-3 w-full">
       <Label className="text-grey-moss-600 mb-1 w-full pt-3 text-left font-archivo text-sm">
-        add media (optional)
+        Add media (optional)
       </Label>
 
       <input
@@ -46,7 +46,7 @@ const FeedbackMediaAttachment = ({
         htmlFor="media-upload"
         className="text-grey-moss-600 flex w-full cursor-pointer items-center justify-center border border-dashed border-black bg-grey-moss-50 p-3 font-spectral transition-colors hover:bg-grey-moss-100"
       >
-        {mediaFile ? "change media" : "click to add media"}
+        {mediaFile ? "Change media" : "Click to add media"}
       </label>
 
       {mediaPreview && mediaFile && (

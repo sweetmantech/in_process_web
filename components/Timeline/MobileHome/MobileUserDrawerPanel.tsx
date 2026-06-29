@@ -1,4 +1,4 @@
-import { Clock, Settings, ScrollText, HelpCircle, MessageSquare, LogOut } from "lucide-react";
+import { Clock, Settings, ScrollText, HelpCircle, LogOut } from "lucide-react";
 
 const ITEM_CLASS =
   "flex w-full items-center gap-4 px-7 py-[16px] text-left font-archivo text-[17px] text-white active:bg-[#333333]";
@@ -12,7 +12,6 @@ interface MobileUserDrawerPanelProps {
   onManage: () => void;
   onManifesto: () => void;
   onFaq: () => void;
-  onFeedback: () => void;
   onLogout: () => void;
   isMiniApp: boolean;
   displayName: string | null;
@@ -25,7 +24,6 @@ const MobileUserDrawerPanel = ({
   onManage,
   onManifesto,
   onFaq,
-  onFeedback,
   onLogout,
   isMiniApp,
   displayName,
@@ -55,11 +53,6 @@ const MobileUserDrawerPanel = ({
       <button onClick={onFaq} className={ITEM_CLASS}>
         <HelpCircle className="h-[18px] w-[18px] opacity-60" strokeWidth={1.5} />
         FAQ
-      </button>
-      <Divider />
-      <button onClick={onFeedback} className={ITEM_CLASS}>
-        <MessageSquare className="h-[18px] w-[18px] opacity-60" strokeWidth={1.5} />
-        Feedback
       </button>
       {!isMiniApp && (
         <>

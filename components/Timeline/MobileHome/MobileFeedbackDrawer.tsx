@@ -3,17 +3,18 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { MessageSquare } from "lucide-react";
-import { useMobileFeedbackDrawer } from "@/hooks/useMobileFeedbackDrawer";
+import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 import MobileFeedbackDrawerPanel from "./MobileFeedbackDrawerPanel";
 
 const MobileFeedbackDrawer = () => {
-  const { isOpen, toggle, close, feedbackHook } = useMobileFeedbackDrawer();
+  const feedbackHook = useSubmitFeedback();
+  const { isOpenModal: isOpen, setIsOpenModal } = feedbackHook;
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
   return (
     <>
-      <button type="button" onClick={toggle}>
+      <button type="button" onClick={() => setIsOpenModal(!isOpen)}>
         <MessageSquare
           className="h-[23px] w-[23px]"
           strokeWidth={1.75}
@@ -23,7 +24,11 @@ const MobileFeedbackDrawer = () => {
 
       {mounted &&
         createPortal(
-          <MobileFeedbackDrawerPanel isOpen={isOpen} onClose={close} feedbackHook={feedbackHook} />,
+          <MobileFeedbackDrawerPanel
+            isOpen={isOpen}
+            onClose={() => setIsOpenModal(false)}
+            feedbackHook={feedbackHook}
+          />,
           document.body
         )}
     </>

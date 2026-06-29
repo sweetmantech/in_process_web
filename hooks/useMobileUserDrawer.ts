@@ -6,7 +6,6 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useUserProvider } from "@/providers/UserProvider";
-import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 import truncated from "@/lib/truncated";
 import truncateAddress from "@/lib/truncateAddress";
 
@@ -20,8 +19,6 @@ export const useMobileUserDrawer = () => {
   const displayName = primaryWallet
     ? truncated(username || "", 14) || truncateAddress(primaryWallet)
     : null;
-  const submitFeedbackHook = useSubmitFeedback();
-
   const toggle = () => {
     if (!primaryWallet) {
       login();
@@ -51,11 +48,6 @@ export const useMobileUserDrawer = () => {
     window.open("/faq", "_blank");
   };
 
-  const onFeedback = () => {
-    close();
-    submitFeedbackHook.setIsOpenModal(true);
-  };
-
   const onLogout = () => {
     close();
     logout();
@@ -69,10 +61,8 @@ export const useMobileUserDrawer = () => {
     onManage,
     onManifesto,
     onFaq,
-    onFeedback,
     onLogout,
     isMiniApp,
     displayName,
-    submitFeedbackHook,
   };
 };

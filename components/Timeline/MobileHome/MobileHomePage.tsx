@@ -15,7 +15,7 @@ const MobileHomePage = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <div ref={scrollRef} className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto overflow-x-hidden pb-[74px]">
         <MobileHomeHeader isScrolled={isScrolled} />
         <MobileHero totalCount={totalCount} todayCount={todayCount} onCreateClick={onCreateClick} />
         <div className="flex flex-col px-4 pb-2">

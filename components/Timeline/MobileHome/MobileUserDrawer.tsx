@@ -1,0 +1,67 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { User } from "lucide-react";
+import { Dialog } from "@/components/ui/dialog";
+import FeedbackModalContents from "@/components/Footer/FeedbackModalContents";
+import { useMobileUserDrawer } from "@/hooks/useMobileUserDrawer";
+import MobileUserDrawerPanel from "./MobileUserDrawerPanel";
+
+const MobileUserDrawer = () => {
+  const {
+    isOpen,
+    toggle,
+    close,
+    onTimeline,
+    onManage,
+    onManifesto,
+    onFaq,
+    onFeedback,
+    onLogout,
+    isMiniApp,
+    displayName,
+    submitFeedbackHook,
+  } = useMobileUserDrawer();
+
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  return (
+    <>
+      <button type="button" onClick={toggle}>
+        <User
+          className="h-[23px] w-[23px]"
+          strokeWidth={1.75}
+          color={isOpen ? "#1B1504" : "#B6B2A8"}
+        />
+      </button>
+
+      {mounted &&
+        createPortal(
+          <MobileUserDrawerPanel
+            isOpen={isOpen}
+            onClose={close}
+            onTimeline={onTimeline}
+            onManage={onManage}
+            onManifesto={onManifesto}
+            onFaq={onFaq}
+            onFeedback={onFeedback}
+            onLogout={onLogout}
+            isMiniApp={isMiniApp}
+            displayName={displayName}
+          />,
+          document.body
+        )}
+
+      <Dialog
+        open={submitFeedbackHook.isOpenModal}
+        onOpenChange={() => submitFeedbackHook.setIsOpenModal(!submitFeedbackHook.isOpenModal)}
+      >
+        <FeedbackModalContents submitFeedbackHook={submitFeedbackHook} />
+      </Dialog>
+    </>
+  );
+};
+
+export default MobileUserDrawer;

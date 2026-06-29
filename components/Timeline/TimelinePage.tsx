@@ -2,29 +2,21 @@
 
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import TimelineHero from "@/components/Timeline/TimelineHero";
-import MobileMomentsSection from "@/components/Timeline/MobileMomentsSection";
 import useIsMobile from "@/hooks/useIsMobile";
-import MobileTimeline from "./MobileTimeline";
-import TimelineMobileMoon from "./TimelineMobileMoon";
 import TimelineGrid from "./TimelineGrid";
 import TimelineSpiral from "./TimelineSpiral";
+import MobileHomePage from "./MobileHome/MobileHomePage";
 
 const TimelinePage = () => {
   const { error } = useTimelineProvider();
   const isMobile = useIsMobile();
 
   if (error) return <main>Error loading timeline.</main>;
+  if (isMobile) return <MobileHomePage />;
 
   return (
     <main className="relative flex grow flex-col px-2 md:px-10">
       <TimelineHero />
-      <MobileMomentsSection />
-      {isMobile && (
-        <>
-          <MobileTimeline />
-          <TimelineMobileMoon />
-        </>
-      )}
       <TimelineGrid />
       <TimelineSpiral />
     </main>

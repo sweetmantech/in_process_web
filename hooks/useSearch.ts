@@ -19,6 +19,12 @@ const useSearch = () => {
   const firstArtistAddress = firstArtist ? getPrimaryWalletAddress(firstArtist.wallets) : undefined;
   const userSearchData = useMemo(() => ({ artist: firstArtist }), [firstArtist]);
 
+  const navigateTo = (address: string) => {
+    setIsOpenModal(false);
+    setIsExpandedSearchInput(false);
+    push(`/${address}`);
+  };
+
   const suffixHint = useMemo(() => {
     if (!firstArtist?.username) return "";
     return firstArtist.username.slice(searchKey.length);
@@ -58,12 +64,14 @@ const useSearch = () => {
 
   return {
     userSearchData,
+    artists,
     isLoadingSearch,
     onChangeSearchKey,
     onKeyDown,
     suffixHint,
     searchKey,
     redirectToArtist,
+    navigateTo,
     isOpenModal,
     setIsOpenModal,
   };

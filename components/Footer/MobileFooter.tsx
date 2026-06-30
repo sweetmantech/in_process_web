@@ -3,11 +3,11 @@
 import { House, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import NotificationCountBadge from "@/components/Header/NotificationCountBadge";
-import MobileUserDrawer from "./MobileUserDrawer";
-import MobileFeedbackDrawer from "./MobileFeedbackDrawer";
-import MobileSearchDrawer from "./MobileSearchDrawer";
+import MobileUserDrawer from "@/components/Timeline/MobileHome/MobileUserDrawer";
+import MobileFeedbackDrawer from "@/components/Timeline/MobileHome/MobileFeedbackDrawer";
+import MobileSearchDrawer from "@/components/Timeline/MobileHome/MobileSearchDrawer";
 
-const MobileTabBar = () => {
+const MobileFooter = () => {
   const { push } = useRouter();
   const pathname = usePathname();
 
@@ -31,4 +31,4 @@ const MobileTabBar = () => {
   );
 };
 
-export default MobileTabBar;
+export default MobileFooter;

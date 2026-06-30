@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useWindowScrolled } from "@/hooks/useWindowScrolled";
 
@@ -12,9 +13,9 @@ const MobileHeader = () => {
         isScrolled ? "bg-white" : "bg-transparent"
       )}
     >
-      <div className="relative h-[22px] w-[97px]">
+      <Link href="/" className="relative h-[22px] w-[97px] block">
         <Image src="/logo.svg" alt="in process" fill />
-      </div>
+      </Link>
       <div className="flex items-center gap-3">
         <a
           href="https://x.com/stayinprocess"

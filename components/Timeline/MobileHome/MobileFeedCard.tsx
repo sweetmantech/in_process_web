@@ -10,7 +10,8 @@ interface MobileFeedCardProps {
 }
 
 const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
-  const { metadata, externalUrl, onCollect, onExternalLink } = useMobileFeedCard(moment);
+  const { metadata, externalUrl, priceLabel, onCollect, onExternalLink } =
+    useMobileFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
 
@@ -34,12 +35,17 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
           <span className="font-archivo-medium text-[14.5px] text-grey-moss-900">
             {creatorName}
           </span>
-          <span className="ml-auto font-archivo text-[11px] text-[#A8862F]">{timeStr}</span>
+          <span className="ml-auto font-archivo text-[11px] text-tan-gold">{timeStr}</span>
         </div>
         <div className="font-spectral-italic mb-3 text-[19px] leading-[1.3] text-grey-moss-900">
           {metadata?.name ?? "—"}
         </div>
-        <div className="flex items-center justify-end">
+        <div className={`flex items-center ${priceLabel ? "justify-between" : "justify-end"}`}>
+          {priceLabel && (
+            <span className="font-archivo-medium text-[14px] uppercase text-tan-gold">
+              {priceLabel}
+            </span>
+          )}
           <button
             type="button"
             onClick={onCollect}

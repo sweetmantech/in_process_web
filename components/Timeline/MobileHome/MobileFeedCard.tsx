@@ -17,7 +17,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
 
   return (
     <div className="mb-2 overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]">
-      <div className="relative w-full">
+      <div className="relative isolate z-0 w-full overflow-hidden">
         <ContentRenderer metadata={metadata} variant="natural" />
         {externalUrl && (
           <button

@@ -8,7 +8,7 @@ const MobileHeader = () => {
   return (
     <div
       className={cn(
-        "sticky top-0 z-10 flex items-center justify-between px-[22px] py-4 backdrop-blur-md transition-colors duration-200",
+        "sticky top-0 z-30 flex items-center justify-between px-[22px] py-4 backdrop-blur-md transition-colors duration-200",
         isScrolled ? "bg-white" : "bg-transparent"
       )}
     >

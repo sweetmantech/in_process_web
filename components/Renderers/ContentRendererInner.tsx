@@ -39,7 +39,11 @@ const ContentRendererInner = ({ metadata, variant = "fill", onRefresh }: Content
 
   if (mimeType.includes("audio"))
     return (
-      <AudioContent rawAnimationUri={rawAnimationUri || rawContentUri} rawImageUri={rawImageUri} />
+      <AudioContent
+        rawAnimationUri={rawAnimationUri || rawContentUri}
+        rawImageUri={rawImageUri}
+        variant={variant}
+      />
     );
 
   if (mimeType.includes("video"))

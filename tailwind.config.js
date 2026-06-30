@@ -42,6 +42,7 @@ module.exports = {
           DEFAULT: "#fdad00",
           primary: "#FFF9EA",
           secondary: "#E9DCBB",
+          gold: "#A8862F",
           "opacity-300": "#b7934633",
           400: "#D4C5A0",
         },

@@ -32,27 +32,27 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
       </div>
       <div className="px-[15px] pb-[15px] pt-[13px]">
         <div className="mb-[5px] flex items-center gap-[9px]">
-          <span className="font-archivo-medium text-[14.5px] text-grey-moss-900">
-            {creatorName}
-          </span>
-          <span className="ml-auto font-archivo text-[11px] text-tan-gold">{timeStr}</span>
+          <span className="font-archivo-medium text-base text-grey-moss-900">{creatorName}</span>
+          <span className="ml-auto font-archivo text-xs text-tan-gold">{timeStr}</span>
         </div>
-        <div className="font-spectral-italic mb-3 text-[19px] leading-[1.3] text-grey-moss-900">
-          {metadata?.name ?? "—"}
-        </div>
-        <div className={`flex items-center ${priceLabel ? "justify-between" : "justify-end"}`}>
-          {priceLabel && (
-            <span className="font-archivo-medium text-[14px] uppercase text-tan-gold">
-              {priceLabel}
-            </span>
-          )}
-          <button
-            type="button"
-            onClick={onCollect}
-            className="rounded-[22px] bg-grey-moss-900 px-[18px] py-[9px] font-archivo-medium text-[13px] text-white active:opacity-80"
-          >
-            Collect
-          </button>
+        <div className="flex items-end justify-between gap-3">
+          <div className="min-w-0 flex-1 font-spectral-italic text-lg leading-[1.3] text-grey-moss-900">
+            {metadata?.name ?? "—"}
+          </div>
+          <div className="flex shrink-0 flex-col items-center gap-[5px]">
+            {priceLabel && (
+              <span className="font-archivo-bold text-xs uppercase text-tan-gold">
+                {priceLabel}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={onCollect}
+              className="rounded-[22px] bg-grey-moss-900 px-[18px] py-[9px] font-archivo-medium text-sm text-white active:opacity-80"
+            >
+              Collect
+            </button>
+          </div>
         </div>
       </div>
     </div>

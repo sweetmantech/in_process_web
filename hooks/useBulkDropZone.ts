@@ -7,6 +7,7 @@ const useBulkDropZone = (onSingleFile: (file: File) => void) => {
   const [isDragging, setIsDragging] = useState(false);
   const { addFiles } = useBulkCreateProvider();
   const inputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   const handleFiles = useCallback(
     async (files: File[]) => {
@@ -48,11 +49,35 @@ const useBulkDropZone = (onSingleFile: (file: File) => void) => {
     [handleFiles]
   );
 
+  const onCameraChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (file) onSingleFile(file);
+      if (cameraInputRef.current) cameraInputRef.current.value = "";
+    },
+    [onSingleFile]
+  );
+
   const openFileDialog = useCallback(() => {
     inputRef.current?.click();
   }, []);
 
-  return { isDragging, inputRef, onDrop, onDragOver, onDragLeave, onChange, openFileDialog };
+  const openCameraDialog = useCallback(() => {
+    cameraInputRef.current?.click();
+  }, []);
+
+  return {
+    isDragging,
+    inputRef,
+    cameraInputRef,
+    onDrop,
+    onDragOver,
+    onDragLeave,
+    onChange,
+    onCameraChange,
+    openFileDialog,
+    openCameraDialog,
+  };
 };
 
 export default useBulkDropZone;

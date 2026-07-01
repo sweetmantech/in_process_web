@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         className={cn(
           "flex grow flex-col",
           isOpenNavbar && "h-screen overflow-hidden",
-          isTextureLayout && "bg-[url('/bg-gray.png')] bg-cover bg-top bg-no-repeat md:bg-fixed"
+          isTextureLayout && "bg-[url('/bg-gray.png')] bg-cover bg-fixed bg-top bg-no-repeat"
         )}
       >
         <Header />

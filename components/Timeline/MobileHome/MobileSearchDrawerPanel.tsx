@@ -70,7 +70,7 @@ const MobileSearchDrawerPanel = ({
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto overscroll-y-contain">
+      <div className="flex-1 overflow-y-auto">
         {searchKey && !isLoading && artists.length === 0 && (
           <p className="px-5 py-4 font-archivo text-sm text-grey-moss-300">
             No results in the matrix, search again

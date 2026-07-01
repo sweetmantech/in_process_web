@@ -2,17 +2,22 @@
 
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 
-export default function CommentButton() {
+interface CommentButtonProps {
+  disabled?: boolean;
+  label?: string;
+}
+
+export default function CommentButton({ disabled = false, label = "collect" }: CommentButtonProps) {
   const { collectWithComment, isLoading } = useMomentCollectProvider();
 
   return (
     <button
       onClick={collectWithComment}
       type="button"
-      className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300"
-      disabled={isLoading}
+      className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
+      disabled={isLoading || disabled}
     >
-      {isLoading ? "collecting..." : "collect"}
+      {isLoading ? "collecting..." : label}
     </button>
   );
 }

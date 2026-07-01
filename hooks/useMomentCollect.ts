@@ -50,15 +50,13 @@ const useMomentCollect = () => {
       const headers = await getAuthHeaders();
       await collectMomentApi(moment, amountToCollect, comment, headers);
 
-      if (protocol !== Protocol.Catalog) {
-        addComment({
-          sender: primaryWallet as Address,
-          comment,
-          timestamp: new Date().getTime(),
-        } as any);
-        setComment("");
-        setIsOpenCommentModal(false);
-      }
+      addComment({
+        sender: primaryWallet as Address,
+        comment,
+        timestamp: new Date().getTime(),
+      } as any);
+      setComment("");
+      setIsOpenCommentModal(false);
       setCollected(true);
       toast.success("collected!");
     } catch (error: any) {

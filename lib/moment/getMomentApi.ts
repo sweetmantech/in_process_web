@@ -1,7 +1,7 @@
-import { Moment } from "@/types/moment";
+import { Moment, MomentApiResponse } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export const getMomentApi = async (moment: Moment) => {
+export const getMomentApi = async (moment: Moment): Promise<MomentApiResponse> => {
   const { collectionAddress, tokenId, chainId } = moment;
   const params = new URLSearchParams({
     collectionAddress: collectionAddress.toString(),

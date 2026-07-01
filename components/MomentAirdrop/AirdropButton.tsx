@@ -2,14 +2,18 @@ import { AirdropItem } from "@/types/airdrop";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { getAddress } from "viem";
 
 const AirdropButton = () => {
   const { airdropToItems, onAirdrop, loading } = useAirdropProvider();
   const { owner, momentAdmins } = useMomentProvider();
   const { primaryWallet } = useWalletsProvider();
   const canAirdrop =
-    Boolean(owner?.toLowerCase() === primaryWallet?.toLowerCase()) ||
-    Boolean(primaryWallet && momentAdmins?.includes(primaryWallet.toLowerCase()));
+    Boolean(primaryWallet && owner && getAddress(owner) === getAddress(primaryWallet)) ||
+    Boolean(
+      primaryWallet &&
+      momentAdmins?.some((admin) => getAddress(admin) === getAddress(primaryWallet))
+    );
 
   return (
     <button

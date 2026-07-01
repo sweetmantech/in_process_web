@@ -74,6 +74,18 @@ export type MomentSaleConfig = {
   type: MomentType;
 };
 
+export interface MomentApiResponse {
+  id: string;
+  uri: string;
+  contentUri: string | null;
+  owner: Address | null;
+  sale: MomentSaleConfig | null;
+  soldOut: boolean;
+  protocol: Protocol | null;
+  admins: Address[];
+  metadata: MomentMetadata | null;
+}
+
 export interface MigrateMomentsApiInput {
   chainId?: number;
 }

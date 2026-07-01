@@ -49,7 +49,10 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
             <button
               type="button"
               disabled={isSoldOut}
-              onClick={isSoldOut ? undefined : onCollect}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!isSoldOut) onCollect();
+              }}
               className={cn(
                 "rounded-[22px] px-[18px] py-[9px] font-archivo-medium text-sm",
                 isSoldOut

@@ -1,14 +1,27 @@
 "use client";
 
+import { Camera } from "lucide-react";
 import useBulkDropZone from "@/hooks/useBulkDropZone";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface BulkDropZoneProps {
   onSingleFile: (file: File) => void;
 }
 
 const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
-  const { isDragging, inputRef, onDrop, onDragOver, onDragLeave, onChange, openFileDialog } =
-    useBulkDropZone(onSingleFile);
+  const isMobile = useIsMobile();
+  const {
+    isDragging,
+    inputRef,
+    cameraInputRef,
+    onDrop,
+    onDragOver,
+    onDragLeave,
+    onChange,
+    onCameraChange,
+    openFileDialog,
+    openCameraDialog,
+  } = useBulkDropZone(onSingleFile);
 
   return (
     <div
@@ -30,6 +43,16 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
         className="hidden"
         onChange={onChange}
       />
+      {isMobile && (
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={onCameraChange}
+        />
+      )}
 
       <div
         className={`flex size-16 items-center justify-center rounded-full border-2 transition-all duration-200 ${
@@ -53,7 +76,23 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
 
       <div className="flex flex-col items-center gap-2 px-6 text-center">
         <p className="font-archivo-medium text-lg text-grey-moss-800">drop files here</p>
-        <p className="font-archivo text-sm text-grey-moss-500">or click to browse</p>
+        <p className="font-archivo text-sm text-grey-moss-500">
+          {isMobile ? "or tap to choose files" : "or click to browse"}
+        </p>
+        {isMobile && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              openCameraDialog();
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="mt-0.5 flex items-center gap-1.5 rounded-full border border-grey-moss-300 bg-white/90 px-3 py-1 font-archivo-medium text-xs text-grey-moss-700 active:bg-grey-moss-200"
+          >
+            <Camera className="size-3.5 text-grey-moss-500" strokeWidth={1.75} />
+            Take a photo
+          </button>
+        )}
         <p className="mt-1 font-archivo text-xs text-grey-moss-400">
           images · video · PDF · audio · 3D
         </p>

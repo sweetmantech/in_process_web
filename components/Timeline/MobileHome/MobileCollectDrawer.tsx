@@ -6,12 +6,14 @@ import { getMomentSeed } from "@/lib/moment/getMomentSeed";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentProvider } from "@/providers/MomentProvider";
-import { useMobileCollectDrawerProvider } from "@/providers/MobileCollectDrawerProvider";
+import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const MobileCollectDrawer = () => {
-  const { isOpen, selectedMoment, closeCollect } = useMobileCollectDrawerProvider();
+  const { isDrawerOpen, collectMoment, closeDrawer } = useMobileDrawersProvider();
+  const isOpen = isDrawerOpen("collect");
+  const selectedMoment = collectMoment;
   const [mounted, setMounted] = useState(false);
   const [backdropReady, setBackdropReady] = useState(false);
 
@@ -36,7 +38,7 @@ const MobileCollectDrawer = () => {
       {isOpen && (
         <div
           className={`fixed inset-0 z-40 ${backdropReady ? "" : "pointer-events-none"}`}
-          onClick={backdropReady ? closeCollect : undefined}
+          onClick={backdropReady ? closeDrawer : undefined}
         />
       )}
       <div
@@ -52,7 +54,7 @@ const MobileCollectDrawer = () => {
           >
             <MomentCommentsProvider>
               <MomentCollectProvider>
-                <MobileCollectDrawerPanel onClose={closeCollect} />
+                <MobileCollectDrawerPanel onClose={closeDrawer} />
               </MomentCollectProvider>
             </MomentCommentsProvider>
           </MomentProvider>

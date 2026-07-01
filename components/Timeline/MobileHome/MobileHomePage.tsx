@@ -2,7 +2,6 @@
 
 import { useMobileHomePage } from "@/hooks/useMobileHomePage";
 import { useMobileFeedScroll } from "@/hooks/useMobileFeedScroll";
-import { MobileCollectDrawerProvider } from "@/providers/MobileCollectDrawerProvider";
 import MobileCollectDrawer from "./MobileCollectDrawer";
 import MobileHero from "./MobileHero";
 import MobileFeedCard from "./MobileFeedCard";
@@ -12,7 +11,7 @@ const MobileHomePage = () => {
   const { visibleMoments, hasMore, sentinelRef } = useMobileFeedScroll(moments);
 
   return (
-    <MobileCollectDrawerProvider>
+    <>
       <div className="flex flex-col">
         <MobileHero totalCount={totalCount} todayCount={todayCount} onCreateClick={onCreateClick} />
         <div className="flex flex-col px-4 pb-2">
@@ -23,7 +22,7 @@ const MobileHomePage = () => {
         </div>
       </div>
       <MobileCollectDrawer />
-    </MobileCollectDrawerProvider>
+    </>
   );
 };
 

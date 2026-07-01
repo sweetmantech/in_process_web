@@ -32,7 +32,7 @@ const MobileFeedbackDrawerPanel = ({
       {isOpen && <div className="fixed inset-0 z-40" onClick={onClose} />}
       <div
         className={`fixed bottom-[74px] left-0 right-0 top-0 z-50 overflow-y-auto bg-white transition-transform duration-300 ease-out ${
-          isOpen ? "translate-y-0" : "translate-y-full"
+          isOpen ? "translate-y-0" : "pointer-events-none translate-y-full"
         }`}
       >
         <div className="flex flex-col px-6 pb-4 pt-7">
@@ -78,7 +78,10 @@ const MobileFeedbackDrawerPanel = ({
 
           <button
             type="button"
-            onClick={submit}
+            onClick={async () => {
+              await submit();
+              onClose();
+            }}
             disabled={!feedback.trim() || !name.trim() || isLoading}
             className="mt-1 w-full rounded-lg bg-grey-moss-900 py-2.5 font-archivo text-xl text-white disabled:cursor-not-allowed disabled:opacity-50"
           >

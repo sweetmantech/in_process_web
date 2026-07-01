@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useUserProvider } from "@/providers/UserProvider";
+import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import truncated from "@/lib/truncated";
 import truncateAddress from "@/lib/truncateAddress";
 
 export const useMobileUserDrawer = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { toggleDrawer, closeDrawer, isDrawerOpen } = useMobileDrawersProvider();
   const { push } = useRouter();
   const { logout, login } = usePrivy();
   const { primaryWallet } = useWalletsProvider();
@@ -19,14 +19,17 @@ export const useMobileUserDrawer = () => {
   const displayName = primaryWallet
     ? truncated(username || "", 14) || truncateAddress(primaryWallet)
     : null;
+  const isOpen = isDrawerOpen("user");
+
   const toggle = () => {
     if (!primaryWallet) {
       login();
       return;
     }
-    setIsOpen((prev) => !prev);
+    toggleDrawer("user");
   };
-  const close = () => setIsOpen(false);
+
+  const close = () => closeDrawer();
 
   const onTimeline = () => {
     close();

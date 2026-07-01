@@ -38,18 +38,21 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
       <input
         ref={inputRef}
         type="file"
+        multiple
         accept="image/*,video/*,.pdf,audio/*,.glb,.gltf"
         className="hidden"
         onChange={onChange}
       />
-      <input
-        ref={cameraInputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        className="hidden"
-        onChange={onCameraChange}
-      />
+      {isMobile && (
+        <input
+          ref={cameraInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={onCameraChange}
+        />
+      )}
 
       <div
         className={`flex size-16 items-center justify-center rounded-full border-2 transition-all duration-200 ${
@@ -73,7 +76,9 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
 
       <div className="flex flex-col items-center gap-2 px-6 text-center">
         <p className="font-archivo-medium text-lg text-grey-moss-800">drop files here</p>
-        <p className="font-archivo text-sm text-grey-moss-500">or click to browse</p>
+        <p className="font-archivo text-sm text-grey-moss-500">
+          {isMobile ? "or tap to choose files" : "or click to browse"}
+        </p>
         {isMobile && (
           <button
             type="button"
@@ -81,9 +86,10 @@ const BulkDropZone = ({ onSingleFile }: BulkDropZoneProps) => {
               e.stopPropagation();
               openCameraDialog();
             }}
-            className="mt-1 flex items-center gap-2 rounded-lg border border-grey-moss-400 bg-white px-4 py-2 font-archivo-medium text-sm text-grey-moss-800"
+            onPointerDown={(e) => e.stopPropagation()}
+            className="mt-0.5 flex items-center gap-1.5 rounded-full border border-grey-moss-300 bg-white/90 px-3 py-1 font-archivo-medium text-xs text-grey-moss-700 active:bg-grey-moss-200"
           >
-            <Camera className="size-4" strokeWidth={1.75} />
+            <Camera className="size-3.5 text-grey-moss-500" strokeWidth={1.75} />
             Take a photo
           </button>
         )}

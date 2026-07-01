@@ -8,6 +8,7 @@ const useBulkDropZone = (onSingleFile: (file: File) => void) => {
   const { addFiles } = useBulkCreateProvider();
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const suppressFileDialogRef = useRef(false);
 
   const handleFiles = useCallback(
     async (files: File[]) => {
@@ -59,11 +60,16 @@ const useBulkDropZone = (onSingleFile: (file: File) => void) => {
   );
 
   const openFileDialog = useCallback(() => {
+    if (suppressFileDialogRef.current) return;
     inputRef.current?.click();
   }, []);
 
   const openCameraDialog = useCallback(() => {
+    suppressFileDialogRef.current = true;
     cameraInputRef.current?.click();
+    window.setTimeout(() => {
+      suppressFileDialogRef.current = false;
+    }, 500);
   }, []);
 
   return {

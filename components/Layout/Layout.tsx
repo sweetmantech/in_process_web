@@ -19,11 +19,14 @@ const Layout = ({ children }: { children: ReactNode }) => {
         className={cn(
           "flex grow flex-col",
           isOpenNavbar && "h-screen overflow-hidden",
-          isTextureLayout && "bg-[url('/bg-gray.png')] bg-cover bg-fixed bg-top bg-no-repeat"
+          isTextureLayout &&
+            "bg-[url('/bg-gray.png')] bg-cover bg-top bg-no-repeat max-md:bg-scroll md:bg-fixed"
         )}
       >
         <Header />
-        <div className="relative flex grow flex-col pb-[74px] md:pb-0">{children}</div>
+        <div className="relative flex grow flex-col pt-[calc(54px+env(safe-area-inset-top,0px))] pb-[calc(74px+env(safe-area-inset-bottom,0px))] md:pb-0 md:pt-0">
+          {children}
+        </div>
         <Footer />
       </div>
     </MobileDrawersProvider>

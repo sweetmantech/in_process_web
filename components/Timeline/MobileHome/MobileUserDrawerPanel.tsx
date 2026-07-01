@@ -31,7 +31,7 @@ const MobileUserDrawerPanel = ({
   <>
     {isOpen && <div className="fixed inset-0 z-40" onClick={onClose} />}
     <div
-      className={`fixed bottom-[74px] left-0 right-0 z-50 overflow-hidden bg-grey-moss-900 shadow-2xl transition-transform duration-300 ease-out ${
+      className={`fixed bottom-[calc(74px+env(safe-area-inset-bottom,0px))] left-0 right-0 z-50 overflow-hidden bg-grey-moss-900 shadow-2xl transition-transform duration-300 ease-out ${
         isOpen ? "translate-y-0" : "pointer-events-none translate-y-full"
       }`}
     >

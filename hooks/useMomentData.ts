@@ -3,17 +3,24 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
-import { Moment, MomentSaleConfig } from "@/types/moment";
+import { Moment, MomentApiResponse, MomentSaleConfig } from "@/types/moment";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
-const useMomentData = (moment: Moment) => {
+interface UseMomentDataOptions {
+  initialData?: MomentApiResponse;
+}
+
+const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { primaryWallet } = useWalletsProvider();
+  const { initialData } = options ?? {};
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
     queryFn: () => getMomentApi(moment),
     enabled: Boolean(collectionAddress && tokenId && chainId),
+    initialData,
+    initialDataUpdatedAt: initialData ? 0 : undefined,
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 2,
   });

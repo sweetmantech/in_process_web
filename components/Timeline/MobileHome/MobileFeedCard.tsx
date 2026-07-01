@@ -4,13 +4,14 @@ import { TimelineMoment } from "@/types/moment";
 import { ExternalLink } from "lucide-react";
 import ContentRenderer from "@/components/Renderers";
 import { useMobileFeedCard } from "@/hooks/useMobileFeedCard";
+import { cn } from "@/lib/utils";
 
 interface MobileFeedCardProps {
   moment: TimelineMoment;
 }
 
 const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
-  const { metadata, externalUrl, priceLabel, onCollect, onExternalLink } =
+  const { metadata, externalUrl, priceLabel, isSoldOut, onCollect, onExternalLink } =
     useMobileFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
@@ -47,10 +48,16 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
             )}
             <button
               type="button"
-              onClick={onCollect}
-              className="rounded-[22px] bg-grey-moss-900 px-[18px] py-[9px] font-archivo-medium text-sm text-white active:opacity-80"
+              disabled={isSoldOut}
+              onClick={isSoldOut ? undefined : onCollect}
+              className={cn(
+                "rounded-[22px] px-[18px] py-[9px] font-archivo-medium text-sm",
+                isSoldOut
+                  ? "cursor-not-allowed bg-grey-moss-300 text-white"
+                  : "bg-grey-moss-900 text-white active:opacity-80"
+              )}
             >
-              Collect
+              {isSoldOut ? "Sold Out" : "Collect"}
             </button>
           </div>
         </div>

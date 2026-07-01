@@ -2,6 +2,7 @@
 
 import { TimelineMoment } from "@/types/moment";
 import { ExternalLink } from "lucide-react";
+import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMobileFeedCard } from "@/hooks/useMobileFeedCard";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,13 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
       </div>
       <div className="px-[15px] pb-[15px] pt-[13px]">
         <div className="mb-[5px] flex items-center gap-[9px]">
-          <span className="font-archivo-medium text-base text-grey-moss-900">{creatorName}</span>
+          <Link
+            href={`/${moment.creator.address.toLowerCase()}`}
+            onClick={(e) => e.stopPropagation()}
+            className="font-archivo-medium text-base text-grey-moss-900 active:opacity-70"
+          >
+            {creatorName}
+          </Link>
           <span className="ml-auto font-archivo text-xs text-tan-gold">{timeStr}</span>
         </div>
         <div className="flex items-end justify-between gap-3">

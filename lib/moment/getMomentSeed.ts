@@ -1,5 +1,6 @@
 import { isSaleEnded } from "@/lib/moment/isSaleEnded";
 import { MomentApiResponse, TimelineMoment } from "@/types/moment";
+import { Address } from "viem";
 
 export const getMomentSeed = (timeline: TimelineMoment): MomentApiResponse => ({
   id: timeline.id,
@@ -9,6 +10,6 @@ export const getMomentSeed = (timeline: TimelineMoment): MomentApiResponse => ({
   sale: timeline.sale ?? null,
   soldOut: isSaleEnded(timeline.sale),
   protocol: timeline.protocol,
-  admins: timeline.admins,
+  admins: timeline.admins as Address[],
   metadata: timeline.metadata ?? null,
 });

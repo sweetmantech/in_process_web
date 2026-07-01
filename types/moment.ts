@@ -78,11 +78,11 @@ export interface MomentApiResponse {
   id: string;
   uri: string;
   contentUri: string | null;
-  owner: string | null;
+  owner: Address | null;
   sale: MomentSaleConfig | null;
   soldOut: boolean;
   protocol: Protocol | null;
-  admins: string[];
+  admins: Address[];
   metadata: MomentMetadata | null;
 }
 

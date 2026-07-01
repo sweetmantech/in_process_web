@@ -37,34 +37,40 @@ const MobileSearchDrawerPanel = ({
   return (
     <div
       className={`fixed bottom-[74px] left-0 right-0 top-0 z-50 flex flex-col bg-white transition-transform duration-300 ease-out ${
-        isOpen ? "translate-y-0" : "translate-y-full"
+        isOpen ? "translate-y-0" : "pointer-events-none translate-y-full"
       }`}
     >
-      <div className="flex items-center gap-3 border-b border-grey-moss-100 px-5 py-4">
-        <Search className="h-5 w-5 shrink-0 text-grey-moss-400" strokeWidth={1.75} />
-        <div className="relative flex flex-1 items-center">
+      <div className="flex items-center gap-3 border-b border-grey-moss-100 px-5">
+        <Search className="size-5 shrink-0 text-grey-moss-400" strokeWidth={1.75} />
+        <div className="relative min-w-0 flex-1">
           <input
             ref={inputRef}
             type="text"
             placeholder="Search artists"
-            className="w-full font-archivo text-[17px] placeholder-grey-moss-300 outline-none"
+            className="w-full appearance-none border-0 bg-transparent py-4 font-archivo text-[17px] leading-none outline-none placeholder:text-grey-moss-300"
             value={searchKey}
             onChange={onChangeSearchKey}
             onKeyDown={onKeyDown}
           />
           {suffixHint && (
-            <div className="pointer-events-none absolute left-0 top-0 flex w-full items-center">
-              <span className="font-archivo text-[17px] opacity-0">{searchKey}</span>
-              <span className="font-archivo text-[17px] text-grey-moss-300">{suffixHint}</span>
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center py-4">
+              <span className="font-archivo text-[17px] leading-none opacity-0">{searchKey}</span>
+              <span className="font-archivo text-[17px] leading-none text-grey-moss-300">
+                {suffixHint}
+              </span>
             </div>
           )}
         </div>
-        <button type="button" onClick={onClose} className="shrink-0 text-grey-moss-400">
-          <X className="h-5 w-5" strokeWidth={1.5} />
+        <button
+          type="button"
+          onClick={onClose}
+          className="flex shrink-0 self-stretch items-center text-grey-moss-400"
+        >
+          <X className="size-5" strokeWidth={1.5} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto overscroll-y-contain">
         {searchKey && !isLoading && artists.length === 0 && (
           <p className="px-5 py-4 font-archivo text-sm text-grey-moss-300">
             No results in the matrix, search again

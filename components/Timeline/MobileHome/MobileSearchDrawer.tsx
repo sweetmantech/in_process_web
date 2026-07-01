@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Search } from "lucide-react";
 import useSearch from "@/hooks/useSearch";
+import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import MobileSearchDrawerPanel from "./MobileSearchDrawerPanel";
 
 const MobileSearchDrawer = () => {
+  const { toggleDrawer, closeDrawer, isDrawerOpen } = useMobileDrawersProvider();
   const {
-    isOpenModal: isOpen,
-    setIsOpenModal,
     searchKey,
     suffixHint,
     artists,
@@ -19,11 +19,18 @@ const MobileSearchDrawer = () => {
     navigateTo,
   } = useSearch();
   const [mounted, setMounted] = useState(false);
+  const isOpen = isDrawerOpen("search");
+
   useEffect(() => setMounted(true), []);
+
+  const handleNavigateTo = (address: string) => {
+    navigateTo(address);
+    closeDrawer();
+  };
 
   return (
     <>
-      <button type="button" onClick={() => setIsOpenModal(true)}>
+      <button type="button" onClick={() => toggleDrawer("search")}>
         <Search
           className="h-[23px] w-[23px]"
           strokeWidth={1.75}
@@ -35,14 +42,14 @@ const MobileSearchDrawer = () => {
         createPortal(
           <MobileSearchDrawerPanel
             isOpen={isOpen}
-            onClose={() => setIsOpenModal(false)}
+            onClose={closeDrawer}
             searchKey={searchKey}
             suffixHint={suffixHint}
             artists={artists}
             isLoading={isLoadingSearch}
             onChangeSearchKey={onChangeSearchKey}
             onKeyDown={onKeyDown}
-            navigateTo={navigateTo}
+            navigateTo={handleNavigateTo}
           />,
           document.body
         )}

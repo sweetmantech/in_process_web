@@ -6,10 +6,10 @@ import { isDeprecatedUrl } from "@/lib/url/isDeprecatedUrl";
 import { isYoutubeUrl } from "@/lib/url/isYoutubeUrl";
 import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { isSaleEnded } from "@/lib/moment/isSaleEnded";
-import { useMobileCollectDrawerProvider } from "@/providers/MobileCollectDrawerProvider";
+import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 
 export const useMobileFeedCard = (moment: TimelineMoment) => {
-  const { openCollect } = useMobileCollectDrawerProvider();
+  const { openCollect } = useMobileDrawersProvider();
   const { metadata, sale } = moment;
   const isSoldOut = isSaleEnded(sale);
 

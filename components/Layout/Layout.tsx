@@ -24,13 +24,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
             className="pointer-events-none fixed inset-0 z-0 bg-[url('/bg-gray.png')] bg-cover bg-top bg-no-repeat"
           />
         )}
-        <div className="relative z-10 flex grow flex-col">
-          <Header />
-          <div className="relative flex grow flex-col pt-[calc(54px+env(safe-area-inset-top,0px))] pb-[calc(74px+env(safe-area-inset-bottom,0px))] md:pb-0 md:pt-0">
-            {children}
-          </div>
-          <Footer />
+        <Header />
+        <div className="relative z-10 flex grow flex-col pt-[calc(54px+env(safe-area-inset-top,0px))] pb-[calc(74px+env(safe-area-inset-bottom,0px))] md:pb-0 md:pt-0">
+          {children}
         </div>
+        <Footer />
       </div>
     </MobileDrawersProvider>
   );

@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { Providers } from "@/providers/Providers";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   alternates: {
@@ -13,14 +13,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-grey-moss-100">
-      <body className="flex min-h-screen w-full flex-col !overflow-x-hidden !text-grey-moss-900">
+    <html lang="en" className="bg-white md:bg-grey-moss-100">
+      <body className="flex min-h-screen w-full flex-col overflow-x-hidden overscroll-y-none bg-white text-grey-moss-900 md:bg-grey-moss-100">
         <Suspense>
           <Providers>{children}</Providers>
           <Toaster />

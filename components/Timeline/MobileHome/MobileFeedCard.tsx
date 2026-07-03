@@ -48,6 +48,30 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
         </p>
 
         <div className="flex items-center justify-between gap-3">
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              disabled={isSoldOut}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (!isSoldOut) onCollect();
+              }}
+              className={cn(
+                "rounded-[22px] px-[18px] py-[9px] font-archivo-medium text-sm",
+                isSoldOut
+                  ? "cursor-not-allowed bg-grey-moss-300 text-white"
+                  : "bg-grey-moss-900 text-white active:opacity-80"
+              )}
+            >
+              {isSoldOut ? "Sold Out" : "Collect"}
+            </button>
+            {priceLabel && (
+              <span className="font-archivo-bold text-xs uppercase text-tan-gold">
+                {priceLabel}
+              </span>
+            )}
+          </div>
+
           <div className="flex min-w-0 items-center gap-3">
             {showComments && (
               <button
@@ -75,30 +99,6 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
               aria-label="Open moment link"
             >
               <ChainLinkIcon className="h-[17px] w-[17px]" strokeWidth={1.75} />
-            </button>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-2">
-            {priceLabel && (
-              <span className="font-archivo-bold text-xs uppercase text-tan-gold">
-                {priceLabel}
-              </span>
-            )}
-            <button
-              type="button"
-              disabled={isSoldOut}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (!isSoldOut) onCollect();
-              }}
-              className={cn(
-                "rounded-[22px] px-[18px] py-[9px] font-archivo-medium text-sm",
-                isSoldOut
-                  ? "cursor-not-allowed bg-grey-moss-300 text-white"
-                  : "bg-grey-moss-900 text-white active:opacity-80"
-              )}
-            >
-              {isSoldOut ? "Sold Out" : "Collect"}
             </button>
           </div>
         </div>

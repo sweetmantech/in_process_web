@@ -16,11 +16,10 @@ const actionButtonClass = "inline-flex items-center gap-1.5 text-grey-moss-700 a
 const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
   const {
     metadata,
-    externalUrl,
     priceLabel,
     isSoldOut,
     onCollect,
-    onExternalLink,
+    handleMomentClick,
     commentCount,
     showComments,
   } = useMobileFeedCard(moment);
@@ -66,19 +65,17 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
                 </span>
               </button>
             )}
-            {externalUrl && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onExternalLink();
-                }}
-                className={actionButtonClass}
-                aria-label="Open external link"
-              >
-                <ExternalLink className="h-[17px] w-[17px]" strokeWidth={1.75} />
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleMomentClick();
+              }}
+              className={actionButtonClass}
+              aria-label="Open moment link"
+            >
+              <ExternalLink className="h-[17px] w-[17px]" strokeWidth={1.75} />
+            </button>
           </div>
 
           <div className="flex shrink-0 items-center gap-2">

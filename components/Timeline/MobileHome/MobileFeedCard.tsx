@@ -11,8 +11,7 @@ interface MobileFeedCardProps {
   moment: TimelineMoment;
 }
 
-const actionButtonClass =
-  "inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70";
+const actionButtonClass = "inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70";
 
 const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
   const {
@@ -23,7 +22,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
     onCollect,
     onExternalLink,
     commentCount,
-    momentPath,
+    showComments,
   } = useMobileFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
@@ -51,10 +50,13 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
 
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-6">
-            {momentPath && (
-              <Link
-                href={momentPath}
-                onClick={(e) => e.stopPropagation()}
+            {showComments && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCollect();
+                }}
                 className={actionButtonClass}
                 aria-label={`${commentCount} comments`}
               >
@@ -62,7 +64,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
                 <span className="font-archivo text-sm tabular-nums">
                   {commentCount.toLocaleString()}
                 </span>
-              </Link>
+              </button>
             )}
             {externalUrl && (
               <button

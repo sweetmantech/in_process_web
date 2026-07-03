@@ -1,7 +1,7 @@
 "use client";
 
 import { TimelineMoment } from "@/types/moment";
-import { ExternalLink, MessageCircle } from "lucide-react";
+import { Link2, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMobileFeedCard } from "@/hooks/useMobileFeedCard";
@@ -74,7 +74,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
               className={actionButtonClass}
               aria-label="Open moment link"
             >
-              <ExternalLink className="h-[17px] w-[17px]" strokeWidth={1.75} />
+              <Link2 className="h-[17px] w-[17px]" strokeWidth={1.75} />
             </button>
           </div>
 

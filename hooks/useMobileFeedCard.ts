@@ -1,6 +1,6 @@
 "use client";
 
-import { TimelineMoment } from "@/types/moment";
+import { Protocol, TimelineMoment } from "@/types/moment";
 import { validateUrl } from "@/lib/url/validateUrl";
 import { isDeprecatedUrl } from "@/lib/url/isDeprecatedUrl";
 import { isYoutubeUrl } from "@/lib/url/isYoutubeUrl";
@@ -12,6 +12,8 @@ export const useMobileFeedCard = (moment: TimelineMoment) => {
   const { openCollect } = useMobileDrawersProvider();
   const { metadata, sale } = moment;
   const isSoldOut = isSaleEnded(sale);
+  const commentCount = moment.comments ?? 0;
+  const showComments = moment.protocol === Protocol.InProcess;
 
   const externalUrl = (() => {
     const url = metadata?.external_url;
@@ -34,5 +36,7 @@ export const useMobileFeedCard = (moment: TimelineMoment) => {
     isSoldOut,
     onCollect,
     onExternalLink,
+    commentCount,
+    showComments,
   };
 };

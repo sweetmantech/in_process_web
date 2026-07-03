@@ -63,6 +63,7 @@ export interface TimelineMoment {
   created_at: string;
   metadata?: MomentMetadata;
   sale?: MomentSaleConfig | null;
+  comments?: number;
 }
 
 export type MomentSaleConfig = {

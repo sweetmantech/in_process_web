@@ -1,7 +1,7 @@
 "use client";
 
 import { TimelineMoment } from "@/types/moment";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMobileFeedCard } from "@/hooks/useMobileFeedCard";
@@ -12,8 +12,16 @@ interface MobileFeedCardProps {
 }
 
 const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
-  const { metadata, externalUrl, priceLabel, isSoldOut, onCollect, onExternalLink } =
-    useMobileFeedCard(moment);
+  const {
+    metadata,
+    externalUrl,
+    priceLabel,
+    isSoldOut,
+    onCollect,
+    onExternalLink,
+    commentCount,
+    momentPath,
+  } = useMobileFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
 
@@ -43,6 +51,19 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
           </Link>
           <span className="ml-auto font-archivo text-xs text-tan-gold">{timeStr}</span>
         </div>
+        {momentPath && (
+          <Link
+            href={momentPath}
+            onClick={(e) => e.stopPropagation()}
+            className="mb-2 inline-flex items-center gap-1.5 active:opacity-70"
+            aria-label={`${commentCount} comments`}
+          >
+            <MessageCircle className="h-[17px] w-[17px] text-grey-moss-700" strokeWidth={1.75} />
+            <span className="font-archivo text-sm tabular-nums text-grey-moss-700">
+              {commentCount.toLocaleString()}
+            </span>
+          </Link>
+        )}
         <div className="flex items-end justify-between gap-3">
           <div className="min-w-0 flex-1 font-spectral-italic text-lg leading-[1.3] text-grey-moss-900">
             {metadata?.name ?? "—"}

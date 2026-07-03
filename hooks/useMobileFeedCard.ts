@@ -8,6 +8,7 @@ import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { isSaleEnded } from "@/lib/moment/isSaleEnded";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
+import { formatFeedTime } from "@/lib/moment/formatFeedTime";
 
 export const useMobileFeedCard = (moment: TimelineMoment) => {
   const { openCollect } = useMobileDrawersProvider();
@@ -43,5 +44,6 @@ export const useMobileFeedCard = (moment: TimelineMoment) => {
     onExternalLink,
     commentCount,
     momentPath,
+    timeLabel: formatFeedTime(moment.created_at),
   };
 };

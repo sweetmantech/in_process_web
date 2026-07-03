@@ -57,7 +57,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
                 if (!isSoldOut) onCollect();
               }}
               className={cn(
-                "rounded-[22px] px-[18px] py-[9px] font-archivo-medium text-sm",
+                "rounded-[22px] px-4 py-2 font-archivo-medium text-sm",
                 isSoldOut
                   ? "cursor-not-allowed bg-grey-moss-300 text-white"
                   : "bg-grey-moss-900 text-white active:opacity-80"

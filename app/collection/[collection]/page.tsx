@@ -9,14 +9,14 @@ import { callGetCollectionApi } from "@/lib/collection/callGetCollectionApi";
 import truncateAddress from "@/lib/truncateAddress";
 
 type Props = {
-  params: Promise<{ collectionAddress: string }>;
+  params: Promise<{ collection: string }>;
 };
 
 export const revalidate = 300;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { collectionAddress } = await params;
-  const { address, chainId } = parseCollectionAddress(collectionAddress);
+  const { collection } = await params;
+  const { address, chainId } = parseCollectionAddress(collection);
   if (!address || !isAddress(address)) {
     return { title: "In Process", description: "Imagined by LATASHÁ" };
   }
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             action: {
               type: "launch_frame",
               name: `${title} - in•process`,
-              url: `${SITE_ORIGINAL_URL}/collection/${collectionAddress}`,
+              url: `${SITE_ORIGINAL_URL}/collection/${collection}`,
               iconImageUrl: `${IN_PROCESS_API}/og/moment?collectionAddress=${address}&chainId=${chainIdInt}&tokenId=0`,
               splashImageUrl: `${SITE_ORIGINAL_URL}/desktop_footer_logo.png`,
               splashBackgroundColor: "#e9ccbb",

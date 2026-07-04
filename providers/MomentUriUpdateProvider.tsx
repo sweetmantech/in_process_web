@@ -1,22 +1,14 @@
 "use client";
 
 import React, { createContext, useContext, useMemo } from "react";
-import useUpdateMomentURI, { type MomentUriUpdateRedirectTo } from "@/hooks/useUpdateMomentURI";
+import useUpdateMomentURI from "@/hooks/useUpdateMomentURI";
 
 const MomentUriUpdateContext = createContext<ReturnType<typeof useUpdateMomentURI> | undefined>(
   undefined
 );
 
-const MomentUriUpdateProvider = ({
-  children,
-  redirectTo = "manage",
-  redirectDelayMs = 0,
-}: {
-  children: React.ReactNode;
-  redirectTo?: MomentUriUpdateRedirectTo;
-  redirectDelayMs?: number;
-}) => {
-  const momentUriUpdate = useUpdateMomentURI({ redirectTo, redirectDelayMs });
+const MomentUriUpdateProvider = ({ children }: { children: React.ReactNode }) => {
+  const momentUriUpdate = useUpdateMomentURI();
 
   const value = useMemo(() => ({ ...momentUriUpdate }), [momentUriUpdate]);
 

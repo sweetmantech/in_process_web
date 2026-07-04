@@ -9,19 +9,7 @@ import { Address } from "viem";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import { useRouter } from "next/navigation";
 
-export type MomentUriUpdateRedirectTo = "manage" | "collect";
-
-interface UseUpdateMomentURIOptions {
-  redirectTo?: MomentUriUpdateRedirectTo;
-  redirectDelayMs?: number;
-}
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const useUpdateMomentURI = ({
-  redirectTo = "manage",
-  redirectDelayMs = 0,
-}: UseUpdateMomentURIOptions = {}) => {
+const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
   const {
     name,
@@ -79,11 +67,10 @@ const useUpdateMomentURI = ({
       });
       // Reset media state after successful save (for all file types)
       resetMediaState();
-      if (redirectDelayMs > 0) {
-        await sleep(redirectDelayMs);
+      if (newCollectionAddress) {
+        const shortNetwork = getShortNameFromChainId(moment.chainId);
+        push(`/manage/${shortNetwork}:${result.contractAddress}/${result.tokenId}`);
       }
-      const shortNetwork = getShortNameFromChainId(moment.chainId);
-      push(`/${redirectTo}/${shortNetwork}:${result.contractAddress}/${result.tokenId}`);
     } catch (error: any) {
       throw error;
     } finally {

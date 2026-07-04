@@ -113,7 +113,7 @@ const useBulkCreate = () => {
 
       setResult(resultData);
       push(
-        `/create/success?collectionAddress=${batchResult.contractAddress}&tokenIds=${batchResult.tokenIds.join(",")}`
+        `/create/success?collection=${batchResult.contractAddress}&tokenIds=${batchResult.tokenIds.join(",")}`
       );
     } catch (err: any) {
       toast.error(err?.message || "Error creating moments");

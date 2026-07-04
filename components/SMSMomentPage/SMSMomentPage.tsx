@@ -13,10 +13,10 @@ import { CollectionsProvider } from "@/providers/CollectionsProvider";
 
 const SMSMomentPage = () => {
   const params = useParams();
-  const collectionAddress = params.collection as string;
+  const collection = params.collection as string;
   const tokenId = params.tokenId as string;
 
-  const { chainId, address } = parseCollectionAddress(collectionAddress);
+  const { chainId, address } = parseCollectionAddress(collection);
 
   if (!address || !chainId) {
     return null;
@@ -39,7 +39,7 @@ const SMSMomentPage = () => {
                 chainId,
               }}
             >
-              <MomentUriUpdateProvider redirectTo="collect" redirectDelayMs={3000}>
+              <MomentUriUpdateProvider>
                 <SMSMoment />
               </MomentUriUpdateProvider>
             </MomentProvider>

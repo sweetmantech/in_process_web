@@ -10,10 +10,8 @@ export function useCollections() {
   const params = useParams();
   const searchParams = useSearchParams();
 
-  const { address: parsedParamAddress } = parseCollectionAddress(
-    params.collectionAddress as string
-  );
-  const initialAddress = searchParams.get("collectionAddress") || parsedParamAddress || undefined;
+  const { address: parsedParamAddress } = parseCollectionAddress(params.collection as string);
+  const initialAddress = searchParams.get("collection") || parsedParamAddress || undefined;
 
   const [selectedCollection, setSelectedCollection] = useState<string | undefined>(initialAddress);
   const selectedCollectionRef = useRef(selectedCollection);

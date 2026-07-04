@@ -14,7 +14,7 @@ import Admins from "./Admins";
 const CollectionManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(COLLECTION_MANAGE_TABS.MEDIA);
   const params = useParams();
-  const collection = params.collectionAddress as string;
+  const collection = params.collection as string;
 
   if (!collection) return <Fragment />;
 

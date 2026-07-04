@@ -13,7 +13,7 @@ import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 const CollectionPage = () => {
   const [alt, setAlt] = useState<"timeline" | "grid">("grid");
   const params = useParams();
-  const collection = params.collectionAddress as string | undefined;
+  const collection = params.collection as string | undefined;
   const { chainId, address } = parseCollectionAddress(collection);
 
   if (!collection || !address || !chainId) {

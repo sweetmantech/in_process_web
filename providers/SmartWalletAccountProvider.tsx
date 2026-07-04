@@ -3,9 +3,7 @@
 import useSmartAccount from "@/hooks/useSmartAccount";
 import { createContext, useMemo, useContext } from "react";
 
-const SmartWalletContext = createContext<ReturnType<typeof useSmartAccount>>(
-  {} as ReturnType<typeof useSmartAccount>
-);
+const SmartWalletContext = createContext<ReturnType<typeof useSmartAccount> | null>(null);
 
 interface ISmartWalletAccountProvider {
   children: React.ReactNode;

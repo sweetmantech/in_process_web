@@ -3,9 +3,7 @@
 import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useEmailVerify } from "@/hooks/useEmailVerify";
 
-const EmailVerificationContext = createContext<ReturnType<typeof useEmailVerify>>(
-  {} as ReturnType<typeof useEmailVerify>
-);
+const EmailVerificationContext = createContext<ReturnType<typeof useEmailVerify> | null>(null);
 
 export const EmailVerificationProvider = ({ children }: { children: ReactNode }) => {
   const emailVerify = useEmailVerify();

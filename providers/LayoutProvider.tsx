@@ -2,9 +2,7 @@ import useLayout from "@/hooks/useLayout";
 import { createContext, useMemo, useContext } from "react";
 import Layout from "@/components/Layout";
 
-const LayoutContext = createContext<ReturnType<typeof useLayout>>(
-  {} as ReturnType<typeof useLayout>
-);
+const LayoutContext = createContext<ReturnType<typeof useLayout> | null>(null);
 
 const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const layout = useLayout();

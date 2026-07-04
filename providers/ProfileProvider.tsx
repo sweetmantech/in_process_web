@@ -5,9 +5,9 @@ import useProfile from "@/hooks/useProfile";
 import { createContext, useMemo, useContext } from "react";
 import { Address } from "viem";
 
-const ProfileContext = createContext<
-  ReturnType<typeof useProfile> & ReturnType<typeof useArtistEdit>
->({} as ReturnType<typeof useProfile> & ReturnType<typeof useArtistEdit>);
+type ProfileContextValue = ReturnType<typeof useProfile> & ReturnType<typeof useArtistEdit>;
+
+const ProfileContext = createContext<ProfileContextValue | null>(null);
 
 interface IProfileProvider {
   children: React.ReactNode;

@@ -9,6 +9,7 @@ import { Address } from "viem";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { MomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
+import { CollectionsProvider } from "@/providers/CollectionsProvider";
 
 const SMSMomentPage = () => {
   const params = useParams();
@@ -28,21 +29,23 @@ const SMSMomentPage = () => {
         chainId,
       }}
     >
-      <MetadataFormProvider>
-        <MetadataUploadProvider>
-          <MomentProvider
-            moment={{
-              collectionAddress: address as Address,
-              tokenId,
-              chainId,
-            }}
-          >
-            <MomentUriUpdateProvider>
-              <SMSMoment />
-            </MomentUriUpdateProvider>
-          </MomentProvider>
-        </MetadataUploadProvider>
-      </MetadataFormProvider>
+      <CollectionsProvider>
+        <MetadataFormProvider>
+          <MetadataUploadProvider>
+            <MomentProvider
+              moment={{
+                collectionAddress: address as Address,
+                tokenId,
+                chainId,
+              }}
+            >
+              <MomentUriUpdateProvider>
+                <SMSMoment />
+              </MomentUriUpdateProvider>
+            </MomentProvider>
+          </MetadataUploadProvider>
+        </MetadataFormProvider>
+      </CollectionsProvider>
     </CollectionProvider>
   );
 };

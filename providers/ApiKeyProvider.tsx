@@ -1,9 +1,7 @@
 import { createContext, useMemo, useContext } from "react";
 import useApiKey from "@/hooks/useApiKey";
 
-const ApiKeyContext = createContext<ReturnType<typeof useApiKey>>(
-  {} as ReturnType<typeof useApiKey>
-);
+const ApiKeyContext = createContext<ReturnType<typeof useApiKey> | null>(null);
 
 const ApiKeyProvider = ({ children }: { children: React.ReactNode }) => {
   const apiKeyData = useApiKey();

@@ -8,7 +8,7 @@ import { Address } from "viem";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   const params = useParams();
-  const collection = params.collectionAddress as string;
+  const collection = params.collection as string;
   const { chainId, address } = parseCollectionAddress(collection);
 
   if (!address || !chainId) {

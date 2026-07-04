@@ -39,7 +39,7 @@ const SMSMomentPage = () => {
                 chainId,
               }}
             >
-              <MomentUriUpdateProvider>
+              <MomentUriUpdateProvider redirectTo="collect" redirectDelayMs={3000}>
                 <SMSMoment />
               </MomentUriUpdateProvider>
             </MomentProvider>

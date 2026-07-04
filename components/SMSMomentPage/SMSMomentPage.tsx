@@ -2,6 +2,7 @@
 
 import SMSMoment from "./SMSMoment";
 import { MomentProvider } from "@/providers/MomentProvider";
+import { CollectionProvider } from "@/providers/CollectionProvider";
 import { useParams } from "next/navigation";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { Address } from "viem";
@@ -21,21 +22,28 @@ const SMSMomentPage = () => {
   }
 
   return (
-    <MetadataFormProvider>
-      <MetadataUploadProvider>
-        <MomentProvider
-          moment={{
-            collectionAddress: address as Address,
-            tokenId,
-            chainId,
-          }}
-        >
-          <MomentUriUpdateProvider>
-            <SMSMoment />
-          </MomentUriUpdateProvider>
-        </MomentProvider>
-      </MetadataUploadProvider>
-    </MetadataFormProvider>
+    <CollectionProvider
+      collection={{
+        address: address as Address,
+        chainId,
+      }}
+    >
+      <MetadataFormProvider>
+        <MetadataUploadProvider>
+          <MomentProvider
+            moment={{
+              collectionAddress: address as Address,
+              tokenId,
+              chainId,
+            }}
+          >
+            <MomentUriUpdateProvider>
+              <SMSMoment />
+            </MomentUriUpdateProvider>
+          </MomentProvider>
+        </MetadataUploadProvider>
+      </MetadataFormProvider>
+    </CollectionProvider>
   );
 };
 

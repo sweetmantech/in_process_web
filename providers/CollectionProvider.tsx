@@ -3,15 +3,11 @@ import { Address } from "viem";
 import { createContext, useContext, ReactNode } from "react";
 import useCollection from "@/hooks/useCollection";
 
-const CollectionContext = createContext<
-  ReturnType<typeof useCollection> & {
-    tokens: ReturnType<typeof useCollectionMoments>;
-  }
->(
-  {} as ReturnType<typeof useCollection> & {
-    tokens: ReturnType<typeof useCollectionMoments>;
-  }
-);
+type CollectionContextValue = ReturnType<typeof useCollection> & {
+  tokens: ReturnType<typeof useCollectionMoments>;
+};
+
+const CollectionContext = createContext<CollectionContextValue | null>(null);
 
 export function CollectionProvider({
   children,
@@ -43,7 +39,7 @@ export function CollectionProvider({
 
 export function useCollectionProvider() {
   const context = useContext(CollectionContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useCollectionProvider must be used within a CollectionProvider");
   }
   return context;

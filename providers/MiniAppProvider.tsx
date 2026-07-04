@@ -9,7 +9,7 @@ interface MiniAppContextType {
   isMiniApp: boolean;
 }
 
-const MiniAppContext = createContext<MiniAppContextType>({} as MiniAppContextType);
+const MiniAppContext = createContext<MiniAppContextType | null>(null);
 
 export default function MiniAppProvider({ children }: { children: ReactNode }) {
   const [isSDKLoaded, setIsSDKLoaded] = useState<boolean>(false);

@@ -4,7 +4,7 @@ import AirdropRecipientsProvider from "./AirdropRecipientsProvider";
 
 interface AirdropContextValue extends ReturnType<typeof useAirdrop> {}
 
-const AirdropContext = createContext<AirdropContextValue>({} as AirdropContextValue);
+const AirdropContext = createContext<AirdropContextValue | null>(null);
 
 const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
   const airDrop = useAirdrop();

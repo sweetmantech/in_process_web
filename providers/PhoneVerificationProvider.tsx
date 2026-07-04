@@ -3,9 +3,7 @@
 import { createContext, useContext, useMemo, ReactNode } from "react";
 import { usePhoneVerify } from "@/hooks/usePhoneVerify";
 
-const PhoneVerificationContext = createContext<ReturnType<typeof usePhoneVerify>>(
-  {} as ReturnType<typeof usePhoneVerify>
-);
+const PhoneVerificationContext = createContext<ReturnType<typeof usePhoneVerify> | null>(null);
 
 export const PhoneVerificationProvider = ({ children }: { children: ReactNode }) => {
   const phoneVerify = usePhoneVerify();

@@ -8,11 +8,7 @@ import CollectionChangeWarningModal from "./CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
 import useIsManageableCollection from "@/hooks/useIsManageableCollection";
 
-interface SaveMediaButtonProps {
-  onSuccess?: () => void;
-}
-
-const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
+const SaveMediaButton = () => {
   const { isOwner, moment } = useMomentProvider();
   const isManageable = useIsManageableCollection();
   const { form } = useMetadataFormProvider();
@@ -27,7 +23,7 @@ const SaveMediaButton = ({ onSuccess }: SaveMediaButtonProps) => {
     handleCancel,
     showPermissionModal,
     closePermissionModal,
-  } = useCollectionChangeWarning(onSuccess);
+  } = useCollectionChangeWarning();
 
   const handleSave = async () => {
     const isValid = await form.trigger();

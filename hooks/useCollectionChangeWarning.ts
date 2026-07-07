@@ -3,10 +3,12 @@ import { toast } from "sonner";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
+import { useMediaEditProvider } from "@/providers/MediaEditProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
-export const useCollectionChangeWarning = (onSuccess?: () => void) => {
-  const { moment } = useMomentProvider();
+export const useCollectionChangeWarning = () => {
+  const { moment, fetchMomentData } = useMomentProvider();
+  const { exitEditMode } = useMediaEditProvider();
   const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { selectedCollection, setSelectedCollection } = useCollectionsProvider();
   const [open, setOpen] = useState(false);
@@ -19,8 +21,9 @@ export const useCollectionChangeWarning = (onSuccess?: () => void) => {
   const save = async () => {
     try {
       await updateTokenURI();
-      onSuccess?.();
-      toast.info("Successfully saved media. Metadata update will show up after a few seconds...");
+      await fetchMomentData();
+      exitEditMode();
+      toast.success("Successfully saved media.");
     } catch (error: any) {
       if (isPermissionError(error)) {
         setShowPermissionModal(true);

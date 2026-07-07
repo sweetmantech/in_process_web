@@ -5,13 +5,9 @@ import { useCollectionProvider } from "@/providers/CollectionProvider";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
 import { Address } from "viem";
 
-export interface SaveCollectionButtonProps {
-  onSuccess?: () => void;
-}
-
-const SaveCollectionButton = (props: SaveCollectionButtonProps) => {
+const SaveCollectionButton = () => {
   const { isSaving, isDisabled, onSave, showPermissionModal, closePermissionModal } =
-    useSaveCollectionButton(props);
+    useSaveCollectionButton();
   const { data } = useCollectionProvider();
 
   return (

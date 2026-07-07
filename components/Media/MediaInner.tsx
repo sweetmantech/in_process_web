@@ -1,7 +1,8 @@
 "use client";
 
-import { Fragment, useState, ReactNode } from "react";
+import { ReactNode } from "react";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
+import { MediaEditProvider, useMediaEditProvider } from "@/providers/MediaEditProvider";
 import ContentRenderer from "@/components/Renderers";
 import ResetButton from "../MetadataCreation/ResetButton";
 import AnimationUpload from "./AnimationUpload";
@@ -17,55 +18,56 @@ interface MediaProps {
   isOwner: boolean;
   isLoading: boolean;
   isSaving: boolean;
-  SaveButton: ({ onSuccess }: { onSuccess?: () => void }) => ReactNode;
+  SaveButton: () => ReactNode;
   isMomentMetadata?: boolean;
   hasMedia?: boolean;
 }
 
-const MediaInner = ({
+const MediaEditInner = ({
   metadata,
   isOwner,
-  isLoading,
   isSaving,
   SaveButton,
   isMomentMetadata,
-}: MediaProps) => {
-  const [editActive, setEditActive] = useState(false);
+}: Omit<MediaProps, "isLoading">) => {
+  const { editActive, enterEditMode } = useMediaEditProvider();
 
   useMediaInitialization(metadata ?? undefined);
 
+  return (
+    <div className="w-full font-archivo">
+      <div className="mt-4 max-w-md rounded-lg bg-white p-4 md:p-6 shadow-sm">
+        <div className="space-y-4">
+          {isMomentMetadata && <Collections />}
+          <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
+          <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
+          <div className="relative aspect-[571/692] overflow-hidden bg-[url('/grid.svg')] bg-contain">
+            {editActive || !metadata ? (
+              <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
+            ) : (
+              <>
+                <ContentRenderer metadata={metadata} />
+                {!editActive && <ResetButton onReset={enterEditMode} />}
+              </>
+            )}
+          </div>
+          <SaveButton />
+          <OwnerWarning isOwner={isOwner} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MediaInner = ({ isLoading, ...props }: MediaProps) => {
   if (isLoading) {
     return <MediaSkeleton />;
   }
 
   return (
-    <Fragment>
-      <div className="w-full font-archivo">
-        <div className="mt-4 max-w-md rounded-lg bg-white p-4 md:p-6 shadow-sm">
-          <div className="space-y-4">
-            {isMomentMetadata && <Collections />}
-            <TitleInput disabled={!isOwner || isSaving} labelHidden={false} />
-            <DescriptionInput disabled={!isOwner || isSaving} labelHidden={false} />
-            <div className="relative aspect-[571/692] overflow-hidden bg-[url('/grid.svg')] bg-contain">
-              {editActive || !metadata ? (
-                <AnimationUpload isOwner={isOwner} isSaving={isSaving} />
-              ) : (
-                <>
-                  <ContentRenderer metadata={metadata} />
-                  {!editActive && <ResetButton onReset={() => setEditActive(true)} />}
-                </>
-              )}
-            </div>
-            <SaveButton
-              onSuccess={() => {
-                setEditActive(false);
-              }}
-            />
-            <OwnerWarning isOwner={isOwner} />
-          </div>
-        </div>
-      </div>
-    </Fragment>
+    <MediaEditProvider>
+      <MediaEditInner {...props} />
+    </MediaEditProvider>
   );
 };
 

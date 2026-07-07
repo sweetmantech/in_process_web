@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 const useUpdateMomentURI = () => {
   const { moment, metadata } = useMomentProvider();
   const {
-    name,
+    form,
     setIsUploading,
     setUploadProgress,
     setImageFile,
@@ -45,6 +45,7 @@ const useUpdateMomentURI = () => {
   const updateTokenURI = async () => {
     setIsLoading(true);
     try {
+      const name = form.getValues("name")?.trim();
       if (!name) {
         throw new Error("Missing token name");
       }

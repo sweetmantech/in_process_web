@@ -10,7 +10,7 @@ import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 
 const useUpdateCollectionURI = () => {
   const { data: collection } = useCollectionProvider();
-  const { name } = useMetadataFormProvider();
+  const { form } = useMetadataFormProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
   const { generateMetadataUri } = useMetadataUploadProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -18,6 +18,7 @@ const useUpdateCollectionURI = () => {
   const updateCollectionURI = async () => {
     setIsLoading(true);
     try {
+      const name = form.getValues("name")?.trim();
       if (!name) {
         throw new Error("Missing collection name");
       }
@@ -26,7 +27,6 @@ const useUpdateCollectionURI = () => {
         throw new Error("Collection not found");
       }
 
-      // Use existing metadata generation, merging with existing metadata
       const existingMetadata = collection.metadata ?? null;
       const newUri = await generateMetadataUri(existingMetadata);
 

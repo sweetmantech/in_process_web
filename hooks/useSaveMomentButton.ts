@@ -37,7 +37,7 @@ const useSaveMomentButton = () => {
         toast.error(error?.message || "Failed to save media");
       }
     }
-  }, [updateTokenURI, fetchMomentData, exitEditMode]);
+  }, [updateTokenURI, fetchMomentData, exitEditMode, openPermissionModal]);
 
   const handleConfirm = async () => {
     closeCollectionWarningModal();
@@ -62,7 +62,7 @@ const useSaveMomentButton = () => {
     }
 
     await save();
-  }, [form]);
+  }, [form, selectedCollection, moment.collectionAddress, openCollectionWarningModal, save]);
 
   const nameValue = form.watch("name");
   const nameError = errors.name;

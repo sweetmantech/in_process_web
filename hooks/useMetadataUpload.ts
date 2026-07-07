@@ -11,9 +11,8 @@ import { MomentMetadata } from "@/types/moment";
 const useMetadataUpload = () => {
   const type = useTypeParam();
   const {
-    description,
+    form,
     mimeType,
-    name,
     link,
     imageFile,
     animationFile,
@@ -27,6 +26,9 @@ const useMetadataUpload = () => {
   useLinkPreview();
 
   const generateMetadataUri = async (existingMetadata?: MomentMetadata | null) => {
+    const name = form.getValues("name");
+    const description = form.getValues("description") ?? "";
+
     if (type === "writing" || type === "embed") {
       const uploadResult = type === "writing" ? await uploadWriting() : await uploadEmbedCode();
       const metadataResult = await buildMetadataPayload({

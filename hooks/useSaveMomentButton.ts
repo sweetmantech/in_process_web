@@ -7,14 +7,15 @@ import { isPermissionError } from "@/lib/errors/isPermissionError";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useFormState } from "react-hook-form";
 import useIsManageableCollection from "./useIsManageableCollection";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const useSaveMomentButton = () => {
-  const { fetchMomentData } = useMomentProvider();
+  const { fetchMomentData, moment } = useMomentProvider();
   const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { isOwner } = useMomentProvider();
   const isManageable = useIsManageableCollection();
+  const { selectedCollection } = useCollectionsProvider();
   const {
-    isCollectionChanged,
     openCollectionWarningModal,
     closeCollectionWarningModal,
     exitEditMode,
@@ -55,7 +56,7 @@ const useSaveMomentButton = () => {
       return;
     }
 
-    if (isCollectionChanged) {
+    if (selectedCollection && selectedCollection !== moment.collectionAddress) {
       openCollectionWarningModal();
       return;
     }

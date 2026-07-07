@@ -7,14 +7,15 @@ import { isPermissionError } from "@/lib/errors/isPermissionError";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useFormState } from "react-hook-form";
 import useIsManageableCollection from "./useIsManageableCollection";
+import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
 const useSaveMomentButton = () => {
-  const { fetchMomentData } = useMomentProvider();
+  const { fetchMomentData, moment } = useMomentProvider();
   const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { isOwner } = useMomentProvider();
   const isManageable = useIsManageableCollection();
+  const { selectedCollection } = useCollectionsProvider();
   const {
-    isCollectionChanged,
     openCollectionWarningModal,
     closeCollectionWarningModal,
     exitEditMode,
@@ -36,7 +37,7 @@ const useSaveMomentButton = () => {
         toast.error(error?.message || "Failed to save media");
       }
     }
-  }, [updateTokenURI, fetchMomentData, exitEditMode]);
+  }, [updateTokenURI, fetchMomentData, exitEditMode, openPermissionModal]);
 
   const handleConfirm = async () => {
     closeCollectionWarningModal();
@@ -55,13 +56,13 @@ const useSaveMomentButton = () => {
       return;
     }
 
-    if (isCollectionChanged) {
+    if (selectedCollection && selectedCollection !== moment.collectionAddress) {
       openCollectionWarningModal();
       return;
     }
 
     await save();
-  }, [form]);
+  }, [form, selectedCollection, moment.collectionAddress, openCollectionWarningModal, save]);
 
   const nameValue = form.watch("name");
   const nameError = errors.name;

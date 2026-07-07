@@ -1,12 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useMemo } from "react";
-import useMomentMedia from "@/hooks/useMomentMedia";
+import useMomentEdit from "@/hooks/useMomentEdit";
 
-const MomentEditContext = createContext<ReturnType<typeof useMomentMedia> | undefined>(undefined);
+const MomentEditContext = createContext<ReturnType<typeof useMomentEdit> | undefined>(undefined);
 
 const MomentEditProvider = ({ children }: { children: React.ReactNode }) => {
-  const momentEdit = useMomentMedia();
+  const momentEdit = useMomentEdit();
 
   const value = useMemo(() => ({ ...momentEdit }), [momentEdit]);
 

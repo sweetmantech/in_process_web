@@ -4,6 +4,7 @@ import { House, Bell } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import NotificationCountBadge from "@/components/Header/NotificationCountBadge";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import MobileUserDrawer from "@/components/Timeline/MobileHome/MobileUserDrawer";
 import MobileFeedbackDrawer from "@/components/Timeline/MobileHome/MobileFeedbackDrawer";
 import MobileSearchDrawer from "@/components/Timeline/MobileHome/MobileSearchDrawer";
@@ -12,6 +13,7 @@ const MobileFooter = () => {
   const { push } = useRouter();
   const pathname = usePathname();
   const { closeDrawer } = useMobileDrawersProvider();
+  const { primaryWallet } = useWalletsProvider();
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[60] border-t border-[#EDEAE2] bg-white pb-[env(safe-area-inset-bottom,0px)]">
@@ -30,17 +32,19 @@ const MobileFooter = () => {
           />
         </button>
         <MobileSearchDrawer />
-        <button
-          type="button"
-          onClick={() => {
-            closeDrawer();
-            push("/notifications");
-          }}
-          className="relative"
-        >
-          <Bell className="h-[23px] w-[23px] text-[#B6B2A8]" strokeWidth={1.75} />
-          <NotificationCountBadge className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full p-0 text-[9px] font-bold leading-none" />
-        </button>
+        {primaryWallet && (
+          <button
+            type="button"
+            onClick={() => {
+              closeDrawer();
+              push("/notifications");
+            }}
+            className="relative"
+          >
+            <Bell className="h-[23px] w-[23px] text-[#B6B2A8]" strokeWidth={1.75} />
+            <NotificationCountBadge className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full p-0 text-[9px] font-bold leading-none" />
+          </button>
+        )}
         <MobileFeedbackDrawer />
         <MobileUserDrawer />
       </div>

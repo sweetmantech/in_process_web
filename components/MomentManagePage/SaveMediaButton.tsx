@@ -1,65 +1,35 @@
 "use client";
+
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { toast } from "sonner";
-import { useFormState } from "react-hook-form";
-import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useCollectionChangeWarning } from "@/hooks/useCollectionChangeWarning";
 import CollectionChangeWarningModal from "./CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
-import useIsManageableCollection from "@/hooks/useIsManageableCollection";
+import { useMomentMediaProvider } from "@/providers/MomentMediaProvider";
+import useSaveMomentMedia from "@/hooks/useSaveMomentMedia";
 
 const SaveMediaButton = () => {
-  const { isOwner, moment } = useMomentProvider();
-  const isManageable = useIsManageableCollection();
-  const { form } = useMetadataFormProvider();
-  const { errors } = useFormState({ control: form.control });
+  const { moment } = useMomentProvider();
   const {
-    open,
-    isSaving,
-    isCollectionChanged,
-    save,
-    openWarning,
-    handleConfirm,
-    handleCancel,
     showPermissionModal,
     closePermissionModal,
-  } = useCollectionChangeWarning();
-
-  const handleSave = async () => {
-    const isValid = await form.trigger();
-    if (!isValid) {
-      const errors = form.formState.errors;
-      if (errors.name) {
-        toast.error(errors.name.message || "Title is required");
-      } else {
-        toast.error("Please fix form errors");
-      }
-      return;
-    }
-
-    if (isCollectionChanged) {
-      openWarning();
-      return;
-    }
-
-    await save();
-  };
-
-  const nameValue = form.watch("name");
-  const nameError = errors.name;
-  const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;
-  const isFormValid = hasValidName && !nameError;
+    showCollectionWarningModal,
+    cancelCollectionChanging,
+  } = useMomentMediaProvider();
+  const { isDisabled, handleSave, handleConfirm, isSaving } = useSaveMomentMedia();
 
   return (
     <div>
       <button
         className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
         onClick={handleSave}
-        disabled={isSaving || !isOwner || !isFormValid || !isManageable}
+        disabled={isDisabled}
       >
-        {isSaving ? "saving..." : "Save"}
+        {isSaving ? "Saving..." : "Save"}
       </button>
-      <CollectionChangeWarningModal open={open} onConfirm={handleConfirm} onCancel={handleCancel} />
+      <CollectionChangeWarningModal
+        open={showCollectionWarningModal}
+        onConfirm={handleConfirm}
+        onCancel={cancelCollectionChanging}
+      />
       <PermissionErrorModal
         open={showPermissionModal}
         onClose={closePermissionModal}

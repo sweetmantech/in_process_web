@@ -5,7 +5,7 @@ import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import useIsManageableCollection from "@/hooks/useIsManageableCollection";
-import { useMediaEditProvider } from "@/providers/MediaEditProvider";
+import { useMediaEditProvider } from "@/providers/MomentMediaProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSaveCollectionButton = () => {

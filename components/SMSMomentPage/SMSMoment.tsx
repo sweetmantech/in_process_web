@@ -9,7 +9,7 @@ import useMediaInitialization from "@/hooks/useMediaInitialization";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
-import { MediaEditProvider } from "@/providers/MediaEditProvider";
+import { MomentMediaProvider } from "@/providers/MomentMediaProvider";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import TitleInput from "../Media/TitleInput";
 import DescriptionInput from "../Media/DescriptionInput";
@@ -45,7 +45,7 @@ const SMSMoment = () => {
     );
 
   return (
-    <MediaEditProvider>
+    <MomentMediaProvider>
       <div className="px-3 md:px-10 pt-12">
         <div className="flex items-center gap-2">
           <CollectionImage
@@ -78,7 +78,7 @@ const SMSMoment = () => {
         <MomentAirdrop />
         <Notes />
       </div>
-    </MediaEditProvider>
+    </MomentMediaProvider>
   );
 };
 

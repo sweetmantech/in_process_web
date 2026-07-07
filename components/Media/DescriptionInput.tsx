@@ -1,20 +1,30 @@
 import { Textarea } from "../ui/textarea";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
+import { cn } from "@/lib/utils";
 
 interface DescriptionInputProps {
   disabled: boolean;
   labelHidden: boolean;
+  textareaClassName?: string;
+  labelClassName?: string;
 }
-const DescriptionInput = ({ disabled, labelHidden }: DescriptionInputProps) => {
+const DescriptionInput = ({
+  disabled,
+  labelHidden,
+  textareaClassName,
+  labelClassName,
+}: DescriptionInputProps) => {
   const { form } = useMetadataFormProvider();
   return (
     <fieldset>
       {!labelHidden && (
-        <label className="text-grey-moss-600 mb-1 block font-archivo text-sm">description</label>
+        <label className={cn("text-grey-moss-600 mb-1 block font-archivo text-sm", labelClassName)}>
+          description
+        </label>
       )}
       <Textarea
         {...form.register("description")}
-        className="focus:border-grey-moss-500 !font-spectral !text-md"
+        className={cn("focus:border-grey-moss-500 !font-spectral !text-md", textareaClassName)}
         minRows={3}
         maxRows={10}
         placeholder="enter a description"

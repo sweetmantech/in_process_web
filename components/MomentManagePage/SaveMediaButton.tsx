@@ -6,8 +6,13 @@ import PermissionErrorModal from "@/components/PermissionErrorModal";
 import { useMomentEditProvider } from "@/providers/MomentEditProvider";
 import useSaveMomentButton from "@/hooks/useSaveMomentButton";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { cn } from "@/lib/utils";
 
-const SaveMediaButton = () => {
+interface SaveMediaButtonProps {
+  className?: string;
+}
+
+const SaveMediaButton = ({ className }: SaveMediaButtonProps = {}) => {
   const { moment } = useMomentProvider();
   const {
     showPermissionModal,
@@ -21,7 +26,10 @@ const SaveMediaButton = () => {
   return (
     <div>
       <button
-        className="w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50"
+        className={cn(
+          "w-fit rounded-md bg-black px-4 md:px-8 md:py-2 py-1 text-grey-eggshell transition-colors hover:bg-grey-moss-300 disabled:opacity-50",
+          className
+        )}
         onClick={handleSave}
         disabled={isDisabled}
       >

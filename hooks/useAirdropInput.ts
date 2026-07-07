@@ -4,24 +4,26 @@ import { useAirdropProvider } from "@/providers/AirdropProvider";
 const useAirdropInput = () => {
   const [value, setValue] = useState("");
   const { onChangeAddress } = useAirdropProvider();
-  // When the user presses Enter we want to submit whatever is currently in the
-  // input. The user might have typed or pasted multiple lines, so we split the
-  // value on new-lines, trim each entry and ignore blank rows.
+  // When the user presses Enter, a comma, or a space we want to submit
+  // whatever is currently in the input. The user might have typed or pasted
+  // multiple lines, so we split the value on new-lines, trim each entry and
+  // ignore blank rows.
   const handleInput = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const items = value
-        .split(/\r?\n/) // handle both Windows and Unix newlines
-        .map((item) => item.trim())
-        .filter(Boolean);
+    if (e.key !== "Enter" && e.key !== "," && e.key !== " ") return;
+    e.preventDefault();
 
-      if (items.length > 0) {
-        // Add to airdropToItems immediately for UI feedback (ENS names will be resolved automatically)
-        for (const item of items) {
-          onChangeAddress(item);
-        }
+    const items = value
+      .split(/\r?\n/) // handle both Windows and Unix newlines
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    if (items.length > 0) {
+      // Add to airdropToItems immediately for UI feedback (ENS names will be resolved automatically)
+      for (const item of items) {
+        onChangeAddress(item);
       }
-      setValue("");
     }
+    setValue("");
   };
 
   // Support pasting a column of cells (e.g. from Google Sheets / Docs). We

@@ -2,25 +2,24 @@ import { useCallback } from "react";
 import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
-import { useMomentMediaProvider } from "@/providers/MomentMediaProvider";
+import { useMomentEditProvider } from "@/providers/MomentEditProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useFormState } from "react-hook-form";
 import useIsManageableCollection from "./useIsManageableCollection";
-import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 
-const useSaveMomentMedia = () => {
-  const { selectedCollection } = useCollectionsProvider();
-  const { fetchMomentData, moment } = useMomentProvider();
+const useSaveMomentButton = () => {
+  const { fetchMomentData } = useMomentProvider();
   const { updateTokenURI, isLoading: isSaving } = useMomentUriUpdateProvider();
   const { isOwner } = useMomentProvider();
   const isManageable = useIsManageableCollection();
   const {
+    isCollectionChanged,
     openCollectionWarningModal,
     closeCollectionWarningModal,
     exitEditMode,
     openPermissionModal,
-  } = useMomentMediaProvider();
+  } = useMomentEditProvider();
   const { form } = useMetadataFormProvider();
   const { errors } = useFormState({ control: form.control });
 
@@ -56,7 +55,7 @@ const useSaveMomentMedia = () => {
       return;
     }
 
-    if (selectedCollection && selectedCollection !== moment.collectionAddress) {
+    if (isCollectionChanged) {
       openCollectionWarningModal();
       return;
     }
@@ -79,4 +78,4 @@ const useSaveMomentMedia = () => {
   };
 };
 
-export default useSaveMomentMedia;
+export default useSaveMomentButton;

@@ -3,9 +3,8 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
 import CollectionChangeWarningModal from "./CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
-import { useMomentMediaProvider } from "@/providers/MomentMediaProvider";
-import useSaveMomentMedia from "@/hooks/useSaveMomentMedia";
-import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { useMomentEditProvider } from "@/providers/MomentEditProvider";
+import useSaveMomentButton from "@/hooks/useSaveMomentButton";
 
 const SaveMediaButton = () => {
   const { moment } = useMomentProvider();
@@ -13,10 +12,9 @@ const SaveMediaButton = () => {
     showPermissionModal,
     closePermissionModal,
     showCollectionWarningModal,
-    closeCollectionWarningModal,
-  } = useMomentMediaProvider();
-  const { isDisabled, handleSave, handleConfirm, isSaving } = useSaveMomentMedia();
-  const { setSelectedCollection } = useCollectionsProvider();
+    cancelCollectionChanging,
+  } = useMomentEditProvider();
+  const { isDisabled, handleSave, handleConfirm, isSaving } = useSaveMomentButton();
 
   return (
     <div>
@@ -30,10 +28,7 @@ const SaveMediaButton = () => {
       <CollectionChangeWarningModal
         open={showCollectionWarningModal}
         onConfirm={handleConfirm}
-        onCancel={() => {
-          setSelectedCollection(moment.collectionAddress);
-          closeCollectionWarningModal();
-        }}
+        onCancel={cancelCollectionChanging}
       />
       <PermissionErrorModal
         open={showPermissionModal}

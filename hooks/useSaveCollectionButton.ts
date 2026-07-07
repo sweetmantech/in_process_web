@@ -5,11 +5,11 @@ import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import useIsManageableCollection from "@/hooks/useIsManageableCollection";
-import { useMomentMediaProvider } from "@/providers/MomentMediaProvider";
+import { useMomentEditProvider } from "@/providers/MomentEditProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSaveCollectionButton = () => {
-  const { exitEditMode } = useMomentMediaProvider();
+  const { exitEditMode } = useMomentEditProvider();
   const isOwner = useIsCollectionOwner();
   const isManageable = useIsManageableCollection();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();

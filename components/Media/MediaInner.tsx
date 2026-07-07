@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
-import { MomentMediaProvider, useMomentMediaProvider } from "@/providers/MomentMediaProvider";
+import { MomentEditProvider, useMomentEditProvider } from "@/providers/MomentEditProvider";
 import ContentRenderer from "@/components/Renderers";
 import ResetButton from "../MetadataCreation/ResetButton";
 import AnimationUpload from "./AnimationUpload";
@@ -23,14 +23,14 @@ interface MediaProps {
   hasMedia?: boolean;
 }
 
-const MediaEditInner = ({
+const MomentMediaInner = ({
   metadata,
   isOwner,
   isSaving,
   SaveButton,
   isMomentMetadata,
 }: Omit<MediaProps, "isLoading">) => {
-  const { editActive, enterEditMode } = useMomentMediaProvider();
+  const { editActive, enterEditMode } = useMomentEditProvider();
 
   useMediaInitialization(metadata ?? undefined);
 
@@ -65,9 +65,9 @@ const MediaInner = ({ isLoading, ...props }: MediaProps) => {
   }
 
   return (
-    <MomentMediaProvider>
-      <MediaEditInner {...props} />
-    </MomentMediaProvider>
+    <MomentEditProvider>
+      <MomentMediaInner {...props} />
+    </MomentEditProvider>
   );
 };
 

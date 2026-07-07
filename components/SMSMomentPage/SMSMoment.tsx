@@ -15,11 +15,20 @@ const SMSMoment = () => {
 
   if (!metadata || isLoading)
     return (
-      <div className="flex flex-col gap-2 w-full px-3">
-        <Skeleton className="w-1/3 h-[40px]" />
-        <Skeleton className="w-1/2 h-[40px]" />
-        <Skeleton className="w-3/4 h-[40px]" />
-        <Skeleton className="w-full h-[40px]" />
+      <div className="flex flex-col gap-3 px-3 pb-8 pt-3 md:px-10">
+        <div className="flex flex-col gap-3 rounded-md border border-grey-moss-100 bg-white p-4">
+          <Skeleton className="h-4 w-2/3" />
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-14 w-14 shrink-0 rounded-lg" />
+            <Skeleton className="h-9 flex-1" />
+          </div>
+          <Skeleton className="h-16 w-full" />
+        </div>
+        <div className="flex flex-col gap-3 rounded-md border border-grey-moss-100 bg-white p-4">
+          <Skeleton className="h-3 w-1/3" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-12 w-full" />
+        </div>
       </div>
     );
 

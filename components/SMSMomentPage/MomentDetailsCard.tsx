@@ -40,7 +40,14 @@ const MomentDetailsCard = () => {
           labelClassName="text-[10.5px] uppercase tracking-wider text-grey-moss-300"
         />
       ) : (
-        <p className="font-spectral text-sm text-grey-moss-900">{metadata?.name}</p>
+        <div className="flex items-center gap-3">
+          <span className="w-16 shrink-0 font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300">
+            title
+          </span>
+          <p className="min-w-0 flex-1 truncate font-spectral text-sm text-grey-moss-900">
+            {metadata?.name}
+          </p>
+        </div>
       )}
       {isOwner ? (
         <DescriptionInput
@@ -50,7 +57,16 @@ const MomentDetailsCard = () => {
           labelClassName="text-[10.5px] uppercase tracking-wider text-grey-moss-300"
         />
       ) : (
-        <Description />
+        metadata?.description && (
+          <div className="flex items-start gap-3">
+            <span className="w-16 shrink-0 pt-0.5 font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300">
+              description
+            </span>
+            <div className="min-w-0 flex-1 [&>div]:mt-0">
+              <Description />
+            </div>
+          </div>
+        )
       )}
       {isOwner && (
         <div className="flex items-center justify-end">

@@ -5,10 +5,11 @@ import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import useIsManageableCollection from "@/hooks/useIsManageableCollection";
-import { SaveCollectionButtonProps } from "@/components/CollectionManagePage/SaveCollectionButton";
+import { useMomentEditProvider } from "@/providers/MomentEditProvider";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
-const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
+const useSaveCollectionButton = () => {
+  const { exitEditMode } = useMomentEditProvider();
   const isOwner = useIsCollectionOwner();
   const isManageable = useIsManageableCollection();
   const { updateCollectionURI, isLoading: isSaving } = useUpdateCollectionURI();
@@ -37,10 +38,8 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
 
     try {
       await updateCollectionURI();
-      onSuccess?.();
-      toast.info(
-        "Successfully saved collection. Metadata update will show up after a few seconds..."
-      );
+      exitEditMode();
+      toast.success("Successfully saved collection.");
     } catch (error: any) {
       if (isPermissionError(error)) {
         setShowPermissionModal(true);
@@ -48,7 +47,7 @@ const useSaveCollectionButton = ({ onSuccess }: SaveCollectionButtonProps) => {
         toast.error(error?.message || "Failed to save collection");
       }
     }
-  }, [form, updateCollectionURI, onSuccess]);
+  }, [form, updateCollectionURI, exitEditMode]);
 
   return {
     isSaving,

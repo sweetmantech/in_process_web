@@ -9,6 +9,7 @@ import useMediaInitialization from "@/hooks/useMediaInitialization";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
+import { MomentEditProvider } from "@/providers/MomentEditProvider";
 import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
 import TitleInput from "../Media/TitleInput";
 import DescriptionInput from "../Media/DescriptionInput";
@@ -44,38 +45,40 @@ const SMSMoment = () => {
     );
 
   return (
-    <div className="px-3 md:px-10 pt-12">
-      <div className="flex items-center gap-2">
-        <CollectionImage
-          src={imageUrl}
-          alt={metadata.name || "Moment thumbnail"}
-          className="h-14 w-14"
-          onClick={isOwner ? handleImageClick : undefined}
-        />
-        {isOwner ? (
-          <TitleInput disabled={!canEdit} labelHidden />
-        ) : (
-          <p className="font-archivo text-lg text-grey-moss-900">{metadata.name}</p>
-        )}
-      </div>
+    <MomentEditProvider>
+      <div className="px-3 md:px-10 pt-12">
+        <div className="flex items-center gap-2">
+          <CollectionImage
+            src={imageUrl}
+            alt={metadata.name || "Moment thumbnail"}
+            className="h-14 w-14"
+            onClick={isOwner ? handleImageClick : undefined}
+          />
+          {isOwner ? (
+            <TitleInput disabled={!canEdit} labelHidden />
+          ) : (
+            <p className="font-archivo text-lg text-grey-moss-900">{metadata.name}</p>
+          )}
+        </div>
 
-      {isOwner ? <DescriptionInput disabled={!canEdit} labelHidden /> : <Description />}
+        {isOwner ? <DescriptionInput disabled={!canEdit} labelHidden /> : <Description />}
 
-      <div className="flex items-center gap-2 pt-4 pb-2">
-        <ShareButton />
-        {isOwner && <SaveMediaButton />}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={selectFile}
-          className="hidden"
-          disabled={!isOwner || isUpdating}
-        />
+        <div className="flex items-center gap-2 pt-4 pb-2">
+          <ShareButton />
+          {isOwner && <SaveMediaButton />}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={selectFile}
+            className="hidden"
+            disabled={!isOwner || isUpdating}
+          />
+        </div>
+        <MomentAirdrop />
+        <Notes />
       </div>
-      <MomentAirdrop />
-      <Notes />
-    </div>
+    </MomentEditProvider>
   );
 };
 

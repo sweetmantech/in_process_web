@@ -1,38 +1,17 @@
 "use client";
 
 import { useMomentProvider } from "@/providers/MomentProvider";
-import MomentAirdrop from "../MomentAirdrop/MomentAirdrop";
 import Notes from "./Notes";
 import { Skeleton } from "../ui/skeleton";
-import CollectionImage from "../CollectionImage";
 import useMediaInitialization from "@/hooks/useMediaInitialization";
-import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
-import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
 import { MomentEditProvider } from "@/providers/MomentEditProvider";
-import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
-import TitleInput from "../Media/TitleInput";
-import DescriptionInput from "../Media/DescriptionInput";
-import Description from "../MomentPage/Description";
-import ShareButton from "../MomentPage/ShareButton";
+import MomentDetailsCard from "./MomentDetailsCard";
+import AirdropCard from "./AirdropCard";
 
 const SMSMoment = () => {
-  const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { fileInputRef, blobUrls, previewFileUrl } = useMetadataFormProvider();
-  const { selectFile } = useMetadataUploadProvider();
-  const { isLoading: isUpdating } = useMomentUriUpdateProvider();
-  const canEdit = isOwner && !isUpdating;
+  const { metadata, isLoading } = useMomentProvider();
 
   useMediaInitialization(metadata ?? undefined);
-
-  const handleImageClick = () => {
-    if (isOwner && !isUpdating) {
-      fileInputRef.current?.click();
-    }
-  };
-
-  const imageUrl =
-    blobUrls?.image || previewFileUrl || metadata?.image || "/images/placeholder.png";
 
   if (!metadata || isLoading)
     return (
@@ -46,36 +25,9 @@ const SMSMoment = () => {
 
   return (
     <MomentEditProvider>
-      <div className="px-3 md:px-10 pt-12">
-        <div className="flex items-center gap-2">
-          <CollectionImage
-            src={imageUrl}
-            alt={metadata.name || "Moment thumbnail"}
-            className="h-14 w-14"
-            onClick={isOwner ? handleImageClick : undefined}
-          />
-          {isOwner ? (
-            <TitleInput disabled={!canEdit} labelHidden />
-          ) : (
-            <p className="font-archivo text-lg text-grey-moss-900">{metadata.name}</p>
-          )}
-        </div>
-
-        {isOwner ? <DescriptionInput disabled={!canEdit} labelHidden /> : <Description />}
-
-        <div className="flex items-center gap-2 pt-4 pb-2">
-          <ShareButton />
-          {isOwner && <SaveMediaButton />}
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={selectFile}
-            className="hidden"
-            disabled={!isOwner || isUpdating}
-          />
-        </div>
-        <MomentAirdrop />
+      <div className="flex flex-col gap-3 px-3 pb-8 pt-3 md:px-10">
+        <MomentDetailsCard />
+        <AirdropCard />
         <Notes />
       </div>
     </MomentEditProvider>

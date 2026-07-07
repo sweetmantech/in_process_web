@@ -37,7 +37,7 @@ const MobileSearchDrawerPanel = ({
   return (
     <div
       className={`fixed bottom-[calc(74px+env(safe-area-inset-bottom,0px))] left-0 right-0 top-0 z-50 flex flex-col bg-white transition-transform duration-300 ease-out will-change-transform ${
-        isOpen ? "translate-y-0" : "pointer-events-none translate-y-full"
+        isOpen ? "translate-y-0" : "pointer-events-none translate-y-[2000px]"
       }`}
     >
       <div className="flex items-center gap-3 border-b border-grey-moss-100 px-5">

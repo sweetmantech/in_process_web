@@ -68,6 +68,12 @@ export const useSomething = () => {
 - **Chain**: Base (mainnet) or Base Sepolia (testnet via `NEXT_PUBLIC_IS_TESTNET`)
 - **Stack**: Next.js, TanStack Query, Privy (auth), Supabase, Viem
 
+### UI Copy Casing Convention
+
+- Buttons, labels, field names, and inline hints stay **lowercase** (e.g. `collect`, `comment`, `moment collection price`, `choose the amount you want to collect`).
+- Confirmation/notice sentences (e.g. "Are you sure you want to collect this moment?") use **normal sentence case** — capitalize the first letter, punctuate as a sentence.
+- Structured detail rows under a confirmation notice use a `label: value` format (e.g. `title: ...`, `price: ...`), not a prose sentence like `collect [title] for [price]`.
+
 ---
 
 ## Sound.xyz Admin Permission System

@@ -11,7 +11,7 @@ const useCollectAvailability = () => {
   const isInProcessOnBase = isInProcess && moment.chainId === base.id;
   const isWalletLoading = isSmartWalletLoading;
   const isCollectDisabled = !isSaleActive || soldOut || !isInProcessOnBase || isWalletLoading;
-  const collectCtaLabel = soldOut || !isInProcessOnBase ? "sold out" : "collect";
+  const collectCtaLabel = soldOut || !isInProcessOnBase ? "Sold out" : "Collect";
 
   return { isCollectDisabled, collectCtaLabel };
 };

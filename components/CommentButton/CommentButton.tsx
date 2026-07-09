@@ -17,7 +17,7 @@ export default function CommentButton({ disabled = false, label = "collect" }: C
       className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
       disabled={isLoading || disabled}
     >
-      {isLoading ? "collecting..." : label}
+      {isLoading ? "Collecting..." : label}
     </button>
   );
 }

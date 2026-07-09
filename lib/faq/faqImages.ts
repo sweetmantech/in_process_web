@@ -31,19 +31,34 @@ export const faqImageGalleries = {
   ],
   telegramCommands: [
     {
+      src: "/images/faq/telegram/get_started.png",
+      alt: "connecting your telegram via email",
+      caption: "getting started",
+    },
+    {
       src: "/images/faq/telegram/creating.png",
       alt: "creating a moment",
       caption: "creating a moment",
     },
     {
-      src: "/images/faq/telegram/start-remind-notify.png",
-      alt: "/start /remind /notify commands",
-      caption: "/start /remind /notify",
-    },
-    {
       src: "/images/faq/telegram/collections.png",
       alt: "/collections command",
       caption: "/collections",
+    },
+    {
+      src: "/images/faq/telegram/remind.png",
+      alt: "/remind command",
+      caption: "/remind",
+    },
+    {
+      src: "/images/faq/telegram/notify.png",
+      alt: "/notify command",
+      caption: "/notify",
+    },
+    {
+      src: "/images/faq/telegram/me.png",
+      alt: "/me command",
+      caption: "/me",
     },
   ],
   externalWallet: [

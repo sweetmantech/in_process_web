@@ -34,7 +34,7 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
       type="button"
       onClick={handleClick}
       className={cn(
-        "flex items-center rounded-lg md:rounded-[10px] font-archivo-medium text-sm text-white md:bg-[#34332F] md:text-[13px] md:hover:bg-black",
+        "flex items-center rounded-lg md:rounded-[10px] font-archivo-medium text-sm text-white md:bg-black md:text-[13px] md:hover:bg-[#34332F]",
         className
       )}
     >

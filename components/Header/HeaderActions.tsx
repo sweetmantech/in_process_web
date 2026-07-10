@@ -3,10 +3,10 @@
 import LoginButton from "../LoginButton";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import NotificationButton from "./NotificationButton";
+import NotificationButton from "@/components/NotificationButton";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 
-const HeaderAuthSection = () => {
+const HeaderActions = () => {
   const { primaryWallet } = useWalletsProvider();
   const { isOpenNavbar, toggleNavbar, isExpandedSearchInput } = useLayoutProvider();
 
@@ -34,4 +34,4 @@ const HeaderAuthSection = () => {
   );
 };
 
-export default HeaderAuthSection;
+export default HeaderActions;

@@ -5,7 +5,7 @@ import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import truncateAddress from "@/lib/truncateAddress";
 import { KeyboardEvent, ChangeEvent } from "react";
 
-interface MobileSearchDrawerPanelProps {
+interface SearchDrawerPanelProps {
   isOpen: boolean;
   onClose: () => void;
   searchKey: string;
@@ -17,7 +17,7 @@ interface MobileSearchDrawerPanelProps {
   navigateTo: (address: string) => void;
 }
 
-const MobileSearchDrawerPanel = ({
+const SearchDrawerPanel = ({
   isOpen,
   onClose,
   searchKey,
@@ -27,7 +27,7 @@ const MobileSearchDrawerPanel = ({
   onChangeSearchKey,
   onKeyDown,
   navigateTo,
-}: MobileSearchDrawerPanelProps) => {
+}: SearchDrawerPanelProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -71,10 +71,8 @@ const MobileSearchDrawerPanel = ({
       </div>
 
       <div className="flex-1 overflow-y-auto">
-        {searchKey && !isLoading && artists.length === 0 && (
-          <p className="px-5 py-4 font-archivo text-sm text-grey-moss-300">
-            No results in the matrix, search again
-          </p>
+        {!isLoading && artists.length === 0 && (
+          <p className="px-5 py-4 font-archivo text-sm text-grey-moss-300">No results.</p>
         )}
         {artists.map((artist, i) => {
           const address = getPrimaryWalletAddress(artist.wallets);
@@ -104,4 +102,4 @@ const MobileSearchDrawerPanel = ({
   );
 };
 
-export default MobileSearchDrawerPanel;
+export default SearchDrawerPanel;

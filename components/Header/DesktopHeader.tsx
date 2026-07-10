@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Logo from "../Logo";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import ArtistSearch from "../ArtistSearch";
+import SearchModal from "../ArtistSearch/SearchModal";
 import { cn } from "@/lib/utils";
 import { useWindowScrolled } from "@/hooks/useWindowScrolled";
 
@@ -26,7 +26,7 @@ const DesktopHeader = () => {
         <Logo />
         <div className="flex-1" />
         <div className="flex items-center gap-3.5" ref={menuRef}>
-          <ArtistSearch />
+          <SearchModal />
           <HeaderActions />
         </div>
       </div>

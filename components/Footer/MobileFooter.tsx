@@ -7,7 +7,7 @@ import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import MobileUserDrawer from "@/components/Footer/MobileUserDrawer";
 import MobileFeedbackDrawer from "@/components/Footer/MobileFeedbackDrawer";
-import MobileSearchDrawer from "@/components/Footer/MobileSearchDrawer";
+import SearchDrawer from "@/components/ArtistSearch/SearchDrawer";
 
 const MobileFooter = () => {
   const { push } = useRouter();
@@ -31,7 +31,7 @@ const MobileFooter = () => {
             color={pathname === "/" ? "#1B1504" : "#B6B2A8"}
           />
         </button>
-        <MobileSearchDrawer />
+        <SearchDrawer />
         {primaryWallet && <NotificationButton onClick={closeDrawer} />}
         <MobileFeedbackDrawer />
         <MobileUserDrawer />

@@ -6,9 +6,9 @@ import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { MomentType } from "@/types/moment";
-import CommentButton from "../../CommentButton/CommentButton";
+import CommentButton from "@/components/CommentButton/CommentButton";
 
-const MobileCollectModalContents = () => {
+const CollectModalContents = () => {
   const { isLoading, metadata, saleConfig } = useMomentProvider();
   const { isCollectDisabled, collectCtaLabel } = useCollectAvailability();
 
@@ -40,4 +40,4 @@ const MobileCollectModalContents = () => {
   );
 };
 
-export default MobileCollectModalContents;
+export default CollectModalContents;

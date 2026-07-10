@@ -5,9 +5,9 @@ import { useRouter, usePathname } from "next/navigation";
 import NotificationCountBadge from "@/components/Header/NotificationCountBadge";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import MobileUserDrawer from "@/components/Timeline/MobileHome/MobileUserDrawer";
-import MobileFeedbackDrawer from "@/components/Timeline/MobileHome/MobileFeedbackDrawer";
-import MobileSearchDrawer from "@/components/Timeline/MobileHome/MobileSearchDrawer";
+import MobileUserDrawer from "@/components/Footer/MobileUserDrawer";
+import MobileFeedbackDrawer from "@/components/Footer/MobileFeedbackDrawer";
+import MobileSearchDrawer from "@/components/Footer/MobileSearchDrawer";
 
 const MobileFooter = () => {
   const { push } = useRouter();

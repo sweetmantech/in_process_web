@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import MobileCollectDrawerPanel from "@/components/Timeline/MobileHome/MobileCollectDrawerPanel";
+import CollectDrawerPanel from "@/components/HomePage/CollectDrawerPanel";
 import { getMomentKey } from "@/lib/moment/getMomentKey";
 import { getMomentSeed } from "@/lib/moment/getMomentSeed";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
@@ -10,7 +10,7 @@ import { MomentProvider } from "@/providers/MomentProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
-const MobileCollectDrawer = () => {
+const CollectDrawer = () => {
   const { isDrawerOpen, collectMoment, closeDrawer } = useMobileDrawersProvider();
   const isOpen = isDrawerOpen("collect");
 
@@ -31,7 +31,7 @@ const MobileCollectDrawer = () => {
         >
           <MomentCommentsProvider>
             <MomentCollectProvider>
-              <MobileCollectDrawerPanel onClose={closeDrawer} />
+              <CollectDrawerPanel onClose={closeDrawer} />
             </MomentCollectProvider>
           </MomentCommentsProvider>
         </MomentProvider>
@@ -40,4 +40,4 @@ const MobileCollectDrawer = () => {
   );
 };
 
-export default MobileCollectDrawer;
+export default CollectDrawer;

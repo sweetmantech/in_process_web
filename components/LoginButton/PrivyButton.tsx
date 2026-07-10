@@ -3,7 +3,7 @@
 import useConnectedWallet from "@/hooks/useConnectedWallet";
 import truncateAddress from "@/lib/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
-import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import truncated from "@/lib/truncated";
 import { useUserProvider } from "@/providers/UserProvider";
@@ -33,24 +33,20 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
       type="button"
       onClick={handleClick}
       className={`flex items-center ${
-        isOpenNavbar ? "rounded-b-none md:rounded-t-sm" : "md:rounded-sm"
-      } font-archivo text-sm text-white md:bg-grey-moss-400 md:text-base md:hover:bg-grey-moss-900 md:hover:shadow-[0px_1px_1px_1px_#0000002e] ${className}`}
+        isOpenNavbar ? "rounded-b-none md:rounded-t-lg" : "rounded-lg"
+      } font-archivo-medium text-sm text-white md:bg-grey-moss-900 md:text-base md:hover:bg-black ${className}`}
     >
-      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-2 md:px-4 py-2 md:bg-transparent">
+      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-2 py-2 md:gap-1.5 md:bg-transparent md:px-4">
         <div
-          className={`h-2 w-2 rounded-full ${privyWallet ? "bg-grey-moss-100" : "border border-grey-moss-100"}`}
+          className={`h-[7px] w-[7px] rounded-full ${privyWallet ? "bg-[#7FD58A]" : "border border-grey-moss-100"}`}
         />
         {privyWallet ? (
           <>
-            <p className="min-w-20 text-left">
+            <p className="min-w-20 text-left md:min-w-0">
               {truncated(username || "", 9) || truncateAddress(privyWallet.address as string)}
             </p>
-            <Image
-              src="/images/down-arrow.svg"
-              alt="Menu"
-              width={16}
-              height={16}
-              className={`ml-8 hidden transition-transform duration-200 md:block ${isOpenNavbar ? "rotate-180" : ""}`}
+            <ChevronDown
+              className={`ml-4 hidden size-3.5 text-white/65 transition-transform duration-200 md:block ${isOpenNavbar ? "rotate-180" : ""}`}
             />
           </>
         ) : (

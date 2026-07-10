@@ -3,13 +3,13 @@
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { X } from "lucide-react";
 import { useEffect } from "react";
-import MobileCollectModalContents from "./MobileCollectModalContents";
+import CollectModalContents from "@/components/HomePage/CollectModalContents";
 
-interface MobileCollectDrawerPanelProps {
+interface CollectDrawerPanelProps {
   onClose: () => void;
 }
 
-const MobileCollectDrawerPanel = ({ onClose }: MobileCollectDrawerPanelProps) => {
+const CollectDrawerPanel = ({ onClose }: CollectDrawerPanelProps) => {
   const { collected } = useMomentCollectProvider();
 
   useEffect(() => {
@@ -26,9 +26,9 @@ const MobileCollectDrawerPanel = ({ onClose }: MobileCollectDrawerPanelProps) =>
         <X className="h-5 w-5" strokeWidth={1.5} />
       </button>
 
-      <MobileCollectModalContents />
+      <CollectModalContents />
     </div>
   );
 };
 
-export default MobileCollectDrawerPanel;
+export default CollectDrawerPanel;

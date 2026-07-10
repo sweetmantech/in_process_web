@@ -6,8 +6,8 @@ import { isSaleEnded } from "@/lib/moment/isSaleEnded";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useMomentClick } from "@/hooks/useMomentClick";
 
-export const useMobileFeedCard = (moment: TimelineMoment) => {
-  const { openCollect } = useMobileDrawersProvider();
+export const useMomentFeedCard = (moment: TimelineMoment) => {
+  const { openCollect, openComment } = useMobileDrawersProvider();
   const { handleMomentClick, data: metadata } = useMomentClick(moment);
   const { sale } = moment;
   const isSoldOut = isSaleEnded(sale);
@@ -18,11 +18,16 @@ export const useMobileFeedCard = (moment: TimelineMoment) => {
     openCollect(moment);
   };
 
+  const onCommentClick = () => {
+    openComment(moment);
+  };
+
   return {
     metadata,
     priceLabel: formatSalePriceLabel(sale),
     isSoldOut,
     onCollect,
+    onCommentClick,
     handleMomentClick,
     commentCount,
     showComments,

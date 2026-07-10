@@ -4,25 +4,26 @@ import { TimelineMoment } from "@/types/moment";
 import { Link as ChainLinkIcon, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
-import { useMobileFeedCard } from "@/hooks/useMobileFeedCard";
+import { useMomentFeedCard } from "@/hooks/useMomentFeedCard";
 import { cn } from "@/lib/utils";
 
-interface MobileFeedCardProps {
+interface MomentFeedCardProps {
   moment: TimelineMoment;
 }
 
 const actionButtonClass = "inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70";
 
-const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
+const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
   const {
     metadata,
     priceLabel,
     isSoldOut,
     onCollect,
+    onCommentClick,
     handleMomentClick,
     commentCount,
     showComments,
-  } = useMobileFeedCard(moment);
+  } = useMomentFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
 
@@ -78,7 +79,7 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onCollect();
+                  onCommentClick();
                 }}
                 className={actionButtonClass}
                 aria-label={`${commentCount} comments`}
@@ -107,4 +108,4 @@ const MobileFeedCard = ({ moment }: MobileFeedCardProps) => {
   );
 };
 
-export default MobileFeedCard;
+export default MomentFeedCard;

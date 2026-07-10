@@ -4,6 +4,8 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Search, ArrowUpRight, X } from "lucide-react";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import truncateAddress from "@/lib/truncateAddress";
+import { cn } from "@/lib/utils";
+import { useWindowScrolled } from "@/hooks/useWindowScrolled";
 
 const SearchModal = () => {
   const {
@@ -16,6 +18,7 @@ const SearchModal = () => {
     isOpenModal,
     setIsOpenModal,
   } = useSearch();
+  const isScrolled = useWindowScrolled();
 
   return (
     <Dialog open={isOpenModal} onOpenChange={setIsOpenModal}>
@@ -26,10 +29,13 @@ const SearchModal = () => {
       >
         <button
           type="button"
-          className="flex w-[220px] items-center gap-2.5 rounded-xl border border-grey-moss-100 bg-grey-moss-50 px-3.5 py-2.5 text-grey-moss-200 transition-colors hover:bg-grey-moss-100 lg:w-[300px]"
+          aria-label="search artist"
+          className={cn(
+            "flex size-[34px] shrink-0 items-center justify-center rounded-[10px] border bg-transparent text-[#6B6456] transition-colors hover:bg-[#F1EEE8] hover:text-[#1B1504]",
+            isScrolled ? "border-[#E4E0D7]" : "border-grey-moss-900/20"
+          )}
         >
-          <Search className="size-[17px] shrink-0" strokeWidth={1.75} />
-          <span className="font-archivo text-[13.5px]">search artist</span>
+          <Search className="size-[18px]" strokeWidth={1.75} />
         </button>
       </DialogTrigger>
       <DialogContent className="max-w-md !gap-0 overflow-hidden !rounded-lg border-none !bg-white p-0 shadow-lg">
@@ -40,7 +46,7 @@ const SearchModal = () => {
           <Search className="size-5 shrink-0 text-grey-moss-400" strokeWidth={1.75} />
           <input
             type="text"
-            placeholder="Search artist"
+            placeholder="search artist"
             className="min-w-0 flex-1 border-none font-archivo text-[15px] text-grey-moss-900 outline-none placeholder-grey-moss-300"
             value={searchKey}
             onChange={onChangeSearchKey}
@@ -57,7 +63,7 @@ const SearchModal = () => {
         </div>
 
         <div className="h-[420px] overflow-y-auto border-t border-grey-moss-100 px-5 py-4">
-          <p className="font-archivo text-xs tracking-wide text-grey-moss-300">ARTISTS</p>
+          <p className="font-archivo text-xs uppercase tracking-wide text-grey-moss-300">artists</p>
 
           {!isLoadingSearch && artists.length === 0 && (
             <p className="py-4 font-archivo text-sm text-grey-moss-300">No results.</p>

@@ -1,10 +1,13 @@
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { Clock, Settings, LogOut } from "lucide-react";
+
+const ITEM_CLASS =
+  "flex w-full items-center gap-3 whitespace-nowrap px-3 py-2 text-left text-sm text-white transition-colors hover:bg-[#333333]";
 
 export function DropdownMenu() {
   const { isMiniApp } = useMiniAppProvider();
@@ -14,16 +17,16 @@ export function DropdownMenu() {
   const { primaryWallet } = useWalletsProvider();
 
   return (
-    <div className="fixed left-0 right-0 top-[100px] z-[999999999] h-screen rounded-b-sm border-t-0 bg-grey-moss-900 font-archivo shadow-lg md:absolute md:top-full md:h-fit">
-      <Divider />
+    <div className="absolute right-0 top-full mt-1 h-fit overflow-hidden rounded-md bg-grey-moss-900 font-archivo shadow-lg p-1">
       <button
         onClick={() => {
           toggleNavbar();
           push(`/${primaryWallet}`);
         }}
-        className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
+        className={ITEM_CLASS}
       >
-        timeline
+        <Clock className="size-4 shrink-0 opacity-60" strokeWidth={1.5} />
+        Timeline
       </button>
       <Divider />
       <button
@@ -31,9 +34,10 @@ export function DropdownMenu() {
           toggleNavbar();
           push("/manage");
         }}
-        className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
+        className={ITEM_CLASS}
       >
-        manage
+        <Settings className="size-4 shrink-0 opacity-60" strokeWidth={1.5} />
+        Manage
       </button>
       {!isMiniApp && (
         <>
@@ -43,20 +47,13 @@ export function DropdownMenu() {
               toggleNavbar();
               logout();
             }}
-            className="w-full py-4 pl-14 text-left text-2xl text-white transition-colors hover:rounded-b-sm hover:bg-[#333333] md:px-4 md:py-2 md:text-base"
+            className={ITEM_CLASS}
           >
-            log out
+            <LogOut className="size-4 shrink-0 text-white/40" strokeWidth={1.5} />
+            Log out
           </button>
         </>
       )}
-      <Image
-        src="/spiral.svg"
-        blurDataURL="/spiral.png"
-        alt="not found spiral"
-        width={440}
-        height={546}
-        className="block md:hidden"
-      />
     </div>
   );
 }

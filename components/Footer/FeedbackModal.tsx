@@ -13,7 +13,7 @@ const FeedbackModal = () => {
         onClick={() => setIsOpenModal(true)}
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
       >
-        <button type="button">feedback</button>
+        <button type="button">Feedback</button>
       </DialogTrigger>
       <FeedbackModalContents submitFeedbackHook={submitFeedbackHook} />
     </Dialog>

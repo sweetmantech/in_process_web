@@ -7,11 +7,13 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { MobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { isOpenNavbar } = useLayoutProvider();
   const pathname = usePathname();
   const isTextureLayout = !pathname.includes("/create");
+  const isMobile = useIsMobile();
 
   return (
     <MobileDrawersProvider>
@@ -28,7 +30,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         <div className="relative z-10 flex grow flex-col pt-[calc(54px+env(safe-area-inset-top,0px))] pb-[calc(74px+env(safe-area-inset-bottom,0px))] md:pb-0 md:pt-0">
           {children}
         </div>
-        <Footer />
+        {isMobile && <Footer />}
       </div>
     </MobileDrawersProvider>
   );

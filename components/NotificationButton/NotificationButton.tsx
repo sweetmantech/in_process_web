@@ -21,7 +21,7 @@ const NotificationButton = ({ onClick }: NotificationButtonProps) => {
         push("/notifications");
       }}
       type="button"
-      className="relative md:rounded-full md:p-2 md:transition-colors md:hover:bg-grey-moss-50"
+      className="relative md:flex md:items-center"
       aria-label="View notifications"
     >
       <Bell

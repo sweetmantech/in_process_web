@@ -1,8 +1,8 @@
 "use client";
 
-import { House, Bell } from "lucide-react";
+import { House } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
-import NotificationCountBadge from "@/components/Header/NotificationCountBadge";
+import NotificationButton from "@/components/NotificationButton";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import MobileUserDrawer from "@/components/Footer/MobileUserDrawer";
@@ -32,19 +32,7 @@ const MobileFooter = () => {
           />
         </button>
         <MobileSearchDrawer />
-        {primaryWallet && (
-          <button
-            type="button"
-            onClick={() => {
-              closeDrawer();
-              push("/notifications");
-            }}
-            className="relative"
-          >
-            <Bell className="h-[23px] w-[23px] text-[#B6B2A8]" strokeWidth={1.75} />
-            <NotificationCountBadge className="absolute -right-1 -top-1 flex h-[14px] min-w-[14px] items-center justify-center rounded-full p-0 text-[9px] font-bold leading-none" />
-          </button>
-        )}
+        {primaryWallet && <NotificationButton onClick={closeDrawer} />}
         <MobileFeedbackDrawer />
         <MobileUserDrawer />
       </div>

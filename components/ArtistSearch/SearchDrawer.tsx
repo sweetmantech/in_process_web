@@ -5,9 +5,9 @@ import { createPortal } from "react-dom";
 import { Search } from "lucide-react";
 import useSearch from "@/hooks/useSearch";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
-import MobileSearchDrawerPanel from "./MobileSearchDrawerPanel";
+import SearchDrawerPanel from "./SearchDrawerPanel";
 
-const MobileSearchDrawer = () => {
+const SearchDrawer = () => {
   const { toggleDrawer, closeDrawer, isDrawerOpen } = useMobileDrawersProvider();
   const {
     searchKey,
@@ -40,7 +40,7 @@ const MobileSearchDrawer = () => {
 
       {mounted &&
         createPortal(
-          <MobileSearchDrawerPanel
+          <SearchDrawerPanel
             isOpen={isOpen}
             onClose={closeDrawer}
             searchKey={searchKey}
@@ -57,4 +57,4 @@ const MobileSearchDrawer = () => {
   );
 };
 
-export default MobileSearchDrawer;
+export default SearchDrawer;

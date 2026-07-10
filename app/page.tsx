@@ -1,7 +1,7 @@
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata } from "next";
 import { TimelineProvider } from "@/providers/TimelineProvider";
-import TimelinePage from "@/components/Timeline/TimelinePage";
+import HomePage from "@/components/HomePage";
 
 export const revalidate = 300;
 
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
   },
 };
 
-const Timeline = () => {
+const Home = () => {
   return (
     <TimelineProvider>
-      <TimelinePage />
+      <HomePage />
     </TimelineProvider>
   );
 };
 
-export default Timeline;
+export default Home;

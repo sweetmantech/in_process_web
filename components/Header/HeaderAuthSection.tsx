@@ -3,20 +3,16 @@
 import LoginButton from "../LoginButton";
 import { DropdownMenu } from "../LoginButton/DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import CreateCTAButton from "./CreateCTAButton";
-import useIsMobile from "@/hooks/useIsMobile";
 import NotificationButton from "./NotificationButton";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 
 const HeaderAuthSection = () => {
   const { primaryWallet } = useWalletsProvider();
   const { isOpenNavbar, toggleNavbar, isExpandedSearchInput } = useLayoutProvider();
-  const isMobile = useIsMobile();
 
   return (
     <>
       {primaryWallet && <NotificationButton />}
-      {!isMobile && <CreateCTAButton />}
       <div className="flex items-center gap-1 md:relative md:gap-2">
         {!isExpandedSearchInput && <LoginButton />}
         {primaryWallet && (

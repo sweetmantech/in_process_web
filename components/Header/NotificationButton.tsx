@@ -1,6 +1,6 @@
 "use client";
 
-import { BellIcon } from "@radix-ui/react-icons";
+import { Bell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import NotificationCountBadge from "./NotificationCountBadge";
 
@@ -11,10 +11,10 @@ const NotificationButton = () => {
     <button
       onClick={() => router.push("/notifications")}
       type="button"
-      className="relative rounded-md p-2 transition-colors hover:bg-grey-moss-200/50"
+      className="relative rounded-full p-2 text-grey-moss-900 transition-colors hover:bg-grey-moss-50"
       aria-label="View notifications"
     >
-      <BellIcon className="h-5 w-5 text-grey-moss-300" />
+      <Bell className="h-5 w-5" strokeWidth={1.75} />
       <NotificationCountBadge />
     </button>
   );

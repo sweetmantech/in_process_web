@@ -8,6 +8,7 @@ import {
 import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Image from "next/image";
+import { Search } from "lucide-react";
 import SearchNotFound from "./SearchNotFound";
 
 const SearchModal = () => {
@@ -34,14 +35,12 @@ const SearchModal = () => {
         className="disabled:cursor-not-allowed disabled:bg-grey-moss-300"
         onClick={() => setIsOpenModal(true)}
       >
-        <button type="button" className="rounded-md p-2 hover:bg-grey-eggshell">
-          <Image
-            src="/search_icon.svg"
-            blurDataURL="/search_icon.png"
-            alt="search icon"
-            width={24}
-            height={24}
-          />
+        <button
+          type="button"
+          className="flex w-[220px] items-center gap-2.5 rounded-xl border border-grey-moss-100 bg-grey-moss-50 px-3.5 py-2.5 text-grey-moss-200 transition-colors hover:bg-grey-moss-100 lg:w-[300px]"
+        >
+          <Search className="size-[17px] shrink-0" strokeWidth={1.75} />
+          <span className="font-archivo text-[13.5px]">search artist</span>
         </button>
       </DialogTrigger>
       <DialogOverlay className="!pointer-events-none opacity-80" />

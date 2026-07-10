@@ -3,27 +3,23 @@
 import dynamic from "next/dynamic";
 import Logo from "../Logo";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import { Z_BEHIND_PRIVY } from "@/lib/consts";
 import ArtistSearch from "../ArtistSearch";
 
 const HeaderAuthSection = dynamic(() => import("./HeaderAuthSection"), { ssr: false });
 
 const DesktopHeader = () => {
-  const { isOpenNavbar, menuRef } = useLayoutProvider();
+  const { menuRef } = useLayoutProvider();
 
   return (
-    <div
-      className={`${isOpenNavbar ? "bg-grey-moss-900" : "bg-grey-moss-100/90"} opacity-99 md:bg-transparent z-[${Z_BEHIND_PRIVY}] w-screen`}
-    >
-      <div className="flex items-center justify-between px-4 py-8 md:px-10">
+    <div className="sticky top-0 z-20 w-screen border-b border-grey-moss-100 bg-white/[.82] backdrop-blur-md">
+      <div className="flex items-center gap-7 px-10 py-3.5">
         <Logo />
-        <div className="flex items-center gap-0.5 md:gap-2" ref={menuRef}>
+        <div className="flex-1" />
+        <div className="flex items-center gap-3.5" ref={menuRef}>
           <ArtistSearch />
           <HeaderAuthSection />
         </div>
       </div>
-      {/* Black line from logo to wallet dropdown */}
-      <div className="mx-6 border-b border-grey md:mx-10" />
     </div>
   );
 };

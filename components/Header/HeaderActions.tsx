@@ -1,7 +1,7 @@
 "use client";
 
 import LoginButton from "../LoginButton";
-import { DropdownMenu } from "../LoginButton/DropdownMenu";
+import { DropdownMenu } from "./DropdownMenu";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import NotificationButton from "@/components/NotificationButton";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
@@ -11,7 +11,7 @@ const HeaderActions = () => {
   const { isOpenNavbar, toggleNavbar, isExpandedSearchInput } = useLayoutProvider();
 
   return (
-    <>
+    <div className="flex items-center gap-4">
       {primaryWallet && <NotificationButton />}
       <div className="flex items-center gap-1 md:relative md:gap-2">
         {!isExpandedSearchInput && <LoginButton />}
@@ -30,7 +30,7 @@ const HeaderActions = () => {
         )}
         {isOpenNavbar && primaryWallet && <DropdownMenu />}
       </div>
-    </>
+    </div>
   );
 };
 

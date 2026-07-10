@@ -41,16 +41,6 @@ export const useMobileUserDrawer = () => {
     push("/manage");
   };
 
-  const onManifesto = () => {
-    close();
-    window.open("/manifesto", "_blank");
-  };
-
-  const onFaq = () => {
-    close();
-    window.open("/faq", "_blank");
-  };
-
   const onLogout = () => {
     close();
     logout();
@@ -62,8 +52,6 @@ export const useMobileUserDrawer = () => {
     close,
     onTimeline,
     onManage,
-    onManifesto,
-    onFaq,
     onLogout,
     isMiniApp,
     displayName,

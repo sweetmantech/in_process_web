@@ -4,21 +4,11 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { User } from "lucide-react";
 import { useMobileUserDrawer } from "@/hooks/useMobileUserDrawer";
-import MobileUserDrawerPanel from "./MobileUserDrawerPanel";
+import UserDrawerPanel from "./UserDrawerPanel";
 
-const MobileUserDrawer = () => {
-  const {
-    isOpen,
-    toggle,
-    close,
-    onTimeline,
-    onManage,
-    onManifesto,
-    onFaq,
-    onLogout,
-    isMiniApp,
-    displayName,
-  } = useMobileUserDrawer();
+const UserDrawer = () => {
+  const { isOpen, toggle, close, onTimeline, onManage, onLogout, isMiniApp, displayName } =
+    useMobileUserDrawer();
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -35,13 +25,11 @@ const MobileUserDrawer = () => {
 
       {mounted &&
         createPortal(
-          <MobileUserDrawerPanel
+          <UserDrawerPanel
             isOpen={isOpen}
             onClose={close}
             onTimeline={onTimeline}
             onManage={onManage}
-            onManifesto={onManifesto}
-            onFaq={onFaq}
             onLogout={onLogout}
             isMiniApp={isMiniApp}
             displayName={displayName}
@@ -52,4 +40,4 @@ const MobileUserDrawer = () => {
   );
 };
 
-export default MobileUserDrawer;
+export default UserDrawer;

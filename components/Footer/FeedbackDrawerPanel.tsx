@@ -3,17 +3,13 @@ import { Label } from "@/components/ui/label";
 import FeedbackMediaAttachment from "@/components/Footer/FeedbackMediaAttachment";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
 
-interface MobileFeedbackDrawerPanelProps {
+interface FeedbackDrawerPanelProps {
   isOpen: boolean;
   onClose: () => void;
   feedbackHook: UseSubmitFeedbackReturn;
 }
 
-const MobileFeedbackDrawerPanel = ({
-  isOpen,
-  onClose,
-  feedbackHook,
-}: MobileFeedbackDrawerPanelProps) => {
+const FeedbackDrawerPanel = ({ isOpen, onClose, feedbackHook }: FeedbackDrawerPanelProps) => {
   const {
     feedback,
     setFeedback,
@@ -93,4 +89,4 @@ const MobileFeedbackDrawerPanel = ({
   );
 };
 
-export default MobileFeedbackDrawerPanel;
+export default FeedbackDrawerPanel;

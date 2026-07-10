@@ -7,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import truncated from "@/lib/truncated";
 import { useUserProvider } from "@/providers/UserProvider";
+import { cn } from "@/lib/utils";
 
 interface PrivyButtonProps {
   className?: string;
@@ -32,11 +33,12 @@ export function PrivyButton({ className = "" }: PrivyButtonProps) {
     <button
       type="button"
       onClick={handleClick}
-      className={`flex items-center ${
-        isOpenNavbar ? "rounded-b-none md:rounded-t-lg" : "rounded-lg"
-      } font-archivo-medium text-sm text-white md:bg-grey-moss-900 md:text-base md:hover:bg-black ${className}`}
+      className={cn(
+        "flex items-center rounded-lg md:rounded-[10px] font-archivo-medium text-sm text-white md:bg-[#34332F] md:text-[13px] md:hover:bg-black",
+        className
+      )}
     >
-      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-2 py-2 md:gap-1.5 md:bg-transparent md:px-4">
+      <div className="flex items-center gap-2 rounded-md bg-grey-moss-400 px-2 py-2 md:gap-1.5 md:bg-transparent px-4">
         <div
           className={`h-[7px] w-[7px] rounded-full ${privyWallet ? "bg-[#7FD58A]" : "border border-grey-moss-100"}`}
         />

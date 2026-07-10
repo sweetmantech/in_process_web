@@ -5,9 +5,9 @@ import { createPortal } from "react-dom";
 import { MessageSquare } from "lucide-react";
 import useSubmitFeedback from "@/hooks/useSubmitFeedback";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
-import MobileFeedbackDrawerPanel from "./MobileFeedbackDrawerPanel";
+import FeedbackDrawerPanel from "./FeedbackDrawerPanel";
 
-const MobileFeedbackDrawer = () => {
+const FeedbackDrawer = () => {
   const { toggleDrawer, closeDrawer, isDrawerOpen } = useMobileDrawersProvider();
   const feedbackHook = useSubmitFeedback();
   const isOpen = isDrawerOpen("feedback");
@@ -27,15 +27,11 @@ const MobileFeedbackDrawer = () => {
 
       {mounted &&
         createPortal(
-          <MobileFeedbackDrawerPanel
-            isOpen={isOpen}
-            onClose={closeDrawer}
-            feedbackHook={feedbackHook}
-          />,
+          <FeedbackDrawerPanel isOpen={isOpen} onClose={closeDrawer} feedbackHook={feedbackHook} />,
           document.body
         )}
     </>
   );
 };
 
-export default MobileFeedbackDrawer;
+export default FeedbackDrawer;

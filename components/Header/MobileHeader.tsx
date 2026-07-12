@@ -11,24 +11,27 @@ const MobileHeader = () => {
   const isScrolled = useWindowScrolled();
 
   return (
-    <header
-      className={cn(
-        "fixed left-0 right-0 top-0 z-30 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md transition-colors duration-200",
-        isScrolled ? "bg-white" : "bg-transparent"
-      )}
-    >
-      <div className="flex items-center justify-between px-[22px] py-4">
-        <Link href="/" className="relative block h-[22px] w-[97px]">
-          <Image src="/logo.svg" alt="in process" fill />
-        </Link>
-        <button
-          type="button"
-          aria-label="more"
-          onClick={toggle}
-          className="flex size-8 items-center justify-center text-grey-moss-900"
-        >
-          <Menu className="size-5" strokeWidth={1.75} />
-        </button>
+    <header className="fixed left-0 right-0 top-0 z-30">
+      <div className="h-[env(safe-area-inset-top,0px)] bg-white" />
+      <div
+        className={cn(
+          "backdrop-blur-md transition-colors duration-200",
+          isScrolled ? "bg-white" : "bg-transparent"
+        )}
+      >
+        <div className="flex items-center justify-between px-[22px] py-4">
+          <Link href="/" className="relative block h-[22px] w-[97px]">
+            <Image src="/logo.svg" alt="in process" fill />
+          </Link>
+          <button
+            type="button"
+            aria-label="more"
+            onClick={toggle}
+            className="flex size-8 items-center justify-center text-grey-moss-900"
+          >
+            <Menu className="size-5" strokeWidth={1.75} />
+          </button>
+        </div>
       </div>
 
       {isOpen && (

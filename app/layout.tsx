@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   viewportFit: "cover",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
@@ -23,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-white md:bg-grey-moss-100">
+    <html lang="en" className="overscroll-y-none bg-white md:bg-grey-moss-100">
       <body className="flex min-h-screen w-full flex-col overflow-x-hidden overscroll-y-none bg-white text-grey-moss-900 md:bg-grey-moss-100">
         <Suspense>
           <Providers>{children}</Providers>

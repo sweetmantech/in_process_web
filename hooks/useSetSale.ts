@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { usePrivy } from "@privy-io/react-auth";
-import { formatEther, formatUnits, parseEther, parseUnits } from "viem";
+import { formatEther, formatUnits, maxUint64, parseEther, parseUnits } from "viem";
 import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
@@ -12,6 +12,7 @@ const useSetSale = () => {
   const { moment, saleConfig: sale } = useMomentProvider();
   const { getAccessToken } = usePrivy();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
+  const [saleEnd, setSaleEnd] = useState<Date | undefined>(undefined);
   const [priceInput, setPriceInput] = useState<string>("");
   const [isErc20, setIsErc20] = useState(false);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
@@ -27,6 +28,12 @@ const useSetSale = () => {
         ? new Date()
         : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
     );
+    const saleEndBigInt = BigInt(sale.saleEnd);
+    setSaleEnd(
+      saleEndBigInt === BigInt(0) || saleEndBigInt === maxUint64
+        ? undefined
+        : new Date(parseInt(sale.saleEnd.toString(), 10) * 1000)
+    );
     setPriceInput(
       erc20 ? formatUnits(BigInt(sale.pricePerToken), 6) : formatEther(BigInt(sale.pricePerToken))
     );
@@ -40,7 +47,8 @@ const useSetSale = () => {
         ? parseUnits(priceInput, 6).toString()
         : parseEther(priceInput).toString();
       const saleStartUnix = Math.floor(saleStart.getTime() / 1000);
-      return setSale(accessToken, moment, saleStartUnix, pricePerToken);
+      const saleEndUnix = saleEnd ? Math.floor(saleEnd.getTime() / 1000) : undefined;
+      return setSale(accessToken, moment, saleStartUnix, pricePerToken, saleEndUnix);
     },
     onSuccess: () => toast.success("Sale updated successfully"),
     onError: (error: any) => {
@@ -55,6 +63,8 @@ const useSetSale = () => {
   return {
     saleStart,
     setSaleStart,
+    saleEnd,
+    setSaleEnd,
     priceInput,
     setPriceInput,
     priceUnit,

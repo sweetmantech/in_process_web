@@ -2,27 +2,44 @@
 
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { Mail } from "lucide-react";
 import { useEmailVerificationProvider } from "@/providers/EmailVerificationProvider";
 import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import EmailAddressInput from "../ManagePage/EmailAddressInput";
 import EmailCodeInput from "../ManagePage/EmailCodeInput";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
+import truncateAddress from "@/lib/truncateAddress";
 import DisconnectButton from "./DisconnectButton";
 import { Fragment } from "react";
 import ConnectButton from "./ConnectButton";
+import ConnectionRow from "../ManagePage/ConnectionRow";
 
-const ConnectEmail = () => {
+interface ConnectEmailProps {
+  variant?: "pill" | "row";
+}
+
+const ConnectEmail = ({ variant = "pill" }: ConnectEmailProps) => {
   const { isDialogOpen, setIsDialogOpen, status } = useEmailVerificationProvider();
   const { primaryWallet, wallets } = useWalletsProvider();
   const privy = wallets.find((w) => w.type === "privy");
 
   if (!primaryWallet) return <Fragment />;
-  if (Boolean(privy)) return <DisconnectButton />;
 
-  return (
+  if (privy) {
+    if (variant === "row") {
+      return (
+        <ConnectionRow icon={Mail} label="Email" connected meta={truncateAddress(privy.address)}>
+          <DisconnectButton variant="row" />
+        </ConnectionRow>
+      );
+    }
+    return <DisconnectButton />;
+  }
+
+  const dialog = (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <ConnectButton />
+        <ConnectButton variant={variant} />
       </DialogTrigger>
       <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
         <VisuallyHidden>
@@ -38,6 +55,16 @@ const ConnectEmail = () => {
       </DialogContent>
     </Dialog>
   );
+
+  if (variant === "row") {
+    return (
+      <ConnectionRow icon={Mail} label="Email" connected={false} meta="Not connected">
+        {dialog}
+      </ConnectionRow>
+    );
+  }
+
+  return dialog;
 };
 
 export default ConnectEmail;

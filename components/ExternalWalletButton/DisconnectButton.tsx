@@ -6,7 +6,15 @@ import disconnectWallet from "@/lib/wallets/disconnectWallet";
 import { useState } from "react";
 import { Address } from "viem";
 
-const DisconnectButton = ({ label = "disconnect wallet" }: { label?: string }) => {
+interface DisconnectButtonProps {
+  label?: string;
+  variant?: "pill" | "row";
+}
+
+const DisconnectButton = ({
+  label = "disconnect wallet",
+  variant = "pill",
+}: DisconnectButtonProps) => {
   const { refetchWallets, primaryWallet } = useWalletsProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +28,19 @@ const DisconnectButton = ({ label = "disconnect wallet" }: { label?: string }) =
       setIsLoading(false);
     }
   };
+
+  if (variant === "row") {
+    return (
+      <button
+        type="button"
+        disabled={isLoading}
+        onClick={handleDisconnect}
+        className="rounded-full border border-grey-moss-100 bg-white px-3.5 py-[7px] font-archivo-medium text-[11.5px] text-red-dark hover:border-grey-moss-300"
+      >
+        {isLoading ? "disconnecting..." : "Disconnect"}
+      </button>
+    );
+  }
 
   return (
     <button

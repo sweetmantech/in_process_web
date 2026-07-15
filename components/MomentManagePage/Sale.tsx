@@ -42,6 +42,7 @@ const Sale = () => {
               saleEnd={saleEnd}
               currentSaleEnd={saleConfig.saleEnd}
               setSaleEnd={setSaleEnd}
+              saleStart={saleStart}
             />
             <SalePriceInput
               priceInput={priceInput}

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { usePrivy } from "@privy-io/react-auth";
-import { formatEther, formatUnits, maxUint64, parseEther, parseUnits } from "viem";
+import { formatEther, formatUnits, parseEther, parseUnits } from "viem";
 import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
 import { MomentType } from "@/types/moment";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
+import { isOpenEndedSale } from "@/lib/moment/isOpenEndedSale";
 
 const useSetSale = () => {
   const { moment, saleConfig: sale } = useMomentProvider();
@@ -28,9 +29,8 @@ const useSetSale = () => {
         ? new Date()
         : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
     );
-    const saleEndBigInt = BigInt(sale.saleEnd);
     setSaleEnd(
-      saleEndBigInt === BigInt(0) || saleEndBigInt === maxUint64
+      isOpenEndedSale(sale.saleEnd)
         ? undefined
         : new Date(parseInt(sale.saleEnd.toString(), 10) * 1000)
     );

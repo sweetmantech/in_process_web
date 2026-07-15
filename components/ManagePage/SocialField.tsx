@@ -20,7 +20,7 @@ const SocialField = ({
   onChange,
 }: SocialFieldProps) => (
   <fieldset className="flex flex-col gap-[5px]">
-    <Label className="flex items-center gap-[7px] text-[10.5px] uppercase tracking-[0.1em] text-grey-moss-300">
+    <Label className="flex items-center gap-[7px] text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
       <Icon className="size-[14px]" />
       {label}
     </Label>

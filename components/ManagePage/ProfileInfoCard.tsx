@@ -34,7 +34,7 @@ const ProfileInfoCard = () => {
       <CardSectionHeader dotColor="#FDAD00" label="your info" />
       <div className="flex flex-col gap-3">
         <fieldset className="flex flex-col gap-[5px]">
-          <Label className="text-[10.5px] uppercase tracking-[0.1em] text-grey-moss-300">
+          <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
             display name
           </Label>
           <Input
@@ -45,7 +45,7 @@ const ProfileInfoCard = () => {
           />
         </fieldset>
         <fieldset className="flex flex-col gap-[5px]">
-          <Label className="text-[10.5px] uppercase tracking-[0.1em] text-grey-moss-300">bio</Label>
+          <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">bio</Label>
           <Textarea
             placeholder="ex: I am the dev of onchain."
             minRows={3}

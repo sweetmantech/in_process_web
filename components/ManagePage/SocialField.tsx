@@ -21,7 +21,7 @@ const SocialField = ({
 }: SocialFieldProps) => (
   <fieldset className="flex flex-col gap-[5px]">
     <Label className="flex items-center gap-[7px] text-[10.5px] uppercase tracking-[0.1em] text-grey-moss-300">
-      <Icon className="size-[13px]" />
+      <Icon className="size-[14px]" />
       {label}
     </Label>
     <div className="flex items-center overflow-hidden rounded-md border border-grey-moss-100 bg-[#FDFCFA]">

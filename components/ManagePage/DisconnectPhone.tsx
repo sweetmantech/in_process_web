@@ -1,7 +1,30 @@
+import { Smartphone } from "lucide-react";
 import useDisconnectPhone from "@/hooks/useDisconnectPhone";
+import { useUserProvider } from "@/providers/UserProvider";
+import ConnectionRow from "./ConnectionRow";
 
-const DisconnectPhone = () => {
+interface DisconnectPhoneProps {
+  variant?: "pill" | "row";
+}
+
+const DisconnectPhone = ({ variant = "pill" }: DisconnectPhoneProps) => {
   const { handleDisconnect, isDisconnecting } = useDisconnectPhone();
+  const { phoneNumber } = useUserProvider();
+
+  if (variant === "row") {
+    return (
+      <ConnectionRow icon={Smartphone} label="Phone" connected meta={phoneNumber} isLast>
+        <button
+          type="button"
+          onClick={handleDisconnect}
+          disabled={isDisconnecting}
+          className="rounded-full border border-grey-moss-100 bg-white px-3.5 py-[7px] font-archivo-medium text-[11.5px] text-red-dark hover:border-grey-moss-300"
+        >
+          {isDisconnecting ? "disconnecting..." : "Disconnect"}
+        </button>
+      </ConnectionRow>
+    );
+  }
 
   return (
     <button

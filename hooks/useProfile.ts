@@ -31,6 +31,26 @@ const useProfile = (artistAddress?: Address) => {
     [username, artistAddress]
   );
 
+  const isDirty = useMemo(() => {
+    if (!data) return false;
+    return (
+      username !== (data.username || "") ||
+      bio !== (data.bio || "") ||
+      twitter !== (data.x || "") ||
+      instagram !== (data.instagram || "") ||
+      telegram !== (data.telegram || "")
+    );
+  }, [data, username, bio, twitter, instagram, telegram]);
+
+  const discard = () => {
+    if (!data) return;
+    setUserName(data.username || "");
+    setBio(data.bio || "");
+    setTwitter(data.x || "");
+    setInstagram(data.instagram || "");
+    setTelegram(data.telegram || "");
+  };
+
   return {
     userId: data?.id,
     displayName,
@@ -51,6 +71,8 @@ const useProfile = (artistAddress?: Address) => {
     phoneNumber,
     phoneVerified,
     setPhoneVerified,
+    isDirty,
+    discard,
   };
 };
 

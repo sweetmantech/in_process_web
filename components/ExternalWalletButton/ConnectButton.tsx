@@ -6,7 +6,11 @@ import { useConnectWallet } from "@privy-io/react-auth";
 import { useState } from "react";
 import { Address } from "viem";
 
-const ConnectButton = () => {
+interface ConnectButtonProps {
+  variant?: "pill" | "row";
+}
+
+const ConnectButton = ({ variant = "pill" }: ConnectButtonProps) => {
   const { refetchWallets } = useWalletsProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -28,6 +32,19 @@ const ConnectButton = () => {
       }
     },
   });
+
+  if (variant === "row") {
+    return (
+      <button
+        type="button"
+        disabled={isLoading}
+        onClick={connectWallet}
+        className="rounded-full border border-grey-moss-100 bg-white px-3.5 py-[7px] font-archivo-medium text-[11.5px] text-grey-moss-900 hover:border-grey-moss-300"
+      >
+        {isLoading ? "connecting..." : "Connect"}
+      </button>
+    );
+  }
 
   return (
     <button

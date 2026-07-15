@@ -6,7 +6,7 @@ import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 import { toast } from "sonner";
 
 const useUpdateProfile = () => {
-  const { twitter, instagram, username, bio, telegram } = useUserProvider();
+  const { twitter, instagram, username, bio, telegram, refetch } = useUserProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -22,6 +22,7 @@ const useUpdateProfile = () => {
         instagram: extractSocialUsername(instagram),
         telegram: extractSocialUsername(telegram),
       });
+      await refetch();
       toast.success("Profile updated");
     } catch {
       toast.error("Failed to update profile");

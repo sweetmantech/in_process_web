@@ -7,11 +7,13 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
 import { MomentType } from "@/types/moment";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
+import { isOpenEndedSale } from "@/lib/moment/isOpenEndedSale";
 
 const useSetSale = () => {
   const { moment, saleConfig: sale } = useMomentProvider();
   const { getAccessToken } = usePrivy();
   const [saleStart, setSaleStart] = useState<Date>(new Date());
+  const [saleEnd, setSaleEnd] = useState<Date | undefined>(undefined);
   const [priceInput, setPriceInput] = useState<string>("");
   const [isErc20, setIsErc20] = useState(false);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
@@ -27,6 +29,11 @@ const useSetSale = () => {
         ? new Date()
         : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
     );
+    setSaleEnd(
+      isOpenEndedSale(sale.saleEnd)
+        ? undefined
+        : new Date(parseInt(sale.saleEnd.toString(), 10) * 1000)
+    );
     setPriceInput(
       erc20 ? formatUnits(BigInt(sale.pricePerToken), 6) : formatEther(BigInt(sale.pricePerToken))
     );
@@ -40,7 +47,8 @@ const useSetSale = () => {
         ? parseUnits(priceInput, 6).toString()
         : parseEther(priceInput).toString();
       const saleStartUnix = Math.floor(saleStart.getTime() / 1000);
-      return setSale(accessToken, moment, saleStartUnix, pricePerToken);
+      const saleEndUnix = saleEnd ? Math.floor(saleEnd.getTime() / 1000) : undefined;
+      return setSale(accessToken, moment, saleStartUnix, pricePerToken, saleEndUnix);
     },
     onSuccess: () => toast.success("Sale updated successfully"),
     onError: (error: any) => {
@@ -55,6 +63,8 @@ const useSetSale = () => {
   return {
     saleStart,
     setSaleStart,
+    saleEnd,
+    setSaleEnd,
     priceInput,
     setPriceInput,
     priceUnit,

@@ -5,7 +5,8 @@ export const setSale = async (
   accessToken: string,
   moment: Moment,
   saleStart: number,
-  pricePerToken?: string
+  pricePerToken?: string,
+  saleEnd?: number
 ): Promise<{ hash: string; chainId: number }> => {
   const res = await fetch(`${IN_PROCESS_API}/moment/sale`, {
     method: "POST",
@@ -21,6 +22,7 @@ export const setSale = async (
       },
       saleStart,
       ...(pricePerToken !== undefined && { pricePerToken }),
+      ...(saleEnd !== undefined && { saleEnd }),
     }),
   });
   if (!res.ok) {

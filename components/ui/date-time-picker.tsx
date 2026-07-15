@@ -14,10 +14,20 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 interface DatetimePickerProps {
   date: Date | undefined;
   setDate: (_value: Date) => void;
+  /** Dates on or before this day are not selectable. */
+  minDate?: Date;
 }
 
-export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
+export function DateTimePicker({ date, setDate, minDate }: DatetimePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const disabledBefore = React.useMemo(() => {
+    if (!minDate) return undefined;
+    const boundary = new Date(minDate);
+    boundary.setHours(0, 0, 0, 0);
+    boundary.setDate(boundary.getDate() + 1);
+    return boundary;
+  }, [minDate]);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
   const handleDateSelect = (selectedDate: Date | undefined) => {
@@ -62,6 +72,7 @@ export function DateTimePicker({ date, setDate }: DatetimePickerProps) {
             captionLayout="dropdown"
             fromYear={1969}
             toYear={2030}
+            disabled={disabledBefore ? { before: disabledBefore } : undefined}
           />
           <div className="flex flex-col divide-y sm:h-[300px] sm:flex-row sm:divide-x sm:divide-y-0">
             <ScrollArea className="w-64 sm:w-auto">

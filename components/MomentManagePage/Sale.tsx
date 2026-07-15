@@ -4,6 +4,7 @@ import useSetSale from "@/hooks/useSetSale";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import SaleSkeleton from "./SaleSkeleton";
 import SaleStartPicker from "./SaleStartPicker";
+import SaleEndPicker from "./SaleEndPicker";
 import SalePriceInput from "./SalePriceInput";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
 
@@ -11,6 +12,8 @@ const Sale = () => {
   const {
     saleStart,
     setSaleStart,
+    saleEnd,
+    setSaleEnd,
     priceInput,
     setPriceInput,
     priceUnit,
@@ -34,6 +37,12 @@ const Sale = () => {
               saleStart={saleStart}
               currentSaleStart={saleConfig.saleStart}
               setSaleStart={setSaleStart}
+            />
+            <SaleEndPicker
+              saleEnd={saleEnd}
+              currentSaleEnd={saleConfig.saleEnd}
+              setSaleEnd={setSaleEnd}
+              saleStart={saleStart}
             />
             <SalePriceInput
               priceInput={priceInput}

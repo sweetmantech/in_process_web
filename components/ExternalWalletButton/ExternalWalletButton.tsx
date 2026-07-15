@@ -5,47 +5,24 @@ import { Address } from "viem";
 import DisconnectButton from "./DisconnectButton";
 import ConnectButton from "./ConnectButton";
 import ConnectedWalletHint from "./ConnectedWalletHint";
-import ConnectionRow from "@/components/ManagePage/ConnectionRow";
+import ConnectionItem from "@/components/ManagePage/ConnectionItem";
 
-interface ExternalWalletButtonProps {
-  variant?: "pill" | "row";
-}
-
-const ExternalWalletButton = ({ variant = "pill" }: ExternalWalletButtonProps) => {
+const ExternalWalletButton = () => {
   const { primaryWallet, hasEOA } = useWalletsProvider();
   const shouldConnect = !hasEOA && Boolean(primaryWallet);
 
   if (!primaryWallet) return <Fragment />;
 
-  if (variant === "row") {
-    return (
-      <ConnectionRow
-        icon={Wallet}
-        label="Wallet"
-        connected={hasEOA}
-        meta={
-          hasEOA ? (
-            <ConnectedWalletHint address={primaryWallet as Address} compact />
-          ) : (
-            "Not connected"
-          )
-        }
-      >
-        {shouldConnect ? <ConnectButton variant="row" /> : <DisconnectButton variant="row" />}
-      </ConnectionRow>
-    );
-  }
-
-  if (!shouldConnect) {
-    return (
-      <div className="flex w-full flex-col md:w-fit">
-        <DisconnectButton label="disconnect wallet" />
-        <ConnectedWalletHint address={primaryWallet as Address} />
-      </div>
-    );
-  }
-
-  return <ConnectButton />;
+  return (
+    <ConnectionItem
+      icon={Wallet}
+      label="Wallet"
+      connected={hasEOA}
+      meta={hasEOA ? <ConnectedWalletHint address={primaryWallet as Address} /> : "Not connected"}
+    >
+      {shouldConnect ? <ConnectButton /> : <DisconnectButton />}
+    </ConnectionItem>
+  );
 };
 
 export default ExternalWalletButton;

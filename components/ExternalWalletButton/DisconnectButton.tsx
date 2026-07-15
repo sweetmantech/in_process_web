@@ -1,20 +1,13 @@
 "use client";
 
+import { classNames } from "@/lib/classNames";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import disconnectWallet from "@/lib/wallets/disconnectWallet";
 import { useState } from "react";
 import { Address } from "viem";
 
-interface DisconnectButtonProps {
-  label?: string;
-  variant?: "pill" | "row";
-}
-
-const DisconnectButton = ({
-  label = "disconnect wallet",
-  variant = "pill",
-}: DisconnectButtonProps) => {
+const DisconnectButton = () => {
   const { refetchWallets, primaryWallet } = useWalletsProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
   const [isLoading, setIsLoading] = useState(false);
@@ -29,27 +22,14 @@ const DisconnectButton = ({
     }
   };
 
-  if (variant === "row") {
-    return (
-      <button
-        type="button"
-        disabled={isLoading}
-        onClick={handleDisconnect}
-        className="rounded-full border border-grey-moss-100 bg-white px-3.5 py-[7px] font-archivo-medium text-[11.5px] text-red-dark hover:border-grey-moss-300"
-      >
-        {isLoading ? "disconnecting..." : "Disconnect"}
-      </button>
-    );
-  }
-
   return (
     <button
       type="button"
       disabled={isLoading}
       onClick={handleDisconnect}
-      className="flex w-full items-center justify-center gap-2 rounded-md bg-grey-moss-900 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900 md:w-fit md:min-w-[150px]"
+      className={classNames("danger")}
     >
-      {isLoading ? "disconnecting..." : label}
+      {isLoading ? "Disconnecting..." : "Disconnect"}
     </button>
   );
 };

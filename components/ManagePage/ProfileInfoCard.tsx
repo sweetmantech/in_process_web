@@ -30,9 +30,9 @@ const ProfileInfoCard = () => {
   const { isLoading, onSave } = useUpdateProfile();
 
   return (
-    <div className="rounded-md border border-grey-moss-100 bg-white p-4 shadow-[0_4px_16px_-6px_rgba(27,21,4,0.14)] md:hidden">
-      <CardSectionHeader dotColor="#FDAD00" label="your info" />
-      <div className="flex flex-col gap-3">
+    <div className="rounded-md border border-grey-moss-100 bg-white p-4 shadow-[0_4px_16px_-6px_rgba(27,21,4,0.14)] md:rounded-lg md:px-6 md:py-[22px]">
+      <CardSectionHeader dotColor="#FDAD00" label="your info" marginBottom="mb-3.5 md:mb-[18px]" />
+      <div className="flex flex-col gap-3 md:gap-3.5">
         <fieldset className="flex flex-col gap-[5px]">
           <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
             display name
@@ -56,10 +56,14 @@ const ProfileInfoCard = () => {
         </fieldset>
       </div>
 
-      <div className="-mx-4 my-4 h-px bg-grey-moss-50" />
+      <div className="-mx-4 my-4 h-px bg-grey-moss-50 md:-mx-6 md:my-[22px]" />
 
-      <CardSectionHeader dotColor="#887bff" label="connected accounts" />
-      <div className="flex flex-col gap-3">
+      <CardSectionHeader
+        dotColor="#887bff"
+        label="connected accounts"
+        marginBottom="mb-3.5 md:mb-[18px]"
+      />
+      <div className="flex flex-col gap-3 md:gap-3.5">
         <SocialField
           icon={Camera}
           label="instagram"
@@ -76,17 +80,15 @@ const ProfileInfoCard = () => {
           value={twitter}
           onChange={setTwitter}
         />
-        <div>
-          <SocialField
-            icon={Send}
-            label="telegram"
-            prefix="@"
-            placeholder="username"
-            value={telegram}
-            onChange={setTelegram}
-          />
-          <TelegramMomentHint />
-        </div>
+        <SocialField
+          icon={Send}
+          label="telegram"
+          prefix="@"
+          placeholder="username"
+          value={telegram}
+          onChange={setTelegram}
+          note={<TelegramMomentHint />}
+        />
       </div>
 
       {isDirty && (

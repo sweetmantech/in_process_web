@@ -1,4 +1,4 @@
-import { ComponentType, SVGProps } from "react";
+import { ComponentType, ReactNode, SVGProps } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -9,6 +9,7 @@ interface SocialFieldProps {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
+  note?: ReactNode;
 }
 
 const SocialField = ({
@@ -18,9 +19,10 @@ const SocialField = ({
   placeholder,
   value,
   onChange,
+  note,
 }: SocialFieldProps) => (
-  <fieldset className="flex flex-col gap-[5px]">
-    <Label className="flex items-center gap-[7px] text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
+  <fieldset className="grid grid-cols-1 items-center gap-[5px] md:grid-cols-[96px_1fr] md:gap-3">
+    <Label className="flex items-center gap-[7px] text-[10px] uppercase tracking-[0.1em] text-grey-moss-300 md:gap-2">
       <Icon className="size-[14px]" />
       {label}
     </Label>
@@ -35,6 +37,7 @@ const SocialField = ({
         className="border-none bg-transparent py-2.5 pl-0.5 pr-3 text-sm"
       />
     </div>
+    {note && <div className="md:col-start-2 md:-mt-1.5">{note}</div>}
   </fieldset>
 );
 

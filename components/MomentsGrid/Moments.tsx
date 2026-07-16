@@ -15,7 +15,7 @@ const Moments = ({ variant = "collection" }: MomentsProps) => {
   if (moments.length === 0) return <NoMomentsFound />;
 
   return (
-    <div className="grid w-full grow grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid w-full grow grid-cols-1 gap-3 pt-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {moments.map((m: TimelineMoment) => (
         <MomentItem m={m} key={m.id} variant={variant} />
       ))}

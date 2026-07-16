@@ -27,9 +27,7 @@ const CollectionPage = () => {
           <CollectionInfo />
           <AltToggle alt={alt} setAlt={setAlt} />
         </div>
-        <div
-          className={`grow flex flex-col px-2 md:px-0 ${alt === "timeline" && "md:pt-20 md:px-10"}`}
-        >
+        <div className={`grow flex flex-col px-2 md:px-10 ${alt === "timeline" && "md:pt-20"}`}>
           <TimelineProvider collection={collection}>
             <MomentsTimeline alt={alt} />
           </TimelineProvider>

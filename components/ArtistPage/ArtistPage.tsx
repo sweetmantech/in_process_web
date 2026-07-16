@@ -24,9 +24,7 @@ const ArtistPage = () => {
           {isMobile ? <MobileProfile /> : <DesktopProfile />}
           <AltToggle alt={alt} setAlt={setAlt} />
         </div>
-        <div
-          className={`flex grow flex-col px-2 md:px-0 ${alt === "timeline" && "md:px-10 md:pt-20"}`}
-        >
+        <div className={`flex grow flex-col px-2 md:px-10 ${alt === "timeline" && "md:pt-20"}`}>
           <TimelineProvider artistAddress={address} curated={false}>
             <MomentsTimeline alt={alt} />
           </TimelineProvider>

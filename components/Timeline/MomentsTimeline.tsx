@@ -31,7 +31,7 @@ const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
   if (alt === "grid")
     return (
       <>
-        {isMobile ? <VerticalFeed /> : <Moments variant="moment" />}
+        {isMobile ? <VerticalFeed /> : <Moments />}
         <FetchMoreInspector fetchMore={fetchMore} />
       </>
     );

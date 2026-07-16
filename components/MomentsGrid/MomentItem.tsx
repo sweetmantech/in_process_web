@@ -2,7 +2,7 @@ import truncateAddress from "@/lib/truncateAddress";
 import { usePathname, useRouter } from "next/navigation";
 import truncated from "@/lib/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
-import { type TimelineMoment, Protocol } from "@/types/moment";
+import { type TimelineMoment } from "@/types/moment";
 import { ArrowUpRight } from "lucide-react";
 import Preview from "./Preview";
 import useCanHideMoment from "@/hooks/useCanHideMoment";
@@ -11,14 +11,11 @@ import ProtocolBadge from "./ProtocolBadge";
 import ChainLogo from "./ChainLogo";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 
-export type MomentItemVariant = "collection" | "moment";
-
 interface MomentItemProps {
   m: TimelineMoment;
-  variant?: MomentItemVariant;
 }
 
-const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
+const MomentItem = ({ m }: MomentItemProps) => {
   const data = m.metadata;
   const hasName = Boolean(data?.name?.trim());
   const { push } = useRouter();
@@ -26,22 +23,18 @@ const MomentItem = ({ m, variant = "collection" }: MomentItemProps) => {
   const pathname = usePathname();
   const isManagePage = pathname.includes("/manage");
 
-  const buildPath = (includeTokenId: boolean) => {
-    const shortName = getShortNameFromChainId(m.chain_id);
-    if (!shortName) return null;
-    return `/${isManagePage ? "manage" : "collect"}/${shortName}:${m.address}${includeTokenId ? `/${m.token_id}` : ""}`;
-  };
-
   const handleClick = () => {
-    const includeTokenId = variant === "moment" || m.protocol === Protocol.ZoraMedia;
-    const path = buildPath(includeTokenId);
-    if (path) push(path);
+    const shortName = getShortNameFromChainId(m.chain_id);
+    if (!shortName) return;
+    push(`/${isManagePage ? "manage" : "collect"}/${shortName}:${m.address}/${m.token_id}`);
   };
 
   const handleViewCollection = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const path = buildPath(false);
-    if (path) push(path);
+    const shortName = getShortNameFromChainId(m.chain_id);
+    if (!shortName) return;
+    const base = isManagePage ? "manage" : "collection";
+    push(`/${base}/${shortName}:${m.address}`);
   };
 
   return (

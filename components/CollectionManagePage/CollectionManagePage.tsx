@@ -31,7 +31,7 @@ const CollectionManagePage = () => {
           <h2 className="text-xl font-semibold">Moments</h2>
         </div>
         <TimelineProvider collection={collection} includeHidden={true}>
-          <Moments variant="moment" />
+          <Moments />
         </TimelineProvider>
       </MetadataUploadProvider>
     </MetadataFormProvider>

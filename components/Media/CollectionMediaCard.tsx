@@ -26,7 +26,7 @@ const CollectionMediaCard = () => {
   } = useCollectionMedia();
 
   return (
-    <div className="rounded-lg border border-grey-moss-100 bg-white p-6 shadow-sm">
+    <div className="rounded-lg border border-grey-moss-100 bg-white p-4 md:p-6 shadow-sm">
       <div className="mb-[18px] flex items-center gap-1.5">
         <span className="size-1.5 rounded-full bg-tan" />
         <span className={FIELD_LABEL_CLASS}>media</span>

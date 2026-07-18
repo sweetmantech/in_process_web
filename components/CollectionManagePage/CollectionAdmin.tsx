@@ -20,7 +20,7 @@ const CollectionAdmin = ({ address }: { address: Address }) => {
   return (
     <div className="flex items-center justify-between gap-3 rounded-lg border border-grey-moss-100 bg-grey-moss-50/60 px-3.5 py-2.5">
       <div className="flex min-w-0 items-center gap-3">
-        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-grey-moss-300 font-archivo text-[11px] font-bold text-white">
+        <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-grey-moss-300 font-archivo-bold text-[11px] text-white">
           {initial}
         </span>
         <p className="truncate font-archivo text-[13.5px] text-grey-moss-900">
@@ -28,7 +28,7 @@ const CollectionAdmin = ({ address }: { address: Address }) => {
         </p>
       </div>
       {!isNotOwnWallet ? (
-        <span className="shrink-0 rounded-full bg-grey-moss-50 px-2.5 py-1 font-archivo text-[10px] font-semibold uppercase tracking-wider text-grey-moss-300">
+        <span className="shrink-0 rounded-full bg-grey-moss-50 px-2.5 py-1 font-archivo-medium text-[10px] uppercase tracking-wider text-grey-moss-300">
           you
         </span>
       ) : (

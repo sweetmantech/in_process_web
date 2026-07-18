@@ -28,7 +28,7 @@ const CollectionOverview = () => {
       <button
         type="button"
         onClick={() => push("/manage/moments")}
-        className="flex items-center gap-1.5 font-archivo text-xs font-semibold text-grey-moss-300 hover:text-grey-moss-900"
+        className="flex items-center gap-1.5 font-archivo-medium text-xs text-grey-moss-300 hover:text-grey-moss-900"
       >
         <ArrowLeft className="size-3.5" strokeWidth={1.5} />
         Back to moments

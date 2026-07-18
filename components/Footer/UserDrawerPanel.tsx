@@ -1,4 +1,4 @@
-import { Clock, Settings, LogOut } from "lucide-react";
+import { Clock, Settings, LogOut, User } from "lucide-react";
 
 const ITEM_CLASS =
   "flex w-full items-center gap-4 px-7 py-[16px] text-left font-archivo text-[17px] text-white active:bg-[#333333]";
@@ -40,7 +40,17 @@ const UserDrawerPanel = ({
         <Settings className="h-[18px] w-[18px] opacity-60" strokeWidth={1.5} />
         Manage
       </button>
-      {!isMiniApp && (
+      {isMiniApp ? (
+        displayName && (
+          <>
+            <Divider />
+            <div className="flex w-full items-center gap-4 px-7 py-[16px]">
+              <User className="h-[18px] w-[18px] shrink-0 text-white/40" strokeWidth={1.5} />
+              <span className="font-archivo-medium text-[13px] text-white/60">{displayName}</span>
+            </div>
+          </>
+        )
+      ) : (
         <>
           <Divider />
           <button

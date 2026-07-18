@@ -73,7 +73,7 @@ const CollectionMediaCard = () => {
             type="button"
             onClick={onDiscard}
             disabled={isSaving}
-            className="rounded-full border border-grey-moss-100 px-[18px] py-2 font-archivo text-xs font-semibold text-grey-moss-300 transition-colors hover:border-grey-moss-300 hover:text-grey-moss-900 disabled:opacity-50"
+            className="rounded-full border border-grey-moss-100 px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-300 transition-colors hover:border-grey-moss-300 hover:text-grey-moss-900 disabled:opacity-50"
           >
             discard
           </button>
@@ -81,7 +81,7 @@ const CollectionMediaCard = () => {
             type="button"
             onClick={onSave}
             disabled={isSaving || isDisabled}
-            className="rounded-full border border-grey-moss-900 bg-grey-moss-900 px-[18px] py-2 font-archivo text-xs font-semibold text-white transition-colors hover:bg-black disabled:opacity-50"
+            className="rounded-full border border-grey-moss-900 bg-grey-moss-900 px-[18px] py-2 font-archivo-medium text-xs text-white transition-colors hover:bg-black disabled:opacity-50"
           >
             {isSaving ? "Saving..." : "Save Changes"}
           </button>

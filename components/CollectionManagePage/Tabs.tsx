@@ -4,6 +4,7 @@ import useIsManageableCollection from "@/hooks/useIsManageableCollection";
 export enum COLLECTION_MANAGE_TABS {
   MEDIA,
   ADMINS,
+  MOMENTS,
 }
 
 interface TabsProps {
@@ -29,6 +30,11 @@ const Tabs = ({ selectedTab, onChangeTab }: TabsProps) => {
             onClick={() => onChangeTab(COLLECTION_MANAGE_TABS.ADMINS)}
           />
         )}
+        <TabButton
+          label="Moments"
+          active={selectedTab === COLLECTION_MANAGE_TABS.MOMENTS}
+          onClick={() => onChangeTab(COLLECTION_MANAGE_TABS.MOMENTS)}
+        />
       </div>
     </section>
   );

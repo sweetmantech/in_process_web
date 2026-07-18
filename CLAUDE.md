@@ -74,6 +74,13 @@ export const useSomething = () => {
 - Confirmation/notice sentences (e.g. "Are you sure you want to collect this moment?") use **normal sentence case** — capitalize the first letter, punctuate as a sentence.
 - Structured detail rows under a confirmation notice use a `label: value` format (e.g. `title: ...`, `price: ...`), not a prose sentence like `collect [title] for [price]`.
 
+### Font Weight Utilities
+
+The custom font families in `tailwind.config.js` (`archivo`, `archivo-medium`, `archivo-bold`, `spectral`, `spectral-medium`, `spectral-bold`, ...) are each a **single static font file per weight**, not a variable font. Tailwind's font-weight utilities (`font-semibold`, `font-bold`, `font-medium`) set `font-weight` via CSS, which has no visual effect on a static file — the browser can't synthesize a heavier weight from it.
+
+- **Never pair a weight utility with these families** (e.g. `font-archivo font-semibold` renders identically to `font-archivo` alone).
+- To get a heavier weight, **switch the font-family class itself**: `font-archivo` → `font-archivo-medium` (closest to semibold) or `font-archivo-bold`.
+
 ---
 
 ## Sound.xyz Admin Permission System

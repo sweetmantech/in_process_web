@@ -43,7 +43,7 @@ const AddCollectionAdmin = () => {
           type="button"
           onClick={handleAddAdmin}
           disabled={!hasValue || isDisabled}
-          className={`shrink-0 rounded-full border px-[18px] py-2 font-archivo text-xs font-semibold transition-colors disabled:opacity-50 ${
+          className={`shrink-0 rounded-full border px-[18px] py-2 font-archivo-medium text-xs transition-colors disabled:opacity-50 ${
             hasValue
               ? "border-grey-moss-900 bg-grey-moss-900 text-white hover:bg-black"
               : "border-grey-moss-100 bg-grey-moss-50 text-grey-moss-300"

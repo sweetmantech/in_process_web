@@ -5,7 +5,7 @@ interface MomentsSkeletonProps {
 }
 
 const MomentsSkeleton = ({ count = 20 }: MomentsSkeletonProps) => (
-  <div className="grid w-full grow grid-cols-2 gap-3 px-4 md:grid-cols-5 md:px-10">
+  <div className="grid w-full grow grid-cols-1 gap-3 pt-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
     {[...Array(count)].map((_, i) => (
       <MomentItemSkeleton key={i} />
     ))}

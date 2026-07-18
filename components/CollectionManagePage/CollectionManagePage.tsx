@@ -1,15 +1,14 @@
 "use client";
 
 import { useState, Fragment } from "react";
-import Moments from "@/components/MomentsGrid/Moments";
 import CollectionOverview from "../Overview/CollectionOverview";
-import { TimelineProvider } from "@/providers/TimelineProvider";
 import { useParams } from "next/navigation";
 import { MetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CollectionMedia from "../Media/CollectionMedia";
 import { MetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import Tabs, { COLLECTION_MANAGE_TABS } from "./Tabs";
 import Admins from "./Admins";
+import MomentsTab from "./MomentsTab";
 
 const CollectionManagePage = () => {
   const [selectedTab, setSelectedTab] = useState<number>(COLLECTION_MANAGE_TABS.MEDIA);
@@ -26,13 +25,8 @@ const CollectionManagePage = () => {
         <div className="pb-2">
           {selectedTab === COLLECTION_MANAGE_TABS.MEDIA && <CollectionMedia />}
           {selectedTab === COLLECTION_MANAGE_TABS.ADMINS && <Admins />}
+          {selectedTab === COLLECTION_MANAGE_TABS.MOMENTS && <MomentsTab collection={collection} />}
         </div>
-        <div className="px-4 md:px-10 pt-6 pb-4">
-          <h2 className="text-xl font-semibold">Moments</h2>
-        </div>
-        <TimelineProvider collection={collection} includeHidden={true}>
-          <Moments />
-        </TimelineProvider>
       </MetadataUploadProvider>
     </MetadataFormProvider>
   );

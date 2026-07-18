@@ -32,9 +32,9 @@ const CollectionMediaCard = () => {
         <span className={FIELD_LABEL_CLASS}>media</span>
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="flex flex-col items-center gap-5 md:flex-row md:items-center">
         <CollectionCoverImage metadata={metadata} isOwner={isOwner} isSaving={isSaving} />
-        <div className="flex min-w-0 flex-1 flex-col gap-3.5">
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-3.5">
           <div className="flex flex-col gap-1">
             <label className={FIELD_LABEL_CLASS}>collection name</label>
             <TitleInput

@@ -1,58 +1,69 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
-import { networkConfigByChain } from "@/lib/protocolSdk/apis/chain-constants";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import { getCollectionTimelineUrl } from "@/lib/collection/getCollectionTimelineUrl";
 import { Address } from "viem";
-import Breadcrumbs from "./Breadcrumbs";
-import OverviewContent from "./OverviewContent";
-import CollectionOverviewSkeleton from "./CollectionOverviewSkeleton";
+import Preview from "../MomentsGrid/Preview";
 import CopyButton from "../CopyButton";
+import CollectionOverviewSkeleton from "./CollectionOverviewSkeleton";
+
+const PILL_CLASS =
+  "rounded-full border border-grey-moss-100 bg-white/80 px-3 py-1.5 text-[11.5px] text-grey-moss-300 hover:text-grey-moss-900";
 
 const CollectionOverview = () => {
+  const { push } = useRouter();
   const { data, isLoading } = useCollectionProvider();
   const metadata = data?.metadata;
-  const name = data?.name;
   const address = data?.address as Address;
-
-  const collectionHref =
-    data?.chain_id !== undefined && data?.address
-      ? `/manage/${networkConfigByChain[data.chain_id].zoraCollectPathChainName}:${data.address}`
-      : undefined;
 
   const timelineUrl = getCollectionTimelineUrl(data?.chain_id, data?.address, SITE_ORIGINAL_URL);
 
   if (isLoading) return <CollectionOverviewSkeleton />;
 
   return (
-    <div className="w-full px-2 pt-0 md:pt-8 md:px-10">
-      <Breadcrumbs
-        items={[
-          {
-            label: "collections",
-            href: "/manage/moments",
-          },
-          {
-            label: metadata ? (
-              (data?.name ?? "")
-            ) : (
-              <span className="text-grey-moss-200">unknown</span>
-            ),
-            href: collectionHref,
-          },
-        ]}
-      />
-      <OverviewContent metadata={metadata} name={name} address={address as Address} />
-      {timelineUrl && (
-        <CopyButton
-          text={timelineUrl}
-          shorten={false}
-          className="mt-2 bg-grey-moss-50 px-3 py-1 text-xs text-grey-moss-200 hover:text-grey-moss-400"
-        >
-          collection timeline
-        </CopyButton>
-      )}
+    <div className="w-full pt-0">
+      <button
+        type="button"
+        onClick={() => push("/manage/moments")}
+        className="flex items-center gap-1.5 font-archivo text-xs font-semibold text-grey-moss-300 hover:text-grey-moss-900"
+      >
+        <ArrowLeft className="size-3.5" strokeWidth={1.5} />
+        Back to moments
+      </button>
+
+      <div className="mt-4 flex flex-col items-center gap-4 md:flex-row">
+        <div className="relative aspect-square w-24 shrink-0 overflow-hidden rounded-lg border border-dashed border-grey-moss-200 bg-grey-moss-50">
+          {metadata ? (
+            <Preview data={metadata} />
+          ) : (
+            <div className="flex size-full items-center justify-center">
+              <p className="font-mono text-[10px] text-grey-moss-300">cover</p>
+            </div>
+          )}
+        </div>
+        <div className="min-w-0">
+          <p
+            className={`text-center md:text-left truncate font-spectral text-2xl leading-tight md:text-[32px] ${!metadata ? "text-grey-moss-200" : ""}`}
+          >
+            {metadata ? data?.name : "Unknown"}
+          </p>
+          <div className="mt-2.5 flex flex-wrap items-center gap-2">
+            <CopyButton text={address} className={`font-mono ${PILL_CLASS}`} />
+            {timelineUrl && (
+              <CopyButton
+                text={timelineUrl}
+                shorten={false}
+                className={`font-archivo ${PILL_CLASS}`}
+              >
+                collection timeline
+              </CopyButton>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

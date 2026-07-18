@@ -1,26 +1,17 @@
 "use client";
 
-import { Media } from "../Media/Media";
-import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
-import useUpdateCollectionURI from "@/hooks/useUpdateCollectionURI";
-import SaveCollectionButton from "../CollectionManagePage/SaveCollectionButton";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
+import useMediaInitialization from "@/hooks/useMediaInitialization";
+import CollectionMediaCard from "./CollectionMediaCard";
+import CollectionMediaSkeleton from "./CollectionMediaSkeleton";
 
 const CollectionMedia = () => {
   const { data: collection, isLoading } = useCollectionProvider();
-  const isOwner = useIsCollectionOwner();
-  const metadata = collection?.metadata ?? null;
-  const { isLoading: isSaving } = useUpdateCollectionURI();
+  useMediaInitialization(collection?.metadata ?? undefined);
 
-  return (
-    <Media
-      metadata={metadata}
-      isOwner={isOwner}
-      isLoading={isLoading}
-      isSaving={isSaving}
-      SaveButton={SaveCollectionButton}
-    />
-  );
+  if (isLoading) return <CollectionMediaSkeleton />;
+
+  return <CollectionMediaCard />;
 };
 
 export default CollectionMedia;

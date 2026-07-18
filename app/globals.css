@@ -129,6 +129,29 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .modern-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #999999 transparent;
+  }
+
+  .modern-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .modern-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .modern-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #999999;
+    border-radius: 9999px;
+  }
+
+  .modern-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #605f5c;
+  }
 }
 
 .rpv-default-layout__sidebar-tabs {

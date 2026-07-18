@@ -1,5 +1,6 @@
 "use client";
 
+import { Input } from "@/components/ui/input";
 import useAddCollectionAdmin from "@/hooks/useAddCollectionAdmin";
 import useIsCollectionOwner from "@/hooks/useIsCollectionOwner";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
@@ -30,13 +31,13 @@ const AddCollectionAdmin = () => {
         <span className={FIELD_LABEL_CLASS}>add new admin</span>
       </div>
       <div className="flex gap-2.5">
-        <input
+        <Input
           type="text"
           placeholder="Admin address or ENS name (0x… or name.eth)"
           value={newAdminAddress}
           onChange={(e) => setNewAdminAddress(e.target.value)}
           disabled={isDisabled}
-          className="min-w-0 flex-1 rounded-md border border-grey-moss-100 bg-white px-3 py-2 font-archivo text-[13.5px] text-grey-moss-900 placeholder:text-grey-moss-200 disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-w-0 flex-1 rounded-md border-grey-moss-100 bg-white font-archivo text-[13.5px] text-grey-moss-900 placeholder:text-grey-moss-200"
         />
         <button
           type="button"

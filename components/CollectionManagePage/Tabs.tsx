@@ -15,8 +15,8 @@ const Tabs = ({ selectedTab, onChangeTab }: TabsProps) => {
   const hideNonMedia = !useIsManageableCollection();
 
   return (
-    <section className="w-full px-2 pt-4 md:px-10">
-      <div className="flex gap-1 md:gap-4">
+    <section className="w-full py-4">
+      <div className="flex gap-3 border-b border-grey-moss-200 md:gap-5">
         <TabButton
           label="Media"
           active={selectedTab === COLLECTION_MANAGE_TABS.MEDIA}

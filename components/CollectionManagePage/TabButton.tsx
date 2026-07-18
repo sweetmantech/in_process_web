@@ -11,8 +11,8 @@ const TabButton = ({ label, active, onClick }: TabButtonProps) => {
     <button
       type="button"
       className={cn(
-        "min-w-[60px] font-archivo-medium text-xs md:text-md",
-        active && "border-b-[2px] border-b-grey-moss-300"
+        "-mb-px min-w-[60px] border-b-2 border-transparent px-1 py-2.5 font-archivo text-[12.5px] uppercase tracking-wider text-grey-moss-300 hover:text-grey-moss-900",
+        active && "border-b-grey-moss-900 font-archivo-medium font-bold text-grey-moss-900"
       )}
       onClick={onClick}
     >

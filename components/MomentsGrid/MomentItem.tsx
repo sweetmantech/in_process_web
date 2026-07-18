@@ -85,8 +85,8 @@ const MomentItem = ({ m }: MomentItemProps) => {
               {m.collection?.name?.trim() || truncateAddress(m.address)}
             </span>
           </span>
-          <span className="pointer-events-none absolute right-0 top-full z-10 mt-1.5 hidden items-center gap-1 whitespace-nowrap rounded-lg bg-grey-moss-900 px-2.5 py-1.5 font-archivo text-[10.5px] font-semibold text-white shadow-lg group-hover/link:flex">
-            view collection
+          <span className="uppercase pointer-events-none absolute right-0 top-full z-10 mt-1.5 hidden items-center gap-1 whitespace-nowrap rounded-lg bg-grey-moss-900 px-2.5 py-1.5 font-archivo text-[10.5px] text-white shadow-lg group-hover/link:flex">
+            {isManagePage ? "manage collection" : "open collection timeline"}
             <ArrowUpRight className="size-3" />
           </span>
         </button>

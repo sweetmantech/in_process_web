@@ -27,7 +27,7 @@ const MomentsTab = ({ collection }: MomentsTabProps) => {
           className="flex shrink-0 items-center gap-1.5 rounded-full border border-grey-moss-900 bg-grey-moss-900 px-3.5 py-1.5 font-archivo-medium text-[11.5px] text-white transition-colors hover:bg-black"
         >
           <Plus className="size-3.5" strokeWidth={2} />
-          Add moment
+          Create
         </button>
       </div>
       <TimelineProvider collection={collection} includeHidden={true}>

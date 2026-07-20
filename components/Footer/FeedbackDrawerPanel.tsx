@@ -1,5 +1,7 @@
 import { X } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import FeedbackMediaAttachment from "@/components/Footer/FeedbackMediaAttachment";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
 
@@ -45,21 +47,29 @@ const FeedbackDrawerPanel = ({ isOpen, onClose, feedbackHook }: FeedbackDrawerPa
             How&apos;s your process?
           </p>
 
-          <Label className="mb-1 font-archivo text-sm text-grey-primary">Email</Label>
-          <input
-            type="email"
-            className="mb-3 w-full border border-black bg-white px-3 py-2 font-spectral outline-none"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <fieldset className="mb-3 flex flex-col gap-[5px]">
+            <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
+              email
+            </Label>
+            <Input
+              type="email"
+              className="rounded-md border-grey-moss-100 bg-[#FDFCFA] py-2.5 text-sm"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </fieldset>
 
-          <Label className="mb-1 font-archivo text-sm text-grey-primary">Share feedback</Label>
-          <textarea
-            className="w-full border border-black bg-grey-moss-50 px-3 py-2 font-spectral outline-none"
-            rows={4}
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-          />
+          <fieldset className="flex flex-col gap-[5px]">
+            <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
+              share feedback
+            </Label>
+            <Textarea
+              className="resize-none rounded-md border-grey-moss-100 bg-[#FDFCFA] text-sm"
+              minRows={4}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+          </fieldset>
 
           <div className="mt-3">
             <FeedbackMediaAttachment

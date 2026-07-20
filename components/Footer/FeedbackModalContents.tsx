@@ -6,6 +6,8 @@ import {
   DialogPortal,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { UseSubmitFeedbackReturn } from "@/hooks/useSubmitFeedback";
 import FeedbackMediaAttachment from "./FeedbackMediaAttachment";
@@ -52,41 +54,43 @@ const FeedbackModalContents = ({ submitFeedbackHook }: FeedbackModalContentsProp
             />
           </svg>
         </DialogClose>
-        <h2 className="mb-2 w-full text-center font-archivo text-2xl">let us hear from you</h2>
+        <h2 className="mb-2 w-full text-center font-archivo text-2xl">Let us hear from you</h2>
         <p className="text-grey-moss-600 mb-6 w-full text-center font-archivo text-sm italic">
-          how&apos;s your process?
+          How&apos;s your process?
         </p>
-        <Label className="text-grey-moss-600 mb-1 w-full text-left font-archivo text-sm">
-          email
-        </Label>
-        <input
-          type="email"
-          placeholder=""
-          className="mb-3 w-full border border-black bg-white p-3 font-spectral outline-none ring-0"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <Label className="text-grey-moss-600 mb-1 w-full pt-3 text-left font-archivo text-sm">
-          share feedback
-        </Label>
-        <textarea
-          className="w-full border border-black bg-grey-moss-50 p-3 font-spectral outline-none ring-0"
-          rows={6}
-          placeholder=""
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
-          required
-        />
+        <fieldset className="mb-3 flex w-full flex-col gap-[5px]">
+          <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">email</Label>
+          <Input
+            type="email"
+            className="rounded-md border-grey-moss-100 bg-[#FDFCFA] py-2.5 text-sm"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </fieldset>
+        <fieldset className="flex w-full flex-col gap-[5px]">
+          <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">
+            share feedback
+          </Label>
+          <Textarea
+            className="resize-none rounded-md border-grey-moss-100 bg-[#FDFCFA] text-sm"
+            minRows={6}
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            required
+          />
+        </fieldset>
 
-        <FeedbackMediaAttachment
-          mediaFile={mediaFile}
-          mediaPreview={mediaPreview}
-          onMediaChange={(file, preview) => {
-            setMediaFile(file);
-            setMediaPreview(preview);
-          }}
-        />
+        <div className="mt-3 w-full">
+          <FeedbackMediaAttachment
+            mediaFile={mediaFile}
+            mediaPreview={mediaPreview}
+            onMediaChange={(file, preview) => {
+              setMediaFile(file);
+              setMediaPreview(preview);
+            }}
+          />
+        </div>
 
         <div className="w-full">
           <button

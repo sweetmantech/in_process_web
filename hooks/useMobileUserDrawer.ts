@@ -41,6 +41,11 @@ export const useMobileUserDrawer = () => {
     push("/manage");
   };
 
+  const onTopup = () => {
+    close();
+    push("/topup");
+  };
+
   const onLogout = () => {
     close();
     logout();
@@ -52,6 +57,7 @@ export const useMobileUserDrawer = () => {
     close,
     onTimeline,
     onManage,
+    onTopup,
     onLogout,
     isMiniApp,
     displayName,

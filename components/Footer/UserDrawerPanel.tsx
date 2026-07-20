@@ -1,4 +1,5 @@
 import { Clock, Settings, LogOut, User } from "lucide-react";
+import TopupMenuItem from "../Balances/TopupMenuItem";
 
 const ITEM_CLASS =
   "flex w-full items-center gap-4 px-7 py-[16px] text-left font-archivo text-[17px] text-white active:bg-[#333333]";
@@ -10,6 +11,7 @@ interface UserDrawerPanelProps {
   onClose: () => void;
   onTimeline: () => void;
   onManage: () => void;
+  onTopup: () => void;
   onLogout: () => void;
   isMiniApp: boolean;
   displayName: string | null;
@@ -20,6 +22,7 @@ const UserDrawerPanel = ({
   onClose,
   onTimeline,
   onManage,
+  onTopup,
   onLogout,
   isMiniApp,
   displayName,
@@ -40,6 +43,12 @@ const UserDrawerPanel = ({
         <Settings className="h-[18px] w-[18px] opacity-60" strokeWidth={1.5} />
         Manage
       </button>
+      <Divider />
+      <TopupMenuItem
+        className={ITEM_CLASS}
+        iconClassName="h-[18px] w-[18px] opacity-60"
+        onClick={onTopup}
+      />
       {isMiniApp ? (
         displayName && (
           <>

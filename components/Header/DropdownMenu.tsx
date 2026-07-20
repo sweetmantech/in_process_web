@@ -5,6 +5,7 @@ import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { Clock, Settings, LogOut } from "lucide-react";
+import TopupMenuItem from "../Balances/TopupMenuItem";
 
 const ITEM_CLASS =
   "flex w-full items-center gap-3 whitespace-nowrap px-3 py-2 text-left text-sm text-white transition-colors hover:bg-[#333333]";
@@ -39,6 +40,15 @@ export function DropdownMenu() {
         <Settings className="size-4 shrink-0 opacity-60" strokeWidth={1.5} />
         Manage
       </button>
+      <Divider />
+      <TopupMenuItem
+        className={ITEM_CLASS}
+        iconClassName="size-4 shrink-0 opacity-60"
+        onClick={() => {
+          toggleNavbar();
+          push("/topup");
+        }}
+      />
       {!isMiniApp && (
         <>
           <Divider />

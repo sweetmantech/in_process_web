@@ -7,7 +7,7 @@ import { useMobileUserDrawer } from "@/hooks/useMobileUserDrawer";
 import UserDrawerPanel from "./UserDrawerPanel";
 
 const UserDrawer = () => {
-  const { isOpen, toggle, close, onTimeline, onManage, onLogout, isMiniApp, displayName } =
+  const { isOpen, toggle, close, onTimeline, onManage, onTopup, onLogout, isMiniApp, displayName } =
     useMobileUserDrawer();
 
   const [mounted, setMounted] = useState(false);
@@ -30,6 +30,7 @@ const UserDrawer = () => {
             onClose={close}
             onTimeline={onTimeline}
             onManage={onManage}
+            onTopup={onTopup}
             onLogout={onLogout}
             isMiniApp={isMiniApp}
             displayName={displayName}

@@ -1,7 +1,7 @@
 "use client";
 
 import { TimelineMoment } from "@/types/moment";
-import { Link as ChainLinkIcon, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMomentFeedCard } from "@/hooks/useMomentFeedCard";
@@ -23,28 +23,56 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
     handleMomentClick,
     commentCount,
     showComments,
+    collectionName,
+    collectionHref,
   } = useMomentFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
   const timeStr = new Date(moment.created_at).toLocaleString();
 
   return (
-    <div className="mb-2 overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleMomentClick}
+      onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
+      className="mb-2 cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
+    >
       <div className="relative isolate z-0 w-full overflow-hidden">
         <ContentRenderer metadata={metadata} variant="natural" />
       </div>
       <div className="px-[15px] pb-[15px] pt-[13px]">
-        <div className="mb-[5px] flex items-center gap-[9px]">
-          <Link
-            href={`/${moment.creator.address.toLowerCase()}`}
-            onClick={(e) => e.stopPropagation()}
-            className="font-archivo-medium text-base text-grey-moss-900 active:opacity-70"
-          >
-            {creatorName}
-          </Link>
-          <span className="ml-auto font-archivo text-xs text-tan-gold">{timeStr}</span>
+        <div className="mb-[5px] flex flex-col gap-[2px]">
+          <div className="flex items-center justify-between gap-[9px]">
+            <Link
+              href={`/${moment.creator.address.toLowerCase()}`}
+              onClick={(e) => e.stopPropagation()}
+              className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 active:opacity-70"
+            >
+              {creatorName}
+            </Link>
+            <span className="shrink-0 font-archivo text-xs text-tan-gold">{timeStr}</span>
+          </div>
+          {collectionHref && (
+            <div className="flex items-center justify-between gap-[9px]">
+              <Link
+                href={collectionHref}
+                onClick={(e) => e.stopPropagation()}
+                className="block min-w-0 truncate font-archivo text-xs text-grey-moss-300 active:opacity-70"
+              >
+                {collectionName}
+              </Link>
+              <Link
+                href={collectionHref}
+                onClick={(e) => e.stopPropagation()}
+                className="shrink-0 font-archivo text-xs text-tan-gold underline underline-offset-2 active:opacity-70"
+              >
+                {`[ View collection ]`}
+              </Link>
+            </div>
+          )}
         </div>
 
-        <p className="mb-3 line-clamp-2 font-spectral-italic text-lg leading-snug text-grey-moss-900">
+        <p className="my-2 line-clamp-2 font-spectral-italic text-lg leading-snug text-grey-moss-900">
           {metadata?.name ?? "—"}
         </p>
 
@@ -73,35 +101,22 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
             )}
           </div>
 
-          <div className="flex min-w-0 items-center gap-3">
-            {showComments && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCommentClick();
-                }}
-                className={actionButtonClass}
-                aria-label={`${commentCount} comments`}
-              >
-                <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
-                <span className="font-archivo text-sm tabular-nums">
-                  {commentCount.toLocaleString()}
-                </span>
-              </button>
-            )}
+          {showComments && (
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                handleMomentClick();
+                onCommentClick();
               }}
               className={actionButtonClass}
-              aria-label="Open moment link"
+              aria-label={`${commentCount} comments`}
             >
-              <ChainLinkIcon className="h-[17px] w-[17px]" strokeWidth={1.75} />
+              <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
+              <span className="font-archivo text-sm tabular-nums">
+                {commentCount.toLocaleString()}
+              </span>
             </button>
-          </div>
+          )}
         </div>
       </div>
     </div>

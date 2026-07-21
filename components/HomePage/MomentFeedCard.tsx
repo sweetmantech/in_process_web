@@ -38,7 +38,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
         tabIndex={0}
         onClick={handleMomentClick}
         onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
-        className="mb-2 cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
+        className="group mb-2 cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
       >
         <div className="relative isolate z-0 w-full overflow-hidden">
           <ContentRenderer metadata={metadata} variant="natural" />
@@ -49,7 +49,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
               <Link
                 href={`/${moment.creator.address.toLowerCase()}`}
                 onClick={(e) => e.stopPropagation()}
-                className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 active:opacity-70"
+                className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 transition-colors hover:text-tan-gold active:opacity-70"
               >
                 {creatorName}
               </Link>
@@ -60,14 +60,14 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
                 <Link
                   href={collectionHref}
                   onClick={(e) => e.stopPropagation()}
-                  className="block min-w-0 truncate font-archivo text-xs text-grey-moss-300 active:opacity-70"
+                  className="block min-w-0 truncate font-archivo text-xs text-grey-moss-300 transition-colors hover:text-grey-moss-900 active:opacity-70"
                 >
                   {collectionName}
                 </Link>
                 <Link
                   href={collectionHref}
                   onClick={(e) => e.stopPropagation()}
-                  className="shrink-0 font-archivo text-xs text-tan-gold underline underline-offset-2 active:opacity-70"
+                  className="shrink-0 font-archivo text-xs text-tan-gold underline underline-offset-2 transition-colors hover:text-grey-moss-900 active:opacity-70"
                 >
                   {`[ View collection ]`}
                 </Link>
@@ -75,7 +75,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
             )}
           </div>
 
-          <p className="my-2 line-clamp-2 font-spectral-italic text-lg leading-snug text-grey-moss-900">
+          <p className="my-2 line-clamp-2 font-spectral-italic text-lg leading-snug text-grey-moss-900 transition-colors group-hover:text-tan-gold">
             {metadata?.name ?? "—"}
           </p>
 

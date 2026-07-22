@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useConnectWallet } from "@privy-io/react-auth";
+import { ConnectedWallet, useConnectWallet } from "@privy-io/react-auth";
 import useConnectedWallet from "./useConnectedWallet";
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
@@ -11,21 +11,24 @@ import { toast } from "sonner";
 import { isUserRejection } from "@/lib/viem/isUserRejection";
 import { zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
 
-const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
+interface UseInProcessGrantPermissionOptions {
+  onGranted?: () => void;
+}
+
+const useInProcessGrantPermission = (
+  contractAddress: Address | undefined,
+  { onGranted }: UseInProcessGrantPermissionOptions = {}
+) => {
   const { primaryWallet } = useWalletsProvider();
   const { smartWallet } = useSmartAccountProvider();
   const { externalWallet } = useConnectedWallet();
   const [isGranting, setIsGranting] = useState(false);
-  const { connectWallet } = useConnectWallet();
 
-  const grantPermission = async () => {
+  const sendGrantTransaction = async (
+    wallet: Pick<ConnectedWallet, "address" | "switchChain" | "getEthereumProvider">
+  ) => {
     if (!contractAddress) {
       toast.error("Contract data not available");
-      return;
-    }
-
-    if (!primaryWallet) {
-      toast.error("Please connect your wallet first");
       return;
     }
 
@@ -34,18 +37,13 @@ const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
       return;
     }
 
-    if (!externalWallet) {
-      connectWallet();
-      return;
-    }
-
     try {
       setIsGranting(true);
 
-      await externalWallet.switchChain(CHAIN_ID);
+      await wallet.switchChain(CHAIN_ID);
 
-      const provider = await externalWallet.getEthereumProvider();
-      const account = externalWallet.address as Address;
+      const provider = await wallet.getEthereumProvider();
+      const account = wallet.address as Address;
 
       const client = createWalletClient({
         account,
@@ -64,6 +62,7 @@ const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
       await publicClient.waitForTransactionReceipt({ hash });
 
       toast.success("Smart wallet permission granted successfully");
+      onGranted?.();
     } catch (error: any) {
       console.error("Grant permission error:", error);
 
@@ -75,6 +74,30 @@ const useInProcessGrantPermission = (contractAddress: Address | undefined) => {
     } finally {
       setIsGranting(false);
     }
+  };
+
+  const { connectWallet } = useConnectWallet({
+    onSuccess: ({ wallet }) => {
+      if (wallet.type !== "ethereum") {
+        toast.error("Please connect an Ethereum wallet");
+        return;
+      }
+      sendGrantTransaction(wallet);
+    },
+  });
+
+  const grantPermission = async () => {
+    if (!primaryWallet) {
+      toast.error("Please connect your wallet first");
+      return;
+    }
+
+    if (!externalWallet) {
+      connectWallet();
+      return;
+    }
+
+    await sendGrantTransaction(externalWallet);
   };
 
   return { grantPermission, isGranting };

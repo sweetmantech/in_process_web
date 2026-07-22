@@ -5,11 +5,12 @@ import useCollectAvailability from "@/hooks/useCollectAvailability";
 import getPrice from "@/lib/getPrice";
 import getPriceUnit from "@/lib/getPriceUnit";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { MomentType } from "@/types/moment";
+import { MomentType, Protocol } from "@/types/moment";
 import CommentButton from "@/components/CommentButton/CommentButton";
+import CollectAdvanced from "@/components/HomePage/CollectAdvanced";
 
 const CollectModalContents = () => {
-  const { isLoading, metadata, saleConfig } = useMomentProvider();
+  const { isLoading, metadata, saleConfig, protocol } = useMomentProvider();
   const { isCollectDisabled, collectCtaLabel } = useCollectAvailability();
 
   if (isLoading || !metadata) {
@@ -33,6 +34,7 @@ const CollectModalContents = () => {
           {priceLabel}
         </p>
       </div>
+      {protocol === Protocol.InProcess && !isCollectDisabled && <CollectAdvanced />}
       <div className="pt-3 w-full">
         <CommentButton disabled={isCollectDisabled} label={collectCtaLabel} />
       </div>

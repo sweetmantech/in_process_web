@@ -30,10 +30,10 @@ const PermissionErrorModal = ({ open, onClose, contractAddress }: PermissionErro
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Permission Required</DialogTitle>
+          <DialogTitle>Legacy Moment Permission Missing</DialogTitle>
           <DialogDescription>
-            The In·Process smart wallet does not have permission. Use your external wallet to
-            directly add permission onchain.
+            This is a legacy moment, so the In·Process smart wallet was never granted permission for
+            it. Use your external wallet to add permission onchain directly.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

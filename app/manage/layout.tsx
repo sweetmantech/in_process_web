@@ -12,7 +12,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
 
   return (
     // md:h: fills the viewport below the sticky 63px header so only the content column scrolls
-    <main className="flex w-full flex-col md:flex-row grow gap-4 px-2 pt-0 md:mx-auto md:h-[calc(100vh-66px)] md:max-w-[95%] md:gap-11 md:overflow-hidden md:px-10 pb-4">
+    <main className="flex w-full flex-col md:flex-row grow gap-4 px-2 pt-12 md:mx-auto md:h-[calc(100vh-66px)] md:max-w-[95%] md:gap-11 md:overflow-hidden md:px-10 pb-4">
       <div className="fixed inset-x-0 top-[calc(72px+env(safe-area-inset-top,0px))] z-20 flex w-full shrink-0 flex-row gap-1.5 px-2 py-1 overflow-x-auto no-scrollbar md:static md:inset-x-auto md:top-auto md:z-auto md:w-[210px] md:flex-col md:gap-0.5 md:overflow-visible md:p-0">
         <NavButton label="account" href="/manage/account" icon={User} />
         <NavButton label="payment" href="/manage/payment" icon={CreditCard} />

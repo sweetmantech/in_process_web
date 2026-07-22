@@ -19,12 +19,9 @@ interface PermissionErrorModalProps {
 }
 
 const PermissionErrorModal = ({ open, onClose, contractAddress }: PermissionErrorModalProps) => {
-  const { grantPermission, isGranting } = useInProcessGrantPermission(contractAddress);
-
-  const handleGrant = async () => {
-    await grantPermission();
-    onClose();
-  };
+  const { grantPermission, isGranting } = useInProcessGrantPermission(contractAddress, {
+    onGranted: onClose,
+  });
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
@@ -42,7 +39,7 @@ const PermissionErrorModal = ({ open, onClose, contractAddress }: PermissionErro
           </Button>
           <Button
             className="bg-black text-grey-eggshell"
-            onClick={handleGrant}
+            onClick={grantPermission}
             disabled={isGranting}
           >
             {isGranting ? "Granting..." : "Grant Permission"}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ConnectedWallet, useConnectWallet } from "@privy-io/react-auth";
 import useConnectedWallet from "./useConnectedWallet";
-import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
+import useOperationalSmartWallet from "./useOperationalSmartWallet";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { createWalletClient, custom, Address } from "viem";
 import { CHAIN_ID, PERMISSION_BIT_ADMIN } from "@/lib/consts";
@@ -20,7 +20,7 @@ const useInProcessGrantPermission = (
   { onGranted }: UseInProcessGrantPermissionOptions = {}
 ) => {
   const { primaryWallet } = useWalletsProvider();
-  const { smartWallet } = useSmartAccountProvider();
+  const { operationalSmartWallet } = useOperationalSmartWallet();
   const { externalWallet } = useConnectedWallet();
   const [isGranting, setIsGranting] = useState(false);
 
@@ -32,7 +32,7 @@ const useInProcessGrantPermission = (
       return;
     }
 
-    if (!smartWallet) {
+    if (!operationalSmartWallet) {
       toast.error("Smart wallet not available");
       return;
     }
@@ -55,7 +55,7 @@ const useInProcessGrantPermission = (
         address: contractAddress,
         abi: zoraCreator1155ImplABI,
         functionName: "addPermission",
-        args: [BigInt(0), smartWallet as Address, BigInt(PERMISSION_BIT_ADMIN)],
+        args: [BigInt(0), operationalSmartWallet, BigInt(PERMISSION_BIT_ADMIN)],
       });
 
       const publicClient = getPublicClient(CHAIN_ID);

@@ -26,7 +26,7 @@ const TitleInput = ({ disabled, labelHidden, inputClassName, labelClassName }: T
         className={cn("font-spectral !text-md", inputClassName)}
       />
       {form.formState.errors.name && (
-        <p className="mt-1 font-spectral text-xs text-red-500">
+        <p className="mt-1 pl-1.5 font-spectral text-xs text-red-500">
           {form.formState.errors.name.message}
         </p>
       )}

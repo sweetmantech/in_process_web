@@ -23,10 +23,6 @@ const MomentMediaSkeleton = () => (
         <Skeleton className="min-h-[280px] w-full rounded-lg" />
       </div>
     </div>
-    <div className="mt-[18px] flex gap-6 border-t border-grey-moss-50 pt-4">
-      <Skeleton className="h-8 w-16" />
-      <Skeleton className="h-8 w-16" />
-    </div>
   </div>
 );
 

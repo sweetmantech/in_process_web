@@ -31,7 +31,7 @@ const DescriptionInput = ({
         disabled={disabled}
       />
       {form.formState.errors.description && (
-        <p className="mt-1 font-archivo text-xs text-red-500">
+        <p className="mt-1 pl-1.5 font-archivo text-xs text-red-500">
           {form.formState.errors.description.message}
         </p>
       )}

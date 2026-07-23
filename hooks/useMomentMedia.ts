@@ -6,7 +6,7 @@ import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import useSaveMomentButton from "@/hooks/useSaveMomentButton";
 
 const useMomentMedia = () => {
-  const { moment, metadata, isOwner, soldOut } = useMomentProvider();
+  const { moment, metadata, isOwner } = useMomentProvider();
   const { name, description, setName, setDescription, hasMedia, resetFiles } =
     useMetadataFormProvider();
   const { editActive, exitEditMode } = useMomentEditProvider();
@@ -65,10 +65,6 @@ const useMomentMedia = () => {
     onSave,
     onDiscard,
     onConfirmCollectionChange,
-    stats: [
-      { value: `#${moment.tokenId}`, label: "token" },
-      { value: soldOut ? "yes" : "no", label: "sold out" },
-    ],
   };
 };
 

@@ -31,7 +31,6 @@ const MomentMediaCard = () => {
     onSave,
     onDiscard,
     onConfirmCollectionChange,
-    stats,
   } = useMomentMedia();
 
   return (
@@ -71,21 +70,8 @@ const MomentMediaCard = () => {
         <MomentMediaPreview metadata={metadata} isOwner={isOwner} isSaving={isSaving} />
       </div>
 
-      <div className="mt-[18px] flex gap-6 border-t border-grey-moss-50 pt-4">
-        {stats.map((s) => (
-          <div key={s.label}>
-            <div className="font-spectral text-[19px] leading-none text-grey-moss-900">
-              {s.value}
-            </div>
-            <div className="mt-1 font-archivo text-[10px] uppercase tracking-wider text-grey-moss-200">
-              {s.label}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {showActions && (
-        <div className="mt-[18px] flex items-center justify-end gap-3">
+        <div className="mt-[18px] flex items-center justify-end gap-3 border-t border-grey-moss-50 pt-4">
           <button
             type="button"
             onClick={onDiscard}

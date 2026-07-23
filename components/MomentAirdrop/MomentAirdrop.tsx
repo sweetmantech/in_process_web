@@ -1,19 +1,7 @@
 "use client";
 
-import AirdropProvider from "@/providers/AirdropProvider";
-import Airdrop from "@/components/MomentAirdrop/Airdrop";
-import { useMomentProvider } from "@/providers/MomentProvider";
+import AirdropCard from "./AirdropCard";
 
-const MomentAirdrop = () => {
-  const { isOwner } = useMomentProvider();
-
-  if (!isOwner) return null;
-
-  return (
-    <AirdropProvider>
-      <Airdrop />
-    </AirdropProvider>
-  );
-};
+const MomentAirdrop = () => <AirdropCard />;
 
 export default MomentAirdrop;

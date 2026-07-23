@@ -16,9 +16,17 @@ interface DatetimePickerProps {
   setDate: (_value: Date) => void;
   /** Dates on or before this day are not selectable. */
   minDate?: Date;
+  className?: string;
+  disabled?: boolean;
 }
 
-export function DateTimePicker({ date, setDate, minDate }: DatetimePickerProps) {
+export function DateTimePicker({
+  date,
+  setDate,
+  minDate,
+  className,
+  disabled = false,
+}: DatetimePickerProps) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const disabledBefore = React.useMemo(() => {
@@ -53,9 +61,11 @@ export function DateTimePicker({ date, setDate, minDate }: DatetimePickerProps) 
       <PopoverTrigger asChild>
         <Button
           variant="outline"
+          disabled={disabled}
           className={cn(
             "w-full justify-start !rounded-[0px] !border-grey !bg-white text-left !font-spectral font-normal",
-            !date && "text-muted-foreground"
+            !date && "text-muted-foreground",
+            className
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />

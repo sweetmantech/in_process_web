@@ -7,7 +7,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useMomentEditProvider } from "@/providers/MomentEditProvider";
 import { useOpenFileDialog } from "@/hooks/useOpenFileDialog";
-import { determineMediaType } from "@/lib/zora/utils";
+import { kindFromMime } from "@/lib/media/kindFromMime";
 import { MomentMetadata } from "@/types/moment";
 
 interface MomentMediaPreviewProps {
@@ -15,12 +15,6 @@ interface MomentMediaPreviewProps {
   isOwner: boolean;
   isSaving: boolean;
 }
-
-const kindFromMime = (mime: string | undefined) => {
-  if (!mime) return null;
-  const kind = determineMediaType(mime);
-  return kind === "unknown" ? "file" : kind;
-};
 
 const MomentMediaPreview = ({ metadata, isOwner, isSaving }: MomentMediaPreviewProps) => {
   const { hasMedia, mimeType, fileInputRef } = useMetadataFormProvider();

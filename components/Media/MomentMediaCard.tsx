@@ -7,7 +7,7 @@ import useMomentMedia from "@/hooks/useMomentMedia";
 import CollectionsDropdown from "@/components/Collections/CollectionsDropdown";
 import CollectionChangeWarningModal from "@/components/MomentManagePage/CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
-import MomentMediaStage from "./MomentMediaStage";
+import MomentMediaCover from "./MomentMediaCover";
 import TitleInput from "./TitleInput";
 import DescriptionInput from "./DescriptionInput";
 
@@ -41,38 +41,34 @@ const MomentMediaCard = () => {
         <span className={FIELD_LABEL_CLASS}>media</span>
       </div>
 
-      <MomentMediaStage
-        metadata={metadata}
-        isOwner={isOwner}
-        isSaving={isSaving}
-        fields={
-          <>
-            <div className="flex flex-col gap-1">
-              <label className={FIELD_LABEL_CLASS}>collection</label>
-              <CollectionsDropdown
-                disabled={!isOwner || isSaving}
-                className="rounded-md border-grey-moss-100 !font-archivo text-[15px]"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className={FIELD_LABEL_CLASS}>title</label>
-              <TitleInput
-                disabled={!isOwner || isSaving}
-                labelHidden
-                inputClassName="rounded-md border-grey-moss-100 font-archivo text-[15px]"
-              />
-            </div>
-            <div className="flex flex-col gap-1">
-              <label className={FIELD_LABEL_CLASS}>description</label>
-              <DescriptionInput
-                disabled={!isOwner || isSaving}
-                labelHidden
-                textareaClassName="rounded-md border-grey-moss-100 font-archivo text-sm"
-              />
-            </div>
-          </>
-        }
-      />
+      <div className="flex flex-col items-center gap-5 md:flex-row md:items-center">
+        <MomentMediaCover metadata={metadata} isOwner={isOwner} isSaving={isSaving} />
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-3.5">
+          <div className="flex flex-col gap-1">
+            <label className={FIELD_LABEL_CLASS}>collection</label>
+            <CollectionsDropdown
+              disabled={!isOwner || isSaving}
+              className="rounded-md border-grey-moss-100 !font-archivo text-[15px]"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={FIELD_LABEL_CLASS}>title</label>
+            <TitleInput
+              disabled={!isOwner || isSaving}
+              labelHidden
+              inputClassName="rounded-md border-grey-moss-100 font-archivo text-[15px]"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className={FIELD_LABEL_CLASS}>description</label>
+            <DescriptionInput
+              disabled={!isOwner || isSaving}
+              labelHidden
+              textareaClassName="rounded-md border-grey-moss-100 font-archivo text-sm"
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="mt-[18px] flex gap-6 border-t border-grey-moss-50 pt-4">
         {stats.map((s) => (

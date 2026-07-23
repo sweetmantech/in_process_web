@@ -3,11 +3,8 @@ import { Skeleton } from "../ui/skeleton";
 const MomentMediaSkeleton = () => (
   <div className="rounded-lg border border-grey-moss-100 bg-white p-6 shadow-sm">
     <Skeleton className="mb-[18px] h-3 w-14" />
-    <div className="flex flex-col gap-5 md:flex-row md:items-start">
-      <div className="flex flex-col gap-1">
-        <Skeleton className="h-3 w-10" />
-        <Skeleton className="size-[148px] rounded-2xl" />
-      </div>
+    <div className="flex flex-col items-center gap-5 md:flex-row md:items-center">
+      <Skeleton className="size-[132px] shrink-0 rounded-lg" />
       <div className="flex min-w-0 w-full flex-1 flex-col gap-3.5">
         <div className="flex flex-col gap-1">
           <Skeleton className="h-3 w-20" />

@@ -65,7 +65,7 @@ const MomentOverview = () => {
                 shorten={false}
                 className={`font-archivo ${PILL_CLASS}`}
               >
-                copy link
+                Copy link
               </CopyButton>
             )}
           </div>

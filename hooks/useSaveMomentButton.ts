@@ -30,18 +30,20 @@ const useSaveMomentButton = () => {
       await fetchMomentData();
       exitEditMode();
       toast.success("Successfully saved media.");
+      return true;
     } catch (error: any) {
       if (isPermissionError(error)) {
         openPermissionModal();
       } else {
         toast.error(error?.message || "Failed to save media");
       }
+      return false;
     }
   }, [updateTokenURI, fetchMomentData, exitEditMode, openPermissionModal]);
 
   const handleConfirm = async () => {
     closeCollectionWarningModal();
-    await save();
+    return save();
   };
 
   const handleSave = useCallback(async () => {
@@ -53,17 +55,16 @@ const useSaveMomentButton = () => {
       } else {
         toast.error("Please fix form errors");
       }
-      return;
+      return false;
     }
 
     if (selectedCollection && selectedCollection !== moment.collectionAddress) {
       openCollectionWarningModal();
-      return;
+      return false;
     }
 
-    await save();
+    return save();
   }, [form, selectedCollection, moment.collectionAddress, openCollectionWarningModal, save]);
-
   const nameValue = form.watch("name");
   const nameError = errors.name;
   const hasValidName = nameValue && typeof nameValue === "string" && nameValue.trim().length > 0;

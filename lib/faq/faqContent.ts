@@ -85,5 +85,10 @@ export const faqSections = {
       answer:
         'You can connect or disconnect an external wallet to your account at any time from the <a href="/manage/account">account page</a>.\n\n<strong>To connect:</strong>\n    1. Click <strong>"Connect wallet"</strong>\n    2. Choose your wallet provider from the list\n    3. Approve the connection in your wallet extension or app\n\n<strong>To disconnect:</strong>\n    1. Find the wallet under the <strong>linked wallets</strong> section\n    2. Click <strong>"Disconnect"</strong> next to the wallet address\n    3. Confirm the action\n\n<strong>Note:</strong> Disconnecting a wallet does not delete your In Process account or any of your onchain content. It only removes the link between that wallet and your account.',
     },
+    {
+      question: "how do i withdraw from smart wallet?",
+      answer:
+        'Sales proceeds land in your <strong>In Process smart wallet</strong>. To send funds to an external address:\n\n    1. Go to <a href="/manage/payment">Manage → payment</a>\n    2. Click <strong>Withdraw</strong>\n    3. Choose <strong>USDC</strong> or <strong>ETH</strong>\n    4. Enter a recipient address (or use your linked external wallet if connected)\n    5. Enter an amount — or click <strong>Max</strong> for your full available balance — then confirm\n\nYou can withdraw any positive balance. An external wallet is not required; you can paste any valid <strong>0x</strong> address you control.',
+    },
   ],
 };

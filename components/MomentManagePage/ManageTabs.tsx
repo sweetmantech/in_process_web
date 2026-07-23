@@ -7,15 +7,18 @@ export enum MANAGE_TABS {
   SALE,
   ADMIN,
 }
+
 interface ManageTabsProps {
   onChangeTab: (_value: number) => void;
   selectedTab: number;
 }
+
 const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
   const hideNonMedia = !useIsManageableCollection();
+
   return (
-    <section className="w-full pt-4 md:px-10">
-      <div className="flex gap-1 md:gap-4">
+    <section className="w-full py-4">
+      <div className="flex gap-3 border-b border-grey-moss-200 md:gap-5">
         <TabButton
           label="Media"
           active={selectedTab === MANAGE_TABS.MEDIA}

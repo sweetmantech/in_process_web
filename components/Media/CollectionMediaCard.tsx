@@ -75,7 +75,7 @@ const CollectionMediaCard = () => {
             disabled={isSaving}
             className="rounded-full border border-grey-moss-100 px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-300 transition-colors hover:border-grey-moss-300 hover:text-grey-moss-900 disabled:opacity-50"
           >
-            discard
+            Discard
           </button>
           <button
             type="button"

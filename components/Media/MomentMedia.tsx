@@ -1,21 +1,21 @@
+"use client";
+
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { useMomentUriUpdateProvider } from "@/providers/MomentUriUpdateProvider";
-import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
-import { Media } from "./Media";
+import useMediaInitialization from "@/hooks/useMediaInitialization";
+import { MomentEditProvider } from "@/providers/MomentEditProvider";
+import MomentMediaCard from "./MomentMediaCard";
+import MomentMediaSkeleton from "./MomentMediaSkeleton";
 
 const MomentMedia = () => {
-  const { metadata, isOwner, isLoading } = useMomentProvider();
-  const { isLoading: isSaving } = useMomentUriUpdateProvider();
+  const { metadata, isLoading } = useMomentProvider();
+  useMediaInitialization(metadata ?? undefined);
+
+  if (isLoading) return <MomentMediaSkeleton />;
 
   return (
-    <Media
-      metadata={metadata}
-      isOwner={isOwner}
-      isLoading={isLoading}
-      isSaving={isSaving}
-      SaveButton={SaveMediaButton}
-      isMomentMetadata
-    />
+    <MomentEditProvider>
+      <MomentMediaCard />
+    </MomentEditProvider>
   );
 };
 

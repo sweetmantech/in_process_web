@@ -16,14 +16,21 @@ import BlurImage from "@/components/BlurImage";
 import Spinner from "@/components/ui/spinner";
 import { CollectionItem } from "@/types/collections";
 import { useCollectionsDropdown } from "@/hooks/useCollectionsDropdown";
+import { cn } from "@/lib/utils";
 
 interface CollectionsDropdownProps {
   onSelect?: (collection: CollectionItem) => void;
   onCreateNew?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
-const CollectionsDropdown = ({ onSelect, onCreateNew, disabled }: CollectionsDropdownProps) => {
+const CollectionsDropdown = ({
+  onSelect,
+  onCreateNew,
+  disabled,
+  className,
+}: CollectionsDropdownProps) => {
   const {
     open,
     handleOpenChange,
@@ -45,7 +52,10 @@ const CollectionsDropdown = ({ onSelect, onCreateNew, disabled }: CollectionsDro
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
-          className="h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0 disabled:opacity-50"
+          className={cn(
+            "h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0 disabled:opacity-50",
+            className
+          )}
         >
           <div className="flex items-center gap-2">
             {isLoading || !currentCollection ? (

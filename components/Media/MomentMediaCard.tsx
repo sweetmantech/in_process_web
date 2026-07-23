@@ -7,7 +7,7 @@ import useMomentMedia from "@/hooks/useMomentMedia";
 import CollectionsDropdown from "@/components/Collections/CollectionsDropdown";
 import CollectionChangeWarningModal from "@/components/MomentManagePage/CollectionChangeWarningModal";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
-import MomentMediaCover from "./MomentMediaCover";
+import MomentMediaPreview from "./MomentMediaPreview";
 import TitleInput from "./TitleInput";
 import DescriptionInput from "./DescriptionInput";
 
@@ -41,9 +41,8 @@ const MomentMediaCard = () => {
         <span className={FIELD_LABEL_CLASS}>media</span>
       </div>
 
-      <div className="flex flex-col items-center gap-5 md:flex-row md:items-center">
-        <MomentMediaCover metadata={metadata} isOwner={isOwner} isSaving={isSaving} />
-        <div className="flex w-full min-w-0 flex-1 flex-col gap-3.5">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:items-stretch md:gap-6">
+        <div className="flex min-w-0 flex-col gap-3.5">
           <div className="flex flex-col gap-1">
             <label className={FIELD_LABEL_CLASS}>collection</label>
             <CollectionsDropdown
@@ -59,15 +58,17 @@ const MomentMediaCard = () => {
               inputClassName="rounded-md border-grey-moss-100 font-archivo text-[15px]"
             />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex min-h-0 flex-1 flex-col gap-1">
             <label className={FIELD_LABEL_CLASS}>description</label>
             <DescriptionInput
               disabled={!isOwner || isSaving}
               labelHidden
-              textareaClassName="rounded-md border-grey-moss-100 font-archivo text-sm"
+              textareaClassName="min-h-[120px] rounded-md border-grey-moss-100 font-archivo text-sm md:min-h-[160px]"
             />
           </div>
         </div>
+
+        <MomentMediaPreview metadata={metadata} isOwner={isOwner} isSaving={isSaving} />
       </div>
 
       <div className="mt-[18px] flex gap-6 border-t border-grey-moss-50 pt-4">
@@ -91,7 +92,7 @@ const MomentMediaCard = () => {
             disabled={isSaving}
             className="rounded-full border border-grey-moss-100 px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-300 transition-colors hover:border-grey-moss-300 hover:text-grey-moss-900 disabled:opacity-50"
           >
-            discard
+            Discard
           </button>
           <button
             type="button"

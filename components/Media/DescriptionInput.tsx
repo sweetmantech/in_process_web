@@ -27,7 +27,7 @@ const DescriptionInput = ({
         className={cn("focus:border-grey-moss-500 !font-spectral !text-md", textareaClassName)}
         minRows={3}
         maxRows={10}
-        placeholder="enter a description"
+        placeholder="Enter a description"
         disabled={disabled}
       />
       {form.formState.errors.description && (

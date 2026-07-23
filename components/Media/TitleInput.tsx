@@ -21,7 +21,7 @@ const TitleInput = ({ disabled, labelHidden, inputClassName, labelClassName }: T
       <Input
         type="text"
         {...form.register("name")}
-        placeholder="enter a title"
+        placeholder="Enter a title"
         disabled={disabled}
         className={cn("font-spectral !text-md", inputClassName)}
       />

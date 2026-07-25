@@ -21,12 +21,23 @@ export interface MomentCommentsResult {
   comments: MintComment[];
 }
 
+/** One infinite-query page: flattened for the current flat UI, with top-level count for pagination. */
+export interface CommentsPage {
+  comments: MintComment[];
+  topLevelCount: number;
+}
+
 export interface MintComment {
   id: string;
   username: string;
   sender: string;
   comment: string;
   timestamp: number;
+  commentId: string | null;
+  replyToId: string | null;
+  nonce: string | null;
+  replyCount: number;
+  replies: MintComment[];
 }
 
 export interface MomentMetadata {

@@ -1,7 +1,8 @@
 import { useCallback, useMemo } from "react";
 import { useInfiniteQuery, useQueryClient, InfiniteData } from "@tanstack/react-query";
-import { MintComment } from "@/types/moment";
+import { CommentsPage, MintComment } from "@/types/moment";
 import fetchComments from "@/lib/moment/fetchComments";
+import withCommentDefaults from "@/lib/moment/withCommentDefaults";
 import { useMomentProvider } from "@/providers/MomentProvider";
 
 const COMMENTS_PER_PAGE = 20;
@@ -22,38 +23,42 @@ export function useComments() {
     staleTime: 1000 * 60 * 5, // 5 minutes
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage, allPages) => {
-      // If we got fewer than COMMENTS_PER_PAGE, there are no more comments
-      // Note: Supabase range(offset, offset + 20) is inclusive, so it may return 21 items
-      // We treat 20+ as a full page and continue pagination
-      if (lastPage.length < COMMENTS_PER_PAGE) {
+      // Pagination is by top-level comments only (API page size 20).
+      // Flattened length must not drive hasNextPage — replies inflate the list.
+      if (lastPage.topLevelCount < COMMENTS_PER_PAGE) {
         return undefined;
       }
-      // Otherwise, return the next offset (each page fetches COMMENTS_PER_PAGE items)
       return allPages.length * COMMENTS_PER_PAGE;
     },
     initialPageParam: 0,
   });
 
   const comments = useMemo(
-    () => query.data?.pages.flatMap((page) => page) ?? [],
+    () => query.data?.pages.flatMap((page) => page.comments) ?? [],
     [query.data?.pages]
   );
 
   const addComment = useCallback(
     (comment: MintComment) => {
-      // Optimistically update the query cache
-      queryClient.setQueryData<InfiniteData<MintComment[], number>>(
+      const next = withCommentDefaults(comment);
+      queryClient.setQueryData<InfiniteData<CommentsPage, number>>(
         ["comments", collectionAddress, tokenId, chainId],
         (oldData) => {
           if (!oldData) {
             return {
-              pages: [[comment]],
+              pages: [{ comments: [next], topLevelCount: 1 }],
               pageParams: [0],
             };
           }
-          // Add comment to the beginning of the first page
+          const [first, ...rest] = oldData.pages;
           return {
-            pages: [[comment, ...oldData.pages[0]], ...oldData.pages.slice(1)],
+            pages: [
+              {
+                comments: [next, ...first.comments],
+                topLevelCount: first.topLevelCount + 1,
+              },
+              ...rest,
+            ],
             pageParams: oldData.pageParams,
           };
         }

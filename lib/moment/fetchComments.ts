@@ -1,7 +1,8 @@
-import { MintComment, MomentCommentsInput, MomentCommentsResult } from "@/types/moment";
+import { CommentsPage, MomentCommentsInput, MomentCommentsResult } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
+import flattenComments from "@/lib/moment/flattenComments";
 
-async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<MintComment[]> {
+async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<CommentsPage> {
   try {
     const queryString = new URLSearchParams({
       collectionAddress: moment.collectionAddress,
@@ -16,10 +17,15 @@ async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<M
       throw new Error("Failed to fetch comments.");
     }
     const data: MomentCommentsResult = await response.json();
-    return data.comments;
+    const topLevel = data.comments ?? [];
+
+    return {
+      comments: flattenComments(topLevel),
+      topLevelCount: topLevel.length,
+    };
   } catch (error) {
     console.error(error);
-    return [];
+    return { comments: [], topLevelCount: 0 };
   }
 }
 

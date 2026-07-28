@@ -19,9 +19,7 @@ const SaleStartPicker = ({
 }: SaleStartPickerProps) => {
   const normalized = BigInt(String(Math.floor(Number(currentSaleStart))));
   const currentLabel =
-    normalized === BigInt(0)
-      ? "Open"
-      : new Date(Number(normalized) * 1000).toLocaleDateString();
+    normalized === BigInt(0) ? "Open" : new Date(Number(normalized) * 1000).toLocaleDateString();
 
   return (
     <div className="flex flex-col gap-1">

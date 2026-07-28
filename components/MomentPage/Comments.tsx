@@ -18,26 +18,28 @@ const Comments = () => {
   if (isLoading)
     return (
       <CommentsContainer>
-        <Skeleton className="h-[300px] w-full" />
+        <Skeleton className="my-4 h-20 w-full rounded-lg" />
+        <Skeleton className="mb-4 h-20 w-full rounded-lg" />
       </CommentsContainer>
     );
+
   if (comments.length === 0)
     return (
       <CommentsContainer>
-        <p className="font-archivo">no comments yet</p>
-        <p className="font-spectral-italic tracking-[-1px]">
-          {isSetSale ? "collect and be first" : "sale is not yet activated."}
-        </p>
+        <div className="py-6">
+          <p className="font-archivo text-sm text-grey-moss-900">no comments yet</p>
+          <p className="mt-1 font-spectral-italic text-sm tracking-tight text-[#8B8474]">
+            {isSetSale ? "collect and be first" : "sale is not yet activated."}
+          </p>
+        </div>
       </CommentsContainer>
     );
 
   return (
     <CommentsContainer>
-      <div className="space-y-1 md:space-y-2">
-        {comments.map((comment) => (
-          <Comment key={comment.id} {...comment} />
-        ))}
-      </div>
+      {comments.map((comment) => (
+        <Comment key={comment.id} {...comment} />
+      ))}
       {hasMore && <FetchMore fetchMore={() => fetchMore()} />}
     </CommentsContainer>
   );

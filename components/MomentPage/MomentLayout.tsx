@@ -5,13 +5,8 @@ import MomentMeta from "./MomentMeta";
 import MomentMediaFrame from "./MomentMediaFrame";
 import MomentActionCard from "./MomentActionCard";
 import MomentActivityCard from "./MomentActivityCard";
-import { ReactNode } from "react";
 
-interface MomentLayoutProps {
-  actionSlot?: ReactNode;
-}
-
-const MomentLayout = ({ actionSlot }: MomentLayoutProps) => {
+const MomentLayout = () => {
   return (
     <div className="mx-auto w-full max-w-[1080px] px-3 pb-20 pt-2 md:px-10">
       <BackToTimeline />
@@ -21,7 +16,7 @@ const MomentLayout = ({ actionSlot }: MomentLayoutProps) => {
           <MomentMediaFrame />
         </div>
         <div className="flex w-full shrink-0 flex-col gap-4 md:sticky md:top-24 md:w-[340px]">
-          {actionSlot ?? <MomentActionCard />}
+          <MomentActionCard />
           <MomentActivityCard />
         </div>
       </div>

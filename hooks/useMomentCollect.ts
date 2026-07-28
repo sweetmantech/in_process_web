@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import useFarcasterTopup from "./useFarcasterTopup";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
+import fireCollectConfetti from "@/lib/fireCollectConfetti";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
@@ -16,7 +17,6 @@ import { isUserRejection } from "@/lib/viem/isUserRejection";
 
 const useMomentCollect = () => {
   const [amountToCollect, setAmountToCollect] = useState(1);
-  const [collected, setCollected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isMiniApp } = useMiniAppProvider();
   const { primaryWallet } = useWalletsProvider();
@@ -27,7 +27,7 @@ const useMomentCollect = () => {
   const { topup } = useFarcasterTopup();
   const { smartWallet } = useSmartAccountProvider();
 
-  const collectWithComment = async () => {
+  const collectWithComment = async (): Promise<boolean> => {
     setIsLoading(true);
     try {
       if (!primaryWallet) throw new Error("No wallet connected");
@@ -44,27 +44,32 @@ const useMomentCollect = () => {
           await topup(currency, shortfall, smartWallet as Address);
         } else {
           showInsufficientBalanceError(currency);
+          return false;
         }
       }
 
       const headers = await getAuthHeaders();
       await collectMomentApi(moment, amountToCollect, comment, headers);
 
-      addComment({
-        sender: primaryWallet as Address,
-        comment,
-        timestamp: new Date().getTime(),
-      } as any);
+      if (comment.trim()) {
+        addComment({
+          sender: primaryWallet as Address,
+          comment,
+          timestamp: new Date().getTime(),
+        } as any);
+      }
       setComment("");
       setIsOpenCommentModal(false);
-      setCollected(true);
       toast.success("collected!");
+      fireCollectConfetti();
+      return true;
     } catch (error: any) {
       if (isUserRejection(error)) {
         toast.error("Topup rejected");
       } else if (!error?.message?.includes("funds")) {
         toast.error("Failed to collect moment");
       }
+      return false;
     } finally {
       setIsLoading(false);
     }
@@ -75,10 +80,6 @@ const useMomentCollect = () => {
     isLoading,
     amountToCollect,
     setAmountToCollect,
-    comment,
-    setComment,
-    collected,
-    setCollected,
   };
 };
 

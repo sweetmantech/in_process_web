@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, MouseEvent } from "react";
 import { CircleDot, Link2, Share2, Download, Send } from "lucide-react";
 import Link from "next/link";
 import { Address } from "viem";
@@ -12,80 +11,34 @@ import AddressChipInput from "@/components/SMSMomentPage/AddressChipInput";
 import RecentRecipientsRow from "@/components/SMSMomentPage/RecentRecipientsRow";
 import RecipientSearchSheet from "@/components/SMSMomentPage/RecipientSearchSheet";
 import AirdropSubmitButton from "@/components/SMSMomentPage/AirdropSubmitButton";
-import useCanAirdropMoment from "@/hooks/useCanAirdropMoment";
-import useCollectAvailability from "@/hooks/useCollectAvailability";
-import useBalanceOf from "@/hooks/useBalanceOf";
-import useShareMoment from "@/hooks/useShareMoment";
-import useDownload from "@/hooks/useDownload";
-import { useArtistProfile } from "@/hooks/useArtistProfile";
-import getPrice from "@/lib/getPrice";
-import getPriceUnit from "@/lib/getPriceUnit";
-import truncateAddress from "@/lib/truncateAddress";
-import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
-import { useMomentProvider } from "@/providers/MomentProvider";
-import { useUserProvider } from "@/providers/UserProvider";
-import { MomentType } from "@/types/moment";
+import useMomentActionCard from "@/hooks/useMomentActionCard";
+import { CARD_CLASS, PILL_BTN_CLASS } from "@/lib/classNames";
 import { cn } from "@/lib/utils";
 
-type ActionMode = "collect" | "airdrop";
-
-const CARD_CLASS =
-  "rounded-[10px] border border-[#E4E0D7] bg-white p-5 shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]";
-
-const PILL_BTN_CLASS =
-  "flex flex-1 items-center justify-center gap-1.5 rounded-[20px] border border-[#E4E0D7] bg-white/80 px-2 py-2.5 font-archivo-medium text-xs text-[#6B6456] transition-colors hover:border-grey-moss-900 hover:text-grey-moss-900";
-
 const MomentActionCard = () => {
-  const canAirdrop = useCanAirdropMoment();
-  const [mode, setMode] = useState<ActionMode>("collect");
-  const [copied, setCopied] = useState(false);
-  const { isOpenCommentModal, setIsOpenCommentModal } = useMomentCommentsProvider();
-  const { isLoading, metadata, saleConfig, isSetSale, owner } = useMomentProvider();
-  const { data: artistProfile } = useArtistProfile(owner || undefined);
-  const { isCollectDisabled, collectCtaLabel } = useCollectAvailability();
-  const { isPrepared } = useUserProvider();
-  const { balanceOf } = useBalanceOf();
-  const { share } = useShareMoment();
-  const { download } = useDownload();
-
-  const handleCollect = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    if (!isPrepared()) return;
-    setIsOpenCommentModal(true);
-  };
-
-  const handleCopyLink = async () => {
-    await share();
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
-  const handleShare = async () => {
-    if (typeof navigator !== "undefined" && navigator.share) {
-      try {
-        await navigator.share({ url: window.location.href });
-      } catch {
-        // user cancelled
-      }
-      return;
-    }
-    await share();
-  };
+  const {
+    canAirdrop,
+    mode,
+    setMode,
+    copied,
+    isOpenCommentModal,
+    setIsOpenCommentModal,
+    isLoading,
+    metadata,
+    owner,
+    isCollectDisabled,
+    collectCtaLabel,
+    balanceOf,
+    download,
+    creatorName,
+    priceLabel,
+    priceUnit,
+    handleCollect,
+    handleCopyLink,
+    handleShare,
+  } = useMomentActionCard();
 
   if (isLoading || !metadata) return null;
-
-  const creatorName = artistProfile?.username || (owner ? truncateAddress(owner) : "");
-
-  const priceLabel =
-    !isSetSale || !saleConfig
-      ? null
-      : BigInt(saleConfig.pricePerToken) === BigInt(0)
-        ? "free"
-        : `${getPrice(saleConfig.pricePerToken, saleConfig.type)}`;
-  const priceUnit =
-    !isSetSale || !saleConfig || BigInt(saleConfig.pricePerToken) === BigInt(0)
-      ? null
-      : getPriceUnit(saleConfig.type || MomentType.FixedPriceMint);
 
   return (
     <>

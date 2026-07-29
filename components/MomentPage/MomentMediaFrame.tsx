@@ -9,8 +9,8 @@ const MomentMediaFrame = () => {
   if (!metadata) return null;
 
   return (
-    <div className="relative w-full max-w-[520px] overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]">
-      <div className="relative max-h-[calc(100vh-260px)] w-full overflow-hidden font-spectral [&_img]:max-h-[calc(100vh-260px)] [&_img]:object-contain">
+    <div className="relative w-full max-w-none overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_8px_26px_-12px_rgba(27,21,4,.3)] md:max-w-[520px] md:shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]">
+      <div className="relative max-h-[calc(100vh-260px)] w-full overflow-hidden font-spectral md:max-h-[calc(100vh-260px)] [&_img]:max-h-[calc(100vh-260px)] [&_img]:object-contain">
         <ContentRenderer
           metadata={metadata}
           variant="natural"

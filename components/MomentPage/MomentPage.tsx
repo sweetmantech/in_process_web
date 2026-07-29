@@ -22,7 +22,7 @@ const MomentPage = () => {
 
   return (
     <main className="flex w-screen grow">
-      <div className="flex w-full flex-col pt-12 md:pt-14">
+      <div className="flex w-full flex-col pt-6 md:pt-8">
         <MomentProvider
           moment={{
             collectionAddress: address as Address,

@@ -4,6 +4,7 @@ import truncateAddress from "@/lib/utils/truncateAddress";
 import { MintComment } from "@/types/moment";
 import Link from "next/link";
 import { Address } from "viem";
+import { Sparkles } from "lucide-react";
 
 export const Comment = (comment: MintComment) => {
   const { sender, username, timestamp, comment: commentText } = comment;
@@ -12,6 +13,7 @@ export const Comment = (comment: MintComment) => {
   const displayName = username || data?.username || truncatedAddress;
   const initial = displayName.charAt(0).toLowerCase();
   const timelineHref = `/${(sender as Address).toLowerCase()}`;
+  const hasText = Boolean(commentText?.trim());
 
   return (
     <div className="flex gap-3 border-t border-[#EDEAE2] py-[13px] first:border-t-0">
@@ -25,10 +27,15 @@ export const Comment = (comment: MintComment) => {
         {initial}
       </Link>
       <div className="min-w-0 flex-1">
-        {commentText && (
+        {hasText ? (
           <p className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900">
             {commentText}
           </p>
+        ) : (
+          <div className="mb-1 inline-flex items-center gap-1.5 font-archivo text-[11.5px] text-[#8B8474]">
+            <Sparkles className="size-3 text-tan-gold" strokeWidth={1.75} />
+            collected
+          </div>
         )}
         <div className="flex flex-wrap items-baseline gap-2.5">
           <Link

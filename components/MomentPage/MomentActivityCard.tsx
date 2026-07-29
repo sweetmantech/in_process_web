@@ -6,6 +6,7 @@ import { useMomentTransfersProvider } from "@/providers/MomentCollectorsProvider
 import { useMomentProvider } from "@/providers/MomentProvider";
 import TransferItem from "./TransferItem";
 import FetchMore from "../FetchMore";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Protocol } from "@/types/moment";
 import { cn } from "@/lib/utils";
 
@@ -59,7 +60,13 @@ const MomentActivityCard = () => {
 
       {activeTab === "collectors" && (
         <div className="flex flex-col overflow-y-auto px-3 py-1.5 md:max-h-[360px]">
-          {isLoading || transfers.length === 0 ? (
+          {isLoading ? (
+            <div className="space-y-3 py-3">
+              <Skeleton className="h-12 w-full rounded-lg" />
+              <Skeleton className="h-12 w-full rounded-lg" />
+              <Skeleton className="h-12 w-full rounded-lg" />
+            </div>
+          ) : transfers.length === 0 ? (
             <p className="px-2 py-6 font-archivo text-sm text-[#8B8474]">no collectors yet</p>
           ) : (
             <>

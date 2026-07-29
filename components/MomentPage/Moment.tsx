@@ -2,11 +2,14 @@
 
 import { useMomentProvider } from "@/providers/MomentProvider";
 import MomentLayout from "./MomentLayout";
+import MomentPageSkeleton from "./MomentPageSkeleton";
 
 const Moment = () => {
-  const { metadata } = useMomentProvider();
+  const { metadata, isLoading } = useMomentProvider();
 
-  if (!metadata) return null;
+  if (isLoading || !metadata) {
+    return <MomentPageSkeleton />;
+  }
 
   return <MomentLayout />;
 };

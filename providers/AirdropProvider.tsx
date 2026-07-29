@@ -1,19 +1,25 @@
 import useAirdrop from "@/hooks/useAirdrop";
-import { createContext, useMemo, useContext } from "react";
+import { createContext, useMemo, useContext, useState } from "react";
 import AirdropRecipientsProvider from "./AirdropRecipientsProvider";
 
-interface AirdropContextValue extends ReturnType<typeof useAirdrop> {}
+interface AirdropContextValue extends ReturnType<typeof useAirdrop> {
+  isRecipientSearchOpen: boolean;
+  setIsRecipientSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 const AirdropContext = createContext<AirdropContextValue | null>(null);
 
 const AirdropProvider = ({ children }: { children: React.ReactNode }) => {
   const airDrop = useAirdrop();
+  const [isRecipientSearchOpen, setIsRecipientSearchOpen] = useState(false);
 
   const value = useMemo(
     () => ({
       ...airDrop,
+      isRecipientSearchOpen,
+      setIsRecipientSearchOpen,
     }),
-    [airDrop]
+    [airDrop, isRecipientSearchOpen]
   );
 
   return (

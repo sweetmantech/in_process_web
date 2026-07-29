@@ -1,19 +1,24 @@
 import { useComments } from "@/hooks/useComments";
 import useWriteComment from "@/hooks/useWriteComment";
+import useCreateMomentComment from "@/hooks/useCreateMomentComment";
 import { createContext, useContext, ReactNode, useState, Dispatch, SetStateAction } from "react";
 
-const MomentCommentsContext = createContext<
-  | (ReturnType<typeof useWriteComment> &
-      ReturnType<typeof useComments> & {
-        isOpenCommentModal: boolean;
-        setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
-      })
-  | undefined
->(undefined);
+type MomentCommentsContextValue = ReturnType<typeof useWriteComment> &
+  ReturnType<typeof useComments> &
+  ReturnType<typeof useCreateMomentComment> & {
+    isOpenCommentModal: boolean;
+    setIsOpenCommentModal: Dispatch<SetStateAction<boolean>>;
+  };
+
+const MomentCommentsContext = createContext<MomentCommentsContextValue | undefined>(undefined);
 
 export function MomentCommentsProvider({ children }: { children: ReactNode }) {
   const writeComment = useWriteComment();
   const comments = useComments();
+  const createComment = useCreateMomentComment({
+    addComment: comments.addComment,
+    addReply: comments.addReply,
+  });
   const [isOpenCommentModal, setIsOpenCommentModal] = useState(false);
 
   return (
@@ -21,8 +26,9 @@ export function MomentCommentsProvider({ children }: { children: ReactNode }) {
       value={{
         ...comments,
         ...writeComment,
-        isOpenCommentModal: isOpenCommentModal,
-        setIsOpenCommentModal: setIsOpenCommentModal,
+        ...createComment,
+        isOpenCommentModal,
+        setIsOpenCommentModal,
       }}
     >
       {children}

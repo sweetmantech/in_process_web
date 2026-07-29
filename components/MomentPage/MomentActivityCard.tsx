@@ -32,7 +32,7 @@ const MomentActivityCard = () => {
     <div
       className={cn(
         "overflow-hidden bg-white",
-        "md:rounded-[10px] md:border md:border-[#E4E0D7] md:shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
+        "md:flex md:h-full md:min-h-0 md:flex-col md:rounded-[10px] md:border md:border-[#E4E0D7] md:shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
       )}
     >
       <div className="flex items-center gap-1 border-b border-[#DDD8CC] px-2">
@@ -59,7 +59,7 @@ const MomentActivityCard = () => {
       {activeTab === "comments" && showComments && <Comments />}
 
       {activeTab === "collectors" && (
-        <div className="flex flex-col overflow-y-auto px-3 py-1.5 md:max-h-[360px]">
+        <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto px-3 py-1.5">
           {isLoading ? (
             <div className="space-y-3 py-3">
               <Skeleton className="h-12 w-full rounded-lg" />

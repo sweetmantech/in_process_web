@@ -21,7 +21,7 @@ const AddressChipInput = () => {
         onKeyDown={handleInput}
         onPaste={handlePaste}
         onBlur={handleBlur}
-        placeholder="wallet address or ENS"
+        placeholder="Wallet address or ENS"
         className="min-w-[130px] flex-1 border-none bg-transparent py-1.5 font-archivo text-sm text-grey-moss-900 outline-none"
       />
     </div>

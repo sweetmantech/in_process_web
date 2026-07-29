@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Search, Send, X } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import useRecipientSearch from "@/hooks/useRecipientSearch";
+import useIsMobile from "@/hooks/useIsMobile";
 import truncateAddress from "@/lib/utils/truncateAddress";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 const RecipientSearchSheet = () => {
   const {
@@ -17,13 +20,14 @@ const RecipientSearchSheet = () => {
     isRecipientActive,
   } = useRecipientSearch();
   const [mounted, setMounted] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => setMounted(true), []);
 
   if (!mounted || !isSearchOpen) return null;
 
-  return createPortal(
-    <div className="fixed bottom-[calc(74px+env(safe-area-inset-bottom,0px))] left-0 right-0 top-0 z-50 flex flex-col overflow-hidden bg-white">
+  const content = (
+    <>
       <div className="flex items-center gap-3 border-b border-grey-moss-100 px-5 py-4">
         <Search className="h-[18px] w-[18px] shrink-0 text-grey-moss-900" />
         <input
@@ -67,6 +71,25 @@ const RecipientSearchSheet = () => {
           </button>
         ))}
       </div>
+    </>
+  );
+
+  if (!isMobile) {
+    return (
+      <Dialog open={isSearchOpen} onOpenChange={(open) => !open && closeSearch()}>
+        <DialogContent className="max-w-md overflow-hidden border-none bg-white p-0 shadow-lg">
+          <VisuallyHidden>
+            <DialogTitle>Search recipients</DialogTitle>
+          </VisuallyHidden>
+          <div className="flex max-h-[min(520px,70dvh)] flex-col">{content}</div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  return createPortal(
+    <div className="fixed bottom-[calc(74px+env(safe-area-inset-bottom,0px))] left-0 right-0 top-0 z-50 flex flex-col overflow-hidden bg-white">
+      {content}
     </div>,
     document.body
   );

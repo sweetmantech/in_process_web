@@ -1,7 +1,8 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
 import CommentsContainer from "./CommentsContainer";
 import { Skeleton } from "../ui/skeleton";
-import { Comment } from "./Comment";
+import CommentThread from "./CommentThread";
+import CommentComposer from "./CommentComposer";
 import FetchMore from "../FetchMore";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
@@ -9,13 +10,13 @@ import { Fragment } from "react";
 
 const Comments = () => {
   const { comments, hasMore, isLoading, fetchMore } = useMomentCommentsProvider();
-  const { isSetSale, protocol } = useMomentProvider();
+  const { protocol } = useMomentProvider();
   const isInProcess = protocol === Protocol.InProcess;
   const commentsHidden = !isInProcess;
 
   if (commentsHidden) return <Fragment />;
 
-  if (isLoading)
+  if (isLoading && comments.length === 0)
     return (
       <CommentsContainer>
         <div className="space-y-3 py-3">
@@ -26,24 +27,28 @@ const Comments = () => {
       </CommentsContainer>
     );
 
-  if (comments.length === 0)
-    return (
-      <CommentsContainer>
-        <div className="py-6">
-          <p className="font-archivo text-sm text-grey-moss-900">no comments yet</p>
-          <p className="mt-1 font-spectral-italic text-sm tracking-tight text-[#8B8474]">
-            {isSetSale ? "collect and be first" : "sale is not yet activated."}
-          </p>
-        </div>
-      </CommentsContainer>
-    );
-
   return (
     <CommentsContainer>
-      {comments.map((comment) => (
-        <Comment key={comment.id} {...comment} />
-      ))}
-      {hasMore && <FetchMore fetchMore={() => fetchMore()} />}
+      <div className="border-b border-[#EDEAE2] pb-3 pt-2">
+        <CommentComposer placeholder="add a comment…" submitLabel="comment" />
+      </div>
+      <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
+        {comments.length === 0 ? (
+          <div className="py-6">
+            <p className="font-archivo text-sm text-grey-moss-900">no comments yet</p>
+            <p className="mt-1 font-spectral-italic text-sm tracking-tight text-[#8B8474]">
+              be the first to comment
+            </p>
+          </div>
+        ) : (
+          <>
+            {comments.map((comment) => (
+              <CommentThread key={comment.id} comment={comment} />
+            ))}
+            {hasMore && <FetchMore fetchMore={() => fetchMore()} />}
+          </>
+        )}
+      </div>
     </CommentsContainer>
   );
 };

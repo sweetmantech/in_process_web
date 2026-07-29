@@ -13,7 +13,7 @@ const Description = () => {
   return (
     <div className="mt-2.5 max-w-[560px]">
       <p
-        className={`font-spectral text-[15px] leading-normal text-grey-moss-400 ${
+        className={`font-spectral text-[13.5px] leading-normal text-grey-moss-400 md:text-[15px] ${
           !isExpanded && shouldTruncate ? "line-clamp-2" : ""
         }`}
       >

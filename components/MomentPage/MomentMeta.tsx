@@ -5,7 +5,7 @@ import Title from "./Title";
 
 const MomentMeta = () => {
   return (
-    <div>
+    <div className="mt-4 md:mt-0">
       <Title />
       <Description />
     </div>

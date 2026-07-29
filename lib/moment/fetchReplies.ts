@@ -20,7 +20,7 @@ async function fetchReplies({
       replyToId,
     });
 
-    const response = await fetch(`${IN_PROCESS_API}/moment/comments?${queryString}`);
+    const response = await fetch(`${IN_PROCESS_API}/comments?${queryString}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch replies.");

@@ -24,7 +24,7 @@ export const createCommentApi = async ({
   headers,
 }: CreateCommentInput): Promise<string> => {
   try {
-    const path = `${IN_PROCESS_API}/moment/comments/eip155:${moment.chainId}/erc1155:${moment.collectionAddress}`;
+    const path = `${IN_PROCESS_API}/comments/eip155:${moment.chainId}/erc1155:${moment.collectionAddress}`;
     const response = await fetch(path, {
       method: "POST",
       headers: buildHeaders(headers),

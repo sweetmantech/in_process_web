@@ -11,7 +11,7 @@ async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<C
       offset: offset?.toString() || "0",
     });
 
-    const response = await fetch(`${IN_PROCESS_API}/moment/comments?${queryString}`);
+    const response = await fetch(`${IN_PROCESS_API}/comments?${queryString}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch comments.");

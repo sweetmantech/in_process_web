@@ -30,7 +30,7 @@ const MomentLayout = () => {
           </div>
         </div>
 
-        <div className="hidden w-full shrink-0 flex-col gap-4 md:sticky md:top-24 md:flex md:w-[340px]">
+        <div className="hidden w-full shrink-0 flex-col gap-4 md:sticky md:top-24 md:flex md:max-h-[calc(100dvh-8rem)] md:w-[340px]">
           <MomentActionCard />
           <MomentActivityCard />
         </div>

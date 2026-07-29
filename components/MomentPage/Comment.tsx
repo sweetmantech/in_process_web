@@ -28,7 +28,7 @@ export const Comment = (comment: MintComment) => {
       </Link>
       <div className="min-w-0 flex-1">
         {hasText ? (
-          <p className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900">
+          <p className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900 [font-variant-emoji:emoji]">
             {commentText}
           </p>
         ) : (

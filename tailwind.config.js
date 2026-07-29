@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 
+// Color emoji fonts must sit after the brand face so ZWJ sequences (e.g. 🙂‍↔️)
+// fall back instead of rendering as .notdef tofu from Spectral/Archivo/sans-serif.
+const emojiFallback = ["Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji"];
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -60,15 +64,15 @@ module.exports = {
         },
       },
       fontFamily: {
-        nounish: ["LondrinaSolid-Regular", "sans-serif"],
-        archivo: ["Archivo-Regular", "sans-serif"],
-        "archivo-medium": ["Archivo-Medium", "sans-serif"],
-        "archivo-bold": ["Archivo-Medium", "sans-serif"],
-        "spectral-italic": ["Spectral-Italic", "sans-serif"],
-        spectral: ["Spectral-Regular", "sans-serif"],
-        "spectral-medium": ["Spectral-Medium", "sans-serif"],
-        "spectral-bold": ["Spectral-Bold", "sans-serif"],
-        "spectral-medium-italic": ["Spectral-MediumItalic", "sans-serif"],
+        nounish: ["LondrinaSolid-Regular", ...emojiFallback, "sans-serif"],
+        archivo: ["Archivo-Regular", ...emojiFallback, "sans-serif"],
+        "archivo-medium": ["Archivo-Medium", ...emojiFallback, "sans-serif"],
+        "archivo-bold": ["Archivo-Medium", ...emojiFallback, "sans-serif"],
+        "spectral-italic": ["Spectral-Italic", ...emojiFallback, "sans-serif"],
+        spectral: ["Spectral-Regular", ...emojiFallback, "sans-serif"],
+        "spectral-medium": ["Spectral-Medium", ...emojiFallback, "sans-serif"],
+        "spectral-bold": ["Spectral-Bold", ...emojiFallback, "sans-serif"],
+        "spectral-medium-italic": ["Spectral-MediumItalic", ...emojiFallback, "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

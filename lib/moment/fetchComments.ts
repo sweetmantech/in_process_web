@@ -1,6 +1,6 @@
 import { CommentsPage, MomentCommentsInput, MomentCommentsResult } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
-import flattenComments from "@/lib/moment/flattenComments";
+import mapCommentsTree from "@/lib/moment/mapCommentsTree";
 
 async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<CommentsPage> {
   try {
@@ -20,7 +20,7 @@ async function fetchComments({ moment, offset }: MomentCommentsInput): Promise<C
     const topLevel = data.comments ?? [];
 
     return {
-      comments: flattenComments(topLevel),
+      comments: mapCommentsTree(topLevel),
       topLevelCount: topLevel.length,
     };
   } catch (error) {

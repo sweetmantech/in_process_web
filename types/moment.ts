@@ -21,7 +21,7 @@ export interface MomentCommentsResult {
   comments: MintComment[];
 }
 
-/** One infinite-query page: flattened for the current flat UI, with top-level count for pagination. */
+/** One infinite-query page of top-level comments (with nested reply previews). */
 export interface CommentsPage {
   comments: MintComment[];
   topLevelCount: number;

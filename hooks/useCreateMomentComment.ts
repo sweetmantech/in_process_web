@@ -5,6 +5,7 @@ import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
+import isCommentHolderError from "@/lib/errors/isCommentHolderError";
 import { createCommentApi, CreateCommentReplyTo } from "@/lib/moment/createCommentApi";
 import { MintComment } from "@/types/moment";
 
@@ -85,8 +86,12 @@ const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentComment
 
         toast.success(parent ? "reply posted" : "comment posted");
         return true;
-      } catch (error: any) {
-        toast.error(error?.message || "Failed to post comment");
+      } catch (error: unknown) {
+        if (isCommentHolderError(error)) {
+          toast.error("Collect this moment before commenting.");
+          return false;
+        }
+        toast.error((error as Error)?.message || "Failed to post comment");
         return false;
       } finally {
         setIsSubmitting(false);

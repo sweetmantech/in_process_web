@@ -11,7 +11,7 @@ import { Address } from "viem";
 import { Sparkles } from "lucide-react";
 import CommentAvatar from "./CommentAvatar";
 import CommentComposer from "./CommentComposer";
-import CommentLoadMoreReplies from "./CommentLoadMoreReplies";
+import CommentRepliesRail from "./CommentRepliesRail";
 import CommentReplyToLabel from "./CommentReplyToLabel";
 import CommentThreadHeader from "./CommentThreadHeader";
 import type { ReplyToTarget } from "@/types/replyToTarget";
@@ -95,16 +95,15 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
               />
             </div>
           )}
-          {flatReplies.length > 0 && (
-            <div className="mt-1 border-l border-[#EDEAE2] pl-3">
-              {flatReplies.map(({ comment: reply, replyTo: parent }) => (
-                <CommentThread key={reply.id} comment={reply} depth={1} replyTo={parent} />
-              ))}
-            </div>
-          )}
-          {hiddenReplyCount > 0 && commentId && (
-            <CommentLoadMoreReplies commentId={commentId} hiddenReplyCount={hiddenReplyCount} />
-          )}
+          <CommentRepliesRail
+            commentId={commentId}
+            hiddenReplyCount={hiddenReplyCount}
+            visibleReplyCount={flatReplies.length}
+          >
+            {flatReplies.map(({ comment: reply, replyTo: parent }) => (
+              <CommentThread key={reply.id} comment={reply} depth={1} replyTo={parent} />
+            ))}
+          </CommentRepliesRail>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import useCopy from "@/hooks/useCopy";
 import AnimatedCopyIcon from "../CopyButton/AnimatedCopyIcon";
 import { Address } from "viem";

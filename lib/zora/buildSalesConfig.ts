@@ -1,5 +1,5 @@
 import getSalesConfig from "./getSalesConfig";
-import getSaleConfigType from "@/lib/getSaleConfigType";
+import getSaleConfigType from "@/lib/zora/getSaleConfigType";
 
 const buildSalesConfig = (priceUnit: string, price: string, startDate: Date | undefined) => {
   const isUsdc = priceUnit === "usdc";

@@ -1,6 +1,6 @@
 "use client";
 
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import { ActiveArtistStats } from "@/types/activeArtists";
 import { ColumnDef } from "@tanstack/react-table";

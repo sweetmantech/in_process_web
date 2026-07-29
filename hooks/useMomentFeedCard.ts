@@ -7,7 +7,7 @@ import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useMomentClick } from "@/hooks/useMomentClick";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 export const useMomentFeedCard = (moment: TimelineMoment) => {
   const { openCollect, openComment } = useMobileDrawersProvider();

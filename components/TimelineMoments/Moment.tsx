@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import MomentHover from "./MomentHover";
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 import { TIMLINE_STEP_OFFSET } from "@/lib/consts";
 import HideButton from "./HideButton";
 import { TimelineMoment } from "@/types/moment";

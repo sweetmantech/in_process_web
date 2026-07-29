@@ -2,14 +2,18 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import useCollectAvailability from "@/hooks/useCollectAvailability";
-import getPrice from "@/lib/getPrice";
-import getPriceUnit from "@/lib/getPriceUnit";
+import getPrice from "@/lib/moment/getPrice";
+import getPriceUnit from "@/lib/moment/getPriceUnit";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { MomentType, Protocol } from "@/types/moment";
 import CommentButton from "@/components/CommentButton/CommentButton";
 import CollectAdvanced from "@/components/HomePage/CollectAdvanced";
 
-const CollectModalContents = () => {
+interface CollectModalContentsProps {
+  onSuccess?: () => void;
+}
+
+const CollectModalContents = ({ onSuccess }: CollectModalContentsProps) => {
   const { isLoading, metadata, saleConfig, protocol } = useMomentProvider();
   const { isCollectDisabled, collectCtaLabel } = useCollectAvailability();
 
@@ -36,7 +40,7 @@ const CollectModalContents = () => {
       </div>
       {protocol === Protocol.InProcess && !isCollectDisabled && <CollectAdvanced />}
       <div className="pt-3 w-full">
-        <CommentButton disabled={isCollectDisabled} label={collectCtaLabel} />
+        <CommentButton disabled={isCollectDisabled} label={collectCtaLabel} onSuccess={onSuccess} />
       </div>
     </>
   );

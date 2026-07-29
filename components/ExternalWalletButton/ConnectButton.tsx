@@ -1,4 +1,4 @@
-import { classNames } from "@/lib/classNames";
+import { classNames } from "@/lib/utils/classNames";
 import connectEOA from "@/lib/wallets/connectEOA";
 import { signWalletConnectMessage } from "@/lib/wallets/signWalletConnectMessage";
 import { useWalletsProvider } from "@/providers/WalletsProvider";

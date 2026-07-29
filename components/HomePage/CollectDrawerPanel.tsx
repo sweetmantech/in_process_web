@@ -1,8 +1,6 @@
 "use client";
 
-import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { X } from "lucide-react";
-import { useEffect } from "react";
 import CollectModalContents from "@/components/HomePage/CollectModalContents";
 
 interface CollectDrawerPanelProps {
@@ -10,12 +8,6 @@ interface CollectDrawerPanelProps {
 }
 
 const CollectDrawerPanel = ({ onClose }: CollectDrawerPanelProps) => {
-  const { collected } = useMomentCollectProvider();
-
-  useEffect(() => {
-    if (collected) onClose();
-  }, [collected, onClose]);
-
   return (
     <div className="relative flex w-full flex-col items-center pt-5">
       <button
@@ -26,7 +18,7 @@ const CollectDrawerPanel = ({ onClose }: CollectDrawerPanelProps) => {
         <X className="h-5 w-5" strokeWidth={1.5} />
       </button>
 
-      <CollectModalContents />
+      <CollectModalContents onSuccess={onClose} />
     </div>
   );
 };

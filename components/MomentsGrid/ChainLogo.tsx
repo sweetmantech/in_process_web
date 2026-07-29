@@ -1,5 +1,5 @@
 import Image from "next/image";
-import getChainLogo from "@/lib/getChainLogo";
+import getChainLogo from "@/lib/chains/getChainLogo";
 
 interface ChainLogoProps {
   chainId: number;

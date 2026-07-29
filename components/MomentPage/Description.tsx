@@ -2,28 +2,30 @@ import { useState } from "react";
 import { useMomentProvider } from "@/providers/MomentProvider";
 
 const Description = () => {
-  const truncateLength = 150;
   const { metadata } = useMomentProvider();
   const description = metadata?.description || "";
   const [isExpanded, setIsExpanded] = useState(false);
 
   if (!description) return null;
 
-  const shouldTruncate = description.length > truncateLength;
-  const displayText =
-    shouldTruncate && !isExpanded ? description.slice(0, truncateLength) + "..." : description;
+  const shouldTruncate = description.length > 130;
 
   return (
-    <div className="mt-3 md:mt-4">
-      <p className="whitespace-pre-wrap font-archivo text-sm leading-relaxed text-grey-moss-300 md:text-base">
-        {displayText}
+    <div className="mt-2.5 max-w-[560px]">
+      <p
+        className={`font-spectral text-[15px] leading-normal text-grey-moss-400 ${
+          !isExpanded && shouldTruncate ? "line-clamp-2" : ""
+        }`}
+      >
+        {description}
       </p>
       {shouldTruncate && (
         <button
+          type="button"
           onClick={() => setIsExpanded(!isExpanded)}
-          className="mt-2 font-archivo text-xs text-grey-moss-900 underline transition-colors hover:text-black md:text-sm"
+          className="mt-1 p-0 font-archivo-medium text-xs text-tan-gold transition-colors hover:text-grey-moss-900"
         >
-          {isExpanded ? "Read less" : "Read more"}
+          {isExpanded ? "show less" : "show more"}
         </button>
       )}
     </div>

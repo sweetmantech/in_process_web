@@ -6,7 +6,7 @@ import { isAddress } from "viem";
 import fetchMetadata from "@/lib/arweave/fetchMetadata";
 import CollectionPage from "@/components/CollectionPage";
 import { callGetCollectionApi } from "@/lib/collection/callGetCollectionApi";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 type Props = {
   params: Promise<{ collection: string }>;

@@ -3,9 +3,9 @@
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import useCollectAvailability from "@/hooks/useCollectAvailability";
-import getPrice from "@/lib/getPrice";
-import getPriceUnit from "@/lib/getPriceUnit";
-import truncated from "@/lib/truncated";
+import getPrice from "@/lib/moment/getPrice";
+import getPriceUnit from "@/lib/moment/getPriceUnit";
+import truncated from "@/lib/utils/truncated";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { useMomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";

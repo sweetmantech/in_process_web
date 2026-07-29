@@ -1,4 +1,4 @@
-import submitFeedback from "@/lib/submitFeedback";
+import submitFeedback from "@/lib/feedback/submitFeedback";
 import { useState } from "react";
 import useConnectedWallet from "./useConnectedWallet";
 import { Address } from "viem";

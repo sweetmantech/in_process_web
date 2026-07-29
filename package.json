@@ -45,6 +45,7 @@
     "arweave": "^1.15.7",
     "buffer": "^6.0.3",
     "canvas": "3.2.0",
+    "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -91,6 +92,7 @@
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@next/eslint-plugin-next": "^16.0.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/dom-to-image": "^2.6.7",
     "@types/dompurify": "^3.2.0",
     "@types/node": "^20.14.0",

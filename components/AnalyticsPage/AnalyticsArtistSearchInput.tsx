@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 import { Command, CommandItem, CommandList, CommandPrimitive } from "@/components/ui/command";
 import useAnalyticsArtistSearch from "@/hooks/useAnalyticsArtistSearch";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { cn } from "@/lib/utils";
 
 interface AnalyticsArtistSearchInputProps {

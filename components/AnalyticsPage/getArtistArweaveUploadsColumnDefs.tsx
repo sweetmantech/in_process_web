@@ -1,7 +1,7 @@
 "use client";
 
 import formatDate from "@/lib/date/formateDate";
-import formatFileSize from "@/lib/formatFileSize";
+import formatFileSize from "@/lib/format/formatFileSize";
 import { ArtistArweaveTransaction } from "@/types/arweave";
 import { ColumnDef } from "@tanstack/react-table";
 import SortableColumnHeader from "./SortableColumnHeader";

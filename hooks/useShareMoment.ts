@@ -1,7 +1,7 @@
 import { CHAIN, SITE_ORIGINAL_URL } from "@/lib/consts";
 import { getShortNetworkName } from "@/lib/zora/zoraToViem";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { toast } from "sonner";
 
 const useShareMoment = () => {

@@ -1,7 +1,7 @@
 "use client";
 
-import truncateAddress from "@/lib/truncateAddress";
-import formatFileSize from "@/lib/formatFileSize";
+import truncateAddress from "@/lib/utils/truncateAddress";
+import formatFileSize from "@/lib/format/formatFileSize";
 import { ArweaveUpload } from "@/types/arweave";
 import { ColumnDef } from "@tanstack/react-table";
 import SortableColumnHeader from "./SortableColumnHeader";

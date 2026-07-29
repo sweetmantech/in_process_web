@@ -1,5 +1,5 @@
-import captureImageFromVideo from "@/lib/captureImageFromVideo";
-import base64ToFile from "@/lib/base64ToFile";
+import captureImageFromVideo from "@/lib/fileSelect/captureImageFromVideo";
+import base64ToFile from "@/lib/fileSelect/base64ToFile";
 
 export interface VideoPreviewResult {
   previewFile: File;

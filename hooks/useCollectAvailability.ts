@@ -1,17 +1,19 @@
+import { CHAIN_ID, IS_TESTNET } from "@/lib/consts";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { Protocol } from "@/types/moment";
-import { base } from "viem/chains";
 
 const useCollectAvailability = () => {
   const { soldOut, isSaleActive, protocol, moment } = useMomentProvider();
   const { isLoading: isSmartWalletLoading } = useSmartAccountProvider();
 
   const isInProcess = protocol === Protocol.InProcess;
-  const isInProcessOnBase = isInProcess && moment.chainId === base.id;
+  const isInProcessOnChain = isInProcess && moment.chainId === CHAIN_ID;
+  const effectiveSoldOut = IS_TESTNET ? false : soldOut;
   const isWalletLoading = isSmartWalletLoading;
-  const isCollectDisabled = !isSaleActive || soldOut || !isInProcessOnBase || isWalletLoading;
-  const collectCtaLabel = soldOut || !isInProcessOnBase ? "Sold out" : "Collect";
+  const isCollectDisabled =
+    !isSaleActive || effectiveSoldOut || !isInProcessOnChain || isWalletLoading;
+  const collectCtaLabel = effectiveSoldOut || !isInProcessOnChain ? "Sold out" : "Collect";
 
   return { isCollectDisabled, collectCtaLabel };
 };

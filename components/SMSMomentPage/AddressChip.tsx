@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import { AirdropItem } from "@/types/airdrop";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 
 interface AddressChipProps {

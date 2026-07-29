@@ -1,4 +1,4 @@
-import base64ToFile from "@/lib/base64ToFile";
+import base64ToFile from "@/lib/fileSelect/base64ToFile";
 import { PDFJS_DIST_VERSION } from "@/lib/consts";
 import { loadPdfJs } from "@/lib/fileSelect/loadPdfJs";
 

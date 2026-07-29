@@ -1,6 +1,6 @@
 "use client";
 
-import { classNames } from "@/lib/classNames";
+import { classNames } from "@/lib/utils/classNames";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import disconnectWallet from "@/lib/wallets/disconnectWallet";

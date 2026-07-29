@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { X, Search } from "lucide-react";
 import { SearchedArtist } from "@/lib/artists/searchArtists";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { KeyboardEvent, ChangeEvent } from "react";
 
 interface SearchDrawerPanelProps {

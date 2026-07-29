@@ -1,9 +1,14 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useAirdropProvider } from "@/providers/AirdropProvider";
 
 const useAirdropRecipientsPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const { airdropToItems, onChangeAddress, removeAddress } = useAirdropProvider();
+  const {
+    airdropToItems,
+    onChangeAddress,
+    removeAddress,
+    isRecipientSearchOpen,
+    setIsRecipientSearchOpen,
+  } = useAirdropProvider();
 
   const handleRecipientClick = useCallback(
     (address: string) => {
@@ -41,8 +46,8 @@ const useAirdropRecipientsPopup = () => {
   );
 
   return {
-    isOpen,
-    setIsOpen,
+    isOpen: isRecipientSearchOpen,
+    setIsOpen: setIsRecipientSearchOpen,
     handleRecipientClick,
     isRecipientActive,
   };

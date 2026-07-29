@@ -10,6 +10,11 @@ import MomentAirdropAccordion from "./MomentAirdropAccordion";
 import MomentCollectDialog from "./MomentCollectDialog";
 
 const MomentLayout = () => {
+  const activityColumnStyle = {
+    top: "calc(64px + 2rem)",
+    height: "calc(100dvh - 64px - 4rem)",
+  } as const;
+
   return (
     <div className="mx-auto w-full max-w-[1080px] px-[18px] pb-[88px] pt-2 md:px-10 md:pb-20">
       <BackToTimeline />
@@ -30,7 +35,10 @@ const MomentLayout = () => {
           </div>
         </div>
 
-        <div className="hidden w-full shrink-0 flex-col gap-4 md:sticky md:top-24 md:flex md:max-h-[calc(100dvh-8rem)] md:w-[340px]">
+        <div
+          className="hidden w-full shrink-0 flex-col gap-4 md:sticky md:flex md:w-[340px]"
+          style={activityColumnStyle}
+        >
           <MomentActionCard />
           <MomentActivityCard />
         </div>

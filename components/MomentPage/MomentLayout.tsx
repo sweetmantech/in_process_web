@@ -11,7 +11,7 @@ import MomentCollectDialog from "./MomentCollectDialog";
 
 const MomentLayout = () => {
   return (
-    <div className="mx-auto w-full max-w-[1080px] px-[18px] pb-[88px] pt-2 md:px-10 md:pb-20">
+    <div className="mx-auto w-full max-w-[1080px] px-[18px] pb-[88px] pt-2 md:px-10 md:pb-0">
       <div className="md:hidden">
         <BackToTimeline />
       </div>

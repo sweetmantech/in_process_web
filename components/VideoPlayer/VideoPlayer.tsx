@@ -34,8 +34,10 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
     );
   }
 
+  const isNatural = variant === "natural";
+
   return (
-    <div className="flex size-full justify-center">
+    <div className={`flex justify-center ${isNatural ? "max-h-full w-full" : "size-full"}`}>
       {!isLoaded && (
         <VideoPreview
           thumbnail={thumbnail}
@@ -49,7 +51,9 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
       <video
         ref={videoRef}
         controls
-        className={`w-full rounded-md bg-grey-moss-900 ${!isLoaded ? "absolute inset-0 opacity-0" : ""}`}
+        className={`rounded-md bg-grey-moss-900 ${
+          isNatural ? "h-auto max-h-full w-full object-contain" : "w-full"
+        } ${!isLoaded ? "absolute inset-0 opacity-0" : ""}`}
         onClick={stopPropagation}
         onMouseDown={stopPropagation}
         onPointerDown={stopPropagation}

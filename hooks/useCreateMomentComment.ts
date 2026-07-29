@@ -6,7 +6,6 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { createCommentApi, CreateCommentReplyTo } from "@/lib/moment/createCommentApi";
-import resolveOnchainCommenter from "@/lib/moment/resolveOnchainCommenter";
 import { MintComment } from "@/types/moment";
 
 export type SubmitCommentArgs = {
@@ -49,9 +48,8 @@ const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentComment
       try {
         let replyTo: CreateCommentReplyTo | undefined;
         if (parent?.commentId && parent.nonce) {
-          const commenter = await resolveOnchainCommenter(parent.sender as Address);
           replyTo = {
-            commenter,
+            commenter: parent.sender as Address,
             contractAddress: moment.collectionAddress,
             tokenId: moment.tokenId,
             nonce: parent.nonce,

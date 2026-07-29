@@ -1,5 +1,5 @@
 import { getArweaveUploads } from "@/lib/admin/getArweaveUploads";
-import formatUsdcAmount from "@/lib/formatUsdcAmount";
+import formatUsdcAmount from "@/lib/format/formatUsdcAmount";
 import type {
   ArtistArweaveTransaction,
   ArweaveUpload,

@@ -1,4 +1,4 @@
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import useCopy from "@/hooks/useCopy";
 import AnimatedCopyIcon from "./AnimatedCopyIcon";
 import { cn } from "@/lib/utils";

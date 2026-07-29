@@ -1,4 +1,4 @@
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 import { useMomentProvider } from "@/providers/MomentProvider";
 
 const Title = () => {

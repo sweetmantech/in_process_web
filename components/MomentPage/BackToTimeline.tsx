@@ -2,7 +2,7 @@
 
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";

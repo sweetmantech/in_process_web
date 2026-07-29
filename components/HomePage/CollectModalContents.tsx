@@ -2,8 +2,8 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import useCollectAvailability from "@/hooks/useCollectAvailability";
-import getPrice from "@/lib/getPrice";
-import getPriceUnit from "@/lib/getPriceUnit";
+import getPrice from "@/lib/moment/getPrice";
+import getPriceUnit from "@/lib/moment/getPriceUnit";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { MomentType, Protocol } from "@/types/moment";
 import CommentButton from "@/components/CommentButton/CommentButton";

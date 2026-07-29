@@ -8,7 +8,7 @@ import { EMAIL_VERIFICATION_STATUS } from "@/types/email";
 import EmailAddressInput from "../ManagePage/EmailAddressInput";
 import EmailCodeInput from "../ManagePage/EmailCodeInput";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import DisconnectButton from "@/components/ExternalWalletButton/DisconnectButton";
 import { Fragment } from "react";
 import ConnectButton from "./ConnectButton";

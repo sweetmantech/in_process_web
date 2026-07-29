@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import useFarcasterTopup from "./useFarcasterTopup";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
-import fireCollectConfetti from "@/lib/fireCollectConfetti";
+import fireCollectConfetti from "@/lib/moment/fireCollectConfetti";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";

@@ -3,7 +3,7 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Smartphone } from "lucide-react";
-import { classNames } from "@/lib/classNames";
+import { classNames } from "@/lib/utils/classNames";
 import { usePhoneVerificationProvider } from "@/providers/PhoneVerificationProvider";
 import { PHONE_VERIFICATION_STATUS } from "@/types/phone";
 import PhoneNumberInput from "./PhoneNumberInput";

@@ -12,7 +12,7 @@ import RecentRecipientsRow from "@/components/SMSMomentPage/RecentRecipientsRow"
 import RecipientSearchSheet from "@/components/SMSMomentPage/RecipientSearchSheet";
 import AirdropSubmitButton from "@/components/SMSMomentPage/AirdropSubmitButton";
 import useMomentActionCard from "@/hooks/useMomentActionCard";
-import { CARD_CLASS, PILL_BTN_CLASS } from "@/lib/classNames";
+import { CARD_CLASS, PILL_BTN_CLASS } from "@/lib/utils/classNames";
 import { cn } from "@/lib/utils";
 
 const MomentActionCard = () => {

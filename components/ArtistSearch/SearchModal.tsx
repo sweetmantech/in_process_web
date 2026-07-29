@@ -3,7 +3,7 @@ import useSearch from "@/hooks/useSearch";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Search, ArrowUpRight, X } from "lucide-react";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { cn } from "@/lib/utils";
 import { useWindowScrolled } from "@/hooks/useWindowScrolled";
 

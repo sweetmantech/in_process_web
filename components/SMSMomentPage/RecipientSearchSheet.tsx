@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { Search, Send, X } from "lucide-react";
 import useRecipientSearch from "@/hooks/useRecipientSearch";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 const RecipientSearchSheet = () => {
   const {

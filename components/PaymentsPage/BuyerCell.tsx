@@ -1,7 +1,7 @@
 "use client";
 
 import { TableCell } from "@/components/ui/table";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import type { PaymentTransferRow } from "@/types/payments";
 import PaymentsTypeBadge from "./PaymentsTypeBadge";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";

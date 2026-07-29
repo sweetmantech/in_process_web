@@ -1,7 +1,7 @@
 "use client";
 
 import { avatarColorFor } from "@/lib/artists/avatarColorFor";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { Transfer } from "@/types/moment";
 import CopyButton from "@/components/CopyButton";
 import { EXPLORER_URL } from "@/lib/consts";

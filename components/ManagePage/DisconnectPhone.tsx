@@ -1,5 +1,5 @@
 import { Smartphone } from "lucide-react";
-import { classNames } from "@/lib/classNames";
+import { classNames } from "@/lib/utils/classNames";
 import useDisconnectPhone from "@/hooks/useDisconnectPhone";
 import { useUserProvider } from "@/providers/UserProvider";
 import ConnectionItem from "./ConnectionItem";

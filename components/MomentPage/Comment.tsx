@@ -1,6 +1,6 @@
 import { useArtistProfile } from "@/hooks/useArtistProfile";
 import { avatarColorFor } from "@/lib/artists/avatarColorFor";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { MintComment } from "@/types/moment";
 import Link from "next/link";
 import { Address } from "viem";

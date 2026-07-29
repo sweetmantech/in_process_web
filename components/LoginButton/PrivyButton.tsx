@@ -1,11 +1,11 @@
 "use client";
 
 import useConnectedWallet from "@/hooks/useConnectedWallet";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { usePrivy } from "@privy-io/react-auth";
 import { ChevronDown } from "lucide-react";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 import { useUserProvider } from "@/providers/UserProvider";
 import { cn } from "@/lib/utils";
 

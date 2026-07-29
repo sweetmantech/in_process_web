@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { config } from "@/providers/WagmiProvider";
 import { useAccount, useConnect } from "wagmi";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 
 interface WarpcastButtonProps {
   className?: string;

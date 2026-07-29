@@ -1,7 +1,7 @@
 "use client";
 
 import { Trash2 } from "lucide-react";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { Address } from "viem";
 import useRemoveMomentAdmin from "@/hooks/useRemoveMomentAdmin";
 import { useArtistProfile } from "@/hooks/useArtistProfile";

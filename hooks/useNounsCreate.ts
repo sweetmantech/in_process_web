@@ -15,7 +15,7 @@ import { submitNounsProposalTx } from "@/lib/nouns/submitNounsProposalTx";
 import { REFERRAL_RECIPIENT } from "@/lib/consts";
 import { NOUNS_CHAIN_ID } from "@/lib/nouns/consts";
 import getSalesConfig from "@/lib/zora/getSalesConfig";
-import getSaleConfigType from "@/lib/getSaleConfigType";
+import getSaleConfigType from "@/lib/zora/getSaleConfigType";
 import { NounsSalesConfig } from "@/types/nouns";
 import { Address } from "viem";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import useRecipientSearch from "@/hooks/useRecipientSearch";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 const RecentRecipientsRow = () => {
   const {

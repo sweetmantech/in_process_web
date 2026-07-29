@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentPropsWithoutRef, forwardRef } from "react";
-import { classNames } from "@/lib/classNames";
+import { classNames } from "@/lib/utils/classNames";
 
 const ConnectButton = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<"button">>(
   (props, ref) => (

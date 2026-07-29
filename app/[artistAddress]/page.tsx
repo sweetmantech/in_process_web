@@ -1,7 +1,7 @@
 import { Metadata, NextPage } from "next";
 import ArtistPage from "@/components/ArtistPage";
 import { SITE_ORIGINAL_URL, IN_PROCESS_API } from "@/lib/consts";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { Address } from "viem";
 import { getArtistProfile } from "@/lib/artists/getArtistProfile";
 

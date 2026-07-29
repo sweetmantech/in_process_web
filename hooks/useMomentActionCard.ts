@@ -6,7 +6,7 @@ import useShareMoment from "@/hooks/useShareMoment";
 import useDownload from "@/hooks/useDownload";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
 import { getSalePriceParts } from "@/lib/moment/getSalePriceParts";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";

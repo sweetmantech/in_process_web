@@ -6,8 +6,8 @@ import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
-import truncated from "@/lib/truncated";
-import truncateAddress from "@/lib/truncateAddress";
+import truncated from "@/lib/utils/truncated";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 export const useMobileUserDrawer = () => {
   const { toggleDrawer, closeDrawer, isDrawerOpen } = useMobileDrawersProvider();

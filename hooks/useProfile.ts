@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useArtistProfile } from "./useArtistProfile";
 import { Address } from "viem";
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);

@@ -1,5 +1,5 @@
-import getPrice from "@/lib/getPrice";
-import getPriceUnit from "@/lib/getPriceUnit";
+import getPrice from "@/lib/moment/getPrice";
+import getPriceUnit from "@/lib/moment/getPriceUnit";
 import { MomentSaleConfig, MomentType } from "@/types/moment";
 
 export const getSalePriceParts = (

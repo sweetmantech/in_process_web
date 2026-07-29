@@ -2,7 +2,7 @@ import { useMomentClick } from "@/hooks/useMomentClick";
 import { Skeleton } from "@/components/ui/skeleton";
 import ContentRenderer from "@/components/Renderers";
 import { TimelineMoment } from "@/types/moment";
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 
 interface MobileMomentCardProps {
   moment: TimelineMoment | undefined;

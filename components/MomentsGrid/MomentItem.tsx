@@ -1,6 +1,6 @@
-import truncateAddress from "@/lib/truncateAddress";
+import truncateAddress from "@/lib/utils/truncateAddress";
 import { usePathname, useRouter } from "next/navigation";
-import truncated from "@/lib/truncated";
+import truncated from "@/lib/utils/truncated";
 import HideButton from "@/components/TimelineMoments/HideButton";
 import { type TimelineMoment } from "@/types/moment";
 import { ArrowUpRight } from "lucide-react";

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { EmojiText } from "@/components/EmojiText";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
+import flattenReplyEntries from "@/lib/moment/flattenReplyEntries";
+import getCommentPreview from "@/lib/moment/getCommentPreview";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import { MintComment } from "@/types/moment";
 import { Address } from "viem";
@@ -10,11 +12,13 @@ import { Sparkles } from "lucide-react";
 import CommentAvatar from "./CommentAvatar";
 import CommentComposer from "./CommentComposer";
 import CommentLoadMoreReplies from "./CommentLoadMoreReplies";
-import CommentReplyToLabel, { type ReplyToTarget } from "./CommentReplyToLabel";
+import CommentReplyToLabel from "./CommentReplyToLabel";
 import CommentThreadHeader from "./CommentThreadHeader";
+import type { ReplyToTarget } from "@/types/replyToTarget";
 
 type CommentThreadProps = {
   comment: MintComment;
+  /** Only top-level threads nest a reply rail; nested rows stay depth 1. */
   depth?: number;
   replyTo?: ReplyToTarget;
 };
@@ -37,11 +41,12 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
   const timelineHref = `/${(sender as Address).toLowerCase()}`;
   const showReply = canReplyTo(comment);
   const hiddenReplyCount = Math.max(0, replyCount - replies.length);
-  const childReplyTo: ReplyToTarget = { displayName, href: timelineHref };
-
-  const replyNodes = replies.map((reply) => (
-    <CommentThread key={reply.id} comment={reply} depth={depth + 1} replyTo={childReplyTo} />
-  ));
+  const childReplyTo: ReplyToTarget = {
+    displayName,
+    href: timelineHref,
+    commentPreview: getCommentPreview(comment),
+  };
+  const flatReplies = depth === 0 ? flattenReplyEntries(replies, childReplyTo) : [];
 
   return (
     <div className={depth === 0 ? "border-t border-[#EDEAE2] py-[13px] first:border-t-0" : "pt-3"}>
@@ -52,7 +57,13 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
           href={timelineHref}
         />
         <div className="min-w-0 flex-1">
-          {replyTo && <CommentReplyToLabel displayName={replyTo.displayName} href={replyTo.href} />}
+          {replyTo && (
+            <CommentReplyToLabel
+              displayName={replyTo.displayName}
+              href={replyTo.href}
+              commentPreview={replyTo.commentPreview}
+            />
+          )}
           {commentText?.trim() ? (
             <EmojiText
               text={commentText}
@@ -84,12 +95,13 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
               />
             </div>
           )}
-          {replies.length > 0 &&
-            (depth === 0 ? (
-              <div className="mt-1 border-l border-[#EDEAE2] pl-3">{replyNodes}</div>
-            ) : (
-              replyNodes
-            ))}
+          {flatReplies.length > 0 && (
+            <div className="mt-1 border-l border-[#EDEAE2] pl-3">
+              {flatReplies.map(({ comment: reply, replyTo: parent }) => (
+                <CommentThread key={reply.id} comment={reply} depth={1} replyTo={parent} />
+              ))}
+            </div>
+          )}
           {hiddenReplyCount > 0 && commentId && (
             <CommentLoadMoreReplies commentId={commentId} hiddenReplyCount={hiddenReplyCount} />
           )}

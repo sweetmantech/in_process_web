@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MintComment } from "@/types/moment";
-import CommentReplyToLabel, { type ReplyToTarget } from "./CommentReplyToLabel";
+import CommentReplyToLabel from "./CommentReplyToLabel";
+import type { ReplyToTarget } from "@/types/replyToTarget";
 
 type CommentComposerProps = {
   parent?: MintComment;
@@ -37,7 +38,13 @@ const CommentComposer = ({
 
   return (
     <div className="flex flex-col gap-2">
-      {replyTo && <CommentReplyToLabel displayName={replyTo.displayName} href={replyTo.href} />}
+      {replyTo && (
+        <CommentReplyToLabel
+          displayName={replyTo.displayName}
+          href={replyTo.href}
+          commentPreview={replyTo.commentPreview}
+        />
+      )}
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}

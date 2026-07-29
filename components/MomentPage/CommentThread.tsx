@@ -3,27 +3,26 @@
 import { useState } from "react";
 import { EmojiText } from "@/components/EmojiText";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
-import { avatarColorFor } from "@/lib/artists/avatarColorFor";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import { MintComment } from "@/types/moment";
-import Link from "next/link";
 import { Address } from "viem";
 import { Sparkles } from "lucide-react";
+import CommentAvatar from "./CommentAvatar";
 import CommentComposer from "./CommentComposer";
-import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
+import CommentLoadMoreReplies from "./CommentLoadMoreReplies";
+import CommentReplyToLabel, { type ReplyToTarget } from "./CommentReplyToLabel";
+import CommentThreadHeader from "./CommentThreadHeader";
 
 type CommentThreadProps = {
   comment: MintComment;
   depth?: number;
+  replyTo?: ReplyToTarget;
 };
 
 const canReplyTo = (comment: MintComment) => Boolean(comment.commentId && comment.nonce);
 
-export const CommentThread = ({ comment, depth = 0 }: CommentThreadProps) => {
+export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProps) => {
   const [isReplying, setIsReplying] = useState(false);
-  const [isLoadingReplies, setIsLoadingReplies] = useState(false);
-  const { loadMoreReplies } = useMomentCommentsProvider();
-
   const {
     sender,
     username,
@@ -34,38 +33,27 @@ export const CommentThread = ({ comment, depth = 0 }: CommentThreadProps) => {
     commentId,
   } = comment;
   const { data } = useArtistProfile(!username ? (sender as Address) : undefined);
-  const truncatedAddress = truncateAddress(sender);
-  const displayName = username || data?.username || truncatedAddress;
-  const initial = displayName.charAt(0).toLowerCase();
+  const displayName = username || data?.username || truncateAddress(sender);
   const timelineHref = `/${(sender as Address).toLowerCase()}`;
-  const hasText = Boolean(commentText?.trim());
   const showReply = canReplyTo(comment);
   const hiddenReplyCount = Math.max(0, replyCount - replies.length);
+  const childReplyTo: ReplyToTarget = { displayName, href: timelineHref };
 
-  const handleLoadMore = async () => {
-    if (!commentId || isLoadingReplies) return;
-    setIsLoadingReplies(true);
-    try {
-      await loadMoreReplies(commentId);
-    } finally {
-      setIsLoadingReplies(false);
-    }
-  };
+  const replyNodes = replies.map((reply) => (
+    <CommentThread key={reply.id} comment={reply} depth={depth + 1} replyTo={childReplyTo} />
+  ));
 
   return (
     <div className={depth === 0 ? "border-t border-[#EDEAE2] py-[13px] first:border-t-0" : "pt-3"}>
       <div className="flex gap-3">
-        <Link
+        <CommentAvatar
+          sender={sender}
+          initial={displayName.charAt(0).toLowerCase()}
           href={timelineHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex size-[30px] shrink-0 items-center justify-center rounded-full font-archivo-bold text-xs text-white"
-          style={{ background: avatarColorFor(sender) }}
-        >
-          {initial}
-        </Link>
+        />
         <div className="min-w-0 flex-1">
-          {hasText ? (
+          {replyTo && <CommentReplyToLabel displayName={replyTo.displayName} href={replyTo.href} />}
+          {commentText?.trim() ? (
             <EmojiText
               text={commentText}
               className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900"
@@ -76,33 +64,19 @@ export const CommentThread = ({ comment, depth = 0 }: CommentThreadProps) => {
               collected
             </div>
           )}
-          <div className="flex flex-wrap items-baseline gap-2.5">
-            <Link
-              href={timelineHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-archivo-medium text-[13px] text-grey-moss-900 transition-colors hover:text-tan-gold"
-            >
-              {displayName}
-            </Link>
-            <span className="font-archivo text-[11px] text-tan-gold">
-              {new Date(timestamp).toLocaleString()}
-            </span>
-            {showReply && (
-              <button
-                type="button"
-                onClick={() => setIsReplying((open) => !open)}
-                className="font-archivo text-[11px] uppercase tracking-wide text-grey-moss-300 transition-colors hover:text-tan-gold"
-              >
-                {isReplying ? "cancel" : "reply"}
-              </button>
-            )}
-          </div>
-
+          <CommentThreadHeader
+            displayName={displayName}
+            timelineHref={timelineHref}
+            timestamp={timestamp}
+            showReply={showReply}
+            isReplying={isReplying}
+            onToggleReply={() => setIsReplying((open) => !open)}
+          />
           {isReplying && (
             <div className="mt-3">
               <CommentComposer
                 parent={comment}
+                replyTo={childReplyTo}
                 placeholder="write a reply…"
                 submitLabel="reply"
                 autoFocus
@@ -110,26 +84,14 @@ export const CommentThread = ({ comment, depth = 0 }: CommentThreadProps) => {
               />
             </div>
           )}
-
-          {replies.length > 0 && (
-            <div className="mt-1 border-l border-[#EDEAE2] pl-3">
-              {replies.map((reply) => (
-                <CommentThread key={reply.id} comment={reply} depth={depth + 1} />
-              ))}
-            </div>
-          )}
-
-          {hiddenReplyCount > 0 && (
-            <button
-              type="button"
-              onClick={handleLoadMore}
-              disabled={isLoadingReplies}
-              className="mt-2 font-archivo text-[11px] uppercase tracking-wide text-tan-gold transition-opacity hover:opacity-80 disabled:opacity-40"
-            >
-              {isLoadingReplies
-                ? "loading…"
-                : `view ${hiddenReplyCount} more ${hiddenReplyCount === 1 ? "reply" : "replies"}`}
-            </button>
+          {replies.length > 0 &&
+            (depth === 0 ? (
+              <div className="mt-1 border-l border-[#EDEAE2] pl-3">{replyNodes}</div>
+            ) : (
+              replyNodes
+            ))}
+          {hiddenReplyCount > 0 && commentId && (
+            <CommentLoadMoreReplies commentId={commentId} hiddenReplyCount={hiddenReplyCount} />
           )}
         </div>
       </div>

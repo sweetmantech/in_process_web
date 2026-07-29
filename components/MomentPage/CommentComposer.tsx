@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MintComment } from "@/types/moment";
+import CommentReplyToLabel, { type ReplyToTarget } from "./CommentReplyToLabel";
 
 type CommentComposerProps = {
   parent?: MintComment;
+  replyTo?: ReplyToTarget;
   placeholder?: string;
   submitLabel?: string;
   onSuccess?: () => void;
@@ -14,6 +16,7 @@ type CommentComposerProps = {
 
 const CommentComposer = ({
   parent,
+  replyTo,
   placeholder = "write a comment…",
   submitLabel = "post",
   onSuccess,
@@ -34,6 +37,7 @@ const CommentComposer = ({
 
   return (
     <div className="flex flex-col gap-2">
+      {replyTo && <CommentReplyToLabel displayName={replyTo.displayName} href={replyTo.href} />}
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}

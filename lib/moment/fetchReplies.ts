@@ -1,6 +1,6 @@
 import { Moment, MintComment } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
-import withCommentDefaults from "@/lib/moment/withCommentDefaults";
+import mapCommentsTree from "@/lib/moment/mapCommentsTree";
 
 async function fetchReplies({
   moment,
@@ -27,7 +27,7 @@ async function fetchReplies({
     }
 
     const data: { comments?: MintComment[] } = await response.json();
-    return (data.comments ?? []).map(withCommentDefaults);
+    return mapCommentsTree(data.comments ?? []);
   } catch (error) {
     console.error(error);
     return [];

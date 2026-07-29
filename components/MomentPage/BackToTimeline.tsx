@@ -5,21 +5,12 @@ import { useArtistProfile } from "@/hooks/useArtistProfile";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const BackToTimeline = () => {
   const { owner } = useMomentProvider();
-  const { data: artistProfile, isLoading } = useArtistProfile(owner || undefined);
+  const { data: artistProfile } = useArtistProfile(owner || undefined);
 
   if (!owner) return null;
-
-  if (isLoading) {
-    return (
-      <div className="mb-3">
-        <Skeleton className="h-5 w-48" />
-      </div>
-    );
-  }
 
   const displayName = artistProfile?.username || truncateAddress(owner);
 

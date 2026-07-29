@@ -18,8 +18,11 @@ const Comments = () => {
   if (isLoading)
     return (
       <CommentsContainer>
-        <Skeleton className="my-4 h-20 w-full rounded-lg" />
-        <Skeleton className="mb-4 h-20 w-full rounded-lg" />
+        <div className="space-y-3 py-3">
+          <Skeleton className="h-14 w-full rounded-lg" />
+          <Skeleton className="h-14 w-full rounded-lg" />
+          <Skeleton className="h-14 w-full rounded-lg" />
+        </div>
       </CommentsContainer>
     );
 

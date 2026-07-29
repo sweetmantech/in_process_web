@@ -32,7 +32,7 @@ const MomentActivityCard = () => {
     <div
       className={cn(
         "overflow-hidden bg-white",
-        "md:flex md:min-h-0 md:flex-1 md:flex-col md:rounded-[10px] md:border md:border-[#E4E0D7] md:shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
+        "md:flex md:h-full md:min-h-0 md:flex-col md:rounded-[10px] md:border md:border-[#E4E0D7] md:shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
       )}
     >
       <div className="flex items-center gap-1 border-b border-[#DDD8CC] px-2">

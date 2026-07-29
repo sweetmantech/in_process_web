@@ -6,7 +6,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { createCommentApi, CreateCommentReplyTo } from "@/lib/moment/createCommentApi";
-import fetchOperationalSmartWallet from "@/lib/smartwallets/fetchOperationalSmartWallet";
+import resolveOnchainCommenter from "@/lib/moment/resolveOnchainCommenter";
 import { MintComment } from "@/types/moment";
 
 export type SubmitCommentArgs = {
@@ -19,14 +19,6 @@ type UseCreateMomentCommentArgs = {
   addComment: (comment: MintComment) => void;
   addReply: (parentCommentId: string, reply: MintComment) => void;
 };
-
-async function resolveOnchainCommenter(sender: Address): Promise<Address> {
-  try {
-    return await fetchOperationalSmartWallet(sender);
-  } catch {
-    return sender;
-  }
-}
 
 const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentCommentArgs) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -88,6 +88,9 @@ importers:
       "@tanstack/react-table":
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      "@twemoji/api":
+        specifier: ^17.0.3
+        version: 17.0.3
       "@vercel/analytics":
         specifier: ^1.6.1
         version: 1.6.1(next@16.0.7(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
@@ -4267,6 +4270,18 @@ packages:
         integrity: sha512-1YBOJfRHV4sXUmWsFSf5rQor4Ss82G8dQWLRbnk3GA4jeP8hQt1hxXh0tmflpC0dz3VgEv/1+qwPyLeWkQuPFA==,
       }
 
+  "@twemoji/api@17.0.3":
+    resolution:
+      {
+        integrity: sha512-iwERjxY0QgPGVwT6b1OKG0Oa9nIfHhJw+Ij1TapTBMKTvVCU6qdXPXX/XKwxKx5QZIJW5GwELUCtw8wlaIQ2ug==,
+      }
+
+  "@twemoji/parser@17.0.2":
+    resolution:
+      {
+        integrity: sha512-X/P7pHsGOxnrupQYUVetIeuxBGgffFu8CLwoPMMjH9CWmQvlXiCpbTW/BXxMOCWXQojgHdmgdvm6IsCqAQ5nxA==,
+      }
+
   "@tybys/wasm-util@0.10.1":
     resolution:
       {
@@ -7224,6 +7239,13 @@ packages:
         integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==,
       }
 
+  fs-extra@8.1.0:
+    resolution:
+      {
+        integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==,
+      }
+    engines: { node: ">=6 <7 || >=8" }
+
   fsevents@2.3.3:
     resolution:
       {
@@ -7373,6 +7395,12 @@ packages:
         integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==,
       }
     engines: { node: ">= 0.4" }
+
+  graceful-fs@4.2.11:
+    resolution:
+      {
+        integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==,
+      }
 
   graphemer@1.4.0:
     resolution:
@@ -8179,6 +8207,18 @@ packages:
       }
     engines: { node: ">=6" }
     hasBin: true
+
+  jsonfile@4.0.0:
+    resolution:
+      {
+        integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==,
+      }
+
+  jsonfile@5.0.0:
+    resolution:
+      {
+        integrity: sha512-NQRZ5CRo74MhMMC3/3r5g2k4fjodJ/wh8MxjFbCViWKFjxrnudWSY5vomh+23ZaXzAS7J3fBZIR2dV6WbmfM0w==,
+      }
 
   jsx-ast-utils@3.3.5:
     resolution:
@@ -10956,6 +10996,13 @@ packages:
         integrity: sha512-ZgpWDC5gmNiuY9CnLVXEH8rl50xhRCuLNA97fAUnKi8RRuV4E6KG31pDTsLVUKnohJE0I3XDrTeEydAXRw47xg==,
       }
     engines: { node: ">=18.17" }
+
+  universalify@0.1.2:
+    resolution:
+      {
+        integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==,
+      }
+    engines: { node: ">= 4.0.0" }
 
   unrs-resolver@1.11.1:
     resolution:
@@ -15569,6 +15616,15 @@ snapshots:
 
   "@tanstack/virtual-core@3.13.12": {}
 
+  "@twemoji/api@17.0.3":
+    dependencies:
+      "@twemoji/parser": 17.0.2
+      fs-extra: 8.1.0
+      jsonfile: 5.0.0
+      universalify: 0.1.2
+
+  "@twemoji/parser@17.0.2": {}
+
   "@tybys/wasm-util@0.10.1":
     dependencies:
       tslib: 2.8.1
@@ -18368,6 +18424,12 @@ snapshots:
 
   fs-constants@1.0.0: {}
 
+  fs-extra@8.1.0:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 4.0.0
+      universalify: 0.1.2
+
   fsevents@2.3.3:
     optional: true
 
@@ -18449,6 +18511,8 @@ snapshots:
       gopd: 1.2.0
 
   gopd@1.2.0: {}
+
+  graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
 
@@ -18913,6 +18977,16 @@ snapshots:
       minimist: 1.2.8
 
   json5@2.2.3: {}
+
+  jsonfile@4.0.0:
+    optionalDependencies:
+      graceful-fs: 4.2.11
+
+  jsonfile@5.0.0:
+    dependencies:
+      universalify: 0.1.2
+    optionalDependencies:
+      graceful-fs: 4.2.11
 
   jsx-ast-utils@3.3.5:
     dependencies:
@@ -20766,6 +20840,8 @@ snapshots:
 
   undici@6.25.0:
     optional: true
+
+  universalify@0.1.2: {}
 
   unrs-resolver@1.11.1:
     dependencies:

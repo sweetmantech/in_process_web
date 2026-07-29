@@ -1,3 +1,4 @@
+import { EmojiText } from "@/components/EmojiText";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
 import { avatarColorFor } from "@/lib/artists/avatarColorFor";
 import truncateAddress from "@/lib/utils/truncateAddress";
@@ -28,9 +29,10 @@ export const Comment = (comment: MintComment) => {
       </Link>
       <div className="min-w-0 flex-1">
         {hasText ? (
-          <p className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900 [font-variant-emoji:emoji]">
-            {commentText}
-          </p>
+          <EmojiText
+            text={commentText}
+            className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900"
+          />
         ) : (
           <div className="mb-1 inline-flex items-center gap-1.5 font-archivo text-[11.5px] text-[#8B8474]">
             <Sparkles className="size-3 text-tan-gold" strokeWidth={1.75} />

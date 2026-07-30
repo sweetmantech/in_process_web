@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { Address } from "viem";
 import { toast } from "sonner";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
@@ -7,7 +8,9 @@ import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import isCommentHolderError from "@/lib/errors/isCommentHolderError";
 import { createCommentApi, CreateCommentReplyTo } from "@/lib/moment/createCommentApi";
+import { bumpTimelineCommentCount } from "@/lib/timeline/bumpTimelineCommentCount";
 import { MintComment } from "@/types/moment";
+import { TimelineResponse } from "@/types/timeline";
 
 export type SubmitCommentArgs = {
   text: string;
@@ -26,6 +29,7 @@ const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentComment
   const { getAuthHeaders } = useAuthorizationProvider();
   const { isPrepared, username } = useUserProvider();
   const { primaryWallet } = useWalletsProvider();
+  const queryClient = useQueryClient();
 
   const submitComment = useCallback(
     async ({ text, parent }: SubmitCommentArgs): Promise<boolean> => {
@@ -84,6 +88,10 @@ const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentComment
           addComment(optimistic);
         }
 
+        queryClient.setQueriesData<InfiniteData<TimelineResponse>>(
+          { queryKey: ["timeline"] },
+          (data) => bumpTimelineCommentCount(data, moment)
+        );
         toast.success(parent ? "reply posted" : "comment posted");
         return true;
       } catch (error: unknown) {
@@ -97,7 +105,7 @@ const useCreateMomentComment = ({ addComment, addReply }: UseCreateMomentComment
         setIsSubmitting(false);
       }
     },
-    [addComment, addReply, getAuthHeaders, isPrepared, moment, primaryWallet, username]
+    [addComment, addReply, getAuthHeaders, isPrepared, moment, primaryWallet, queryClient, username]
   );
 
   return { submitComment, isSubmitting };

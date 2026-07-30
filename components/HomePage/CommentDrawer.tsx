@@ -11,15 +11,16 @@ import { getMomentSeed } from "@/lib/moment/getMomentSeed";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { cn } from "@/lib/utils";
 
 const headerClass =
   "flex shrink-0 items-center justify-between gap-3 border-b border-[#DDD8CC] px-[18px] pb-3 pt-4";
-const titleClass =
-  "font-archivo-bold text-xs uppercase tracking-[0.06em] text-grey-moss-900";
+const titleClass = "font-archivo-bold text-xs uppercase tracking-[0.06em] text-grey-moss-900";
 
 const CommentDrawer = () => {
   const { isDrawerOpen, commentMoment, closeDrawer } = useMobileDrawersProvider();
+  const { moments } = useTimelineProvider();
   const isOpen = isDrawerOpen("comment");
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);
@@ -29,7 +30,8 @@ const CommentDrawer = () => {
   if (!commentMoment) return null;
 
   const moment = getMomentKey(commentMoment);
-  const commentCount = commentMoment.comments ?? 0;
+  const commentCount =
+    moments.find((entry) => entry.id === commentMoment.id)?.comments ?? commentMoment.comments ?? 0;
   const title = commentCount > 0 ? `comments (${commentCount.toLocaleString()})` : "comments";
 
   const closeButton = (

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { X } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import Comments from "@/components/MomentPage/Comments";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -11,6 +12,11 @@ import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { cn } from "@/lib/utils";
+
+const headerClass =
+  "flex shrink-0 items-center justify-between gap-3 border-b border-[#DDD8CC] px-[18px] pb-3 pt-4";
+const titleClass =
+  "font-archivo-bold text-xs uppercase tracking-[0.06em] text-grey-moss-900";
 
 const CommentDrawer = () => {
   const { isDrawerOpen, commentMoment, closeDrawer } = useMobileDrawersProvider();
@@ -25,6 +31,17 @@ const CommentDrawer = () => {
   const moment = getMomentKey(commentMoment);
   const commentCount = commentMoment.comments ?? 0;
   const title = commentCount > 0 ? `comments (${commentCount.toLocaleString()})` : "comments";
+
+  const closeButton = (
+    <button
+      type="button"
+      onClick={closeDrawer}
+      aria-label="Close comments"
+      className="flex shrink-0 items-center text-grey-moss-400 active:opacity-70"
+    >
+      <X className="size-5" strokeWidth={1.5} />
+    </button>
+  );
 
   const body = (
     <MomentProvider
@@ -44,9 +61,10 @@ const CommentDrawer = () => {
     return (
       <Dialog open={isOpen} onOpenChange={(open) => !open && closeDrawer()}>
         <DialogContent className="flex h-[min(85vh,640px)] w-[calc(100%-2rem)] max-w-md flex-col !gap-0 overflow-hidden !rounded-lg border-none !bg-white p-0 shadow-lg">
-          <DialogTitle className="shrink-0 border-b border-[#DDD8CC] px-[18px] pb-3 pt-4 text-left font-archivo-bold text-xs uppercase tracking-[0.06em] text-grey-moss-900">
-            {title}
-          </DialogTitle>
+          <div className={headerClass}>
+            <DialogTitle className={cn(titleClass, "text-left")}>{title}</DialogTitle>
+            {closeButton}
+          </div>
           {body}
         </DialogContent>
       </Dialog>
@@ -65,9 +83,10 @@ const CommentDrawer = () => {
         isOpen ? "translate-y-0" : "pointer-events-none translate-y-[2000px]"
       )}
     >
-      <h2 className="shrink-0 border-b border-[#DDD8CC] px-[18px] pb-3 pt-4 font-archivo-bold text-xs uppercase tracking-[0.06em] text-grey-moss-900">
-        {title}
-      </h2>
+      <div className={headerClass}>
+        <h2 className={titleClass}>{title}</h2>
+        {closeButton}
+      </div>
       {body}
     </div>,
     document.body

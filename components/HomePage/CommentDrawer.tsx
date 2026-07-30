@@ -1,10 +1,9 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import CollectModalContents from "@/components/MomentPage/CollectModalContents";
+import CommentComposer from "@/components/MomentPage/CommentComposer";
 import { getMomentKey } from "@/lib/moment/getMomentKey";
 import { getMomentSeed } from "@/lib/moment/getMomentSeed";
-import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
@@ -20,9 +19,9 @@ const CommentDrawer = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && closeDrawer()}>
-      <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-lg border-none !bg-white bg-transparent px-8 py-10 shadow-lg">
+      <DialogContent className="flex w-[calc(100%-2rem)] max-w-sm flex-col !gap-0 overflow-hidden !rounded-lg border-none !bg-white px-5 py-5 shadow-lg">
         <VisuallyHidden>
-          <DialogTitle>Collect</DialogTitle>
+          <DialogTitle>Comment</DialogTitle>
         </VisuallyHidden>
         <MomentProvider
           key={commentMoment.id}
@@ -30,9 +29,12 @@ const CommentDrawer = () => {
           initialData={getMomentSeed(commentMoment)}
         >
           <MomentCommentsProvider>
-            <MomentCollectProvider>
-              <CollectModalContents />
-            </MomentCollectProvider>
+            <CommentComposer
+              placeholder="add a comment…"
+              submitLabel="add comment"
+              autoFocus
+              onSuccess={closeDrawer}
+            />
           </MomentCommentsProvider>
         </MomentProvider>
       </DialogContent>

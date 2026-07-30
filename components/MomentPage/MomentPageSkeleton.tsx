@@ -1,6 +1,5 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { CARD_CLASS } from "@/lib/utils/classNames";
-import { MOBILE_CREATE_FAB_GUTTER_PX, mobileFooterBottomStyle } from "@/lib/layout/mobileFooter";
 
 const MomentPageSkeleton = () => {
   return (
@@ -51,17 +50,9 @@ const MomentPageSkeleton = () => {
         </div>
       </div>
 
-      <div
-        className="fixed left-0 right-0 z-[55] flex items-center border-t border-[#E4E0D7] bg-white px-[18px] py-2.5 md:hidden"
-        style={mobileFooterBottomStyle}
-      >
-        <div className="flex min-w-0 flex-1 items-center justify-start pr-1">
-          <Skeleton className="h-6 w-16" />
-        </div>
-        <div className="shrink-0" style={{ width: MOBILE_CREATE_FAB_GUTTER_PX }} />
-        <div className="flex min-w-0 flex-1 items-center justify-end pl-1">
-          <Skeleton className="h-11 w-full rounded-[11px]" />
-        </div>
+      <div className="fixed bottom-[calc(74px+env(safe-area-inset-bottom,0px))] left-0 right-0 z-[55] flex items-center justify-around gap-3 border-t border-[#E4E0D7] bg-white px-[18px] py-2.5 md:hidden">
+        <Skeleton className="h-6 w-16 shrink-0" />
+        <Skeleton className="h-11 w-28 shrink-0 rounded-[11px]" />
       </div>
     </div>
   );

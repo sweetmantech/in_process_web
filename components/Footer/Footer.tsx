@@ -1,6 +1,7 @@
 "use client";
 
 import { House, Plus } from "lucide-react";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import NotificationButton from "@/components/NotificationButton";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
@@ -46,25 +47,22 @@ const Footer = () => {
           </>
         )}
 
-        <span className="w-20 shrink-0" aria-hidden />
-
-        <button
-          type="button"
-          aria-label="Create"
-          onClick={() => {
-            closeDrawer();
-            push("/create");
-          }}
-          className={cn(
-            "absolute left-1/2 top-0 z-10 flex h-20 w-20 -translate-x-1/2 -translate-y-[26%] items-center justify-center rounded-full border-4 border-white shadow-[0_4px_14px_-4px_rgba(27,21,4,.35)] transition-opacity active:opacity-80",
-            isCreatePage ? "bg-tan-gold text-white" : "bg-grey-moss-900 text-white"
-          )}
-        >
-          <Plus className="h-9 w-9" strokeWidth={2} />
-        </button>
+        <span className="pointer-events-none w-20 shrink-0" aria-hidden />
 
         <FeedbackDrawer />
         <UserDrawer />
+
+        <Link
+          href="/create"
+          aria-label="Create"
+          onClick={closeDrawer}
+          className={cn(
+            "absolute left-1/2 top-0 z-50 flex h-20 w-20 -translate-x-1/2 -translate-y-[26%] touch-manipulation items-center justify-center rounded-full border-4 border-white shadow-[0_4px_14px_-4px_rgba(27,21,4,.35)] transition-opacity active:opacity-80",
+            isCreatePage ? "bg-tan-gold text-white" : "bg-grey-moss-900 text-white"
+          )}
+        >
+          <Plus className="pointer-events-none h-9 w-9" strokeWidth={2} />
+        </Link>
       </div>
     </div>
   );

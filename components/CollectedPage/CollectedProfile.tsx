@@ -12,9 +12,16 @@ import type { CollectingStats } from "@/types/collectingStats";
 type Props = {
   collectingStats?: CollectingStats;
   isStatsLoading: boolean;
+  collectedCount?: number;
+  isCollectedCountLoading?: boolean;
 };
 
-const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
+const CollectedProfile = ({
+  collectingStats,
+  isStatsLoading,
+  collectedCount,
+  isCollectedCountLoading = false,
+}: Props) => {
   const {
     isEditing,
     toggleEditing,
@@ -29,17 +36,23 @@ const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
   } = useProfileProvider();
   const { isEditable } = useArtistEditable();
 
-  const collectedCount = collectingStats?.collected_count ?? 0;
+  const momentsCollected = collectedCount ?? 0;
   const ethSpent = collectingStats?.eth_spent ?? "0";
   const usdcSpent = collectingStats?.usdc_spent ?? "0";
   const showStatsLoading = isStatsLoading && !collectingStats;
+  const showCountLoading = isCollectedCountLoading && collectedCount == null;
 
   const stats = [
-    { value: String(collectedCount), label: "moments collected" },
-    { value: `${formatCollectedStatValue(ethSpent)} ETH`, label: "eth spent" },
+    { value: String(momentsCollected), label: "moments collected", loading: showCountLoading },
+    {
+      value: `${formatCollectedStatValue(ethSpent)} ETH`,
+      label: "eth spent",
+      loading: showStatsLoading,
+    },
     {
       value: `$${formatCollectedStatValue(usdcSpent, { maximumFractionDigits: 0 })}`,
       label: "usdc spent",
+      loading: showStatsLoading,
     },
   ];
 
@@ -95,7 +108,7 @@ const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
             className={`px-[22px] py-1.5 text-right ${index === 0 ? "" : "border-l border-[rgba(28,26,23,0.12)]"}`}
           >
             <div className="whitespace-nowrap font-spectral-medium text-[25px] leading-none text-[#1c1a17]">
-              {showStatsLoading ? <Skeleton className="ml-auto h-6 w-16" /> : stat.value}
+              {stat.loading ? <Skeleton className="ml-auto h-6 w-16" /> : stat.value}
             </div>
             <div className="mt-[7px] font-mono text-[9.5px] uppercase tracking-[0.13em] text-[#8a8578]">
               {stat.label}

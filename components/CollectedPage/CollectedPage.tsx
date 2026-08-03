@@ -11,22 +11,33 @@ import { useCollectedPageState } from "./useCollectedPageState";
 import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import CommentDrawer from "@/components/HomePage/CommentDrawer";
+import FetchMore from "@/components/FetchMore";
 
 const DesktopCollectedPage = ({ address }: { address: Address }) => {
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
-  const { data: transfersData, isLoading: isTransfersLoading } = useCollectorTransfers(address);
-  const sourceTransfers = transfersData?.transfers ?? [];
+  const {
+    transfers: sourceTransfers,
+    collectedCount,
+    isLoading: isTransfersLoading,
+    hasNextPage,
+    fetchMore,
+  } = useCollectorTransfers(address);
 
   const { transfers, typeTabs, contentType, setContentType } = useCollectedPageState({
     transfers: sourceTransfers,
-    collectedCount: transfersData?.pagination.total_count ?? sourceTransfers.length,
+    collectedCount,
   });
 
   return (
     <>
       <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn text-[#1c1a17]">
         <div className="relative grow px-[26px] pb-11 pt-[22px]">
-          <CollectedProfile collectingStats={collectingStats} isStatsLoading={isStatsLoading} />
+          <CollectedProfile
+            collectingStats={collectingStats}
+            isStatsLoading={isStatsLoading}
+            collectedCount={collectedCount}
+            isCollectedCountLoading={isTransfersLoading}
+          />
           <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
           {isTransfersLoading ? (
             <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
@@ -37,11 +48,14 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
               No collected moments yet.
             </div>
           ) : (
-            <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
-              {transfers.map((transfer) => (
-                <CollectedCard key={transfer.id} transfer={transfer} />
-              ))}
-            </div>
+            <>
+              <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
+                {transfers.map((transfer) => (
+                  <CollectedCard key={transfer.id} transfer={transfer} />
+                ))}
+              </div>
+              {hasNextPage && <FetchMore fetchMore={fetchMore} />}
+            </>
           )}
         </div>
       </div>

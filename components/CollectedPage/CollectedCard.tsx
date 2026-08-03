@@ -2,51 +2,59 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { zeroAddress } from "viem";
+import { MessageCircle } from "lucide-react";
 import ContentRenderer from "@/components/Renderers";
 import OpenInNewTabMenu from "@/components/OpenInNewTabMenu";
-import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
+import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
+import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import type { CollectorTransfer } from "@/types/collectorTransfer";
-import type { TimelineMoment } from "@/types/moment";
+import { Protocol, type TimelineMoment } from "@/types/moment";
 
 type Props = {
   transfer: CollectorTransfer;
 };
 
-const transferPriceLabel = (transfer: CollectorTransfer): string | null => {
-  if (transfer.value == null) return null;
-  const chainId = transfer.moment.collection.chain_id;
-  const currency = transfer.currency;
-  if (!currency || currency === zeroAddress) return `${transfer.value} ETH`;
-  const usdc = USDC_ADDRESS[chainId] ?? USDC_ADDRESS[CHAIN_ID];
-  if (usdc && currency.toLowerCase() === usdc.toLowerCase()) {
-    return `${transfer.value} USDC`;
-  }
-  return `${transfer.value} ${truncateAddress(currency)}`;
+const toTimelineMoment = (transfer: CollectorTransfer): TimelineMoment => {
+  const { metadata, collection, token_id, sale } = transfer.moment;
+  return {
+    address: collection.address,
+    token_id: String(token_id),
+    chain_id: collection.chain_id,
+    id: String(transfer.id),
+    uri: "",
+    protocol: collection.protocol as Protocol,
+    creator: {
+      address: collection.artist?.address ?? "",
+      username: collection.artist?.username ?? null,
+    },
+    admins: [],
+    hidden: [],
+    created_at: transfer.transferred_at,
+    metadata: metadata ?? undefined,
+    sale: sale ?? null,
+    comments: 0,
+  };
 };
 
 const CollectedCard = ({ transfer }: Props) => {
   const { push } = useRouter();
-  const { metadata, collection, token_id } = transfer.moment;
-  const creatorAddress = collection.artist?.address;
-  const creatorName =
-    collection.artist?.username ?? (creatorAddress ? truncateAddress(creatorAddress) : "unknown");
+  const { openComment } = useMobileDrawersProvider();
+  const { metadata, collection, sale } = transfer.moment;
   const shortName = getShortNameFromChainId(collection.chain_id);
-  const collectionName = truncateAddress(collection.address);
+  const collectionName =
+    collection.name?.trim() || truncateAddress(collection.address);
   const collectionHref = shortName ? `/collection/${shortName}:${collection.address}` : undefined;
-  const momentUrl = getMomentUrl({
-    chain_id: collection.chain_id,
-    address: collection.address,
-    token_id,
-    metadata: metadata ?? undefined,
-  } as TimelineMoment);
-  const priceLabel = transferPriceLabel(transfer);
+  const timelineMoment = toTimelineMoment(transfer);
+  const momentUrl = getMomentUrl(timelineMoment);
+  const priceLabel = formatSalePriceLabel(sale);
   const timeStr = transfer.transferred_at
     ? new Date(transfer.transferred_at).toLocaleString()
     : "—";
+  const momentName = metadata?.name?.trim() || "—";
+  const showComments = String(collection.protocol) === Protocol.InProcess;
 
   const handleMomentClick = () => {
     if (!momentUrl) return;
@@ -72,19 +80,9 @@ const CollectedCard = ({ transfer }: Props) => {
         <div className="px-[15px] pb-[15px] pt-[13px]">
           <div className="mb-[5px] flex flex-col gap-[2px]">
             <div className="flex items-center justify-between gap-[9px]">
-              {creatorAddress ? (
-                <Link
-                  href={`/${creatorAddress.toLowerCase()}`}
-                  onClick={(e) => e.stopPropagation()}
-                  className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 transition-colors hover:text-tan-gold active:opacity-70"
-                >
-                  {creatorName}
-                </Link>
-              ) : (
-                <span className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900">
-                  {creatorName}
-                </span>
-              )}
+              <span className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 transition-colors group-hover:text-tan-gold">
+                {momentName}
+              </span>
               <span className="shrink-0 font-archivo text-xs text-tan-gold">{timeStr}</span>
             </div>
             {collectionHref && (
@@ -107,13 +105,26 @@ const CollectedCard = ({ transfer }: Props) => {
             )}
           </div>
 
-          <p className="my-2 line-clamp-2 font-spectral-italic text-lg leading-snug text-grey-moss-900 transition-colors group-hover:text-tan-gold">
-            {metadata?.name ?? "—"}
-          </p>
-
-          {priceLabel && (
-            <span className="font-archivo-bold text-xs uppercase text-tan-gold">{priceLabel}</span>
-          )}
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <div className="flex shrink-0 items-center gap-2">
+              {priceLabel && (
+                <span className="font-archivo-bold text-xs uppercase text-tan-gold">{priceLabel}</span>
+              )}
+            </div>
+            {showComments && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openComment(timelineMoment);
+                }}
+                className="inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70"
+                aria-label="comments"
+              >
+                <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </OpenInNewTabMenu>

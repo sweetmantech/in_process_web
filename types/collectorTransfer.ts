@@ -1,4 +1,4 @@
-import type { MomentMetadata, Protocol } from "@/types/moment";
+import type { MomentMetadata, MomentSaleConfig, Protocol } from "@/types/moment";
 
 export type CollectorTransferArtist = {
   address: string | null;
@@ -22,9 +22,11 @@ export type CollectorTransfer = {
       address: string;
       chain_id: number;
       protocol: Protocol | string;
+      name?: string | null;
       artist?: CollectorTransferArtist | null;
     };
     metadata: MomentMetadata | null;
+    sale?: MomentSaleConfig | null;
   };
 };
 

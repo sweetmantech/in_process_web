@@ -32,7 +32,7 @@ export function useCollectedPageState({ transfers: sourceTransfers = [] }: Optio
   }, [sourceTransfers, contentType]);
 
   const typeTabs = useMemo(() => {
-    const types: ContentTypeFilter[] = ["All", "Image", "Video", "Audio", "Other"];
+    const types: ContentTypeFilter[] = ["All", "Audio", "Video", "Image", "Other"];
     return types.map((label) => ({
       label,
       count:

@@ -9,7 +9,6 @@ import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
-import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import type { CollectorTransfer } from "@/types/collectorTransfer";
 import { Protocol, type TimelineMoment } from "@/types/moment";
 
@@ -41,7 +40,6 @@ const toTimelineMoment = (transfer: CollectorTransfer): TimelineMoment => {
 
 const CollectedCard = ({ transfer }: Props) => {
   const { push } = useRouter();
-  const { openComment } = useMobileDrawersProvider();
   const { metadata, collection, sale } = transfer.moment;
   const shortName = getShortNameFromChainId(collection.chain_id);
   const collectionName = collection.name?.trim() || truncateAddress(collection.address);
@@ -114,20 +112,15 @@ const CollectedCard = ({ transfer }: Props) => {
               )}
             </div>
             {showComments && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openComment(timelineMoment);
-                }}
-                className="inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70"
+              <span
+                className="inline-flex items-center gap-1.5 text-grey-moss-700"
                 aria-label={`${commentCount} comments`}
               >
                 <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
                 <span className="font-archivo text-sm tabular-nums">
                   {commentCount.toLocaleString()}
                 </span>
-              </button>
+              </span>
             )}
           </div>
         </div>

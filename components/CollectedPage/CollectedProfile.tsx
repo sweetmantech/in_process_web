@@ -6,7 +6,7 @@ import SocialAccounts from "../ArtistPage/SocialAccounts";
 import { Skeleton } from "../ui/skeleton";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import EditingStatus from "../ArtistPage/EditingStatus";
-import { formatCollectedStatValue } from "./formatCollectedStatValue";
+import { formatCollectedStatValue } from "@/lib/stats/formatCollectedStatValue";
 import type { CollectingStats } from "@/types/collectingStats";
 
 type Props = {

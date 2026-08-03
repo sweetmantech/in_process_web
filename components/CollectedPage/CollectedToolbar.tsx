@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import type { ContentTypeFilter } from "./types";
+import type { ContentTypeFilter } from "@/types/collected";
 
 type Tab = { label: ContentTypeFilter; count: number };
 

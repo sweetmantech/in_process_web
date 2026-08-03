@@ -1,21 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { kindFromMime } from "@/lib/media/kindFromMime";
+import { contentTypeOf } from "@/lib/collected/contentTypeOf";
 import type { CollectorTransfer } from "@/types/collectorTransfer";
-import type { CollectedContentType, ContentTypeFilter } from "./types";
+import type { ContentTypeFilter } from "@/types/collected";
 
 type Options = {
   transfers?: CollectorTransfer[];
-};
-
-const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
-  const mime = transfer.moment.metadata?.content?.mime;
-  const kind = kindFromMime(mime);
-  if (kind === "image") return "Image";
-  if (kind === "video") return "Video";
-  if (kind === "audio") return "Audio";
-  return "Other";
 };
 
 export function useCollectedPageState({ transfers: sourceTransfers = [] }: Options = {}) {

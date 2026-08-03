@@ -11,7 +11,7 @@ import { getMomentSeed } from "@/lib/moment/getMomentSeed";
 import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentProvider } from "@/providers/MomentProvider";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
-import { useOptionalTimelineMoments } from "@/providers/TimelineProvider";
+import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { cn } from "@/lib/utils";
 
 const headerClass =
@@ -20,7 +20,7 @@ const titleClass = "font-archivo-bold text-xs uppercase tracking-[0.06em] text-g
 
 const CommentDrawer = () => {
   const { isDrawerOpen, commentMoment, closeDrawer } = useMobileDrawersProvider();
-  const moments = useOptionalTimelineMoments();
+  const { moments } = useTimelineProvider();
   const isOpen = isDrawerOpen("comment");
   const isMobile = useIsMobile();
   const [mounted, setMounted] = useState(false);

@@ -125,7 +125,3 @@ export const useTimelineProvider = () => {
   if (!ctx) throw new Error("useTimelineProvider must be used within TimelineProvider");
   return ctx;
 };
-
-export const useOptionalTimelineMoments = (): TimelineMoment[] => {
-  return useContext(TimelineContext)?.moments ?? [];
-};

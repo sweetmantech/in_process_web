@@ -10,7 +10,6 @@ import CollectedCard from "./CollectedCard";
 import { useCollectedPageState } from "./useCollectedPageState";
 import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
-import CommentDrawer from "@/components/HomePage/CommentDrawer";
 import FetchMore from "@/components/FetchMore";
 
 const DesktopCollectedPage = ({ address }: { address: Address }) => {
@@ -28,38 +27,35 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
   });
 
   return (
-    <>
-      <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn text-[#1c1a17]">
-        <div className="relative grow px-10 pb-11 pt-[22px] xl:px-14 2xl:px-20 3xl:px-28">
-          <CollectedProfile
-            collectingStats={collectingStats}
-            isStatsLoading={isStatsLoading}
-            collectedCount={collectedCount}
-            isCollectedCountLoading={isTransfersLoading}
-          />
-          <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
-          {isTransfersLoading ? (
-            <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
-              Loading collected moments…
+    <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
+      <div className="relative grow px-10 pb-11 pt-[22px] xl:px-14 2xl:px-20 3xl:px-28">
+        <CollectedProfile
+          collectingStats={collectingStats}
+          isStatsLoading={isStatsLoading}
+          collectedCount={collectedCount}
+          isCollectedCountLoading={isTransfersLoading}
+        />
+        <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
+        {isTransfersLoading ? (
+          <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
+            Loading collected moments…
+          </div>
+        ) : transfers.length === 0 ? (
+          <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
+            No collected moments yet.
+          </div>
+        ) : (
+          <>
+            <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
+              {transfers.map((transfer) => (
+                <CollectedCard key={transfer.id} transfer={transfer} />
+              ))}
             </div>
-          ) : transfers.length === 0 ? (
-            <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
-              No collected moments yet.
-            </div>
-          ) : (
-            <>
-              <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
-                {transfers.map((transfer) => (
-                  <CollectedCard key={transfer.id} transfer={transfer} />
-                ))}
-              </div>
-              {hasNextPage && <FetchMore fetchMore={fetchMore} />}
-            </>
-          )}
-        </div>
+            {hasNextPage && <FetchMore fetchMore={fetchMore} />}
+          </>
+        )}
       </div>
-      <CommentDrawer />
-    </>
+    </div>
   );
 };
 

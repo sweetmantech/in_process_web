@@ -15,7 +15,7 @@ const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
   const kind = kindFromMime(mime);
   if (kind === "image") return "Image";
   if (kind === "video") return "Video";
-  if (kind === "pdf" || mime?.includes("pdf")) return "PDF";
+  if (kind === "audio") return "Audio";
   return "Other";
 };
 
@@ -36,7 +36,7 @@ export function useCollectedPageState({
   }, [sourceTransfers, contentType]);
 
   const typeTabs = useMemo(() => {
-    const types: ContentTypeFilter[] = ["All", "Image", "Video", "PDF", "Other"];
+    const types: ContentTypeFilter[] = ["All", "Image", "Video", "Audio", "Other"];
     return types.map((label) => ({
       label,
       count:

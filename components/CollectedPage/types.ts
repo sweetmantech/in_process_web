@@ -1,3 +1,3 @@
-export type CollectedContentType = "Image" | "Video" | "PDF" | "Other";
+export type CollectedContentType = "Image" | "Video" | "Audio" | "Other";
 
 export type ContentTypeFilter = "All" | CollectedContentType;

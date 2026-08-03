@@ -3,7 +3,6 @@
 import { Address } from "viem";
 import { useParams } from "next/navigation";
 import ProfileProvider from "@/providers/ProfileProvider";
-import useIsMobile from "@/hooks/useIsMobile";
 import CollectedProfile from "./CollectedProfile";
 import CollectedToolbar from "./CollectedToolbar";
 import CollectedCard from "./CollectedCard";
@@ -12,7 +11,7 @@ import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import FetchMore from "@/components/FetchMore";
 
-const DesktopCollectedPage = ({ address }: { address: Address }) => {
+const CollectedPageContent = ({ address }: { address: Address }) => {
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
   const {
     transfers: sourceTransfers,
@@ -28,7 +27,7 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
 
   return (
     <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
-      <div className="relative grow px-10 pb-11 pt-[22px] xl:px-14 2xl:px-20 3xl:px-28">
+      <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
         <CollectedProfile
           collectingStats={collectingStats}
           isStatsLoading={isStatsLoading}
@@ -46,7 +45,7 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
           </div>
         ) : (
           <>
-            <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
+            <div className="w-full columns-2 gap-3 md:columns-[232px] md:gap-3.5">
               {transfers.map((transfer) => (
                 <CollectedCard key={transfer.id} transfer={transfer} />
               ))}
@@ -60,19 +59,12 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
 };
 
 const CollectedPage = () => {
-  const isMobile = useIsMobile();
   const { artistAddress } = useParams();
   const address = artistAddress?.toString().toLowerCase() as Address | undefined;
 
   return (
     <ProfileProvider address={address}>
-      {isMobile ? (
-        <div className="flex grow items-center justify-center px-6 py-20 text-center font-spectral text-lg text-grey-moss-300">
-          Collected moments desktop view coming soon on mobile.
-        </div>
-      ) : address ? (
-        <DesktopCollectedPage address={address} />
-      ) : null}
+      {address ? <CollectedPageContent address={address} /> : null}
     </ProfileProvider>
   );
 };

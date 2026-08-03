@@ -49,32 +49,34 @@ const CollectedCard = ({ transfer }: Props) => {
         tabIndex={0}
         onClick={handleMomentClick}
         onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
-        className="group mb-2 w-full break-inside-avoid cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white text-left shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
+        className="group mb-3 w-full break-inside-avoid cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white text-left shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)] md:mb-2"
       >
         <div className="relative isolate z-0 w-full overflow-hidden">
           <ContentRenderer metadata={metadata ?? undefined} variant="natural" />
         </div>
-        <div className="px-[15px] pb-[15px] pt-[13px]">
+        <div className="px-2.5 pb-3 pt-2.5 md:px-[15px] md:pb-[15px] md:pt-[13px]">
           <div className="mb-[5px] flex flex-col gap-[2px]">
             <div className="flex items-center justify-between gap-[9px]">
-              <span className="block min-w-0 truncate font-archivo-medium text-base text-grey-moss-900 transition-colors group-hover:text-tan-gold">
+              <span className="block min-w-0 truncate font-archivo-medium text-sm text-grey-moss-900 transition-colors group-hover:text-tan-gold md:text-base">
                 {momentName}
               </span>
-              <span className="shrink-0 font-archivo text-xs text-tan-gold">{timeStr}</span>
+              <span className="shrink-0 font-archivo text-[11px] text-tan-gold md:text-xs">
+                {timeStr}
+              </span>
             </div>
             {collectionHref && (
               <div className="flex items-center justify-between gap-[9px]">
                 <Link
                   href={collectionHref}
                   onClick={(e) => e.stopPropagation()}
-                  className="block min-w-0 truncate font-archivo text-xs text-grey-moss-300 transition-colors hover:text-grey-moss-900 active:opacity-70"
+                  className="block min-w-0 truncate font-archivo text-[11px] text-grey-moss-300 transition-colors hover:text-grey-moss-900 active:opacity-70 md:text-xs"
                 >
                   {collectionName}
                 </Link>
                 <Link
                   href={collectionHref}
                   onClick={(e) => e.stopPropagation()}
-                  className="shrink-0 font-archivo text-xs text-tan-gold underline underline-offset-2 transition-colors hover:text-grey-moss-900 active:opacity-70"
+                  className="shrink-0 font-archivo text-[11px] text-tan-gold underline underline-offset-2 transition-colors hover:text-grey-moss-900 active:opacity-70 md:text-xs"
                 >
                   {`[ View collection ]`}
                 </Link>

@@ -1,7 +1,5 @@
 "use client";
 
-import { Address } from "viem";
-import { useParams } from "next/navigation";
 import { EditIcon } from "../ui/icons";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import SocialAccounts from "../ArtistPage/SocialAccounts";
@@ -9,11 +7,14 @@ import { Skeleton } from "../ui/skeleton";
 import useArtistEditable from "@/hooks/useArtistEditable";
 import EditingStatus from "../ArtistPage/EditingStatus";
 import { formatCollectedStatValue } from "./formatCollectedStatValue";
-import { useCollectingStats } from "@/hooks/useCollectingStats";
+import type { CollectingStats } from "@/types/collectingStats";
 
-const CollectedProfile = () => {
-  const { artistAddress } = useParams();
-  const address = artistAddress?.toString() as Address | undefined;
+type Props = {
+  collectingStats?: CollectingStats;
+  isStatsLoading: boolean;
+};
+
+const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
   const {
     isEditing,
     toggleEditing,
@@ -26,7 +27,6 @@ const CollectedProfile = () => {
     usernameRef,
     bioRef,
   } = useProfileProvider();
-  const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
   const { isEditable } = useArtistEditable();
 
   const collectedCount = collectingStats?.collected_count ?? 0;

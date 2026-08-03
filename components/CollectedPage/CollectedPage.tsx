@@ -7,27 +7,26 @@ import useIsMobile from "@/hooks/useIsMobile";
 import CollectedProfile from "./CollectedProfile";
 import CollectedToolbar from "./CollectedToolbar";
 import CollectedCard from "./CollectedCard";
-import CollectedDetailModal from "./CollectedDetailModal";
 import { useCollectedPageState } from "./useCollectedPageState";
+import { useCollectingStats } from "@/hooks/useCollectingStats";
+import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 
-const DesktopCollectedPage = () => {
-  const {
-    items,
-    typeTabs,
-    contentType,
-    setContentType,
-    dense,
-    setDense,
-    resultCount,
-    modalItem,
-    openModal,
-    closeModal,
-  } = useCollectedPageState();
+const DesktopCollectedPage = ({ address }: { address: Address }) => {
+  const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
+  const { data: transfersData, isLoading: isTransfersLoading } = useCollectorTransfers(address);
+  const sourceTransfers = transfersData?.transfers ?? [];
+
+  const { transfers, typeTabs, contentType, setContentType, dense, setDense, resultCount } =
+    useCollectedPageState({
+      transfers: sourceTransfers,
+      collectedCount: transfersData?.pagination.total_count ?? sourceTransfers.length,
+      isLoading: isTransfersLoading,
+    });
 
   return (
     <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn bg-[#e9e6dc] text-[#1c1a17]">
       <div className="relative grow px-[26px] pb-11 pt-[22px]">
-        <CollectedProfile />
+        <CollectedProfile collectingStats={collectingStats} isStatsLoading={isStatsLoading} />
         <CollectedToolbar
           tabs={typeTabs}
           active={contentType}
@@ -37,18 +36,27 @@ const DesktopCollectedPage = () => {
           onDense={() => setDense(true)}
           onGrid={() => setDense(false)}
         />
-        <div
-          className="w-full"
-          style={{
-            columnWidth: dense ? "176px" : "232px",
-            columnGap: "14px",
-          }}
-        >
-          {items.map((item) => (
-            <CollectedCard key={item.id} item={item} onOpen={() => openModal(item.id)} />
-          ))}
-        </div>
-        {modalItem && <CollectedDetailModal item={modalItem} onClose={closeModal} />}
+        {isTransfersLoading ? (
+          <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
+            Loading collected moments…
+          </div>
+        ) : transfers.length === 0 ? (
+          <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
+            No collected moments yet.
+          </div>
+        ) : (
+          <div
+            className="w-full"
+            style={{
+              columnWidth: dense ? "176px" : "232px",
+              columnGap: "14px",
+            }}
+          >
+            {transfers.map((transfer) => (
+              <CollectedCard key={transfer.id} transfer={transfer} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -57,16 +65,17 @@ const DesktopCollectedPage = () => {
 const CollectedPage = () => {
   const isMobile = useIsMobile();
   const { artistAddress } = useParams();
+  const address = artistAddress?.toString().toLowerCase() as Address | undefined;
 
   return (
-    <ProfileProvider address={artistAddress as Address}>
+    <ProfileProvider address={address}>
       {isMobile ? (
         <div className="flex grow items-center justify-center px-6 py-20 text-center font-spectral text-lg text-grey-moss-300">
           Collected moments desktop view coming soon on mobile.
         </div>
-      ) : (
-        <DesktopCollectedPage />
-      )}
+      ) : address ? (
+        <DesktopCollectedPage address={address} />
+      ) : null}
     </ProfileProvider>
   );
 };

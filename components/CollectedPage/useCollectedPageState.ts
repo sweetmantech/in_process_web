@@ -1,29 +1,44 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { mockCollectedItems } from "./mockCollectedItems";
-import type { CollectedItem, CollectedSort, ContentTypeFilter } from "./types";
+import { kindFromMime } from "@/lib/media/kindFromMime";
+import type { CollectorTransfer } from "@/types/collectorTransfer";
+import type { CollectedContentType, ContentTypeFilter } from "./types";
 
-export function useCollectedPageState() {
+type Options = {
+  transfers?: CollectorTransfer[];
+  collectedCount?: number;
+  isLoading?: boolean;
+};
+
+const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
+  const mime = transfer.moment.metadata?.content?.mime;
+  const kind = kindFromMime(mime);
+  if (kind === "image") return "Image";
+  if (kind === "video") return "Video";
+  if (kind === "pdf" || mime?.includes("pdf")) return "PDF";
+  return "Other";
+};
+
+export function useCollectedPageState({
+  transfers: sourceTransfers = [],
+  collectedCount,
+  isLoading = false,
+}: Options = {}) {
   const [contentType, setContentType] = useState<ContentTypeFilter>("All");
   const [dense, setDense] = useState(false);
-  const [sort] = useState<CollectedSort>("recent");
-  const [modalId, setModalId] = useState<number | null>(null);
 
-  const all = mockCollectedItems;
-
-  const items = useMemo(() => {
-    let list = all.filter(
-      (item) => contentType === "All" || item.contentType === contentType
-    );
-    list = list.slice().sort((a, b) => {
-      if (sort === "recent") return b.acquiredAt - a.acquiredAt;
-      if (sort === "oldest") return a.acquiredAt - b.acquiredAt;
-      if (sort === "phigh") return b.usd - a.usd;
-      return a.usd - b.usd;
-    });
-    return list;
-  }, [all, contentType, sort]);
+  const transfers = useMemo(() => {
+    const filtered =
+      contentType === "All"
+        ? sourceTransfers
+        : sourceTransfers.filter((transfer) => contentTypeOf(transfer) === contentType);
+    return filtered
+      .slice()
+      .sort(
+        (a, b) => Date.parse(b.transferred_at || "") - Date.parse(a.transferred_at || "")
+      );
+  }, [sourceTransfers, contentType]);
 
   const typeTabs = useMemo(() => {
     const types: ContentTypeFilter[] = ["All", "Image", "Video", "PDF", "Other"];
@@ -31,24 +46,20 @@ export function useCollectedPageState() {
       label,
       count:
         label === "All"
-          ? all.length
-          : all.filter((item) => item.contentType === label).length,
+          ? (collectedCount ?? sourceTransfers.length)
+          : sourceTransfers.filter((transfer) => contentTypeOf(transfer) === label).length,
     }));
-  }, [all]);
+  }, [sourceTransfers, collectedCount]);
 
-  const modalItem: CollectedItem | null =
-    modalId === null ? null : (all.find((item) => item.id === modalId) ?? null);
+  const totalPieces = collectedCount ?? sourceTransfers.length;
 
   return {
-    items,
+    transfers,
     typeTabs,
     contentType,
     setContentType,
     dense,
     setDense,
-    resultCount: `${items.length} of ${all.length} pieces`,
-    modalItem,
-    openModal: (id: number) => setModalId(id),
-    closeModal: () => setModalId(null),
+    resultCount: isLoading ? "loading…" : `${totalPieces} pieces`,
   };
 }

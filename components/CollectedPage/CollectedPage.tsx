@@ -16,12 +16,11 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
   const { data: transfersData, isLoading: isTransfersLoading } = useCollectorTransfers(address);
   const sourceTransfers = transfersData?.transfers ?? [];
 
-  const { transfers, typeTabs, contentType, setContentType, dense, setDense, resultCount } =
-    useCollectedPageState({
-      transfers: sourceTransfers,
-      collectedCount: transfersData?.pagination.total_count ?? sourceTransfers.length,
-      isLoading: isTransfersLoading,
-    });
+  const { transfers, typeTabs, contentType, setContentType, resultCount } = useCollectedPageState({
+    transfers: sourceTransfers,
+    collectedCount: transfersData?.pagination.total_count ?? sourceTransfers.length,
+    isLoading: isTransfersLoading,
+  });
 
   return (
     <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn bg-[#e9e6dc] text-[#1c1a17]">
@@ -32,9 +31,6 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
           active={contentType}
           onChange={setContentType}
           resultCount={resultCount}
-          dense={dense}
-          onDense={() => setDense(true)}
-          onGrid={() => setDense(false)}
         />
         {isTransfersLoading ? (
           <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
@@ -45,13 +41,7 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
             No collected moments yet.
           </div>
         ) : (
-          <div
-            className="w-full"
-            style={{
-              columnWidth: dense ? "176px" : "232px",
-              columnGap: "14px",
-            }}
-          >
+          <div className="w-full" style={{ columnWidth: "232px", columnGap: "14px" }}>
             {transfers.map((transfer) => (
               <CollectedCard key={transfer.id} transfer={transfer} />
             ))}

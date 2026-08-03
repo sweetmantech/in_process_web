@@ -26,7 +26,6 @@ export function useCollectedPageState({
   isLoading = false,
 }: Options = {}) {
   const [contentType, setContentType] = useState<ContentTypeFilter>("All");
-  const [dense, setDense] = useState(false);
 
   const transfers = useMemo(() => {
     const filtered =
@@ -35,9 +34,7 @@ export function useCollectedPageState({
         : sourceTransfers.filter((transfer) => contentTypeOf(transfer) === contentType);
     return filtered
       .slice()
-      .sort(
-        (a, b) => Date.parse(b.transferred_at || "") - Date.parse(a.transferred_at || "")
-      );
+      .sort((a, b) => Date.parse(b.transferred_at || "") - Date.parse(a.transferred_at || ""));
   }, [sourceTransfers, contentType]);
 
   const typeTabs = useMemo(() => {
@@ -58,8 +55,6 @@ export function useCollectedPageState({
     typeTabs,
     contentType,
     setContentType,
-    dense,
-    setDense,
-    resultCount: isLoading ? "loading…" : `${totalPieces} pieces`,
+    resultCount: isLoading ? "loading…" : `${totalPieces} moments`,
   };
 }

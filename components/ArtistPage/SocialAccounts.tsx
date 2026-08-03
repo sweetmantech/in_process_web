@@ -1,11 +1,16 @@
 import { useProfileProvider } from "@/providers/ProfileProvider";
-import { TwitterIcon, TwitterXsIcon } from "../ui/icons";
+import { Icons, TwitterIcon, TwitterXsIcon } from "../ui/icons";
 import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
 import useIsMobile from "@/hooks/useIsMobile";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
+import { cn } from "@/lib/utils";
 
-const SocialAccounts = () => {
+type Props = {
+  variant?: "default" | "subtle";
+};
+
+const SocialAccounts = ({ variant = "default" }: Props) => {
   const {
     twitter,
     instagram,
@@ -18,14 +23,35 @@ const SocialAccounts = () => {
   } = useProfileProvider();
 
   const isMobile = useIsMobile();
+  const isSubtle = variant === "subtle";
+
+  const iconWrapClass = isSubtle
+    ? "rounded-md border border-[rgba(28,26,23,0.14)] p-1.5 text-[#8a8578]"
+    : "rounded-sm bg-grey-primary p-1";
+
+  const instagramIcon = (
+    <InstagramIcon
+      className={cn(isSubtle ? "size-[18px] text-current" : "size-5 text-grey-eggshell md:size-7")}
+    />
+  );
+  const twitterIcon = isSubtle ? (
+    <Icons.twitter className="size-[16px] fill-current" />
+  ) : isMobile ? (
+    <TwitterXsIcon />
+  ) : (
+    <TwitterIcon />
+  );
+  const telegramIcon = (
+    <Send
+      className={cn(isSubtle ? "size-[17px] text-current" : "size-5 text-grey-eggshell md:size-7")}
+    />
+  );
 
   if (isEditing)
     return (
       <div className="flex flex-col gap-2 md:flex-row md:pt-4" ref={socialRef}>
         <fieldset className="flex items-center gap-2">
-          <div className="rounded-sm bg-grey-primary p-1">
-            <InstagramIcon className="size-5 text-grey-eggshell md:size-7" />
-          </div>
+          <div className={iconWrapClass}>{instagramIcon}</div>
           <input
             className="grow p-1 font-spectral !outline-none"
             value={instagram}
@@ -33,9 +59,7 @@ const SocialAccounts = () => {
           />
         </fieldset>
         <fieldset className="flex items-center gap-2">
-          <div className="rounded-sm bg-grey-primary p-1">
-            {isMobile ? <TwitterXsIcon /> : <TwitterIcon />}
-          </div>
+          <div className={iconWrapClass}>{twitterIcon}</div>
           <input
             className="grow p-1 font-spectral !outline-none"
             value={twitter}
@@ -43,9 +67,7 @@ const SocialAccounts = () => {
           />
         </fieldset>
         <fieldset className="flex items-center gap-2">
-          <div className="rounded-sm bg-grey-primary p-1">
-            <Send className="size-5 text-grey-eggshell md:size-7" />
-          </div>
+          <div className={iconWrapClass}>{telegramIcon}</div>
           <input
             className="grow p-1 font-spectral !outline-none"
             value={telegram}
@@ -54,24 +76,28 @@ const SocialAccounts = () => {
         </fieldset>
       </div>
     );
+
   return (
-    <div className="flex items-center gap-2 pt-2">
+    <div className={cn("flex items-center", isSubtle ? "gap-1 pt-1" : "gap-2 pt-2")}>
       {instagram && (
         <Social
           link={`https://instagram.com/${extractSocialUsername(instagram)}`}
-          icon={<InstagramIcon className="size-5 text-grey-eggshell md:size-7" />}
+          icon={instagramIcon}
+          variant={variant}
         />
       )}
       {twitter && (
         <Social
           link={`https://x.com/@${extractSocialUsername(twitter)}`}
-          icon={isMobile ? <TwitterXsIcon /> : <TwitterIcon />}
+          icon={twitterIcon}
+          variant={variant}
         />
       )}
       {telegram && (
         <Social
           link={`https://t.me/${extractSocialUsername(telegram)}`}
-          icon={<Send className="size-5 text-grey-eggshell md:size-7" />}
+          icon={telegramIcon}
+          variant={variant}
         />
       )}
     </div>

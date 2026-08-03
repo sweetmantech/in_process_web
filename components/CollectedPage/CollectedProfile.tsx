@@ -35,7 +35,7 @@ const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
   const showStatsLoading = isStatsLoading && !collectingStats;
 
   const stats = [
-    { value: String(collectedCount), label: "pieces collected" },
+    { value: String(collectedCount), label: "moments collected" },
     { value: `${formatCollectedStatValue(ethSpent)} ETH`, label: "total spent" },
     {
       value: `$${formatCollectedStatValue(usdcSpent, { maximumFractionDigits: 0 })}`,
@@ -85,7 +85,7 @@ const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
             {isLoading ? <Skeleton className="h-5 w-[280px]" /> : bio}
           </p>
         )}
-        <SocialAccounts />
+        <SocialAccounts variant="subtle" />
       </div>
 
       <div className="flex shrink-0">

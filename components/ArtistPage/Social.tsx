@@ -1,12 +1,14 @@
 import React from "react";
 import { validateUrl } from "@/lib/url/validateUrl";
+import { cn } from "@/lib/utils";
 
 interface SocialProps {
   link: string;
   icon: React.ReactNode;
+  variant?: "default" | "subtle";
 }
 
-const Social = ({ link, icon }: SocialProps) => {
+const Social = ({ link, icon, variant = "default" }: SocialProps) => {
   const handleClick = () => {
     // Validate URL before opening to prevent phishing
     if (validateUrl(link)) {
@@ -15,10 +17,17 @@ const Social = ({ link, icon }: SocialProps) => {
   };
 
   return (
-    <button className="flex items-center gap-2" type="button" onClick={handleClick}>
-      <div className="flex size-7 items-center justify-center rounded-md bg-grey-primary md:size-9">
-        {icon}
-      </div>
+    <button
+      className={cn(
+        "flex items-center justify-center transition-colors",
+        variant === "subtle"
+          ? "size-8 text-[#8a8578] hover:text-[#1c1a17] active:opacity-70"
+          : "size-7 rounded-md bg-grey-primary md:size-9"
+      )}
+      type="button"
+      onClick={handleClick}
+    >
+      {icon}
     </button>
   );
 };

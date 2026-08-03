@@ -33,13 +33,10 @@ const CollectedCard = ({ transfer }: Props) => {
   const { metadata, collection, token_id } = transfer.moment;
   const creatorAddress = collection.artist?.address;
   const creatorName =
-    collection.artist?.username ??
-    (creatorAddress ? truncateAddress(creatorAddress) : "unknown");
+    collection.artist?.username ?? (creatorAddress ? truncateAddress(creatorAddress) : "unknown");
   const shortName = getShortNameFromChainId(collection.chain_id);
   const collectionName = truncateAddress(collection.address);
-  const collectionHref = shortName
-    ? `/collection/${shortName}:${collection.address}`
-    : undefined;
+  const collectionHref = shortName ? `/collection/${shortName}:${collection.address}` : undefined;
   const momentUrl = getMomentUrl({
     chain_id: collection.chain_id,
     address: collection.address,

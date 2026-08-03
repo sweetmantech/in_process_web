@@ -7,7 +7,6 @@ import type { CollectedContentType, ContentTypeFilter } from "./types";
 
 type Options = {
   transfers?: CollectorTransfer[];
-  collectedCount?: number;
 };
 
 const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
@@ -19,10 +18,7 @@ const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
   return "Other";
 };
 
-export function useCollectedPageState({
-  transfers: sourceTransfers = [],
-  collectedCount,
-}: Options = {}) {
+export function useCollectedPageState({ transfers: sourceTransfers = [] }: Options = {}) {
   const [contentType, setContentType] = useState<ContentTypeFilter>("All");
 
   const transfers = useMemo(() => {
@@ -41,10 +37,10 @@ export function useCollectedPageState({
       label,
       count:
         label === "All"
-          ? (collectedCount ?? sourceTransfers.length)
+          ? sourceTransfers.length
           : sourceTransfers.filter((transfer) => contentTypeOf(transfer) === label).length,
     }));
-  }, [sourceTransfers, collectedCount]);
+  }, [sourceTransfers]);
 
   return {
     transfers,

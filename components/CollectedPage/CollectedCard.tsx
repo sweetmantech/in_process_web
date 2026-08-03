@@ -35,7 +35,7 @@ const toTimelineMoment = (transfer: CollectorTransfer): TimelineMoment => {
     created_at: transfer.transferred_at,
     metadata: metadata ?? undefined,
     sale: sale ?? null,
-    comments: 0,
+    comments: transfer.moment.comments ?? 0,
   };
 };
 
@@ -44,8 +44,7 @@ const CollectedCard = ({ transfer }: Props) => {
   const { openComment } = useMobileDrawersProvider();
   const { metadata, collection, sale } = transfer.moment;
   const shortName = getShortNameFromChainId(collection.chain_id);
-  const collectionName =
-    collection.name?.trim() || truncateAddress(collection.address);
+  const collectionName = collection.name?.trim() || truncateAddress(collection.address);
   const collectionHref = shortName ? `/collection/${shortName}:${collection.address}` : undefined;
   const timelineMoment = toTimelineMoment(transfer);
   const momentUrl = getMomentUrl(timelineMoment);
@@ -55,6 +54,7 @@ const CollectedCard = ({ transfer }: Props) => {
     : "—";
   const momentName = metadata?.name?.trim() || "—";
   const showComments = String(collection.protocol) === Protocol.InProcess;
+  const commentCount = transfer.moment.comments ?? 0;
 
   const handleMomentClick = () => {
     if (!momentUrl) return;
@@ -108,7 +108,9 @@ const CollectedCard = ({ transfer }: Props) => {
           <div className="mt-2 flex items-center justify-between gap-3">
             <div className="flex shrink-0 items-center gap-2">
               {priceLabel && (
-                <span className="font-archivo-bold text-xs uppercase text-tan-gold">{priceLabel}</span>
+                <span className="font-archivo-bold text-xs uppercase text-tan-gold">
+                  {priceLabel}
+                </span>
               )}
             </div>
             {showComments && (
@@ -119,9 +121,12 @@ const CollectedCard = ({ transfer }: Props) => {
                   openComment(timelineMoment);
                 }}
                 className="inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70"
-                aria-label="comments"
+                aria-label={`${commentCount} comments`}
               >
                 <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
+                <span className="font-archivo text-sm tabular-nums">
+                  {commentCount.toLocaleString()}
+                </span>
               </button>
             )}
           </div>

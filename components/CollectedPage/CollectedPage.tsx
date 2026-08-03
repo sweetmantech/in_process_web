@@ -25,13 +25,12 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
 
   const { transfers, typeTabs, contentType, setContentType } = useCollectedPageState({
     transfers: sourceTransfers,
-    collectedCount,
   });
 
   return (
     <>
       <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn text-[#1c1a17]">
-        <div className="relative grow px-[26px] pb-11 pt-[22px]">
+        <div className="relative grow px-10 pb-11 pt-[22px] xl:px-14 2xl:px-20 3xl:px-28">
           <CollectedProfile
             collectingStats={collectingStats}
             isStatsLoading={isStatsLoading}

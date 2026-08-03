@@ -27,6 +27,7 @@ export type CollectorTransfer = {
     };
     metadata: MomentMetadata | null;
     sale?: MomentSaleConfig | null;
+    comments?: number;
   };
 };
 

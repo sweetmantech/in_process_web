@@ -7,35 +7,14 @@ import ContentRenderer from "@/components/Renderers";
 import OpenInNewTabMenu from "@/components/OpenInNewTabMenu";
 import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
+import { toTimelineMoment } from "@/lib/collected/toTimelineMoment";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import type { CollectorTransfer } from "@/types/collectorTransfer";
-import { Protocol, type TimelineMoment } from "@/types/moment";
+import { Protocol } from "@/types/moment";
 
 type Props = {
   transfer: CollectorTransfer;
-};
-
-const toTimelineMoment = (transfer: CollectorTransfer): TimelineMoment => {
-  const { metadata, collection, token_id, sale } = transfer.moment;
-  return {
-    address: collection.address,
-    token_id: String(token_id),
-    chain_id: collection.chain_id,
-    id: String(transfer.id),
-    uri: "",
-    protocol: collection.protocol as Protocol,
-    creator: {
-      address: collection.artist?.address ?? "",
-      username: collection.artist?.username ?? null,
-    },
-    admins: [],
-    hidden: [],
-    created_at: transfer.transferred_at,
-    metadata: metadata ?? undefined,
-    sale: sale ?? null,
-    comments: transfer.moment.comments ?? 0,
-  };
 };
 
 const CollectedCard = ({ transfer }: Props) => {

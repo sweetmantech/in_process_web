@@ -36,10 +36,10 @@ const CollectedProfile = ({ collectingStats, isStatsLoading }: Props) => {
 
   const stats = [
     { value: String(collectedCount), label: "moments collected" },
-    { value: `${formatCollectedStatValue(ethSpent)} ETH`, label: "total spent" },
+    { value: `${formatCollectedStatValue(ethSpent)} ETH`, label: "eth spent" },
     {
       value: `$${formatCollectedStatValue(usdcSpent, { maximumFractionDigits: 0 })}`,
-      label: "in USDC",
+      label: "usdc spent",
     },
   ];
 

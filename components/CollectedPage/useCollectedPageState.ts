@@ -8,7 +8,6 @@ import type { CollectedContentType, ContentTypeFilter } from "./types";
 type Options = {
   transfers?: CollectorTransfer[];
   collectedCount?: number;
-  isLoading?: boolean;
 };
 
 const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
@@ -23,7 +22,6 @@ const contentTypeOf = (transfer: CollectorTransfer): CollectedContentType => {
 export function useCollectedPageState({
   transfers: sourceTransfers = [],
   collectedCount,
-  isLoading = false,
 }: Options = {}) {
   const [contentType, setContentType] = useState<ContentTypeFilter>("All");
 
@@ -48,13 +46,10 @@ export function useCollectedPageState({
     }));
   }, [sourceTransfers, collectedCount]);
 
-  const totalPieces = collectedCount ?? sourceTransfers.length;
-
   return {
     transfers,
     typeTabs,
     contentType,
     setContentType,
-    resultCount: isLoading ? "loading…" : `${totalPieces} moments`,
   };
 }

@@ -26,7 +26,7 @@ const SocialAccounts = ({ variant = "default" }: Props) => {
   const isSubtle = variant === "subtle";
 
   const iconWrapClass = isSubtle
-    ? "rounded-md border border-[rgba(28,26,23,0.14)] p-1.5 text-[#8a8578]"
+    ? "rounded-full border border-[rgba(28,26,23,0.2)] p-1.5 text-[#8a8578]"
     : "rounded-sm bg-grey-primary p-1";
 
   const instagramIcon = (

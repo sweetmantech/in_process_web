@@ -16,22 +16,16 @@ const DesktopCollectedPage = ({ address }: { address: Address }) => {
   const { data: transfersData, isLoading: isTransfersLoading } = useCollectorTransfers(address);
   const sourceTransfers = transfersData?.transfers ?? [];
 
-  const { transfers, typeTabs, contentType, setContentType, resultCount } = useCollectedPageState({
+  const { transfers, typeTabs, contentType, setContentType } = useCollectedPageState({
     transfers: sourceTransfers,
     collectedCount: transfersData?.pagination.total_count ?? sourceTransfers.length,
-    isLoading: isTransfersLoading,
   });
 
   return (
-    <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn bg-[#e9e6dc] text-[#1c1a17]">
+    <div className="relative flex min-h-full w-full grow flex-col animate-fadeIn text-[#1c1a17]">
       <div className="relative grow px-[26px] pb-11 pt-[22px]">
         <CollectedProfile collectingStats={collectingStats} isStatsLoading={isStatsLoading} />
-        <CollectedToolbar
-          tabs={typeTabs}
-          active={contentType}
-          onChange={setContentType}
-          resultCount={resultCount}
-        />
+        <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
         {isTransfersLoading ? (
           <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
             Loading collected moments…

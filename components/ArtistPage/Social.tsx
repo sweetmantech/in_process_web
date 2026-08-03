@@ -21,7 +21,7 @@ const Social = ({ link, icon, variant = "default" }: SocialProps) => {
       className={cn(
         "flex items-center justify-center transition-colors",
         variant === "subtle"
-          ? "size-8 text-[#8a8578] hover:text-[#1c1a17] active:opacity-70"
+          ? "size-8 rounded-full border border-[rgba(28,26,23,0.2)] text-[#8a8578] hover:border-[rgba(28,26,23,0.4)] hover:text-[#1c1a17] active:opacity-70"
           : "size-7 rounded-md bg-grey-primary md:size-9"
       )}
       type="button"

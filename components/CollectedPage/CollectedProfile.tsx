@@ -43,7 +43,12 @@ const CollectedProfile = ({
   const showCountLoading = isCollectedCountLoading && collectedCount == null;
 
   const stats = [
-    { value: String(momentsCollected), label: "moments collected", loading: showCountLoading },
+    {
+      value: String(momentsCollected),
+      label: "moments collected",
+      mobileLabel: "collected",
+      loading: showCountLoading,
+    },
     {
       value: `${formatCollectedStatValue(ethSpent)} ETH`,
       label: "eth spent",
@@ -57,9 +62,9 @@ const CollectedProfile = ({
   ];
 
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-8">
+    <div className="mb-5 flex flex-col gap-4 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-8">
       {isEditing && <EditingStatus />}
-      <div className="min-w-[280px] flex-1 basis-[340px]">
+      <div className="min-w-0 flex-1 md:min-w-[280px] md:basis-[340px]">
         <div className="flex items-center gap-3">
           {isEditing ? (
             <input
@@ -67,11 +72,15 @@ const CollectedProfile = ({
               ref={usernameRef}
               value={username}
               onChange={(e) => setUserName(e.target.value)}
-              className="max-w-[200px] bg-transparent p-1 font-spectral-medium text-[38px] leading-none outline-none ring-0"
+              className="max-w-[200px] bg-transparent p-1 font-spectral-medium text-[32px] leading-none outline-none ring-0 md:text-[38px]"
             />
           ) : (
-            <h1 className="m-0 font-spectral-medium text-[38px] leading-none text-[#1c1a17]">
-              {isLoading ? <Skeleton className="h-10 w-[150px]" /> : displayName}
+            <h1 className="m-0 font-spectral-medium text-[32px] leading-none text-[#1c1a17] md:text-[38px]">
+              {isLoading ? (
+                <Skeleton className="h-8 w-[120px] md:h-10 md:w-[150px]" />
+              ) : (
+                displayName
+              )}
             </h1>
           )}
           {isEditable && !isEditing && (
@@ -101,7 +110,25 @@ const CollectedProfile = ({
         <SocialAccounts variant="subtle" />
       </div>
 
-      <div className="flex shrink-0">
+      <div className="flex w-full overflow-hidden rounded-xl border border-[rgba(28,26,23,0.12)] bg-white md:hidden">
+        {stats.map((stat, index) => (
+          <div
+            key={stat.label}
+            className={`flex-1 px-2.5 py-[13px] text-center ${
+              index < stats.length - 1 ? "border-r border-[rgba(28,26,23,0.08)]" : ""
+            }`}
+          >
+            <div className="whitespace-nowrap font-spectral-medium text-[19px] leading-none text-[#1c1a17]">
+              {stat.loading ? <Skeleton className="mx-auto h-5 w-12" /> : stat.value}
+            </div>
+            <div className="mt-1.5 whitespace-nowrap font-mono text-[8.5px] uppercase tracking-[0.12em] text-[#8a8578]">
+              {stat.mobileLabel ?? stat.label}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="hidden shrink-0 md:flex">
         {stats.map((stat, index) => (
           <div
             key={stat.label}

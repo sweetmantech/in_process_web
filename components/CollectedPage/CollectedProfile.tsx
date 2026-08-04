@@ -43,7 +43,12 @@ const CollectedProfile = ({
   const showCountLoading = isCollectedCountLoading && collectedCount == null;
 
   const stats = [
-    { value: String(momentsCollected), label: "moments collected", loading: showCountLoading },
+    {
+      value: String(momentsCollected),
+      label: "moments collected",
+      mobileLabel: "collected",
+      loading: showCountLoading,
+    },
     {
       value: `${formatCollectedStatValue(ethSpent)} ETH`,
       label: "eth spent",
@@ -116,8 +121,8 @@ const CollectedProfile = ({
             <div className="whitespace-nowrap font-spectral-medium text-[19px] leading-none text-[#1c1a17]">
               {stat.loading ? <Skeleton className="mx-auto h-5 w-12" /> : stat.value}
             </div>
-            <div className="mt-1.5 font-mono text-[8.5px] uppercase tracking-[0.12em] text-[#8a8578]">
-              {stat.label}
+            <div className="mt-1.5 whitespace-nowrap font-mono text-[8.5px] uppercase tracking-[0.12em] text-[#8a8578]">
+              {stat.mobileLabel ?? stat.label}
             </div>
           </div>
         ))}

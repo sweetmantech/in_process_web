@@ -45,7 +45,7 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
           </div>
         ) : (
           <>
-            <div className="w-full columns-2 gap-3 md:columns-[232px] md:gap-3.5">
+            <div className="w-full columns-1 gap-3 md:columns-[232px] md:gap-3.5">
               {transfers.map((transfer) => (
                 <CollectedCard key={transfer.id} transfer={transfer} />
               ))}

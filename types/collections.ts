@@ -10,10 +10,10 @@ export interface CollectionsResponse {
     uri: string;
     name: string;
     created_at: string;
-    creator: {
-      username: string | null;
-      address: string;
-    };
+    protocol: string;
+    creator: string;
+    creator_username: string | null;
+    admins: { artist_address: string; token_id: number }[];
   }>;
   pagination: {
     page: number;

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
 import { fetchCollections } from "@/lib/collections/fetchCollections";
@@ -6,6 +6,7 @@ import { createDefaultCollection } from "@/lib/collections/createDefaultCollecti
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
+import type { CollectionItem } from "@/types/collections";
 
 export function useCollections() {
   const { primaryWallet } = useWalletsProvider();
@@ -21,6 +22,7 @@ export function useCollections() {
   const selectedCollectionRef = useRef(selectedCollection);
   selectedCollectionRef.current = selectedCollection;
 
+  const [defaultCollection, setDefaultCollection] = useState<CollectionItem | null>(null);
   const ensuredProcessForWalletRef = useRef<string | null>(null);
 
   const query = useQuery({
@@ -32,6 +34,7 @@ export function useCollections() {
 
   useEffect(() => {
     if (!initialAddress) setSelectedCollection(undefined);
+    setDefaultCollection(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [primaryWallet]);
 
@@ -47,8 +50,9 @@ export function useCollections() {
 
     void (async () => {
       try {
-        await createDefaultCollection(await getAuthHeaders());
+        const collection = await createDefaultCollection(await getAuthHeaders());
         if (cancelled) return;
+        setDefaultCollection(collection);
         await queryClient.invalidateQueries({
           queryKey: ["collections", primaryWallet],
         });
@@ -69,15 +73,19 @@ export function useCollections() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [primaryWallet, queryClient]);
 
-  const collections = query.data?.collections ?? [];
+  const collections = useMemo(() => {
+    const loaded = query.data?.collections ?? [];
+    if (!defaultCollection) return loaded;
+    const defaultAddress = defaultCollection.address.toLowerCase();
+    const rest = loaded.filter((collection) => collection.address.toLowerCase() !== defaultAddress);
+    return [defaultCollection, ...rest];
+  }, [query.data?.collections, defaultCollection]);
 
   useEffect(() => {
     if (selectedCollectionRef.current) return;
-    const loadedCollections = query.data?.collections;
-    if (!loadedCollections?.length) return;
-    setSelectedCollection(loadedCollections[0].address.toLowerCase());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query.data?.collections]);
+    if (!collections.length) return;
+    setSelectedCollection(collections[0].address.toLowerCase());
+  }, [collections]);
 
   return {
     collections,

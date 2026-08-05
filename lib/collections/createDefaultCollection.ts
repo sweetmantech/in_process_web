@@ -1,13 +1,9 @@
 import { IN_PROCESS_API } from "@/lib/consts";
-import type { CreateCollectionResult } from "@/types/collections";
+import type { CollectionItem } from "@/types/collections";
 
-export type CreateDefaultCollectionResult = CreateCollectionResult | { message: string };
-
-export async function createDefaultCollection(
-  authHeaders: HeadersInit
-): Promise<CreateDefaultCollectionResult> {
+export async function createDefaultCollection(authHeaders: HeadersInit): Promise<CollectionItem> {
   const response = await fetch(`${IN_PROCESS_API}/collections/default`, {
-    method: "POST",
+    method: "GET",
     headers: {
       ...authHeaders,
     },

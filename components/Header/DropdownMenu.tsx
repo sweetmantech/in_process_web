@@ -4,7 +4,7 @@ import Divider from "./Divider";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
 import { usePrivy } from "@privy-io/react-auth";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import { Clock, Settings, LogOut } from "lucide-react";
+import { CircleDot, Clock, Settings, LogOut } from "lucide-react";
 import TopupMenuItem from "../Balances/TopupMenuItem";
 
 const ITEM_CLASS =
@@ -28,6 +28,17 @@ export function DropdownMenu() {
       >
         <Clock className="size-4 shrink-0 opacity-60" strokeWidth={1.5} />
         Timeline
+      </button>
+      <Divider />
+      <button
+        onClick={() => {
+          toggleNavbar();
+          push(`/${primaryWallet}/collected`);
+        }}
+        className={ITEM_CLASS}
+      >
+        <CircleDot className="size-4 shrink-0 opacity-60" strokeWidth={1.5} />
+        Collected
       </button>
       <Divider />
       <button

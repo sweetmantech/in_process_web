@@ -28,6 +28,7 @@ export const SITE_ORIGINAL_URL = IS_TESTNET
   ? "https://in-process-git-test-sweetmantechs-projects.vercel.app"
   : "https://inprocess.world";
 
+export const TIMLINE_STEP_OFFSET = 12;
 export const Z_BEHIND_PRIVY = 999999;
 
 export const PDFJS_DIST_VERSION = "2.16.105";

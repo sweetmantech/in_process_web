@@ -12,18 +12,14 @@ export function useInfiniteTimeline({
   collection,
   includeHidden = false,
   type,
-  chainId: chainIdParam,
   period,
   channel,
   contentType,
-  protocol,
   curated = true,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
-  const { chainId: collectionChainId, address: normalizedCollection } =
-    parseCollectionAddress(collection);
-  const chainId = chainIdParam ?? collectionChainId;
+  const { chainId, address: normalizedCollection } = parseCollectionAddress(collection);
 
   const query = useInfiniteQuery({
     queryKey: [
@@ -37,7 +33,6 @@ export function useInfiniteTimeline({
       period,
       channel,
       contentType,
-      protocol,
       curated,
     ],
     queryFn: ({ pageParam = 1 }) => {
@@ -52,7 +47,6 @@ export function useInfiniteTimeline({
         period,
         channel,
         contentType,
-        protocol,
         curated,
       });
     },

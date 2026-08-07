@@ -1,15 +1,23 @@
+import TimelineMoments from "../TimelineMoments";
+import { TimelineAnimationProvider } from "@/providers/TimelineAnimationProvider";
 import Loading from "../Loading";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
 import useIsMobile from "@/hooks/useIsMobile";
 import VerticalFeed from "../VerticalFeed";
 import Moments from "../MomentsGrid/Moments";
+import MobileTimeline from "./MobileTimeline";
 
-const MomentsTimeline = () => {
+interface MomentsTimelineProps {
+  alt: "timeline" | "grid";
+}
+
+const MomentsTimeline = ({ alt }: MomentsTimelineProps) => {
   const isMobile = useIsMobile();
   const { moments, isLoading, fetchMore } = useTimelineProvider();
+  const reversedMoments = [...moments].reverse();
 
-  if (!moments.length)
+  if (!reversedMoments.length)
     return (
       <div className="flex w-full items-center justify-center">
         {isLoading ? (
@@ -20,11 +28,20 @@ const MomentsTimeline = () => {
       </div>
     );
 
+  if (alt === "grid")
+    return (
+      <>
+        {isMobile ? <VerticalFeed /> : <Moments />}
+        <FetchMoreInspector fetchMore={fetchMore} />
+      </>
+    );
+
+  if (isMobile) return <MobileTimeline />;
+
   return (
-    <>
-      {isMobile ? <VerticalFeed /> : <Moments />}
-      <FetchMoreInspector fetchMore={fetchMore} />
-    </>
+    <TimelineAnimationProvider itemsCount={reversedMoments.length}>
+      <TimelineMoments moments={reversedMoments} />
+    </TimelineAnimationProvider>
   );
 };
 

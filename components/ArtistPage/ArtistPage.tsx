@@ -7,18 +7,14 @@ import { TimelineProvider } from "@/providers/TimelineProvider";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
 import ProfileWithStats from "@/components/ProfileWithStats";
-import FilterToolbar from "@/components/FilterToolbar";
+import ArtistFilters from "./ArtistFilters";
 import { useTimelineStats } from "@/hooks/useTimelineStats";
 import { formatStatValue } from "@/lib/stats/formatStatValue";
-import {
-  CHAIN_FILTER_TABS,
-  CONTENT_TYPE_FILTER_TABS,
-  PERIOD_FILTER_TABS,
-  PROTOCOL_FILTER_TABS,
-  type ChainFilter,
-  type ContentTypeFilter,
-  type PeriodFilter,
-  type ProtocolFilter,
+import type {
+  ChainFilter,
+  ContentTypeFilter,
+  PeriodFilter,
+  ProtocolFilter,
 } from "@/lib/timeline/timelineFilters";
 import type { AnalyticsContentType, AnalyticsPeriod, TimelineProtocol } from "@/types/timeline";
 
@@ -58,25 +54,21 @@ const ArtistPageContent = ({ address }: { address: Address }) => {
   return (
     <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
-        <ProfileWithStats stats={stats} />
-        <div className="mb-4 flex flex-col gap-2.5">
-          <FilterToolbar
-            tabs={PROTOCOL_FILTER_TABS}
-            active={protocolFilter}
-            onChange={setProtocolFilter}
-          />
-          <FilterToolbar
-            tabs={CONTENT_TYPE_FILTER_TABS}
-            active={contentTypeFilter}
-            onChange={setContentTypeFilter}
-          />
-          <FilterToolbar
-            tabs={PERIOD_FILTER_TABS}
-            active={periodFilter}
-            onChange={setPeriodFilter}
-          />
-          <FilterToolbar tabs={CHAIN_FILTER_TABS} active={chainFilter} onChange={setChainFilter} />
-        </div>
+        <ProfileWithStats
+          stats={stats}
+          toolbar={
+            <ArtistFilters
+              protocol={protocolFilter}
+              contentType={contentTypeFilter}
+              period={periodFilter}
+              chain={chainFilter}
+              onProtocolChange={setProtocolFilter}
+              onContentTypeChange={setContentTypeFilter}
+              onPeriodChange={setPeriodFilter}
+              onChainChange={setChainFilter}
+            />
+          }
+        />
         <div className="flex grow flex-col">
           <TimelineProvider
             artistAddress={address}

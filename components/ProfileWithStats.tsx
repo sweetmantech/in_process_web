@@ -1,27 +1,24 @@
 "use client";
 
-import { EditIcon } from "../ui/icons";
+import { EditIcon } from "@/components/ui/icons";
 import { useProfileProvider } from "@/providers/ProfileProvider";
-import SocialAccounts from "../ArtistPage/SocialAccounts";
-import { Skeleton } from "../ui/skeleton";
+import SocialAccounts from "@/components/ArtistPage/SocialAccounts";
+import { Skeleton } from "@/components/ui/skeleton";
 import useArtistEditable from "@/hooks/useArtistEditable";
-import EditingStatus from "../ArtistPage/EditingStatus";
-import { formatCollectedStatValue } from "@/lib/stats/formatCollectedStatValue";
-import type { CollectingStats } from "@/types/collectingStats";
+import EditingStatus from "@/components/ArtistPage/EditingStatus";
 
-type Props = {
-  collectingStats?: CollectingStats;
-  isStatsLoading: boolean;
-  collectedCount?: number;
-  isCollectedCountLoading?: boolean;
+export type ProfileStat = {
+  value: string;
+  label: string;
+  mobileLabel?: string;
+  loading: boolean;
 };
 
-const CollectedProfile = ({
-  collectingStats,
-  isStatsLoading,
-  collectedCount,
-  isCollectedCountLoading = false,
-}: Props) => {
+type Props = {
+  stats: ProfileStat[];
+};
+
+const ProfileWithStats = ({ stats }: Props) => {
   const {
     isEditing,
     toggleEditing,
@@ -35,31 +32,6 @@ const CollectedProfile = ({
     bioRef,
   } = useProfileProvider();
   const { isEditable } = useArtistEditable();
-
-  const momentsCollected = collectedCount ?? 0;
-  const ethSpent = collectingStats?.eth_spent ?? "0";
-  const usdcSpent = collectingStats?.usdc_spent ?? "0";
-  const showStatsLoading = isStatsLoading && !collectingStats;
-  const showCountLoading = isCollectedCountLoading && collectedCount == null;
-
-  const stats = [
-    {
-      value: String(momentsCollected),
-      label: "moments collected",
-      mobileLabel: "collected",
-      loading: showCountLoading,
-    },
-    {
-      value: `${formatCollectedStatValue(ethSpent)} ETH`,
-      label: "eth spent",
-      loading: showStatsLoading,
-    },
-    {
-      value: `$${formatCollectedStatValue(usdcSpent, { maximumFractionDigits: 0 })}`,
-      label: "usdc spent",
-      loading: showStatsLoading,
-    },
-  ];
 
   return (
     <div className="mb-5 flex flex-col gap-4 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-8">
@@ -107,7 +79,7 @@ const CollectedProfile = ({
             {isLoading ? <Skeleton className="h-5 w-[280px]" /> : bio}
           </p>
         )}
-        <SocialAccounts variant="subtle" />
+        <SocialAccounts />
       </div>
 
       <div className="flex w-full overflow-hidden rounded-xl border border-[rgba(28,26,23,0.12)] bg-white md:hidden">
@@ -147,4 +119,4 @@ const CollectedProfile = ({
   );
 };
 
-export default CollectedProfile;
+export default ProfileWithStats;

@@ -2,7 +2,7 @@ type FormatOptions = {
   maximumFractionDigits?: number;
 };
 
-export function formatCollectedStatValue(
+export function formatStatValue(
   value: string,
   { maximumFractionDigits = 2 }: FormatOptions = {}
 ): string {

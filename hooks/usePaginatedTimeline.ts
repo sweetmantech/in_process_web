@@ -11,13 +11,17 @@ export function usePaginatedTimeline({
   collection,
   includeHidden = false,
   type,
+  chainId: chainIdParam,
   period,
   channel,
   contentType,
+  protocol,
   curated = true,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(1);
-  const { chainId, address: normalizedCollection } = parseCollectionAddress(collection);
+  const { chainId: collectionChainId, address: normalizedCollection } =
+    parseCollectionAddress(collection);
+  const chainId = chainIdParam ?? collectionChainId;
 
   const query = useQuery({
     queryKey: [
@@ -32,6 +36,7 @@ export function usePaginatedTimeline({
       period,
       channel,
       contentType,
+      protocol,
       curated,
     ],
     queryFn: () =>
@@ -46,6 +51,7 @@ export function usePaginatedTimeline({
         period,
         channel,
         contentType,
+        protocol,
         curated,
       }),
     enabled,

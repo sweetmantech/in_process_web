@@ -2,34 +2,63 @@
 
 import AltToggle from "./AltToggle";
 import { useState } from "react";
-import useIsMobile from "@/hooks/useIsMobile";
-import MobileProfile from "./MobileProfile";
-import DesktopProfile from "./DesktopProfile";
 import { useParams } from "next/navigation";
 import MomentsTimeline from "../Timeline/MomentsTimeline";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import ProfileProvider from "@/providers/ProfileProvider";
 import { Address } from "viem";
+import ProfileWithStats from "@/components/ProfileWithStats";
+import { useTimelineStats } from "@/hooks/useTimelineStats";
+import { formatStatValue } from "@/lib/stats/formatStatValue";
 
-const ArtistPage = () => {
+const ArtistPageContent = ({ address }: { address: Address }) => {
   const [alt, setAlt] = useState<"timeline" | "grid">("grid");
-  const isMobile = useIsMobile();
-  const { artistAddress } = useParams();
-  const address = artistAddress?.toString().toLowerCase() || "";
+  const { data: timelineStats, isLoading: isStatsLoading } = useTimelineStats(address);
+
+  const showStatsLoading = isStatsLoading && !timelineStats;
+  const stats = [
+    {
+      value: String(timelineStats?.created_count ?? 0),
+      label: "moments created",
+      mobileLabel: "created",
+      loading: showStatsLoading,
+    },
+    {
+      value: `${formatStatValue(timelineStats?.eth_archived ?? "0")} ETH`,
+      label: "eth archived",
+      loading: showStatsLoading,
+    },
+    {
+      value: `$${formatStatValue(timelineStats?.usdc_archived ?? "0", { maximumFractionDigits: 0 })}`,
+      label: "usdc archived",
+      loading: showStatsLoading,
+    },
+  ];
 
   return (
-    <ProfileProvider address={artistAddress as Address}>
-      <div className="relative grow flex w-screen flex-col overflow-hidden pb-20 pt-6 md:pt-10">
-        <div className="relative flex items-start justify-between px-2 pb-2 md:px-10">
-          {isMobile ? <MobileProfile /> : <DesktopProfile />}
+    <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
+      <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
+        <ProfileWithStats stats={stats} />
+        <div className="mb-4 flex justify-end">
           <AltToggle alt={alt} setAlt={setAlt} />
         </div>
-        <div className={`flex grow flex-col px-2 md:px-10 ${alt === "timeline" && "md:pt-20"}`}>
+        <div className={`flex grow flex-col ${alt === "timeline" && "md:pt-20"}`}>
           <TimelineProvider artistAddress={address} curated={false}>
             <MomentsTimeline alt={alt} />
           </TimelineProvider>
         </div>
       </div>
+    </div>
+  );
+};
+
+const ArtistPage = () => {
+  const { artistAddress } = useParams();
+  const address = artistAddress?.toString().toLowerCase() as Address | undefined;
+
+  return (
+    <ProfileProvider address={address}>
+      {address ? <ArtistPageContent address={address} /> : null}
     </ProfileProvider>
   );
 };

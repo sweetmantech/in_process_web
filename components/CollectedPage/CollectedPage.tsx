@@ -3,13 +3,14 @@
 import { Address } from "viem";
 import { useParams } from "next/navigation";
 import ProfileProvider from "@/providers/ProfileProvider";
-import CollectedProfile from "./CollectedProfile";
+import ProfileWithStats from "@/components/ProfileWithStats";
 import CollectedToolbar from "./CollectedToolbar";
 import CollectedCard from "./CollectedCard";
 import { useCollectedPageState } from "./useCollectedPageState";
 import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import FetchMore from "@/components/FetchMore";
+import { formatStatValue } from "@/lib/stats/formatStatValue";
 
 const CollectedPageContent = ({ address }: { address: Address }) => {
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
@@ -25,15 +26,31 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
     transfers: sourceTransfers,
   });
 
+  const showStatsLoading = isStatsLoading && !collectingStats;
+  const showCountLoading = isTransfersLoading && collectedCount == null;
+  const stats = [
+    {
+      value: String(collectedCount ?? 0),
+      label: "moments collected",
+      mobileLabel: "collected",
+      loading: showCountLoading,
+    },
+    {
+      value: `${formatStatValue(collectingStats?.eth_spent ?? "0")} ETH`,
+      label: "eth spent",
+      loading: showStatsLoading,
+    },
+    {
+      value: `$${formatStatValue(collectingStats?.usdc_spent ?? "0", { maximumFractionDigits: 0 })}`,
+      label: "usdc spent",
+      loading: showStatsLoading,
+    },
+  ];
+
   return (
     <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
-        <CollectedProfile
-          collectingStats={collectingStats}
-          isStatsLoading={isStatsLoading}
-          collectedCount={collectedCount}
-          isCollectedCountLoading={isTransfersLoading}
-        />
+        <ProfileWithStats stats={stats} />
         <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
         {isTransfersLoading ? (
           <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">

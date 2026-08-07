@@ -14,6 +14,7 @@ export interface TimelineResponse {
 export type AnalyticsPeriod = "day" | "week" | "month" | "all";
 export type AnalyticsChannel = "telegram" | "sms" | "web" | "api";
 export type AnalyticsContentType = "audio" | "image" | "video";
+export type TimelineProtocol = "in_process" | "catalog" | "sound.xyz" | "zora_media" | "zora";
 
 export interface AnalyticsFilters {
   period?: AnalyticsPeriod;
@@ -30,9 +31,11 @@ export interface UseTimelineParams {
   collection?: string;
   includeHidden?: boolean;
   type?: "mutual" | "default";
+  chainId?: number;
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  protocol?: TimelineProtocol;
   curated?: boolean;
 }
 
@@ -47,5 +50,6 @@ export interface FetchTimelineParams {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  protocol?: TimelineProtocol;
   curated?: boolean;
 }

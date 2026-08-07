@@ -9,6 +9,7 @@ import {
   AnalyticsPeriod,
   AnalyticsChannel,
   AnalyticsContentType,
+  TimelineProtocol,
 } from "@/types/timeline";
 
 interface TimelineContextValue {
@@ -31,7 +32,7 @@ interface TimelineProviderProps {
   children: ReactNode;
   artistAddress?: string;
   collection?: string;
-  chainId?: string;
+  chainId?: number;
   includeHidden?: boolean;
   type?: "mutual" | "default";
   limit?: number;
@@ -39,6 +40,7 @@ interface TimelineProviderProps {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
   contentType?: AnalyticsContentType;
+  protocol?: TimelineProtocol;
   curated?: boolean;
 }
 
@@ -46,6 +48,7 @@ export const TimelineProvider = ({
   children,
   artistAddress,
   collection,
+  chainId,
   includeHidden = false,
   type,
   limit,
@@ -53,6 +56,7 @@ export const TimelineProvider = ({
   period,
   channel,
   contentType,
+  protocol,
   curated = true,
 }: TimelineProviderProps) => {
   const infiniteResult = useInfiniteTimeline({
@@ -63,9 +67,11 @@ export const TimelineProvider = ({
     collection,
     includeHidden,
     type,
+    chainId,
     period,
     channel,
     contentType,
+    protocol,
     curated,
   });
 
@@ -76,9 +82,11 @@ export const TimelineProvider = ({
     collection,
     includeHidden,
     type,
+    chainId,
     period,
     channel,
     contentType,
+    protocol,
     curated,
   });
 

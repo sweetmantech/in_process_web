@@ -49,8 +49,6 @@ function FilterSelect<T extends string>({
   options,
   onChange,
 }: FilterSelectProps<T>) {
-  const selected = options.find((option) => option.label === value);
-
   return (
     <Select value={value} onValueChange={(v) => onChange(v as T)}>
       <SelectTrigger className={triggerClassName}>
@@ -59,8 +57,7 @@ function FilterSelect<T extends string>({
           <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#8a8578]">
             {label}
           </span>
-          <span className="text-[#1c1a17]">{selected?.displayLabel ?? value}</span>
-          <SelectValue className="sr-only" />
+          <SelectValue />
         </span>
       </SelectTrigger>
       <SelectContent>

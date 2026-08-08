@@ -11,8 +11,8 @@ export const PROTOCOL_FILTER_TABS: {
   displayLabel: string;
 }[] = [
   { label: "All", displayLabel: "All" },
-  { label: "zora", displayLabel: "Zora" },
   { label: "in_process", displayLabel: "In Process" },
+  { label: "zora", displayLabel: "Zora" },
   { label: "catalog", displayLabel: "Catalog" },
   { label: "sound.xyz", displayLabel: "Sound.xyz" },
   { label: "zora_media", displayLabel: "Zora Media" },

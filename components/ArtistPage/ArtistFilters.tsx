@@ -44,6 +44,7 @@ const ArtistFilters = ({
         value={chain}
         options={CHAIN_FILTER_TABS}
         onChange={onChainChange}
+        withChainLogo
       />
     </div>
   );

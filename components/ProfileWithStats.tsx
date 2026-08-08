@@ -33,7 +33,7 @@ const ProfileWithStats = ({ stats, toolbar }: Props) => {
   const { isEditable } = useArtistEditable();
 
   return (
-    <div className="mb-5 flex flex-col gap-4">
+    <div className="mb-5 flex flex-col gap-2">
       {isEditing && <EditingStatus />}
 
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">

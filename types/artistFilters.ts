@@ -21,4 +21,5 @@ export type FilterSelectProps<T extends string> = {
   value: T;
   options: { label: T; displayLabel: string }[];
   onChange: (value: T) => void;
+  withChainLogo?: boolean;
 };

@@ -53,7 +53,7 @@ const SocialAccounts = () => {
     );
 
   return (
-    <div className="flex items-center gap-1 pt-1">
+    <div className="flex items-center gap-1">
       {instagram && (
         <Social
           link={`https://instagram.com/${extractSocialUsername(instagram)}`}

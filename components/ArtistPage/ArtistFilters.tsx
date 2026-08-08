@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Clock3, FileText, Hexagon, Layers } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   CHAIN_FILTER_TABS,
   CONTENT_TYPE_FILTER_TABS,
@@ -31,9 +31,6 @@ type Props = {
   onChainChange: (value: ChainFilter) => void;
 };
 
-const triggerClassName =
-  "h-auto min-h-9 w-auto gap-2 rounded-full border-[rgba(28,26,23,0.14)] bg-white px-3.5 py-2 font-archivo text-[13px] text-[#1c1a17] shadow-none focus:ring-0";
-
 type FilterSelectProps<T extends string> = {
   label: string;
   icon: ReactNode;
@@ -49,20 +46,44 @@ function FilterSelect<T extends string>({
   options,
   onChange,
 }: FilterSelectProps<T>) {
+  const isActive = value !== "All";
+
   return (
     <Select value={value} onValueChange={(v) => onChange(v as T)}>
-      <SelectTrigger className={triggerClassName}>
-        <span className="flex items-center gap-2">
-          <span className="text-[#8a8578]">{icon}</span>
-          <span className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#8a8578]">
-            {label}
+      <SelectTrigger
+        className={cn(
+          "h-auto w-auto gap-[9px] rounded-[15px] border px-[13px] py-[7px] font-spectral text-left shadow-none transition-all duration-150 focus:ring-0 focus:ring-offset-0 [&>span]:line-clamp-none",
+          "[&_svg]:size-[15px] [&_svg]:shrink-0 [&_svg]:opacity-65 [&_svg]:transition-transform [&[data-state=open]_svg]:rotate-180",
+          isActive
+            ? "border-[#c05a2a] bg-[#c05a2a] text-white"
+            : "border-[#efece4] bg-[#efece4] text-[#1a1a18] data-[state=open]:border-[#1a1a18]"
+        )}
+      >
+        <span className="flex items-center gap-[9px]">
+          <span className="text-[15px] leading-none">{icon}</span>
+          <span className="flex flex-col items-start text-[15.5px] font-medium leading-[1.15]">
+            <span
+              className={cn(
+                "font-mono text-[9.5px] font-normal uppercase tracking-[1px]",
+                isActive ? "text-white/70" : "text-[#9a978e]"
+              )}
+            >
+              {label}
+            </span>
+            <SelectValue />
           </span>
-          <SelectValue />
         </span>
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent
+        className="min-w-[180px] rounded-[14px] border border-[#ddd8cd] bg-[#fbfaf7] p-1.5 shadow-[0_14px_34px_rgba(30,26,18,0.16)]"
+        position="popper"
+      >
         {options.map((option) => (
-          <SelectItem key={option.label} value={option.label}>
+          <SelectItem
+            key={option.label}
+            value={option.label}
+            className="cursor-pointer rounded-[9px] py-[9px] pl-3 pr-8 text-[15.5px] text-[#1a1a18] focus:bg-[#efece4] focus:text-[#1a1a18] data-[highlighted]:bg-[#efece4] data-[state=checked]:bg-[#efece4] data-[state=checked]:font-medium"
+          >
             {option.displayLabel}
           </SelectItem>
         ))}
@@ -85,28 +106,28 @@ const ArtistFilters = ({
     <div className="flex flex-wrap items-center gap-2">
       <FilterSelect
         label="Source"
-        icon={<Layers className="size-3.5" strokeWidth={1.75} />}
+        icon="◇"
         value={protocol}
         options={PROTOCOL_FILTER_TABS}
         onChange={onProtocolChange}
       />
       <FilterSelect
         label="Type"
-        icon={<FileText className="size-3.5" strokeWidth={1.75} />}
+        icon="▤"
         value={contentType}
         options={CONTENT_TYPE_FILTER_TABS}
         onChange={onContentTypeChange}
       />
       <FilterSelect
         label="Time"
-        icon={<Clock3 className="size-3.5" strokeWidth={1.75} />}
+        icon="◷"
         value={period}
         options={PERIOD_FILTER_TABS}
         onChange={onPeriodChange}
       />
       <FilterSelect
         label="Chain"
-        icon={<Hexagon className="size-3.5" strokeWidth={1.75} />}
+        icon="⬡"
         value={chain}
         options={CHAIN_FILTER_TABS}
         onChange={onChainChange}

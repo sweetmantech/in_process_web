@@ -11,11 +11,11 @@ export const PROTOCOL_FILTER_TABS: {
   displayLabel: string;
 }[] = [
   { label: "All", displayLabel: "All" },
+  { label: "zora", displayLabel: "Zora" },
   { label: "in_process", displayLabel: "In Process" },
   { label: "catalog", displayLabel: "Catalog" },
   { label: "sound.xyz", displayLabel: "Sound.xyz" },
   { label: "zora_media", displayLabel: "Zora Media" },
-  { label: "zora", displayLabel: "Zora" },
 ];
 
 export const CONTENT_TYPE_FILTER_TABS: {
@@ -32,7 +32,7 @@ export const PERIOD_FILTER_TABS: {
   label: PeriodFilter;
   displayLabel: string;
 }[] = [
-  { label: "All", displayLabel: "All time" },
+  { label: "All", displayLabel: "All" },
   { label: "day", displayLabel: "Last 24h" },
   { label: "week", displayLabel: "Last 7 days" },
   { label: "month", displayLabel: "Last 30 days" },
@@ -42,7 +42,7 @@ export const CHAIN_FILTER_TABS: {
   label: ChainFilter;
   displayLabel: string;
 }[] = [
-  { label: "All", displayLabel: "All chains" },
+  { label: "All", displayLabel: "All" },
   { label: "8453", displayLabel: "Base" },
   { label: "1", displayLabel: "Ethereum" },
   { label: "10", displayLabel: "Optimism" },

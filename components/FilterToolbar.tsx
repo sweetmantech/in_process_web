@@ -1,20 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import type { FilterToolbarProps } from "@/types/filterToolbar";
 
-export type FilterTab<T extends string = string> = {
-  label: T;
-  displayLabel?: string;
-  count?: number;
-};
+export type { FilterTab } from "@/types/filterToolbar";
 
-type Props<T extends string> = {
-  tabs: FilterTab<T>[];
-  active: T;
-  onChange: (value: T) => void;
-};
-
-function FilterToolbar<T extends string>({ tabs, active, onChange }: Props<T>) {
+function FilterToolbar<T extends string>({ tabs, active, onChange }: FilterToolbarProps<T>) {
   return (
     <div className="no-scrollbar flex flex-nowrap items-center gap-2 overflow-x-auto md:flex-wrap md:overflow-visible">
       {tabs.map((tab) => {

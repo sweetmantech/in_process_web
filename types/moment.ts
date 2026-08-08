@@ -5,6 +5,7 @@ export enum Protocol {
   Catalog = "catalog",
   SoundXyz = "sound.xyz",
   ZoraMedia = "zora_media",
+  Zora = "zora",
 }
 export interface Moment {
   collectionAddress: Address;

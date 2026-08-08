@@ -1,12 +1,9 @@
 import Loading from "../Loading";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import FetchMoreInspector from "../FetchMoreInspector";
-import useIsMobile from "@/hooks/useIsMobile";
-import VerticalFeed from "../VerticalFeed";
 import Moments from "../MomentsGrid/Moments";
 
 const MomentsTimeline = () => {
-  const isMobile = useIsMobile();
   const { moments, isLoading, fetchMore } = useTimelineProvider();
 
   if (!moments.length)
@@ -22,7 +19,7 @@ const MomentsTimeline = () => {
 
   return (
     <>
-      {isMobile ? <VerticalFeed /> : <Moments />}
+      <Moments />
       <FetchMoreInspector fetchMore={fetchMore} />
     </>
   );

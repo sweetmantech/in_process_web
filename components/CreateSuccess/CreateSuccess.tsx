@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -16,6 +16,7 @@ import useMomentData from "@/hooks/useMomentData";
 import type { Address } from "viem";
 import MomentsGridPreview from "@/components/MomentsGrid/Preview";
 import { Skeleton } from "@/components/ui/skeleton";
+import fireCollectConfetti from "@/lib/moment/fireCollectConfetti";
 
 const CreateSuccess = () => {
   const { name, description, price, priceUnit, resetForm } = useMetadataFormProvider();
@@ -48,6 +49,16 @@ const CreateSuccess = () => {
   const { metadata: momentMetadata, owner, isLoading } = useMomentData(moment);
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
   const showSuccessSkeleton = Boolean(liveTokenId) && isLoading && !momentMetadata;
+
+  const hasFiredConfettiRef = useRef(false);
+  useEffect(() => {
+    if (hasFiredConfettiRef.current) return;
+    if (!liveTokenId) return;
+    if (showSuccessSkeleton) return;
+    if (!momentMetadata) return;
+    hasFiredConfettiRef.current = true;
+    fireCollectConfetti();
+  }, [liveTokenId, showSuccessSkeleton, momentMetadata]);
 
   const displayedName = momentMetadata?.name?.trim() || name.trim() || "Untitled moment";
   const trimmedDescription = momentMetadata?.description?.trim() || description?.trim() || "";

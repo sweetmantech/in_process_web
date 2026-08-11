@@ -1,7 +1,8 @@
-import { Check, Copy, LayoutGrid, Share2, Webhook } from "lucide-react";
+import { Check, Copy, LayoutGrid, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface ButtonsProps {
   shareUrl?: string;
@@ -86,7 +87,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
             disabled={!shareUrl}
             className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50`}
           >
-            <Webhook className="size-4" strokeWidth={1.75} />
+            <Image src="/images/farcaster.svg" alt="Farcaster icon" width={18} height={18} />
             Farcaster
           </button>
           <button

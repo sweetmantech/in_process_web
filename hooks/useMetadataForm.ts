@@ -1,7 +1,7 @@
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useBlobUrls } from "./useBlobUrls";
 import { Currency } from "@/types/balances";
 
@@ -70,7 +70,7 @@ const useMetadataForm = () => {
   const onChangeStartDate = (val: Date) =>
     form.setValue("startDate", val, { shouldValidate: false });
 
-  const clearMediaState = () => {
+  const clearMediaState = useCallback(() => {
     setImageFile(null);
     setAnimationFile(null);
     setPreviewFile(null);
@@ -79,21 +79,24 @@ const useMetadataForm = () => {
     setEmbedCode("");
     setLink("");
     setWritingText("");
-  };
+    setUploadProgress(0);
+    setIsUploading(false);
+    setIsOpenPreviewUpload(false);
+  }, []);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     form.setValue("name", "", { shouldValidate: false });
     form.setValue("description", undefined, { shouldValidate: false });
     clearMediaState();
-  };
+  }, [form, clearMediaState]);
 
-  const resetFiles = () => {
+  const resetFiles = useCallback(() => {
     clearMediaState();
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
     // name and description live in form — clearMediaState doesn't touch them
-  };
+  }, [clearMediaState]);
 
   const hasMedia = Boolean(previewFile || imageFile || animationFile);
 

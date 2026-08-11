@@ -32,7 +32,7 @@ const EmbedCode = () => {
               height={66}
               className="block md:hidden"
             />
-            <p className="text-center font-archivo-medium">paste embed code</p>
+            <p className="text-center font-archivo-medium uppercase">paste embed code</p>
           </div>
           <textarea
             className="w-full grow bg-grey-moss-50 p-2 font-spectral !outline-none !ring-0"

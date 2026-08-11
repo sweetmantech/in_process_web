@@ -9,9 +9,7 @@ const useMetadataForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Non-form state (not in react-hook-form schema)
-  const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [mimeType, setMimeType] = useState<string>("");
-  const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
   const [embedCode, setEmbedCode] = useState("");
   const [link, setLink] = useState<string>("");
@@ -75,7 +73,6 @@ const useMetadataForm = () => {
     setAnimationFile(null);
     setPreviewFile(null);
     setMimeType("");
-    setDownloadUrl("");
     setEmbedCode("");
     setLink("");
     setWritingText("");
@@ -111,12 +108,8 @@ const useMetadataForm = () => {
     setPrice,
     description,
     setDescription,
-    isTimedSale,
-    setIsTimedSale,
     mimeType,
     setMimeType,
-    downloadUrl,
-    setDownloadUrl,
     isOpenPreviewUpload,
     setIsOpenPreviewUpload,
     setWritingText,

@@ -2,9 +2,9 @@
 
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { Fragment } from "react";
-import NoFileSelected from "./NoFileSelected";
 import ResetButton from "./ResetButton";
 import PreviewContainer from "./PreviewContainer";
+import { BulkDropZone } from "@/components/BulkUpload";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useFileSelect from "@/hooks/useFileSelect";
@@ -23,7 +23,7 @@ const FileSelect = () => {
         ref={fileInputRef}
         id="media"
         type="file"
-        className={`cursor-pointer ${selected ? "hidden" : "z-2 absolute size-full opacity-0 pointer-events-none"}`}
+        className="hidden"
         onChange={selectFile}
         disabled={Boolean(createdTokenId)}
       />
@@ -35,7 +35,9 @@ const FileSelect = () => {
           </div>
         </div>
       ) : (
-        <NoFileSelected onSingleFile={handleSingleFile} />
+        <div className="size-full md:p-0">
+          <BulkDropZone onSingleFile={handleSingleFile} />
+        </div>
       )}
     </Fragment>
   );

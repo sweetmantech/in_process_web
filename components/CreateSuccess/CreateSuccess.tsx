@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -16,7 +16,7 @@ import useMomentData from "@/hooks/useMomentData";
 import type { Address } from "viem";
 import MomentsGridPreview from "@/components/MomentsGrid/Preview";
 import { Skeleton } from "@/components/ui/skeleton";
-import fireCollectConfetti from "@/lib/moment/fireCollectConfetti";
+import useFireCreateSuccessConfetti from "@/hooks/useFireCreateSuccessConfetti";
 
 const CreateSuccess = () => {
   const { name, description, price, priceUnit, resetForm } = useMetadataFormProvider();
@@ -50,15 +50,7 @@ const CreateSuccess = () => {
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
   const showSuccessSkeleton = Boolean(liveTokenId) && isLoading && !momentMetadata;
 
-  const hasFiredConfettiRef = useRef(false);
-  useEffect(() => {
-    if (hasFiredConfettiRef.current) return;
-    if (!liveTokenId) return;
-    if (showSuccessSkeleton) return;
-    if (!momentMetadata) return;
-    hasFiredConfettiRef.current = true;
-    fireCollectConfetti();
-  }, [liveTokenId, showSuccessSkeleton, momentMetadata]);
+  useFireCreateSuccessConfetti({ liveTokenId, isLoading, momentMetadata });
 
   const displayedName = momentMetadata?.name?.trim() || name.trim() || "Untitled moment";
   const trimmedDescription = momentMetadata?.description?.trim() || description?.trim() || "";
@@ -87,8 +79,8 @@ const CreateSuccess = () => {
           Back to create
         </button>
 
-        <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
-          <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45)] md:sticky md:top-9">
+        <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
+          <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_24px_56px_-30px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:sticky md:top-9">
             <div className="aspect-square bg-[#EDEAE2]">
               <div className="relative size-full overflow-hidden">
                 {showSuccessSkeleton ? (
@@ -165,7 +157,7 @@ const CreateSuccess = () => {
                 </div>
 
                 <div className="mt-5 flex items-baseline justify-between gap-4 border-b border-[#E4E0D7] pb-[18px]">
-                  <span className="font-archivo-bold text-[26px] tracking-[-0.015em] text-[#A8862F] md:text-[30px]">
+                  <span className="font-archivo-bold text-[30px] tracking-[-0.015em] text-[#A8862F]">
                     {displayedPrice}
                   </span>
                   <span className="pr-2 text-right font-archivo text-[13px] text-[#8C8678] md:pr-4">

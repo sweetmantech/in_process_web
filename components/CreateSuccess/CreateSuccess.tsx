@@ -16,6 +16,7 @@ import useMomentData from "@/hooks/useMomentData";
 import type { Address } from "viem";
 import MomentsGridPreview from "@/components/MomentsGrid/Preview";
 import { Skeleton } from "@/components/ui/skeleton";
+import useFireCreateSuccessConfetti from "@/hooks/useFireCreateSuccessConfetti";
 
 const CreateSuccess = () => {
   const { name, description, price, priceUnit, resetForm } = useMetadataFormProvider();
@@ -49,6 +50,8 @@ const CreateSuccess = () => {
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
   const showSuccessSkeleton = Boolean(liveTokenId) && isLoading && !momentMetadata;
 
+  useFireCreateSuccessConfetti({ liveTokenId, isLoading, momentMetadata });
+
   const displayedName = momentMetadata?.name?.trim() || name.trim() || "Untitled moment";
   const trimmedDescription = momentMetadata?.description?.trim() || description?.trim() || "";
   const showDescriptionToggle = trimmedDescription.length > 160;
@@ -66,7 +69,7 @@ const CreateSuccess = () => {
 
   return (
     <div className="col-span-1 w-full md:col-span-2">
-      <div className="mx-auto mt-8 w-full max-w-[1440px] px-6 pb-12 md:mt-6 md:px-14 md:pb-20">
+      <div className="mx-auto mt-2 md:mt-8 w-full max-w-[1440px] px-[6px] pb-12 md:mt-6 md:px-14 md:pb-20">
         <button
           type="button"
           onClick={handleBackToCreate}
@@ -76,8 +79,8 @@ const CreateSuccess = () => {
           Back to create
         </button>
 
-        <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
-          <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45)] md:sticky md:top-9">
+        <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
+          <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_24px_56px_-30px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:sticky md:top-9">
             <div className="aspect-square bg-[#EDEAE2]">
               <div className="relative size-full overflow-hidden">
                 {showSuccessSkeleton ? (
@@ -153,8 +156,8 @@ const CreateSuccess = () => {
                   )}
                 </div>
 
-                <div className="mt-5 flex items-baseline justify-between gap-4 border-b border-[#E4E0D7] pb-[18px]">
-                  <span className="font-archivo-bold text-[26px] tracking-[-0.015em] text-[#A8862F] md:text-[30px]">
+                <div className="my-2 md:my-4 flex items-baseline justify-between gap-4 border-b border-[#E4E0D7]">
+                  <span className="font-archivo-bold text-[30px] tracking-[-0.015em] text-[#A8862F]">
                     {displayedPrice}
                   </span>
                   <span className="pr-2 text-right font-archivo text-[13px] text-[#8C8678] md:pr-4">

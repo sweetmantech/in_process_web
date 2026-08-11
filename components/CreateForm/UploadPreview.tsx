@@ -1,12 +1,11 @@
 import { Fragment } from "react";
-import WritingPreview from "./WritingPreview";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useUploadPreview } from "@/hooks/useUploadPreview";
 
 const UploadPreview = () => {
-  const { writingText, previewFile } = useMetadataFormProvider();
+  const { previewFile } = useMetadataFormProvider();
   const { isUploading: isUploadingCrop } = useCropImageProvider();
   const { previewRef, handleClick, handlePreviewUpload, handleDoneClick } = useUploadPreview();
 
@@ -26,17 +25,11 @@ const UploadPreview = () => {
         {previewFile ? (
           <CropImage />
         ) : (
-          <>
-            {writingText ? (
-              <WritingPreview />
-            ) : (
-              <div className="flex size-full items-center justify-center p-3">
-                <p className="font-archivo text-sm uppercase tracking-[0.08em] text-[#A8A296]">
-                  Drop thumbnail
-                </p>
-              </div>
-            )}
-          </>
+          <div className="flex size-full items-center justify-center p-3">
+            <p className="font-archivo text-sm uppercase tracking-[0.08em] text-[#A8A296]">
+              Drop thumbnail
+            </p>
+          </div>
         )}
       </div>
       <p className="text-center font-archivo text-xs uppercase tracking-[0.08em] text-[#A8A296]">

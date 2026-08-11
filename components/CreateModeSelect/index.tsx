@@ -1,3 +1,1 @@
-import CreateModeSelect from "./CreateModeSelect";
-
-export default CreateModeSelect;
+export { default } from "./CreateTypeTabs";

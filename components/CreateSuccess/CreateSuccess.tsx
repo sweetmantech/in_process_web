@@ -81,7 +81,7 @@ const CreateSuccess = () => {
 
         <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
           <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_24px_56px_-30px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:sticky md:top-9">
-            <div className="relative aspect-square w-full overflow-hidden bg-[#EDEAE2]">
+            <div className="relative aspect-square w-full overflow-hidden bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)]">
               {showSuccessSkeleton ? (
                 <Skeleton className="size-full rounded-none" />
               ) : momentMetadata ? (

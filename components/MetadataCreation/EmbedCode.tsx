@@ -2,22 +2,9 @@ import { CodeXml, X } from "lucide-react";
 import Image from "next/image";
 import isHtml from "is-html";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { parseHTML } from "@/lib/faq/parseHTML";
 
 const EmbedCode = () => {
-  const { createdTokenId } = useMomentCreateProvider();
-  const { embedCode, setEmbedCode, name } = useMetadataFormProvider();
-
-  if (createdTokenId)
-    return (
-      <div className="size-full h-fit overflow-hidden rounded-2xl">
-        <div>{parseHTML(embedCode, true)}</div>
-        <div className="bg-white py-4 text-center">
-          <p className="font-spectral-italic">{name}</p>
-        </div>
-      </div>
-    );
+  const { embedCode, setEmbedCode } = useMetadataFormProvider();
 
   const isValidHtml = Boolean(embedCode && isHtml(embedCode));
   const isInvalidHtml = Boolean(embedCode && !isHtml(embedCode));

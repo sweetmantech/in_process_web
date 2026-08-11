@@ -1,36 +1,10 @@
-import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import LinkInput from "./LinkInput";
 import Image from "next/image";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { validateUrl } from "@/lib/url/validateUrl";
 import { Globe } from "lucide-react";
 
 const LinkPreview = () => {
-  const { createdTokenId } = useMomentCreateProvider();
-  const { link, previewFileUrl } = useMetadataFormProvider();
-
-  if (createdTokenId) {
-    return (
-      <div className="flex flex-col items-center overflow-hidden rounded-2xl bg-white px-4 py-6">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={previewFileUrl} alt="not found image" />
-        <div className="py-4 text-center">
-          {validateUrl(link) ? (
-            <a
-              className="font-spectral-italic hover:text-grey-moss-400"
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {link}
-            </a>
-          ) : (
-            <p className="font-spectral-italic text-grey-moss-400">Invalid or unsafe URL</p>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const { previewFileUrl } = useMetadataFormProvider();
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3 rounded-[12px] border border-[#E4E0D7] bg-white px-4 py-4 shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:m-4 md:gap-2 md:rounded-2xl md:px-4 md:py-6 md:shadow-none">

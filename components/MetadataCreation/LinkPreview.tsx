@@ -41,7 +41,9 @@ const LinkPreview = () => {
               height={44}
               alt="not found link"
             />
-            <p className="text-center font-archivo-medium">Paste any link from the internet</p>
+            <p className="text-center font-archivo-medium uppercase">
+              Paste any link from the internet
+            </p>
           </div>
           <LinkInput />
           {previewFileUrl && (

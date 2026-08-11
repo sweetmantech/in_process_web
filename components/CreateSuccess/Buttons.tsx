@@ -11,9 +11,9 @@ interface ButtonsProps {
 }
 
 const PRIMARY_BUTTON_CLASS =
-  "flex-1 rounded-[12px] px-[15px] py-[15px] font-archivo-bold text-[15px] transition-colors";
+  "flex-1 whitespace-nowrap rounded-[12px] px-[15px] py-[15px] font-archivo-bold text-[15px] transition-colors";
 const SECONDARY_BUTTON_CLASS =
-  "flex-1 rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
+  "flex-1 whitespace-nowrap rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
 
 const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps) => {
   const { push } = useRouter();
@@ -50,7 +50,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
 
   return (
     <>
-      <div className="mt-[18px] flex flex-row gap-[11px]">
+      <div className="mt-[14px] flex flex-row gap-[11px]">
         <button
           type="button"
           onClick={() => setShareOpen((current) => !current)}
@@ -71,15 +71,15 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
         </button>
       </div>
       {shareOpen && (
-        <div className="mt-[11px] flex flex-row gap-[9px]">
+        <div className="mt-[9px] flex flex-row gap-[9px]">
           <button
             type="button"
             onClick={handleXShare}
             disabled={!shareUrl}
             className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
-            <span className="font-archivo-bold">𝕏</span>
-            <span>Post</span>
+            <span className="font-archivo-bold whitespace-nowrap">𝕏</span>
+            <span className="whitespace-nowrap">Post</span>
           </button>
           <button
             type="button"
@@ -101,7 +101,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
             ) : (
               <Copy className="size-4" strokeWidth={1.75} />
             )}
-            {copied ? "Copied" : "Copy link"}
+            <span className="whitespace-nowrap">{copied ? "Copied" : "Copy link"}</span>
           </button>
         </div>
       )}

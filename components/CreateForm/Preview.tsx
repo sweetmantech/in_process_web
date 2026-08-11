@@ -29,10 +29,10 @@ const Preview = () => {
   }
 
   return (
-    <div className="border-b border-[#E4E0D7] pb-5">
+    <div className="border-b border-[#E4E0D7] pb-4 md:pb-5">
       <div className="flex items-center gap-3">
         {(showImagePreview || showWritingPreview) && (
-          <div className="relative size-[60px] shrink-0 overflow-hidden rounded-[10px] border border-[#E4E0D7]">
+          <div className="relative size-[52px] shrink-0 overflow-hidden rounded-[10px] border border-[#E4E0D7] md:size-[60px]">
             {showImagePreview && previewFileUrl && (
               <Image
                 key={
@@ -53,7 +53,10 @@ const Preview = () => {
             {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
           </div>
         )}
-        <div className="min-w-0 flex-1" />
+        <div className="min-w-0 flex-1 font-archivo text-[11.5px] text-[#A8A296] md:hidden">
+          How this appears in the timeline
+        </div>
+        <div className="hidden min-w-0 flex-1 md:block" />
         {showPreviewControls && <PreviewModal />}
       </div>
     </div>

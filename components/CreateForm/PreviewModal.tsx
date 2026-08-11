@@ -19,7 +19,7 @@ const PreviewModal = () => {
       >
         <button
           type="button"
-          className="shrink-0 rounded-[10px] border border-[#DCD6CA] bg-transparent px-3.5 py-2 font-archivo-medium text-[12.5px] uppercase tracking-[0.06em] text-grey-moss-900 transition-colors hover:bg-[#F1EEE8] disabled:!pointer-events-auto disabled:!cursor-not-allowed"
+          className="shrink-0 rounded-[10px] border border-[#DCD6CA] bg-transparent px-3.5 py-2 font-archivo-medium text-[11.5px] uppercase tracking-[0.06em] text-grey-moss-900 transition-colors hover:bg-[#F1EEE8] disabled:!pointer-events-auto disabled:!cursor-not-allowed md:text-[12.5px]"
         >
           set preview
         </button>

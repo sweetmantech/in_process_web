@@ -21,7 +21,7 @@ const BulkCreateButton = () => {
       type="button"
       onClick={createBatch}
       disabled={isCreating || !allNamed || count === 0}
-      className="flex w-full items-center justify-center gap-2 rounded-lg bg-grey-moss-900 px-4 py-4 font-archivo-bold text-[15.5px] text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-50 md:w-auto md:min-w-[160px] md:px-8 md:py-3.5"
+      className="flex h-auto w-full items-center justify-center gap-2 rounded-[13px] bg-grey-moss-900 px-4 py-[15px] font-archivo-bold text-[15px] text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-50 md:w-auto md:min-w-[160px] md:px-8 md:py-3.5 md:text-[15.5px]"
     >
       <CircleDot className="size-[18px]" strokeWidth={1.75} />
       {label}

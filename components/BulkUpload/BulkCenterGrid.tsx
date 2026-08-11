@@ -32,9 +32,9 @@ const BulkCenterGrid = () => {
         onChange={onChange}
       />
 
-      <div className="mx-auto flex min-h-0 w-full max-w-[720px] flex-1 flex-col">
-        <div className="relative min-h-0 w-full flex-1 [container-type:size]">
-          <div className="absolute left-1/2 top-1/2 size-[min(100cqmin,720px)] max-h-full max-w-full -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)]">
+      <div className="mx-auto flex min-h-0 w-full max-w-[720px] flex-col md:min-h-0 md:flex-1">
+        <div className="relative aspect-square w-full shrink-0 [container-type:size] md:aspect-auto md:min-h-0 md:flex-1 md:shrink">
+          <div className="absolute inset-0 overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:inset-auto md:left-1/2 md:top-1/2 md:size-[min(100cqmin,720px)] md:max-h-full md:max-w-full md:-translate-x-1/2 md:-translate-y-1/2">
             <div className="relative size-full bg-[#EDEAE2]">
               {!isCreating && (
                 <button

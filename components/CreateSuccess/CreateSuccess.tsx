@@ -81,24 +81,22 @@ const CreateSuccess = () => {
 
         <div className="grid items-start gap-4 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] md:gap-12">
           <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_24px_56px_-30px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:sticky md:top-9">
-            <div className="aspect-square bg-[#EDEAE2]">
-              <div className="relative size-full overflow-hidden">
-                {showSuccessSkeleton ? (
-                  <Skeleton className="size-full rounded-none" />
-                ) : momentMetadata ? (
-                  isThoughtMoment ? (
-                    <ThoughtSuccessPreview text={writingText} metadata={momentMetadata} />
-                  ) : (
-                    <MomentsGridPreview data={momentMetadata} fit="contain" />
-                  )
+            <div className="relative aspect-square w-full overflow-hidden bg-[#EDEAE2]">
+              {showSuccessSkeleton ? (
+                <Skeleton className="size-full rounded-none" />
+              ) : momentMetadata ? (
+                isThoughtMoment ? (
+                  <ThoughtSuccessPreview text={writingText} metadata={momentMetadata} />
                 ) : (
-                  <div className="flex size-full items-center justify-center p-6">
-                    <p className="text-center font-archivo text-[12.5px] uppercase tracking-[0.06em] text-[#A8A296]">
-                      Preview
-                    </p>
-                  </div>
-                )}
-              </div>
+                  <MomentsGridPreview data={momentMetadata} fit="contain" />
+                )
+              ) : (
+                <div className="flex size-full items-center justify-center p-6">
+                  <p className="text-center font-archivo text-[12.5px] uppercase tracking-[0.06em] text-[#A8A296]">
+                    Preview
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

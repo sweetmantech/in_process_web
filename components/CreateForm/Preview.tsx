@@ -2,11 +2,9 @@ import Image from "next/image";
 import PreviewModal from "./PreviewModal";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "@/hooks/useTypeParam";
-import UploadProgressOverlay from "../MetadataCreation/UploadProgressOverlay";
 
 const Preview = () => {
-  const { previewFile, animationFile, imageFile, isUploading, uploadProgress, previewFileUrl } =
-    useMetadataFormProvider();
+  const { previewFile, animationFile, imageFile, previewFileUrl } = useMetadataFormProvider();
   const type = useTypeParam();
 
   if (type === "writing") return null;
@@ -32,7 +30,6 @@ const Preview = () => {
               src={previewFileUrl}
               alt="not found preview."
             />
-            {isUploading && <UploadProgressOverlay uploadProgress={uploadProgress} />}
           </div>
         ) : (
           <div className="flex size-[52px] shrink-0 flex-col items-center justify-center rounded-[10px] border border-dashed border-[#DCD6CA] bg-[#FBFAF7] px-1 text-center md:size-[60px]">

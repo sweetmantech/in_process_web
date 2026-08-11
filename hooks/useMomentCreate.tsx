@@ -39,13 +39,14 @@ export default function useMomentCreate() {
       const INDEXER_SETTLE_MS = 3000; // wait for indexer to pick up newly minted token
       await new Promise((resolve) => setTimeout(resolve, INDEXER_SETTLE_MS));
 
-      setIsUploading(false);
-      setUploadProgress(100);
-      setCreatedTokenId(result.tokenId.toString());
-
+      // Navigate while create-stage layout is still intact. Setting createdTokenId
+      // or clearing upload state first shrinks MetadataCreation/Preview before success mounts.
       const typeParam = type ? `type=${type}&` : "";
       const collectionParam = `collection=${result.contractAddress}&`;
       push(`/create/success?${typeParam}${collectionParam}tokenId=${result.tokenId.toString()}`);
+      setCreatedTokenId(result.tokenId.toString());
+      setIsUploading(false);
+      setUploadProgress(100);
       setCreating(false);
       return result;
     } catch (err: any) {

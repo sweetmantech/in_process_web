@@ -18,7 +18,8 @@ const Preview = ({ children }: { children: ReactNode }) => {
     if (type === "link" && isMobile) return false;
     if (type === "embed" && isMobile) return false;
     if (type === "writing") return false;
-    if (createdTokenId) return false;
+    // Keep create-stage chrome stable until route leaves; createdTokenId must not collapse it.
+    if (createdTokenId && !isCreatingPage) return false;
     // Empty dropzone is self-styled; stripe frame only when media is present.
     if (isCreatingPage && !hasMedia) return false;
     return true;
@@ -28,15 +29,13 @@ const Preview = ({ children }: { children: ReactNode }) => {
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        // Thought sheet must keep full-stage height even after create sets tokenId.
+        // Create stage keeps full preview size until /create/success mounts.
         isWritingPage
           ? "flex min-h-[300px] flex-1 md:min-h-0"
-          : createdTokenId
-            ? isCreatingPage
-              ? "min-h-[300px]"
-              : "min-h-auto"
-            : isCreatingPage
-              ? "aspect-square min-h-0 md:aspect-auto md:min-h-0 md:flex-1"
+          : isCreatingPage
+            ? "aspect-square min-h-0 md:aspect-auto md:min-h-0 md:flex-1"
+            : createdTokenId
+              ? "min-h-auto"
               : type === "embed" || type === "link"
                 ? "flex min-h-0 flex-col md:min-h-0 md:flex-1"
                 : "min-h-[300px] md:min-h-0 md:flex-1",

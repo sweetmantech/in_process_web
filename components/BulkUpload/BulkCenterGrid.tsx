@@ -1,43 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import useBulkCenterGrid from "@/hooks/useBulkCenterGrid";
 import BulkMediaPreview from "./BulkMediaPreview";
 import BulkThumbSwiper from "./BulkThumbSwiper";
 
 const BulkCenterGrid = () => {
-  const { bulkItems, removeFile, setItemName, isCreating, inputRef, onChange } =
-    useBulkCenterGrid();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    if (bulkItems.length === 0) {
-      setSelectedIndex(0);
-      return;
-    }
-    setSelectedIndex((current) => Math.min(current, bulkItems.length - 1));
-  }, [bulkItems.length]);
-
-  const selectedItem = bulkItems[Math.min(selectedIndex, bulkItems.length - 1)];
+  const {
+    bulkItems,
+    setItemName,
+    isCreating,
+    inputRef,
+    onChange,
+    selectedIndex,
+    setSelectedIndex,
+    selectedItem,
+    handleRemoveSelected,
+    handleRemoveAt,
+  } = useBulkCenterGrid();
 
   if (!selectedItem) return null;
-
-  const handleRemoveSelected = () => {
-    const nextIndex = selectedIndex > 0 ? selectedIndex - 1 : 0;
-    removeFile(selectedItem.id);
-    setSelectedIndex(nextIndex);
-  };
-
-  const handleRemoveAt = (id: string, index: number) => {
-    removeFile(id);
-    setSelectedIndex((current) => {
-      if (bulkItems.length <= 1) return 0;
-      if (index < current) return current - 1;
-      if (index === current) return Math.max(0, current - 1);
-      return current;
-    });
-  };
 
   return (
     <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-hidden">

@@ -13,13 +13,10 @@ export type BulkMediaSource = {
 /** Build feed-compatible metadata so ContentRenderer can preview local bulk files. */
 export const buildBulkItemMetadata = (item: BulkMediaSource, fileUrl: string): MomentMetadata => {
   let mime =
-    item.mimeType ||
-    (item.fileName ? inferFileMimeType({ type: "", name: item.fileName }) : "");
+    item.mimeType || (item.fileName ? inferFileMimeType({ type: "", name: item.fileName }) : "");
 
   if (isModelGltfLike(mime, item.fileName) && !isModelGltfMime(mime)) {
-    mime = item.fileName?.toLowerCase().endsWith(".gltf")
-      ? "model/gltf+json"
-      : "model/gltf-binary";
+    mime = item.fileName?.toLowerCase().endsWith(".gltf") ? "model/gltf+json" : "model/gltf-binary";
   }
 
   const isImage = mime.includes("image");

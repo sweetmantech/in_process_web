@@ -82,7 +82,7 @@ const useBulkCreate = () => {
           name: item.name,
           description: "",
           link: "",
-          onProgress: (p) => updateItemStatus(item.id, { progress: p }),
+          onProgress: (p) => updateItemStatus(item.id, { progress: Math.round(p) }),
         });
 
         metadataUris.push(uri);
@@ -107,6 +107,9 @@ const useBulkCreate = () => {
         items: bulkItems.map((item, idx) => ({
           name: item.name,
           previewUrl: item.previewUrl,
+          fileUrl: item.fileUrl,
+          mimeType: item.mimeType,
+          fileName: item.file.name,
           tokenId: batchResult.tokenIds[idx] ?? "",
         })),
       };

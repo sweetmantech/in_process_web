@@ -3,6 +3,7 @@ import { BulkItem } from "@/types/bulk";
 import { handleImageSelection } from "./handleImageSelection";
 import { handleVideoSelection } from "./handleVideoSelection";
 import { handleOtherFileSelection } from "./handleOtherFileSelection";
+import { inferFileMimeType } from "./inferFileMimeType";
 
 export const processFileToItem = async (file: File): Promise<BulkItem> => {
   let imageFile: File | null = null;
@@ -10,9 +11,11 @@ export const processFileToItem = async (file: File): Promise<BulkItem> => {
   let previewFile: File | null = null;
   let mimeType = "";
 
+  const resolvedMime = inferFileMimeType(file);
+
   const mimeHandlers = {
     setMimeType: (m: string) => {
-      mimeType = m;
+      mimeType = m || resolvedMime;
     },
     setImageFile: (f: File | null) => {
       imageFile = f;
@@ -25,8 +28,8 @@ export const processFileToItem = async (file: File): Promise<BulkItem> => {
     },
   };
 
-  const isImage = file.type.includes("image");
-  const isVideo = file.type.includes("video");
+  const isImage = resolvedMime.includes("image");
+  const isVideo = resolvedMime.includes("video");
 
   if (isVideo) {
     await handleVideoSelection(file, mimeHandlers);
@@ -40,11 +43,16 @@ export const processFileToItem = async (file: File): Promise<BulkItem> => {
     }
   }
 
-  const previewUrl = previewFile
-    ? URL.createObjectURL(previewFile)
-    : imageFile
-      ? URL.createObjectURL(imageFile)
-      : "";
+  if (!mimeType) mimeType = resolvedMime;
+
+  const fileUrl = URL.createObjectURL(file);
+  const thumbFile =
+    previewFile && previewFile !== file
+      ? previewFile
+      : imageFile && imageFile !== file
+        ? imageFile
+        : null;
+  const previewUrl = thumbFile ? URL.createObjectURL(thumbFile) : isImage ? fileUrl : "";
 
   const baseName = file.name.replace(/\.[^/.]+$/, "");
 
@@ -54,6 +62,7 @@ export const processFileToItem = async (file: File): Promise<BulkItem> => {
     previewFile,
     mimeType,
     name: baseName,
+    fileUrl,
     previewUrl,
     status: "idle",
     progress: 0,

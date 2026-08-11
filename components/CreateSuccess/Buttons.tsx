@@ -50,7 +50,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
 
   return (
     <>
-      <div className="mt-[14px] flex flex-row gap-[11px]">
+      <div className="mt-[12px] flex flex-row gap-[11px]">
         <button
           type="button"
           onClick={() => setShareOpen((current) => !current)}
@@ -71,7 +71,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
         </button>
       </div>
       {shareOpen && (
-        <div className="mt-[9px] flex flex-row gap-[9px]">
+        <div className="mt-[8px] flex flex-row gap-[9px]">
           <button
             type="button"
             onClick={handleXShare}

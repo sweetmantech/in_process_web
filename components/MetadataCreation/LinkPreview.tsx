@@ -33,8 +33,8 @@ const LinkPreview = () => {
   }
 
   return (
-    <div className="flex flex-col gap-3 rounded-[12px] border border-[#E4E0D7] bg-white px-4 py-4 shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:m-4 md:gap-2 md:rounded-2xl md:px-4 md:py-6 md:shadow-none">
-      <div className="flex items-center gap-2.5 md:flex-col md:gap-2">
+    <div className="flex min-h-0 flex-1 flex-col gap-3 rounded-[12px] border border-[#E4E0D7] bg-white px-4 py-4 shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:m-4 md:gap-2 md:rounded-2xl md:px-4 md:py-6 md:shadow-none">
+      <div className="flex shrink-0 items-center gap-2.5 md:flex-col md:gap-2">
         <Image
           src="/link.svg"
           blurDataURL="/link.png"
@@ -47,9 +47,11 @@ const LinkPreview = () => {
           Paste any link from the internet
         </p>
       </div>
-      <LinkInput />
+      <div className="shrink-0">
+        <LinkInput />
+      </div>
       {previewFileUrl ? (
-        <div className="relative aspect-video w-full overflow-hidden rounded-[11px] md:mt-4">
+        <div className="relative min-h-0 w-full flex-1 overflow-hidden rounded-[11px] md:mt-4">
           <Image
             src={previewFileUrl}
             alt="not found image"
@@ -59,7 +61,7 @@ const LinkPreview = () => {
           />
         </div>
       ) : (
-        <div className="flex min-h-[96px] flex-col items-center justify-center gap-1.5 rounded-[11px] border-[1.5px] border-dashed border-[#DCD6CA] text-center text-[#A8A296] md:hidden">
+        <div className="flex min-h-[96px] flex-1 flex-col items-center justify-center gap-1.5 rounded-[11px] border-[1.5px] border-dashed border-[#DCD6CA] text-center text-[#A8A296] md:mt-4">
           <Globe className="size-5" strokeWidth={1.75} />
           <div className="font-archivo text-[11px] uppercase tracking-[0.06em]">
             link preview appears here

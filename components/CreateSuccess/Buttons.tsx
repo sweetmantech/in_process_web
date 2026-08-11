@@ -8,6 +8,7 @@ interface ButtonsProps {
   shareUrl?: string;
   timelineHref?: string;
   shareTitle?: string;
+  shareLabel?: string;
 }
 
 const PRIMARY_BUTTON_CLASS =
@@ -15,7 +16,12 @@ const PRIMARY_BUTTON_CLASS =
 const SECONDARY_BUTTON_CLASS =
   "flex-1 rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
 
-const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps) => {
+const Buttons = ({
+  shareUrl,
+  timelineHref,
+  shareTitle = "moment",
+  shareLabel = "Share",
+}: ButtonsProps) => {
   const { push } = useRouter();
   const [shareOpen, setShareOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -58,7 +64,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
           className={`${PRIMARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 bg-grey-moss-900 text-white hover:bg-black disabled:cursor-not-allowed disabled:opacity-50`}
         >
           <Share2 className="size-[18px]" strokeWidth={1.75} />
-          Share
+          {shareLabel}
         </button>
         <button
           type="button"

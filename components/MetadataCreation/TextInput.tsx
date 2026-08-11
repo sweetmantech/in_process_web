@@ -17,7 +17,7 @@ const TextInput = () => {
   };
 
   return (
-    <div className="relative flex size-full min-h-[300px] overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-white shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:min-h-0 md:rounded-md md:shadow-[0_20px_50px_-24px_rgba(27,21,4,0.3)]">
+    <div className="relative flex min-h-0 size-full flex-1 overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-white shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:rounded-md md:shadow-[0_20px_50px_-24px_rgba(27,21,4,0.3)]">
       <textarea
         className="relative z-[2] size-full resize-none bg-transparent px-5 py-[22px] font-spectral text-[17px] leading-[1.7] text-grey-moss-900 outline-none placeholder:text-[#B4AEA2] disabled:cursor-not-allowed md:p-12 md:px-14 md:text-[20px]"
         value={writingText}

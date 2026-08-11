@@ -11,7 +11,7 @@ const AudioContent = ({ rawAnimationUri, rawImageUri, variant = "fill" }: AudioC
   if (!rawAnimationUri) return <ErrorContent />;
   return (
     <AudioPlayer
-      thumbnailUrl={rawImageUri || "/images/placeholder.png"}
+      thumbnailUrl={rawImageUri || undefined}
       audioUrl={rawAnimationUri}
       variant={variant}
     />

@@ -22,6 +22,7 @@ const AudioPlayer = ({
 }: AudioPlayerProps) => {
   const { audioSrc, setAudioSrc } = useAudioProvider();
   const isNatural = variant === "natural";
+  const hasThumbnail = Boolean(thumbnailUrl?.trim());
 
   useEffect(() => {
     const src = getStreamingUrl(audioUrl);
@@ -38,10 +39,10 @@ const AudioPlayer = ({
       )}
     >
       {/* Blurred background - Apple Music style (fill layout only) */}
-      {!isNatural && thumbnailUrl && (
+      {!isNatural && hasThumbnail && (
         <div className="absolute inset-0 overflow-hidden">
           <Image
-            src={thumbnailUrl}
+            src={thumbnailUrl!}
             alt=""
             fill
             sizes="100vw"
@@ -55,23 +56,29 @@ const AudioPlayer = ({
       <div className="relative flex min-h-0 flex-1 items-center justify-center p-3">
         <div
           className={cn(
-            "relative aspect-square w-full overflow-hidden rounded-lg shadow-2xl",
+            "relative w-full",
             isNatural ? "max-w-[62%]" : "max-w-[70%] sm:max-w-[95%]"
           )}
         >
-          {thumbnailUrl ? (
-            <Image
-              src={thumbnailUrl}
-              alt="Audio cover"
-              fill
-              sizes="70vw"
-              className="object-contain"
-            />
-          ) : allowThumbnailUpload ? (
-            <ThumbnailUpload />
-          ) : (
-            <DiscPlaceholder />
-          )}
+          {/* In-flow sizer so the frame keeps height when children are absolute. */}
+          <div className="aspect-square w-full" aria-hidden />
+          <div className="absolute inset-0 overflow-hidden rounded-lg shadow-2xl">
+            {hasThumbnail ? (
+              <Image
+                src={thumbnailUrl!}
+                alt="Audio cover"
+                fill
+                sizes="70vw"
+                className="object-contain"
+              />
+            ) : allowThumbnailUpload ? (
+              <ThumbnailUpload />
+            ) : (
+              <div className="absolute inset-[12%]">
+                <DiscPlaceholder />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

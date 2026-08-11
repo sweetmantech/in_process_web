@@ -28,17 +28,19 @@ const Preview = ({ children }: { children: ReactNode }) => {
     <div
       className={cn(
         "relative w-full overflow-hidden",
-        createdTokenId
-          ? isWritingPage || isCreatingPage
-            ? "min-h-[300px]"
-            : "min-h-auto"
-          : isCreatingPage
-            ? "aspect-square min-h-0 md:aspect-auto md:min-h-0 md:flex-1"
-            : type === "embed" || type === "link"
-              ? "min-h-0 md:min-h-0 md:flex-1"
-              : "min-h-[300px] md:min-h-0 md:flex-1",
-        !isCreatingPage && "md:aspect-auto",
-        isWritingPage && "flex min-h-[300px] md:min-h-0",
+        // Thought sheet must keep full-stage height even after create sets tokenId.
+        isWritingPage
+          ? "flex min-h-[300px] flex-1 md:min-h-0"
+          : createdTokenId
+            ? isCreatingPage
+              ? "min-h-[300px]"
+              : "min-h-auto"
+            : isCreatingPage
+              ? "aspect-square min-h-0 md:aspect-auto md:min-h-0 md:flex-1"
+              : type === "embed" || type === "link"
+                ? "flex min-h-0 flex-col md:min-h-0 md:flex-1"
+                : "min-h-[300px] md:min-h-0 md:flex-1",
+        !isCreatingPage && !isWritingPage && "md:aspect-auto",
         frameVisible &&
           "rounded-[14px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_8px_26px_-12px_rgba(27,21,4,.3)] md:rounded-[12px] md:shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]"
       )}

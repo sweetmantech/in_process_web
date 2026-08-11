@@ -5,7 +5,6 @@ import Collections from "@/components/Collections";
 import Price from "@/components/CreateForm/Price";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
-import BulkCreateButton from "./BulkCreateButton";
 import { Trash2 } from "lucide-react";
 
 const BulkSideForm = () => {
@@ -20,17 +19,17 @@ const BulkSideForm = () => {
   };
 
   return (
-    <div className="col-span-1 w-full">
+    <div className="col-span-1 w-full rounded-lg bg-white px-3 py-5 md:rounded-none md:bg-transparent md:px-0 md:py-0">
       <div className="flex h-fit flex-col gap-6 pb-4 md:min-h-full md:pb-0">
         <div className="flex items-center justify-between gap-3">
-          <div className="font-spectral-italic text-[22px] text-grey-moss-900">
+          <div className="font-spectral-italic text-lg text-grey-moss-900 md:text-[22px]">
             {bulkItems.length} media selected
           </div>
           <button
             type="button"
             onClick={clearAll}
             disabled={isCreating}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#DCD6CA] bg-transparent px-2.5 py-1.5 font-archivo-medium text-xs text-[#8C8678] hover:text-grey-moss-900 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-[18px] border border-[#DCD6CA] bg-transparent px-2.5 py-1.5 font-archivo-medium text-[11.5px] text-[#8C8678] hover:text-grey-moss-900 disabled:opacity-50 md:rounded-full md:text-xs"
           >
             <Trash2 className="size-[13px]" strokeWidth={1.75} />
             clear all
@@ -60,9 +59,6 @@ const BulkSideForm = () => {
         </button>
 
         <div className="hidden flex-1 md:block" />
-        <div className="md:hidden">
-          <BulkCreateButton />
-        </div>
       </div>
     </div>
   );

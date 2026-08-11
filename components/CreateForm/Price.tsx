@@ -37,7 +37,7 @@ export default function Price() {
           onWheel={(e) => {
             e.currentTarget.blur();
           }}
-          className="min-w-0 flex-1 border-none bg-transparent font-archivo-bold text-[26px] tracking-[-0.01em] text-grey-moss-900 outline-none [appearance:textfield] focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          className="min-w-0 flex-1 border-none bg-transparent font-archivo-bold text-2xl tracking-[-0.01em] text-grey-moss-900 outline-none [appearance:textfield] focus:ring-0 md:text-[26px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           disabled={isDisabled}
         />
         <CurrencySelect />

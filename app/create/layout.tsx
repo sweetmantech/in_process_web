@@ -13,7 +13,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
       <CollectionsProvider>
         <MomentCreateProviderWrapper>
           <main className="flex w-screen grow flex-col md:min-h-0 md:overflow-hidden">
-            <div className="relative mt-12 grid w-full flex-1 grid-cols-1 gap-6 px-6 md:mx-auto md:mt-0 md:flex md:min-h-0 md:max-w-[1680px] md:gap-0 md:px-0">
+            <div className="relative mt-4 grid w-full flex-1 grid-cols-1 gap-3 px-3 md:mx-auto md:mt-0 md:flex md:min-h-0 md:max-w-[1680px] md:gap-0 md:px-0">
               {children}
             </div>
           </main>

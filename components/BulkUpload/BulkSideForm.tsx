@@ -23,7 +23,9 @@ const BulkSideForm = () => {
     <div className="col-span-1 w-full">
       <div className="flex h-fit flex-col gap-6 pb-4 md:min-h-full md:pb-0">
         <div className="flex items-center justify-between gap-3">
-          <div className="font-spectral-italic text-[22px] text-grey-moss-900">Details</div>
+          <div className="font-spectral-italic text-[22px] text-grey-moss-900">
+            {bulkItems.length} media selected
+          </div>
           <button
             type="button"
             onClick={clearAll}

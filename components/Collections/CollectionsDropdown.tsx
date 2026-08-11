@@ -53,15 +53,15 @@ const CollectionsDropdown = ({
           aria-expanded={open}
           disabled={disabled}
           className={cn(
-            "h-9 w-full justify-between rounded-[0px] border border-grey bg-white !font-spectral !ring-0 !ring-offset-0 disabled:opacity-50",
+            "h-auto w-full justify-between rounded-none border-0 border-b-[1.5px] border-[#DCD6CA] bg-transparent px-0.5 py-[9px] !font-archivo text-[15px] text-grey-moss-900 !ring-0 !ring-offset-0 shadow-none hover:bg-transparent disabled:opacity-50",
             className
           )}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             {isLoading || !currentCollection ? (
-              <div className="h-[24px] w-[24px] animate-pulse rounded bg-neutral-200" />
+              <div className="h-4 w-4 animate-pulse rounded bg-neutral-200" />
             ) : (
-              <div className="relative h-[24px] w-[24px] shrink-0 overflow-hidden rounded">
+              <div className="relative h-4 w-4 shrink-0 overflow-hidden rounded-sm">
                 <BlurImage
                   src={imageUrl}
                   alt={displayName}
@@ -72,7 +72,7 @@ const CollectionsDropdown = ({
             )}
             <span>{displayName}</span>
           </div>
-          <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronDown className="ml-2 size-4 shrink-0 text-[#A8A296]" strokeWidth={1.75} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">

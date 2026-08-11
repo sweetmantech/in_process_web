@@ -5,7 +5,7 @@ import Collections from "@/components/Collections";
 import Price from "@/components/CreateForm/Price";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
 import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
-import BulkCreateButton from "./BulkCreateButton";
+import { Trash2 } from "lucide-react";
 
 const BulkSideForm = () => {
   const { openModal } = useCreateCollectionModalTriggerProvider();
@@ -19,11 +19,22 @@ const BulkSideForm = () => {
   };
 
   return (
-    <div className="col-span-1 w-full md:pl-12">
-      <div className="flex h-fit flex-col space-y-3 pb-4">
-        <p className="font-archivo text-sm text-grey-moss-500">
-          {bulkItems.length} file{bulkItems.length !== 1 ? "s" : ""} selected
-        </p>
+    <div className="col-span-1 w-full rounded-lg bg-white px-3 py-5 md:rounded-none md:bg-transparent md:px-0 md:py-0">
+      <div className="flex h-fit flex-col gap-6 pb-4 md:min-h-full md:pb-0">
+        <div className="flex items-center justify-between gap-3">
+          <div className="font-spectral-italic text-lg text-grey-moss-900 md:text-[22px]">
+            {bulkItems.length} media selected
+          </div>
+          <button
+            type="button"
+            onClick={clearAll}
+            disabled={isCreating}
+            className="inline-flex items-center gap-1.5 rounded-[18px] border border-[#DCD6CA] bg-transparent px-2.5 py-1.5 font-archivo-medium text-[11.5px] text-[#8C8678] hover:text-grey-moss-900 disabled:opacity-50 md:rounded-full md:text-xs"
+          >
+            <Trash2 className="size-[13px]" strokeWidth={1.75} />
+            clear all
+          </button>
+        </div>
 
         <Collections onCreateNew={openModal} />
 
@@ -38,26 +49,16 @@ const BulkSideForm = () => {
           onChange={handleAddMore}
         />
 
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => inputRef.current?.click()}
-            disabled={isCreating}
-            className="flex-1 rounded-sm border border-grey-moss-400 py-2 font-archivo text-sm text-grey-moss-700 hover:bg-grey-moss-200 disabled:opacity-50"
-          >
-            + add more
-          </button>
-          <button
-            type="button"
-            onClick={clearAll}
-            disabled={isCreating}
-            className="flex-1 rounded-sm border border-grey-moss-400 py-2 font-archivo text-sm text-grey-moss-700 hover:bg-grey-moss-200 disabled:opacity-50"
-          >
-            clear all
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={isCreating}
+          className="rounded-[10px] border border-[#DCD6CA] py-2.5 font-archivo-medium text-[12.5px] uppercase tracking-[0.06em] text-grey-moss-900 hover:bg-[#F1EEE8] disabled:opacity-50"
+        >
+          + add more
+        </button>
 
-        <BulkCreateButton />
+        <div className="hidden flex-1 md:block" />
       </div>
     </div>
   );

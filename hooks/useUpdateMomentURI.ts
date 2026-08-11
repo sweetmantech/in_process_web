@@ -19,7 +19,6 @@ const useUpdateMomentURI = () => {
     setAnimationFile,
     setPreviewFile,
     setMimeType,
-    setDownloadUrl,
     setEmbedCode,
     setLink,
     setWritingText,
@@ -36,7 +35,6 @@ const useUpdateMomentURI = () => {
     setAnimationFile(null);
     setPreviewFile(null);
     setMimeType("");
-    setDownloadUrl("");
     setEmbedCode("");
     setLink("");
     setWritingText("");

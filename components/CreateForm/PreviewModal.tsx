@@ -19,14 +19,14 @@ const PreviewModal = () => {
       >
         <button
           type="button"
-          className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm border border-grey-moss-900 font-archivo !text-xl text-grey-moss-900 transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full"
+          className="shrink-0 rounded-[10px] border border-[#DCD6CA] bg-transparent px-3.5 py-2 font-archivo-medium text-[11.5px] uppercase tracking-[0.06em] text-grey-moss-900 transition-colors hover:bg-[#F1EEE8] disabled:!pointer-events-auto disabled:!cursor-not-allowed md:text-[12.5px]"
         >
           set preview
         </button>
       </DialogTrigger>
-      <DialogContent className="flex max-w-xl flex-col items-center !gap-0 overflow-hidden !rounded-3xl border-none !bg-white bg-transparent !px-4 py-6 shadow-lg">
+      <DialogContent className="flex max-w-[440px] flex-col items-center !gap-4 overflow-hidden !rounded-[18px] border-none !bg-white !px-[26px] py-[26px] shadow-[0_40px_90px_-30px_rgba(27,21,4,0.55)]">
         <VisuallyHidden>
-          <DialogTitle>Leave feedback</DialogTitle>
+          <DialogTitle>Preview</DialogTitle>
         </VisuallyHidden>
         <CropImageProvider>
           <UploadPreview />

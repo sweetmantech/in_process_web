@@ -1,4 +1,5 @@
 import { capturePdfPreview } from "./capturePdfPreview";
+import { inferFileMimeType } from "./inferFileMimeType";
 
 interface OtherFileSelectionHandlers {
   setMimeType: (mimeType: string) => void;
@@ -12,10 +13,11 @@ export const handleOtherFileSelection = async (
 ): Promise<void> => {
   // Store blob data - no upload happens here
   handlers.setAnimationFile(file);
-  handlers.setMimeType(file.type);
+  const mimeType = inferFileMimeType(file);
+  handlers.setMimeType(mimeType);
 
   // Generate preview image from PDF first page if PDF
-  if (file.type.includes("pdf")) {
+  if (mimeType.includes("pdf")) {
     try {
       const preview: { previewFile: File } = await capturePdfPreview(file);
       handlers.setPreviewFile(preview.previewFile);

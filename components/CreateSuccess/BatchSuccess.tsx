@@ -1,88 +1,140 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
+import { cn } from "@/lib/utils";
 import useBatchSuccess from "@/hooks/useBatchSuccess";
-import BatchSuccessCard from "./BatchSuccessCard";
+import useFireCreateSuccessConfetti from "@/hooks/useFireCreateSuccessConfetti";
+import BlurImage from "@/components/BlurImage";
+import Buttons from "./Buttons";
+import BatchSuccessThumbSwiper from "./BatchSuccessThumbSwiper";
+import BatchSuccessMediaPreview from "./BatchSuccessMediaPreview";
+import BatchSuccessSkeleton from "./BatchSuccessSkeleton";
 
 const BatchSuccess = () => {
   const {
-    result,
-    contractAddress,
-    tokenIds,
     items,
     collectionName,
-    collectionDescription,
-    handleCreateMore,
-    handleShare,
+    collectionImageUrl,
+    shareUrl,
+    timelineHref,
+    displayedPrice,
+    timestamp,
+    isLoading,
+    handleBackToCreate,
   } = useBatchSuccess();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const firstTokenId = items[0]?.tokenId;
+  const selectedItem = items[Math.min(selectedIndex, Math.max(items.length - 1, 0))];
+  const momentCount = items.length;
 
-  if (!result) return null;
+  useFireCreateSuccessConfetti({
+    liveTokenId: firstTokenId,
+    isLoading,
+    momentMetadata: items[0]?.metadata ?? items[0] ?? null,
+  });
+
+  if (isLoading) return <BatchSuccessSkeleton />;
+
+  if (items.length === 0 || !selectedItem) return null;
 
   return (
-    <>
-      <div className="col-span-1 h-fit">
-        <div className="flex w-full items-end gap-3">
-          <div className="relative w-full">
-            <p className="font-archivo-medium text-2xl md:text-4xl xl:text-5xl">
-              {tokenIds.length} moment{tokenIds.length !== 1 ? "s" : ""} created
-            </p>
-            <p className="font-archivo text-sm text-grey-moss-500">{new Date().toLocaleString()}</p>
-            <div className="relative flex flex-col gap-4 pr-4 pt-4 md:gap-2">
-              <div className="absolute -right-10 bottom-0 hidden aspect-[1/1] w-1/2 md:block">
-                <Image
-                  src="/semi-transparent.png"
-                  alt=""
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
+    <div className="col-span-1 w-full md:col-span-2">
+      <div className="mx-auto mt-2 w-full max-w-[1120px] px-[6px] pb-12 md:mt-9 md:px-10 md:pb-20">
+        <button
+          type="button"
+          onClick={handleBackToCreate}
+          className="mb-6 inline-flex items-center gap-2 font-archivo-medium text-[14px] text-[#6B6456] transition-colors hover:text-grey-moss-900 md:mb-7"
+        >
+          <ArrowLeft className="size-[18px]" strokeWidth={1.75} />
+          Back to create
+        </button>
+
+        <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] md:gap-10">
+          <div className="min-w-0 md:sticky md:top-9">
+            <div className="overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)]">
+              <div className="relative aspect-square bg-[#EDEAE2]">
+                <BatchSuccessMediaPreview
+                  key={selectedItem.tokenId || selectedIndex}
+                  item={selectedItem}
                 />
               </div>
-              <div className="relative flex flex-col gap-4 md:flex-row md:gap-2">
-                <button
-                  type="button"
-                  onClick={handleCreateMore}
-                  className="relative w-full rounded-sm bg-grey-moss-900 py-2 font-archivo text-2xl text-grey-eggshell hover:bg-grey-moss-300"
-                >
-                  create more
-                </button>
-                <button
-                  type="button"
-                  onClick={handleShare}
-                  className="relative w-full rounded-sm border border-grey-moss-900 bg-grey-moss-100 py-2 font-archivo text-2xl text-grey-moss-900 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell"
-                >
-                  share
-                </button>
+            </div>
+
+            <BatchSuccessThumbSwiper
+              items={items}
+              selectedIndex={selectedIndex}
+              onSelect={setSelectedIndex}
+            />
+          </div>
+
+          <div className="flex min-w-0 flex-col">
+            <h1 className="whitespace-nowrap font-archivo-medium text-[28px] leading-[1.02] tracking-[-0.01em] text-grey-moss-900 md:text-[36px]">
+              {momentCount} moment{momentCount !== 1 ? "s" : ""} created
+            </h1>
+
+            <div className="mt-4 font-archivo-bold text-[11px] uppercase tracking-[0.1em] text-[#A8A296]">
+              Collection
+            </div>
+            <div className="mt-1.5 flex items-center gap-3">
+              {collectionImageUrl ? (
+                <div className="relative size-10 shrink-0 overflow-hidden rounded-[10px] border border-[#E4E0D7] bg-[#EDEAE2]">
+                  <BlurImage
+                    src={collectionImageUrl}
+                    alt={collectionName}
+                    fill
+                    className="object-cover"
+                    sizes="40px"
+                  />
+                </div>
+              ) : null}
+              <div className="min-w-0 font-spectral-italic text-[28px] leading-[1.1] text-grey-moss-900 md:text-[32px]">
+                {collectionName}
               </div>
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {items.map((item, index) => {
+                const selected = index === selectedIndex;
+                return (
+                  <button
+                    key={`chip-${item.tokenId || index}`}
+                    type="button"
+                    onClick={() => setSelectedIndex(index)}
+                    className={cn(
+                      "rounded-[22px] border px-3.5 py-[7px] font-archivo-medium text-[13px] transition-colors",
+                      selected
+                        ? "border-grey-moss-900 bg-grey-moss-900 text-white"
+                        : "border-[#E4E0D7] bg-white text-grey-moss-900 hover:bg-[#F7F5F0]"
+                    )}
+                  >
+                    #{item.tokenId || index + 1}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-[18px] flex items-baseline justify-between gap-4 border-b border-[#E4E0D7] pb-4">
+              <span className="font-archivo-bold text-[28px] tracking-[-0.015em] text-[#A8862F]">
+                {displayedPrice}
+              </span>
+              <span className="text-right font-archivo text-[12.5px] text-[#A8A296]">
+                {timestamp}
+              </span>
+            </div>
+
+            <div className="mt-3">
+              <Buttons
+                shareUrl={shareUrl}
+                timelineHref={timelineHref}
+                shareTitle={`${momentCount} moments on ${collectionName}`}
+                shareLabel="Share all"
+              />
             </div>
           </div>
         </div>
       </div>
-
-      <div className="col-span-1">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {items.map((item, idx) => (
-            <BatchSuccessCard
-              key={item.tokenId || idx}
-              name={item.name}
-              previewUrl={item.previewUrl}
-              tokenId={item.tokenId}
-              contractAddress={contractAddress}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div className="col-span-1 w-full md:pl-12">
-        <p className="text-center font-archivo-medium text-2xl md:text-left md:text-4xl">
-          {collectionName}
-        </p>
-        {collectionDescription && (
-          <p className="!m-0 text-center font-archivo text-sm text-grey-moss-500 md:text-left">
-            {collectionDescription}
-          </p>
-        )}
-      </div>
-    </>
+    </div>
   );
 };
 

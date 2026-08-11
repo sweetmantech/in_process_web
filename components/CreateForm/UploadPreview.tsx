@@ -1,19 +1,19 @@
 import { Fragment } from "react";
-import WritingPreview from "./WritingPreview";
-import { Label } from "../ui/label";
 import { useCropImageProvider } from "@/providers/CropImageProvider";
 import CropImage from "@/components/CropImage";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useUploadPreview } from "@/hooks/useUploadPreview";
 
 const UploadPreview = () => {
-  const { writingText, previewFile } = useMetadataFormProvider();
+  const { previewFile } = useMetadataFormProvider();
   const { isUploading: isUploadingCrop } = useCropImageProvider();
   const { previewRef, handleClick, handlePreviewUpload, handleDoneClick } = useUploadPreview();
 
   return (
     <Fragment>
-      <Label className="w-full text-center font-archivo-medium text-2xl">Preview</Label>
+      <div className="w-full text-center font-spectral-italic text-2xl text-grey-moss-900">
+        Preview
+      </div>
       <input
         type="file"
         className="hidden"
@@ -21,37 +21,37 @@ const UploadPreview = () => {
         accept="image/*"
         onChange={handlePreviewUpload}
       />
-      <div className="relative mt-2 aspect-video w-3/4 overflow-hidden border border-grey font-spectral">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-[#E4E0D7] bg-[#EDEAE2] font-spectral">
         {previewFile ? (
           <CropImage />
         ) : (
-          <>
-            {writingText ? (
-              <WritingPreview />
-            ) : (
-              <div className="flex size-full items-center justify-center p-3">
-                <p className="font-spectral text-3xl">No Preview.</p>
-              </div>
-            )}
-          </>
+          <div className="flex size-full items-center justify-center p-3">
+            <p className="font-archivo text-sm uppercase tracking-[0.08em] text-[#A8A296]">
+              Drop thumbnail
+            </p>
+          </div>
         )}
       </div>
-      <p className="font-spectral-italic">drag / zoom to resize</p>
-      <button
-        type="button"
-        className="disabled:opacity-1 mt-2 w-3/4 transform rounded-sm border border-grey-moss-900 py-2 font-archivo transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 hover:text-grey-eggshell disabled:!pointer-events-auto disabled:!cursor-not-allowed"
-        onClick={handleClick}
-      >
-        upload thumbnail
-      </button>
-      <button
-        type="button"
-        className="disabled:opacity-1 mt-2 w-3/4 transform rounded-sm bg-grey-moss-900 py-2 font-archivo text-grey-eggshell transition-transform duration-150 hover:border-grey-moss-300 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed"
-        onClick={handleDoneClick}
-        disabled={isUploadingCrop}
-      >
-        {isUploadingCrop ? "saving..." : "done"}
-      </button>
+      <p className="text-center font-archivo text-xs uppercase tracking-[0.08em] text-[#A8A296]">
+        drag / zoom to resize
+      </p>
+      <div className="flex w-full gap-2.5">
+        <button
+          type="button"
+          className="flex-1 rounded-[11px] border border-[#DCD6CA] bg-transparent py-3 font-archivo-medium text-[13px] uppercase tracking-[0.06em] text-grey-moss-900 transition-colors hover:bg-[#F1EEE8]"
+          onClick={handleClick}
+        >
+          upload thumbnail
+        </button>
+        <button
+          type="button"
+          className="flex-1 rounded-[11px] bg-grey-moss-900 py-3.5 font-archivo-bold text-[13px] uppercase tracking-[0.06em] text-white transition-colors hover:bg-black disabled:opacity-50"
+          onClick={handleDoneClick}
+          disabled={isUploadingCrop}
+        >
+          {isUploadingCrop ? "saving..." : "done"}
+        </button>
+      </div>
     </Fragment>
   );
 };

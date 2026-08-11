@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { toast } from "sonner";
+import { CircleDot } from "lucide-react";
 
 const CreateButton = () => {
   const { create, creating } = useMomentCreateProvider();
@@ -50,8 +51,9 @@ const CreateButton = () => {
     <Button
       onClick={handleCreate}
       disabled={creating}
-      className="disabled:opacity-1 z-10 w-fit transform self-center !rounded-sm bg-black px-14 py-5 !font-archivo !text-xl text-grey-eggshell transition-transform duration-150 hover:bg-grey-moss-300 disabled:!pointer-events-auto disabled:!cursor-not-allowed md:!mt-4 md:h-[60px] md:w-full md:py-6"
+      className="disabled:opacity-1 z-10 flex !h-auto w-full items-center justify-center gap-2 self-center !rounded-[13px] bg-grey-moss-900 px-4 py-[15px] !font-archivo-bold !text-[15px] text-white transition-colors hover:!bg-black disabled:!pointer-events-auto disabled:!cursor-not-allowed md:w-auto md:min-w-[160px] md:px-8 md:py-3.5 md:!text-[15.5px]"
     >
+      <CircleDot className="size-[18px]" strokeWidth={1.75} />
       {creating ? "creating..." : "create"}
     </Button>
   );

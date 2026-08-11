@@ -1,8 +1,7 @@
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
-import { useState, useEffect, useRef } from "react";
-import { useMask } from "./useMask";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useBlobUrls } from "./useBlobUrls";
 import { Currency } from "@/types/balances";
 
@@ -10,9 +9,7 @@ const useMetadataForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Non-form state (not in react-hook-form schema)
-  const [isTimedSale, setIsTimedSale] = useState<boolean>(false);
   const [mimeType, setMimeType] = useState<string>("");
-  const [downloadUrl, setDownloadUrl] = useState<string>("");
   const [isOpenPreviewUpload, setIsOpenPreviewUpload] = useState<boolean>(false);
   const [embedCode, setEmbedCode] = useState("");
   const [link, setLink] = useState<string>("");
@@ -30,8 +27,6 @@ const useMetadataForm = () => {
     animationFile,
     mimeType,
   });
-
-  const mask = useMask(isOpenAdvanced, writingText);
 
   // react-hook-form is the single source of truth for form fields
   const form = useForm<CreateFormData>({
@@ -73,30 +68,32 @@ const useMetadataForm = () => {
   const onChangeStartDate = (val: Date) =>
     form.setValue("startDate", val, { shouldValidate: false });
 
-  const clearMediaState = () => {
+  const clearMediaState = useCallback(() => {
     setImageFile(null);
     setAnimationFile(null);
     setPreviewFile(null);
     setMimeType("");
-    setDownloadUrl("");
     setEmbedCode("");
     setLink("");
     setWritingText("");
-  };
+    setUploadProgress(0);
+    setIsUploading(false);
+    setIsOpenPreviewUpload(false);
+  }, []);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     form.setValue("name", "", { shouldValidate: false });
     form.setValue("description", undefined, { shouldValidate: false });
     clearMediaState();
-  };
+  }, [form, clearMediaState]);
 
-  const resetFiles = () => {
+  const resetFiles = useCallback(() => {
     clearMediaState();
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
     // name and description live in form — clearMediaState doesn't touch them
-  };
+  }, [clearMediaState]);
 
   const hasMedia = Boolean(previewFile || imageFile || animationFile);
 
@@ -111,12 +108,8 @@ const useMetadataForm = () => {
     setPrice,
     description,
     setDescription,
-    isTimedSale,
-    setIsTimedSale,
     mimeType,
     setMimeType,
-    downloadUrl,
-    setDownloadUrl,
     isOpenPreviewUpload,
     setIsOpenPreviewUpload,
     setWritingText,
@@ -134,8 +127,6 @@ const useMetadataForm = () => {
     setIsOpenAdvanced,
     totalSupply,
     setTotalSupply,
-
-    ...mask,
 
     imageFile,
     setImageFile,

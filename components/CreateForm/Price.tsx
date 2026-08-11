@@ -1,7 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import CurrencySelect from "./CurrencySelect";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
@@ -14,12 +12,15 @@ export default function Price() {
   const isDisabled = Boolean(creating) || isCreating;
 
   return (
-    <div className="w-full pt-2">
-      <Label htmlFor="price" className="text-md font-archivo">
+    <div className="w-full">
+      <label
+        htmlFor="price"
+        className="mb-1 block font-archivo-medium text-[10.5px] uppercase tracking-[0.14em] text-[#A8A296]"
+      >
         price
-      </Label>
-      <div className="flex overflow-hidden border border-grey-secondary">
-        <Input
+      </label>
+      <div className="flex items-center gap-2.5 border-b-[1.5px] border-[#DCD6CA] px-0.5 pb-2 pt-1">
+        <input
           id="price"
           type="number"
           inputMode="decimal"
@@ -36,16 +37,13 @@ export default function Price() {
           onWheel={(e) => {
             e.currentTarget.blur();
           }}
-          className="flex-grow !rounded-[0px] !border-none bg-white !font-spectral [appearance:textfield] focus-visible:ring-0 focus-visible:ring-offset-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+          className="min-w-0 flex-1 border-none bg-transparent font-archivo-bold text-2xl tracking-[-0.01em] text-grey-moss-900 outline-none [appearance:textfield] focus:ring-0 md:text-[26px] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           disabled={isDisabled}
         />
-        <div className="bg-white">
-          <div className="my-2 h-6 w-[1px] bg-grey-secondary" />
-        </div>
         <CurrencySelect />
       </div>
       {form.formState.errors.price && (
-        <p className="mt-1 font-spectral text-xs text-red-500">
+        <p className="mt-1 font-archivo text-xs text-red-500">
           {form.formState.errors.price.message}
         </p>
       )}

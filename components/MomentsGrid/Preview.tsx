@@ -8,9 +8,10 @@ import VideoMomentPreview from "./VideoMomentPreview";
 
 interface PreviewProps {
   data: MomentMetadata;
+  fit?: "cover" | "contain";
 }
 
-const Preview = ({ data }: PreviewProps) => {
+const Preview = ({ data, fit = "cover" }: PreviewProps) => {
   const mediaType = data.content?.mime ? determineMediaType(data.content.mime) : null;
   const hasImage = !!data.image;
 
@@ -30,14 +31,20 @@ const Preview = ({ data }: PreviewProps) => {
   }
 
   return (
-    <BlurImage
-      src={data.image!}
-      alt={data.name || "Moment image"}
-      className="z-[1] transition-transform duration-300 group-hover:scale-[1.02]"
-      fill
-      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-      style={{ objectFit: "cover", objectPosition: "center" }}
-    />
+    <div className="absolute inset-0 overflow-hidden">
+      <BlurImage
+        src={data.image!}
+        alt={data.name || "Moment image"}
+        className={
+          fit === "contain"
+            ? "object-contain"
+            : "object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+        }
+        fill
+        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+        style={{ objectFit: fit, objectPosition: "center" }}
+      />
+    </div>
   );
 };
 

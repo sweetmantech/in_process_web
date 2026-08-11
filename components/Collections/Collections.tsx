@@ -1,6 +1,5 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
 import { CollectionItem } from "@/types/collections";
 import CollectionsDropdown from "./CollectionsDropdown";
 
@@ -11,10 +10,13 @@ interface CollectionsProps {
 }
 
 const Collections = ({ onCreateNew, onSelect, disabled }: CollectionsProps) => (
-  <div className="flex w-full flex-col items-start gap-2">
-    <Label htmlFor="collection" className="text-md font-archivo">
+  <div className="flex w-full flex-col items-start">
+    <label
+      htmlFor="collection"
+      className="mb-1 font-archivo-medium text-[10.5px] uppercase tracking-[0.14em] text-[#A8A296]"
+    >
       collection
-    </Label>
+    </label>
     <CollectionsDropdown onCreateNew={onCreateNew} onSelect={onSelect} disabled={disabled} />
   </div>
 );

@@ -36,7 +36,12 @@ const useBulkItems = () => {
   const removeFile = useCallback((id: string) => {
     setBulkItems((prev) => {
       const item = prev.find((i) => i.id === id);
-      if (item?.previewUrl) URL.revokeObjectURL(item.previewUrl);
+      if (item) {
+        if (item.fileUrl) URL.revokeObjectURL(item.fileUrl);
+        if (item.previewUrl && item.previewUrl !== item.fileUrl) {
+          URL.revokeObjectURL(item.previewUrl);
+        }
+      }
       return prev.filter((i) => i.id !== id);
     });
   }, []);
@@ -58,7 +63,10 @@ const useBulkItems = () => {
   const clearItems = useCallback(() => {
     setBulkItems((prev) => {
       prev.forEach((i) => {
-        if (i.previewUrl) URL.revokeObjectURL(i.previewUrl);
+        if (i.fileUrl) URL.revokeObjectURL(i.fileUrl);
+        if (i.previewUrl && i.previewUrl !== i.fileUrl) {
+          URL.revokeObjectURL(i.previewUrl);
+        }
       });
       return [];
     });

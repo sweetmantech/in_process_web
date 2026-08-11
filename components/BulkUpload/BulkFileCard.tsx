@@ -1,75 +1,90 @@
 "use client";
 
 import Image from "next/image";
+import { X } from "lucide-react";
 import { BulkItem } from "@/types/bulk";
-import { getStatusClass } from "@/lib/bulkUpload/getStatusClass";
 import { getMimeTypeIcon } from "@/lib/bulkUpload/getMimeTypeIcon";
+import { cn } from "@/lib/utils";
+import BulkDiscThumb from "./BulkDiscThumb";
 
 interface BulkFileCardProps {
   item: BulkItem;
-  onRemove: (id: string) => void;
-  onNameChange: (id: string, name: string) => void;
-  isCreating: boolean;
+  selected: boolean;
+  isCreating?: boolean;
+  onSelect: () => void;
+  onRemove: () => void;
 }
 
-const BulkFileCard = ({ item, onRemove, onNameChange, isCreating }: BulkFileCardProps) => {
+const BulkFileCard = ({
+  item,
+  selected,
+  isCreating = false,
+  onSelect,
+  onRemove,
+}: BulkFileCardProps) => {
+  const isAudio = item.mimeType.includes("audio");
+  const hasImagePreview =
+    Boolean(item.previewUrl) && (!isAudio || item.previewUrl !== item.fileUrl);
+
   return (
     <div
-      className={`relative flex flex-col overflow-hidden rounded-lg border-2 bg-grey-moss-100 transition-colors ${getStatusClass(item.status)}`}
+      className={cn(
+        "relative w-[78px] overflow-hidden rounded-[11px] border-2 bg-white transition-colors",
+        selected
+          ? "border-grey-moss-900 shadow-[0_8px_22px_-10px_rgba(27,21,4,.4)]"
+          : "border-[#E4E0D7]"
+      )}
     >
-      {!isCreating && (
+      {!isCreating && selected && (
         <button
           type="button"
-          onClick={() => onRemove(item.id)}
-          className="absolute right-1.5 top-1.5 z-10 flex size-5 items-center justify-center rounded-full bg-grey-moss-900 text-white hover:bg-red-500"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
+          className="absolute right-1 top-1 z-10 flex size-[18px] items-center justify-center rounded-full bg-grey-moss-900 text-white shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
           aria-label="Remove"
         >
-          ×
+          <X className="size-2.5" strokeWidth={2} />
         </button>
       )}
 
-      <div className="relative aspect-square w-full overflow-hidden bg-grey-moss-200">
-        {item.previewUrl ? (
+      <button
+        type="button"
+        onClick={onSelect}
+        className={cn(
+          "relative flex aspect-square w-full items-center justify-center p-0",
+          isAudio && !hasImagePreview ? "bg-neutral-900" : "bg-[#EDEAE2]"
+        )}
+      >
+        {hasImagePreview ? (
           <Image src={item.previewUrl} alt={item.name} fill className="object-cover" unoptimized />
+        ) : isAudio ? (
+          <BulkDiscThumb />
         ) : (
-          <div className="flex size-full items-center justify-center text-2xl text-grey-moss-400">
+          <div className="flex size-full items-center justify-center text-sm text-grey-moss-400">
             {getMimeTypeIcon(item.mimeType)}
           </div>
         )}
 
         {item.status === "uploading" && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50">
-            <div className="mb-1.5 h-1.5 w-3/4 overflow-hidden rounded-full bg-grey-moss-300">
-              <div
-                className="h-full bg-white transition-all duration-300"
-                style={{ width: `${item.progress}%` }}
-              />
-            </div>
-            <span className="font-archivo text-xs text-white">{item.progress}%</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-black/45">
+            <span className="font-archivo text-[10px] text-white">
+              {Math.round(item.progress)}%
+            </span>
           </div>
         )}
 
         {item.status === "done" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-green-500/20">
-            <span className="text-2xl">✓</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-black/35">
+            <div className="flex size-7 items-center justify-center rounded-full bg-white/95 shadow-sm">
+              <span className="text-[16px] leading-none text-grey-moss-900">✓</span>
+            </div>
           </div>
         )}
 
-        {item.status === "error" && (
-          <div className="absolute inset-0 flex items-center justify-center bg-red-500/20">
-            <span className="font-archivo text-xs text-red-600">{item.error || "Error"}</span>
-          </div>
-        )}
-      </div>
-
-      <input
-        type="text"
-        value={item.name}
-        onChange={(e) => onNameChange(item.id, e.target.value)}
-        disabled={isCreating}
-        placeholder="name"
-        className="w-full border-t border-grey-moss-300 bg-transparent px-2 py-1.5 font-archivo text-xs text-grey-moss-900 placeholder-grey-moss-400 outline-none focus:bg-white disabled:opacity-60"
-      />
+        {item.status === "error" && <div className="absolute inset-0 bg-red-500/20" />}
+      </button>
     </div>
   );
 };

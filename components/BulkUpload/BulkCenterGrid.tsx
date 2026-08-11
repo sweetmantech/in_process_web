@@ -1,14 +1,28 @@
 "use client";
 
+import { X } from "lucide-react";
 import useBulkCenterGrid from "@/hooks/useBulkCenterGrid";
-import BulkFileCard from "./BulkFileCard";
+import BulkMediaPreview from "./BulkMediaPreview";
+import BulkThumbSwiper from "./BulkThumbSwiper";
 
 const BulkCenterGrid = () => {
-  const { bulkItems, removeFile, setItemName, isCreating, inputRef, onChange } =
-    useBulkCenterGrid();
+  const {
+    bulkItems,
+    setItemName,
+    isCreating,
+    inputRef,
+    onChange,
+    selectedIndex,
+    setSelectedIndex,
+    selectedItem,
+    handleRemoveSelected,
+    handleRemoveAt,
+  } = useBulkCenterGrid();
+
+  if (!selectedItem) return null;
 
   return (
-    <div className="md:min-h-auto relative min-h-[400px] w-full overflow-y-auto bg-[url('/grid.svg')] bg-contain p-3 md:aspect-[571/692]">
+    <div className="relative flex min-h-0 w-full flex-1 flex-col overflow-hidden">
       <input
         ref={inputRef}
         type="file"
@@ -17,16 +31,74 @@ const BulkCenterGrid = () => {
         className="hidden"
         onChange={onChange}
       />
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {bulkItems.map((item) => (
-          <BulkFileCard
-            key={item.id}
-            item={item}
-            onRemove={removeFile}
-            onNameChange={setItemName}
-            isCreating={isCreating}
-          />
-        ))}
+
+      <div className="mx-auto flex min-h-0 w-full max-w-[720px] flex-col md:min-h-0 md:flex-1">
+        <div className="relative aspect-square w-full shrink-0 [container-type:size] md:aspect-auto md:min-h-0 md:flex-1 md:shrink">
+          <div className="absolute inset-0 overflow-hidden rounded-[16px] border border-[#E4E0D7] bg-white shadow-[0_30px_70px_-34px_rgba(27,21,4,.45),0_0_0_1px_rgba(27,21,4,.03)] md:inset-auto md:left-1/2 md:top-1/2 md:size-[min(100cqmin,720px)] md:max-h-full md:max-w-full md:-translate-x-1/2 md:-translate-y-1/2">
+            <div className="relative size-full bg-[#EDEAE2]">
+              {!isCreating && (
+                <button
+                  type="button"
+                  onClick={handleRemoveSelected}
+                  className="absolute right-3 top-3 z-10 flex size-[26px] items-center justify-center rounded-full bg-grey-moss-900 text-white shadow-[0_4px_10px_rgba(0,0,0,0.3)]"
+                  aria-label="Remove"
+                >
+                  <X className="size-3.5" strokeWidth={1.75} />
+                </button>
+              )}
+
+              <BulkMediaPreview key={selectedItem.id} item={selectedItem} />
+
+              {selectedItem.status === "uploading" && (
+                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/50">
+                  <div className="mb-1.5 h-1.5 w-3/4 overflow-hidden rounded-full bg-grey-moss-300">
+                    <div
+                      className="h-full bg-white transition-all duration-300"
+                      style={{ width: `${selectedItem.progress}%` }}
+                    />
+                  </div>
+                  <span className="font-archivo text-xs text-white">
+                    {Math.round(selectedItem.progress)}%
+                  </span>
+                </div>
+              )}
+
+              {selectedItem.status === "done" && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/35">
+                  <div className="flex size-14 items-center justify-center rounded-full bg-white/95 shadow-sm">
+                    <span className="text-[28px] leading-none text-grey-moss-900">✓</span>
+                  </div>
+                </div>
+              )}
+
+              {selectedItem.status === "error" && (
+                <div className="absolute inset-0 z-20 flex items-center justify-center bg-red-500/20">
+                  <span className="font-archivo text-xs text-red-600">
+                    {selectedItem.error || "Error"}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <input
+          type="text"
+          value={selectedItem.name}
+          onChange={(e) => setItemName(selectedItem.id, e.target.value)}
+          disabled={isCreating}
+          placeholder="name"
+          className="mt-3 w-full shrink-0 bg-transparent font-archivo text-[14px] text-[#6B6456] outline-none placeholder-[#B4AEA2] disabled:opacity-60"
+        />
+
+        <BulkThumbSwiper
+          items={bulkItems}
+          selectedIndex={selectedIndex}
+          isCreating={isCreating}
+          inputRef={inputRef}
+          onSelect={setSelectedIndex}
+          onRemove={handleRemoveAt}
+        />
       </div>
     </div>
   );

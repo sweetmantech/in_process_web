@@ -12,8 +12,8 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
     <CreateCollectionModalTriggerProvider>
       <CollectionsProvider>
         <MomentCreateProviderWrapper>
-          <main className="w-screen grow">
-            <div className="relative mt-12 grid w-full grid-cols-1 gap-6 px-6 md:mt-24 md:grid-cols-3 md:px-10">
+          <main className="flex w-screen grow flex-col md:min-h-0 md:overflow-hidden">
+            <div className="relative mt-4 grid w-full flex-1 grid-cols-1 gap-3 px-3 md:mx-auto md:mt-0 md:flex md:min-h-0 md:max-w-[1680px] md:gap-0 md:px-0">
               {children}
             </div>
           </main>

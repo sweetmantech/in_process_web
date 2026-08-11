@@ -4,6 +4,8 @@ import CreateButton from "./CreateButton";
 import Prompt from "./Prompt";
 import Advanced from "./Advanced";
 import Preview from "./Preview";
+import Price from "./Price";
+import Description from "./Description";
 import Collections from "@/components/Collections";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCreateCollectionModalTriggerProvider } from "@/providers/CollectionCreateProvider/CreateCollectionModalTriggerProvider";
@@ -13,13 +15,17 @@ const CreateForm = () => {
   const { openModal } = useCreateCollectionModalTriggerProvider();
 
   return (
-    <div className="col-span-1 w-full md:pl-12">
-      <div ref={inputRef} className="flex h-fit flex-col space-y-3 pb-4">
+    <div className="col-span-1 w-full md:pl-0">
+      <div ref={inputRef} className="flex h-fit flex-col gap-6 pb-4 md:min-h-full md:gap-6 md:pb-0">
+        <Preview />
         <Collections onCreateNew={openModal} />
         <Prompt />
+        <Price />
+        <Description />
         <Advanced />
-        <Preview />
-        <CreateButton />
+        <div className="md:hidden">
+          <CreateButton />
+        </div>
       </div>
     </div>
   );

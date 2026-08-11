@@ -1,5 +1,5 @@
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { X } from "lucide-react";
 
 interface ResetButtonProps {
   onReset?: () => void;
@@ -16,10 +16,11 @@ const ResetButton = ({ onReset }: ResetButtonProps) => {
   return (
     <button
       type="button"
-      className="absolute right-4 top-4 z-10 rounded-full bg-grey p-2 text-white"
+      aria-label="Remove media"
+      className="absolute right-3 top-3 z-10 flex size-[30px] items-center justify-center rounded-full bg-grey-moss-900 text-white shadow-[0_4px_12px_rgba(0,0,0,0.35)]"
       onClick={handleClick}
     >
-      <TrashIcon className="size-4" />
+      <X className="size-4" strokeWidth={1.75} />
     </button>
   );
 };

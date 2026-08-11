@@ -1,6 +1,7 @@
 "use client";
 
 import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
+import { CircleDot } from "lucide-react";
 
 const BulkCreateButton = () => {
   const { bulkItems, createBatch, isCreating } = useBulkCreateProvider();
@@ -20,8 +21,9 @@ const BulkCreateButton = () => {
       type="button"
       onClick={createBatch}
       disabled={isCreating || !allNamed || count === 0}
-      className="w-full rounded-sm bg-grey-moss-900 py-3 font-archivo text-lg text-grey-eggshell transition-colors hover:bg-grey-moss-700 disabled:cursor-not-allowed disabled:opacity-50"
+      className="flex w-full items-center justify-center gap-2 rounded-lg bg-grey-moss-900 px-4 py-4 font-archivo-bold text-[15.5px] text-white transition-colors hover:bg-black disabled:cursor-not-allowed disabled:opacity-50 md:w-auto md:min-w-[160px] md:px-8 md:py-3.5"
     >
+      <CircleDot className="size-[18px]" strokeWidth={1.75} />
       {label}
     </button>
   );

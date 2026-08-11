@@ -1,8 +1,6 @@
 import { Button } from "../ui/button";
 import { DateTimePicker } from "../ui/date-time-picker";
-import { ChevronDown } from "lucide-react";
-import { Textarea } from "../ui/textarea";
-import Price from "./Price";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import SplitsForm from "./SplitsForm";
 import { Controller } from "react-hook-form";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -12,42 +10,35 @@ const Advanced = () => {
   const { isOpenAdvanced, form, setIsOpenAdvanced } = useMetadataFormProvider();
 
   return (
-    <div className="z-10 flex flex-col gap-2 pt-2">
+    <div className="z-10 flex flex-col">
       <Button
         type="button"
-        className="text-md mb-3 flex h-fit w-full items-center justify-between self-center rounded-none border-b border-grey-moss-300 p-0 pb-1 font-archivo font-medium"
+        className="mb-0 flex h-fit w-full items-center justify-between self-center rounded-none border-0 p-0 py-0 pb-1 font-archivo-medium text-[11px] uppercase tracking-[0.14em] text-[#6B6456] hover:bg-transparent"
         onClick={() => setIsOpenAdvanced(!isOpenAdvanced)}
       >
         advanced
-        <ChevronDown
-          className={`text-grey-moss-200 transition-transform duration-200 ${isOpenAdvanced ? "rotate-180" : ""}`}
-        />
+        {isOpenAdvanced ? (
+          <ChevronUp className="size-[17px] text-[#6B6456]" strokeWidth={1.75} />
+        ) : (
+          <ChevronDown className="size-[17px] text-[#6B6456]" strokeWidth={1.75} />
+        )}
       </Button>
       {isOpenAdvanced && (
-        <div className="relative mx-[-16px] bg-grey-moss-100 px-[16px]">
-          <p className="font-archivo font-medium">Description</p>
-          <Textarea
-            {...form.register("description")}
-            placeholder="enter a description"
-            minRows={3}
-            className="resize-none font-spectral"
-          />
-          {form.formState.errors.description && (
-            <p className="mt-1 font-spectral text-xs text-red-500">
-              {form.formState.errors.description.message}
-            </p>
-          )}
-          <Price />
-          <SplitsForm />
+        <div className="relative flex flex-col gap-[22px] py-3.5">
           <TotalSupplyInput />
-          <p className="pt-2 font-archivo font-medium">time</p>
-          <Controller
-            name="startDate"
-            control={form.control}
-            render={({ field }) => (
-              <DateTimePicker date={field.value} setDate={(date) => field.onChange(date)} />
-            )}
-          />
+          <div>
+            <label className="mb-1 block font-archivo-medium text-[10.5px] uppercase tracking-[0.14em] text-[#A8A296]">
+              mint time
+            </label>
+            <Controller
+              name="startDate"
+              control={form.control}
+              render={({ field }) => (
+                <DateTimePicker date={field.value} setDate={(date) => field.onChange(date)} />
+              )}
+            />
+          </div>
+          <SplitsForm />
         </div>
       )}
     </div>

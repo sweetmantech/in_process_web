@@ -28,10 +28,12 @@ const FileSelect = () => {
         disabled={Boolean(createdTokenId)}
       />
       {selected ? (
-        <>
-          {!createdTokenId && <ResetButton />}
-          <PreviewContainer handleImageClick={handleImageClick} />
-        </>
+        <div className="flex size-full items-center justify-center">
+          <div className="relative size-full overflow-hidden md:h-full md:max-h-full md:max-w-full">
+            {!createdTokenId && <ResetButton />}
+            <PreviewContainer handleImageClick={handleImageClick} />
+          </div>
+        </div>
       ) : (
         <NoFileSelected onSingleFile={handleSingleFile} />
       )}

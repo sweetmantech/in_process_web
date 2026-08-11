@@ -7,7 +7,11 @@ import MobileSelect from "./MobileSelect";
 const CreateModeSelect = () => {
   const isMobile = useIsMobile();
 
-  return <div className="col-span-1">{isMobile ? <MobileSelect /> : <DesktopSelect />}</div>;
+  if (isMobile) {
+    return <div className="col-span-1">{<MobileSelect />}</div>;
+  }
+
+  return <DesktopSelect />;
 };
 
 export default CreateModeSelect;

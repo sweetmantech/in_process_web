@@ -11,7 +11,7 @@ const NoFileSelected = ({ onSingleFile }: NoFileSelectedProps) => {
   if (!onSingleFile) return <SimpleDropHint />;
 
   return (
-    <div className="size-full p-4">
+    <div className="size-full md:p-0">
       <BulkDropZone onSingleFile={onSingleFile} />
     </div>
   );

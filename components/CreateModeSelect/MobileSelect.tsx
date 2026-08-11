@@ -1,11 +1,9 @@
-import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 import { useMemo, useState } from "react";
 
 const MobileSelect = () => {
-  const { titleRef } = useMetadataFormProvider();
   const [isOpenSelect, setIsOpenSelect] = useState<boolean>(false);
   const { push } = useRouter();
   const type = useTypeParam();
@@ -31,7 +29,7 @@ const MobileSelect = () => {
     setIsOpenSelect(false);
   };
   return (
-    <div className="relative w-full" ref={titleRef}>
+    <div className="relative w-full">
       {isOpenSelect ? (
         <div className="absolute left-0 top-0 z-[999999999] flex w-full flex-col gap-1 overflow-hidden rounded-md border border-grey-moss-300 bg-white p-2">
           {values.map((value: string) => (

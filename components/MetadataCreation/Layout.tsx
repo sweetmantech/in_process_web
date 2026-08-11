@@ -2,7 +2,6 @@
 
 import CreateForm from "../CreateForm";
 import CreateModeSelect from "../CreateModeSelect";
-import MaskLines from "../CreateModeSelect/MaskLines";
 import Preview from "./Preview";
 import StageFooter from "./StageFooter";
 import BulkCenterGrid from "@/components/BulkUpload/BulkCenterGrid";
@@ -14,7 +13,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <MaskLines />
       <section className="col-span-1 flex min-h-0 w-full flex-col md:flex-1 md:overflow-hidden md:px-11 md:pb-8 md:pt-7">
         <CreateModeSelect />
         {isBulkMode ? <BulkCenterGrid /> : <Preview>{children}</Preview>}

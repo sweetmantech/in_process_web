@@ -8,14 +8,16 @@ const Preview = ({ children }: { children: ReactNode }) => {
   const { createdTokenId } = useMomentCreateProvider();
   const type = useTypeParam();
   const isMobile = useIsMobile();
+  const isWritingPage = type === "writing";
+  const isCreatingPage = !type;
+
   const frameVisible = useMemo(() => {
     if (type === "link" && isMobile) return false;
     if (type === "embed" && isMobile) return false;
+    if (type === "writing") return false;
     if (createdTokenId) return false;
     return true;
   }, [type, isMobile, createdTokenId]);
-  const isWritingPage = type === "writing";
-  const isCreatingPage = !type;
 
   return (
     <div
@@ -27,6 +29,7 @@ const Preview = ({ children }: { children: ReactNode }) => {
             : "min-h-auto"
           : "min-h-[400px]",
         "md:min-h-0 md:flex-1 md:aspect-auto",
+        isWritingPage && "flex",
         frameVisible &&
           "rounded-[12px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_8px_26px_-12px_rgba(27,21,4,.3)] md:shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]"
       )}

@@ -17,10 +17,11 @@ const TextInput = () => {
   };
 
   return (
-    <div className="relative size-full overflow-hidden border border-grey-moss-300 bg-white !font-spectral shadow-[5px_6px_2px_2px_#0000000f] disabled:cursor-not-allowed">
+    <div className="relative flex size-full overflow-hidden border border-[#E4E0D7] bg-white shadow-[0_20px_50px_-24px_rgba(27,21,4,0.3)] md:rounded-md">
       <textarea
-        className="relative z-[2] size-full !resize-none bg-grey-eggshell p-2 !outline-none md:p-4"
+        className="relative z-[2] size-full resize-none bg-transparent p-4 font-spectral text-base leading-[1.7] text-grey-moss-900 outline-none placeholder:text-[#B4AEA2] disabled:cursor-not-allowed md:p-12 md:px-14 md:text-[20px]"
         value={writingText}
+        placeholder="yesterday i..."
         disabled={Boolean(creating)}
         onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
           setWritingText(e.target.value);

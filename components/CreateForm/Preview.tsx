@@ -17,6 +17,8 @@ const Preview = () => {
   } = useMetadataFormProvider();
   const type = useTypeParam();
 
+  if (type === "writing") return null;
+
   const hasSelectedFile = previewFile || animationFile || imageFile;
   const showWritingPreview = writingText && !hasSelectedFile;
   const showImagePreview = hasSelectedFile && !showWritingPreview && previewFileUrl;

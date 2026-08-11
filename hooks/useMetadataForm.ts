@@ -2,7 +2,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createFormSchema, CreateFormData } from "@/lib/schema/createFormSchema";
 import { useState, useEffect, useRef } from "react";
-import { useMask } from "./useMask";
 import { useBlobUrls } from "./useBlobUrls";
 import { Currency } from "@/types/balances";
 
@@ -30,8 +29,6 @@ const useMetadataForm = () => {
     animationFile,
     mimeType,
   });
-
-  const mask = useMask(isOpenAdvanced, writingText);
 
   // react-hook-form is the single source of truth for form fields
   const form = useForm<CreateFormData>({
@@ -134,8 +131,6 @@ const useMetadataForm = () => {
     setIsOpenAdvanced,
     totalSupply,
     setTotalSupply,
-
-    ...mask,
 
     imageFile,
     setImageFile,

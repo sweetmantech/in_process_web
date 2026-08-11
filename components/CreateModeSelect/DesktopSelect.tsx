@@ -1,4 +1,3 @@
-import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useRouter, useSearchParams } from "next/navigation";
 import useTypeParam from "@/hooks/useTypeParam";
 import { getUrlWithType } from "@/lib/create/getUrlWithType";
@@ -12,7 +11,6 @@ const TABS = [
 ] as const;
 
 const DesktopSelect = () => {
-  const { titleRef } = useMetadataFormProvider();
   const { push } = useRouter();
   const searchParams = useSearchParams();
   const type = useTypeParam();
@@ -26,10 +24,7 @@ const DesktopSelect = () => {
     tabType === undefined ? !type : type === tabType;
 
   return (
-    <div
-      ref={titleRef}
-      className="mb-6 flex shrink-0 items-center gap-[30px] border-b-[1.5px] border-[#DCD6CA]"
-    >
+    <div className="mb-6 flex shrink-0 items-center gap-[30px] border-b-[1.5px] border-[#DCD6CA]">
       {TABS.map((tab) => {
         const active = isActive(tab.type);
         return (

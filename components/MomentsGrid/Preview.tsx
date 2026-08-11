@@ -8,9 +8,10 @@ import VideoMomentPreview from "./VideoMomentPreview";
 
 interface PreviewProps {
   data: MomentMetadata;
+  fit?: "cover" | "contain";
 }
 
-const Preview = ({ data }: PreviewProps) => {
+const Preview = ({ data, fit = "cover" }: PreviewProps) => {
   const mediaType = data.content?.mime ? determineMediaType(data.content.mime) : null;
   const hasImage = !!data.image;
 
@@ -36,7 +37,7 @@ const Preview = ({ data }: PreviewProps) => {
       className="z-[1] transition-transform duration-300 group-hover:scale-[1.02]"
       fill
       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-      style={{ objectFit: "cover", objectPosition: "center" }}
+      style={{ objectFit: fit, objectPosition: "center" }}
     />
   );
 };

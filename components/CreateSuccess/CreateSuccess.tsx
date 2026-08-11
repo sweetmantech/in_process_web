@@ -69,7 +69,7 @@ const CreateSuccess = () => {
 
   return (
     <div className="col-span-1 w-full md:col-span-2">
-      <div className="mx-auto mt-8 w-full max-w-[1440px] px-[6px] pb-12 md:mt-6 md:px-14 md:pb-20">
+      <div className="mx-auto mt-2 md:mt-8 w-full max-w-[1440px] px-[6px] pb-12 md:mt-6 md:px-14 md:pb-20">
         <button
           type="button"
           onClick={handleBackToCreate}
@@ -156,7 +156,7 @@ const CreateSuccess = () => {
                   )}
                 </div>
 
-                <div className="mt-5 flex items-baseline justify-between gap-4 border-b border-[#E4E0D7] pb-[18px]">
+                <div className="my-2 md:my-4 flex items-baseline justify-between gap-4 border-b border-[#E4E0D7]">
                   <span className="font-archivo-bold text-[30px] tracking-[-0.015em] text-[#A8862F]">
                     {displayedPrice}
                   </span>

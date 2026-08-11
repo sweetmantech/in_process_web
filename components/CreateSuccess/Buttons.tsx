@@ -13,7 +13,7 @@ interface ButtonsProps {
 const PRIMARY_BUTTON_CLASS =
   "flex-1 whitespace-nowrap rounded-[12px] px-[15px] py-[15px] font-archivo-bold text-[15px] transition-colors";
 const SECONDARY_BUTTON_CLASS =
-  "flex-1 whitespace-nowrap rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
+  "flex-1 rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
 
 const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps) => {
   const { push } = useRouter();
@@ -50,7 +50,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
 
   return (
     <>
-      <div className="mt-[12px] flex flex-row gap-[11px]">
+      <div className="flex flex-row gap-[11px]">
         <button
           type="button"
           onClick={() => setShareOpen((current) => !current)}
@@ -60,14 +60,15 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
           <Share2 className="size-[18px]" strokeWidth={1.75} />
           Share
         </button>
-          <button
+        <button
           type="button"
           onClick={() => timelineHref && push(timelineHref)}
           disabled={!timelineHref}
           className={`${PRIMARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 border border-[#DCD6CA] bg-transparent font-archivo-medium text-grey-moss-900 hover:bg-[#F1EEE8] disabled:cursor-not-allowed disabled:opacity-50`}
         >
           <LayoutGrid className="size-[18px]" strokeWidth={1.75} />
-          Timeline
+          <span className="md:hidden">Timeline</span>
+          <span className="hidden md:inline">Visit timeline</span>
         </button>
       </div>
       {shareOpen && (
@@ -76,25 +77,25 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
             type="button"
             onClick={handleXShare}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex flex-col items-center justify-center gap-1.5 md:flex-row md:gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
-            <span className="font-archivo-bold whitespace-nowrap">𝕏</span>
+            <span className="font-archivo-bold whitespace-nowrap leading-none">𝕏</span>
             <span className="whitespace-nowrap">Post</span>
           </button>
           <button
             type="button"
             onClick={handleFarcasterShare}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex flex-col items-center justify-center gap-1.5 md:flex-row md:gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
             <Image src="/images/farcaster.svg" alt="Farcaster icon" width={18} height={18} />
-            Farcaster
+            <span className="whitespace-nowrap">Farcaster</span>
           </button>
           <button
             type="button"
             onClick={handleCopyLink}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex flex-col items-center justify-center gap-1.5 md:flex-row md:gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
             {copied ? (
               <Check className="size-4" strokeWidth={1.75} />

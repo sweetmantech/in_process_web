@@ -29,4 +29,3 @@ export default function useFireCreateSuccessConfetti({
     fireCollectConfetti();
   }, [liveTokenId, isLoading, momentMetadata]);
 }
-

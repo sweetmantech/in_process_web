@@ -69,7 +69,7 @@ const CreateSuccess = () => {
 
   return (
     <div className="col-span-1 w-full md:col-span-2">
-      <div className="mx-auto mt-8 w-full max-w-[1440px] px-6 pb-12 md:mt-6 md:px-14 md:pb-20">
+      <div className="mx-auto mt-8 w-full max-w-[1440px] px-[18px] pb-12 md:mt-6 md:px-14 md:pb-20">
         <button
           type="button"
           onClick={handleBackToCreate}

@@ -11,9 +11,9 @@ interface ButtonsProps {
 }
 
 const PRIMARY_BUTTON_CLASS =
-  "flex-1 rounded-[12px] px-4 py-[15px] font-archivo-bold text-[15px] transition-colors";
+  "flex-1 rounded-[12px] px-[15px] py-[15px] font-archivo-bold text-[15px] transition-colors";
 const SECONDARY_BUTTON_CLASS =
-  "flex-1 rounded-[11px] border border-[#E4E0D7] bg-white px-4 py-[13px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
+  "flex-1 rounded-[11px] border border-[#E4E0D7] bg-white p-[12px] font-archivo-medium text-[13.5px] transition-colors hover:bg-[#F7F5F0]";
 
 const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps) => {
   const { push } = useRouter();
@@ -50,7 +50,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
 
   return (
     <>
-      <div className="mt-3 flex flex-col gap-3 md:flex-row md:gap-3">
+      <div className="mt-[18px] flex flex-row gap-[11px]">
         <button
           type="button"
           onClick={() => setShareOpen((current) => !current)}
@@ -60,32 +60,32 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
           <Share2 className="size-[18px]" strokeWidth={1.75} />
           Share
         </button>
-        <button
+          <button
           type="button"
           onClick={() => timelineHref && push(timelineHref)}
           disabled={!timelineHref}
           className={`${PRIMARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 border border-[#DCD6CA] bg-transparent font-archivo-medium text-grey-moss-900 hover:bg-[#F1EEE8] disabled:cursor-not-allowed disabled:opacity-50`}
         >
           <LayoutGrid className="size-[18px]" strokeWidth={1.75} />
-          Visit timeline
+          Timeline
         </button>
       </div>
       {shareOpen && (
-        <div className="mt-3 flex flex-col gap-2.5 sm:flex-row">
+        <div className="mt-[11px] flex flex-row gap-[9px]">
           <button
             type="button"
             onClick={handleXShare}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
-            <span className="font-archivo-bold">X</span>
-            <span className="ml-2">Post</span>
+            <span className="font-archivo-bold">𝕏</span>
+            <span>Post</span>
           </button>
           <button
             type="button"
             onClick={handleFarcasterShare}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
             <Image src="/images/farcaster.svg" alt="Farcaster icon" width={18} height={18} />
             Farcaster
@@ -94,7 +94,7 @@ const Buttons = ({ shareUrl, timelineHref, shareTitle = "moment" }: ButtonsProps
             type="button"
             onClick={handleCopyLink}
             disabled={!shareUrl}
-            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50`}
+            className={`${SECONDARY_BUTTON_CLASS} inline-flex items-center justify-center gap-[7px] disabled:cursor-not-allowed disabled:opacity-50`}
           >
             {copied ? (
               <Check className="size-4" strokeWidth={1.75} />

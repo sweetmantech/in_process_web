@@ -49,7 +49,7 @@ const CollectedCard = ({ transfer }: Props) => {
         tabIndex={0}
         onClick={handleMomentClick}
         onKeyDown={(e) => e.key === "Enter" && handleMomentClick()}
-        className="group mb-3 w-full break-inside-avoid cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white text-left shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)] md:mb-2"
+        className="group mb-3 w-full cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white text-left shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)] md:mb-2"
       >
         <div className="relative isolate z-0 w-full overflow-hidden">
           <ContentRenderer metadata={metadata ?? undefined} variant="natural" />

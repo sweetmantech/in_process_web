@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { GalleryHorizontal } from "lucide-react";
 import { useState } from "react";
 import MomentsTimeline from "../Timeline/MomentsTimeline";
 import { TimelineProvider } from "@/providers/TimelineProvider";
@@ -54,6 +56,15 @@ const ArtistPageContent = ({ address }: { address: Address }) => {
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
         <ProfileWithStats
           stats={stats}
+          extraSocials={
+            <Link
+              href={`/${address}/collected`}
+              aria-label="View collected"
+              className="flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:bg-white/75 hover:text-[#1c1a17] active:opacity-70"
+            >
+              <GalleryHorizontal className="size-[17px]" strokeWidth={1.5} />
+            </Link>
+          }
           toolbar={
             <ArtistFilters
               protocol={protocolFilter}

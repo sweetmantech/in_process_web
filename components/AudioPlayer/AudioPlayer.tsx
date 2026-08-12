@@ -52,33 +52,29 @@ const AudioPlayer = ({
         </div>
       )}
 
-      {/* Album Art */}
+      {/* Album Art — size by available height so controls don't clip the square */}
       <div className="relative flex min-h-0 flex-1 items-center justify-center p-3">
         <div
           className={cn(
-            "relative w-full",
+            "relative aspect-square h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg shadow-2xl",
             isNatural ? "max-w-[62%]" : "max-w-[70%] sm:max-w-[95%]"
           )}
         >
-          {/* In-flow sizer so the frame keeps height when children are absolute. */}
-          <div className="aspect-square w-full" aria-hidden />
-          <div className="absolute inset-0 overflow-hidden rounded-lg shadow-2xl">
-            {hasThumbnail ? (
-              <Image
-                src={thumbnailUrl!}
-                alt="Audio cover"
-                fill
-                sizes="70vw"
-                className="object-contain"
-              />
-            ) : allowThumbnailUpload ? (
-              <ThumbnailUpload />
-            ) : (
-              <div className="absolute inset-[12%]">
-                <DiscPlaceholder />
-              </div>
-            )}
-          </div>
+          {hasThumbnail ? (
+            <Image
+              src={thumbnailUrl!}
+              alt="Audio cover"
+              fill
+              sizes="70vw"
+              className="object-contain"
+            />
+          ) : allowThumbnailUpload ? (
+            <ThumbnailUpload />
+          ) : (
+            <div className="absolute inset-[12%]">
+              <DiscPlaceholder />
+            </div>
+          )}
         </div>
       </div>
 

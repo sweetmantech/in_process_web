@@ -11,11 +11,11 @@ const ThumbnailUpload = () => {
   return (
     <button
       type="button"
-      className="flex size-full flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg bg-neutral-600 cursor-pointer"
+      className="flex size-full flex-col items-center justify-center gap-2 border-2 border-dashed border-gray-300 rounded-lg bg-neutral-600 p-3 cursor-pointer"
       onClick={() => setIsOpenPreviewUpload(true)}
     >
-      <ImageIcon className="mb-3 size-12 text-white" strokeWidth={1.5} />
-      <p className="text-sm font-medium text-white">Upload thumbnail</p>
+      <ImageIcon className="size-10 shrink-0 text-white" strokeWidth={1.5} />
+      <p className="text-center text-xs font-medium text-white sm:text-sm">Upload thumbnail</p>
     </button>
   );
 };

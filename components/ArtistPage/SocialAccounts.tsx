@@ -65,13 +65,22 @@ const SocialAccounts = ({ extras }: Props) => {
         <Social
           link={`https://instagram.com/${extractSocialUsername(instagram)}`}
           icon={instagramIcon}
+          label="Instagram"
         />
       )}
       {twitter && (
-        <Social link={`https://x.com/@${extractSocialUsername(twitter)}`} icon={twitterIcon} />
+        <Social
+          link={`https://x.com/@${extractSocialUsername(twitter)}`}
+          icon={twitterIcon}
+          label="X"
+        />
       )}
       {telegram && (
-        <Social link={`https://t.me/${extractSocialUsername(telegram)}`} icon={telegramIcon} />
+        <Social
+          link={`https://t.me/${extractSocialUsername(telegram)}`}
+          icon={telegramIcon}
+          label="Telegram"
+        />
       )}
     </div>
   );

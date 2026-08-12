@@ -16,6 +16,7 @@ import { formatStatValue } from "@/lib/stats/formatStatValue";
 import { useMasonryColumnCount } from "@/hooks/useMasonryColumnCount";
 import { useFeedScroll } from "@/hooks/useFeedScroll";
 import { distributeIntoColumns } from "@/lib/moment/distributeIntoColumns";
+import IconHint from "@/components/ArtistPage/IconHint";
 
 const RENDER_PAGE_SIZE = 30;
 
@@ -68,10 +69,11 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
           extraSocials={
             <Link
               href={`/${address}`}
-              aria-label="View timeline"
-              className="flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:bg-white/75 hover:opacity-80 active:opacity-70"
+              aria-label="Timeline"
+              className="group relative flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:bg-white/75 hover:opacity-80 active:opacity-70"
             >
               <Image src="/footer_logo.svg" alt="" width={17} height={17} className="opacity-60" />
+              <IconHint label="Timeline" />
             </Link>
           }
           toolbar={

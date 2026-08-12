@@ -15,7 +15,6 @@ type Props = {
   stats: ProfileStat[];
   /** When set, socials move to a second row with this content on the right. */
   toolbar?: ReactNode;
-  /** Extra icons rendered before social account icons (e.g. timeline link). */
   extraSocials?: ReactNode;
 };
 

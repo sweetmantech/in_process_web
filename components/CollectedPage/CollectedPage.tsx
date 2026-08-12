@@ -14,7 +14,10 @@ import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import FetchMore from "@/components/FetchMore";
 import { formatStatValue } from "@/lib/stats/formatStatValue";
 import { useMasonryColumnCount } from "@/hooks/useMasonryColumnCount";
+import { useFeedScroll } from "@/hooks/useFeedScroll";
 import { distributeIntoColumns } from "@/lib/moment/distributeIntoColumns";
+
+const RENDER_PAGE_SIZE = 30;
 
 const CollectedPageContent = ({ address }: { address: Address }) => {
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
@@ -30,6 +33,11 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
     transfers: sourceTransfers,
   });
   const columnCount = useMasonryColumnCount();
+  const {
+    visibleMoments: visibleTransfers,
+    hasMore,
+    sentinelRef,
+  } = useFeedScroll(transfers, RENDER_PAGE_SIZE);
 
   const showStatsLoading = isStatsLoading && !collectingStats;
   const showCountLoading = isTransfersLoading && collectedCount == null;
@@ -81,15 +89,21 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
         ) : (
           <>
             <div className="flex w-full gap-3 md:gap-3.5">
-              {distributeIntoColumns(transfers, columnCount).map((columnTransfers, columnIndex) => (
-                <div key={columnIndex} className="flex min-w-0 flex-1 flex-col">
-                  {columnTransfers.map((transfer) => (
-                    <CollectedCard key={transfer.id} transfer={transfer} />
-                  ))}
-                </div>
-              ))}
+              {distributeIntoColumns(visibleTransfers, columnCount).map(
+                (columnTransfers, columnIndex) => (
+                  <div key={columnIndex} className="flex min-w-0 flex-1 flex-col">
+                    {columnTransfers.map((transfer) => (
+                      <CollectedCard key={transfer.id} transfer={transfer} />
+                    ))}
+                  </div>
+                )
+              )}
             </div>
-            {hasNextPage && <FetchMore fetchMore={fetchMore} />}
+            {hasMore ? (
+              <div ref={sentinelRef} className="h-px" />
+            ) : (
+              hasNextPage && <FetchMore fetchMore={fetchMore} />
+            )}
           </>
         )}
       </div>

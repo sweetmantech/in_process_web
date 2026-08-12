@@ -52,30 +52,46 @@ const AudioPlayer = ({
         </div>
       )}
 
-      {/* Album Art — size by available height so controls don't clip the square */}
+      {/* Album art — fill sizes by height (create stage); natural sizes by width (feed cards) */}
       <div className="relative flex min-h-0 flex-1 items-center justify-center p-3">
-        <div
-          className={cn(
-            "relative aspect-square h-full max-h-full w-auto max-w-full overflow-hidden rounded-lg shadow-2xl",
-            isNatural ? "max-w-[62%]" : "max-w-[70%] sm:max-w-[95%]"
-          )}
-        >
-          {hasThumbnail ? (
-            <Image
-              src={thumbnailUrl!}
-              alt="Audio cover"
-              fill
-              sizes="70vw"
-              className="object-contain"
-            />
-          ) : allowThumbnailUpload ? (
-            <ThumbnailUpload />
-          ) : (
-            <div className="absolute inset-[12%]">
-              <DiscPlaceholder />
+        {isNatural ? (
+          <div className="relative w-full max-w-[62%]">
+            <div className="aspect-square w-full" aria-hidden />
+            <div className="absolute inset-0 overflow-hidden rounded-lg shadow-2xl">
+              {hasThumbnail ? (
+                <Image
+                  src={thumbnailUrl!}
+                  alt="Audio cover"
+                  fill
+                  sizes="70vw"
+                  className="object-contain"
+                />
+              ) : (
+                <div className="absolute inset-[12%]">
+                  <DiscPlaceholder />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className="relative aspect-square h-full max-h-full w-auto max-w-[70%] overflow-hidden rounded-lg shadow-2xl sm:max-w-[95%]">
+            {hasThumbnail ? (
+              <Image
+                src={thumbnailUrl!}
+                alt="Audio cover"
+                fill
+                sizes="70vw"
+                className="object-contain"
+              />
+            ) : allowThumbnailUpload ? (
+              <ThumbnailUpload />
+            ) : (
+              <div className="absolute inset-[12%]">
+                <DiscPlaceholder />
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <Controls />

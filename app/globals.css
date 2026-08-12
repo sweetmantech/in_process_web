@@ -158,6 +158,13 @@
   display: none !important;
 }
 
+.pdf-viewer-root .rpv-core__viewer,
+.pdf-viewer-root .rpv-default-layout__container,
+.pdf-viewer-root .rpv-default-layout__main,
+.pdf-viewer-root .rpv-default-layout__body {
+  height: 100%;
+}
+
 .rpv-toolbar__right {
   display: none !important;
 }

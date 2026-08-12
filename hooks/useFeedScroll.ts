@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { TimelineMoment } from "@/types/moment";
 
 const DEFAULT_PAGE_SIZE = 10;
 
-export const useFeedScroll = (moments: TimelineMoment[], pageSize = DEFAULT_PAGE_SIZE) => {
+export const useFeedScroll = <T>(items: T[], pageSize = DEFAULT_PAGE_SIZE) => {
   const [visibleCount, setVisibleCount] = useState(pageSize);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
@@ -15,18 +14,18 @@ export const useFeedScroll = (moments: TimelineMoment[], pageSize = DEFAULT_PAGE
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisibleCount((prev) => Math.min(prev + pageSize, moments.length));
+          setVisibleCount((prev) => Math.min(prev + pageSize, items.length));
         }
       },
       { threshold: 0 }
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [moments.length, pageSize]);
+  }, [items.length, pageSize]);
 
   return {
-    visibleMoments: moments.slice(0, visibleCount),
-    hasMore: visibleCount < moments.length,
+    visibleMoments: items.slice(0, visibleCount),
+    hasMore: visibleCount < items.length,
     sentinelRef,
   };
 };

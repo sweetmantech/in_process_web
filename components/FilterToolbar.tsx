@@ -16,7 +16,7 @@ function FilterToolbar<T extends string>({ tabs, active, onChange }: FilterToolb
             type="button"
             onClick={() => onChange(tab.label)}
             className={cn(
-              "inline-flex shrink-0 items-center gap-1.5 rounded-[20px] px-3.5 py-[7px] font-archivo text-[13px] transition-all duration-150",
+              "inline-flex shrink-0 items-center gap-1.5 rounded-[20px] px-3 py-1 font-archivo text-[13px] transition-all duration-150",
               isActive
                 ? "border border-[#1c1a17] bg-[#1c1a17] text-[#f4f0e6]"
                 : "border border-[rgba(28,26,23,0.14)] bg-transparent text-[#1c1a17]"

@@ -12,11 +12,7 @@ type Props = {
 };
 
 const CollectedToolbar = ({ tabs, active, onChange }: Props) => {
-  return (
-    <div className="mb-4">
-      <FilterToolbar tabs={tabs} active={active} onChange={onChange} />
-    </div>
-  );
+  return <FilterToolbar tabs={tabs} active={active} onChange={onChange} />;
 };
 
 export default CollectedToolbar;

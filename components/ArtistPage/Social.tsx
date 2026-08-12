@@ -16,7 +16,7 @@ const Social = ({ link, icon }: SocialProps) => {
 
   return (
     <button
-      className="flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:text-[#1c1a17] active:opacity-70"
+      className="flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:bg-white/75 hover:text-[#1c1a17] active:opacity-70"
       type="button"
       onClick={handleClick}
     >

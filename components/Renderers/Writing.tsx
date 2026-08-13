@@ -47,10 +47,10 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     updateScrollState();
   }, [text, isLoading, updateScrollState]);
 
-  if (isLoading && !text) return <Skeleton className="size-full min-h-[200px]" />;
+  if (isLoading && !text) return <Skeleton className="h-[min(70vh,560px)] w-full min-h-[200px]" />;
 
   return (
-    <div className="relative size-full border border-grey-moss-300 bg-white !font-spectral shadow-[5px_6px_2px_2px_#0000000f]">
+    <div className="writing-root relative h-[min(70vh,560px)] w-full min-h-[200px] overflow-hidden border border-grey-moss-300 bg-white !font-spectral shadow-[5px_6px_2px_2px_#0000000f]">
       <div
         className="relative z-[2] size-full overflow-y-auto whitespace-pre-wrap break-words bg-grey-eggshell p-2 pt-24 text-sm md:p-4 md:text-base"
         onScroll={handleScroll}

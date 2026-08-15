@@ -8,6 +8,7 @@ import { setSale } from "@/lib/moment/setSale";
 import { MomentType } from "@/types/moment";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 import { isOpenEndedSale } from "@/lib/moment/isOpenEndedSale";
+import saleStartToDate from "@/lib/moment/saleStartToDate";
 
 const useSetSale = () => {
   const { moment, saleConfig: sale } = useMomentProvider();
@@ -24,11 +25,7 @@ const useSetSale = () => {
     if (!sale) return;
     const erc20 = sale.type === MomentType.Erc20Mint;
     setIsErc20(erc20);
-    setSaleStart(
-      BigInt(sale.saleStart) === BigInt(0)
-        ? new Date()
-        : new Date(parseInt(sale.saleStart.toString(), 10) * 1000)
-    );
+    setSaleStart(saleStartToDate(sale.saleStart));
     setSaleEnd(
       isOpenEndedSale(sale.saleEnd)
         ? undefined

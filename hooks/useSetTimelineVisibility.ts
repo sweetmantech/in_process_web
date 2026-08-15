@@ -8,24 +8,28 @@ import saleStartToDate from "@/lib/moment/saleStartToDate";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
 
 const useSetTimelineVisibility = () => {
-  const { moment, saleConfig, fetchMomentData } = useMomentProvider();
+  const { moment, saleConfig } = useMomentProvider();
   const { getAccessToken } = usePrivy();
   const [timelineAt, setTimelineAt] = useState<Date>(new Date());
+  const [currentSaleStart, setCurrentSaleStart] = useState<number | undefined>();
   const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   useEffect(() => {
     if (!saleConfig) return;
     setTimelineAt(saleStartToDate(saleConfig.saleStart));
+    setCurrentSaleStart(saleConfig.saleStart);
   }, [saleConfig]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
       const accessToken = await getAccessToken();
       if (!accessToken) throw new Error("Authentication required");
-      return setSale(accessToken, moment, Math.floor(timelineAt.getTime() / 1000));
+      const saleStart = Math.floor(timelineAt.getTime() / 1000);
+      await setSale(accessToken, moment, saleStart);
+      return saleStart;
     },
-    onSuccess: async () => {
-      await fetchMomentData();
+    onSuccess: (saleStart) => {
+      setCurrentSaleStart(saleStart);
       toast.success("Timeline visibility updated");
     },
     onError: (error: Error) => {
@@ -40,7 +44,7 @@ const useSetTimelineVisibility = () => {
   return {
     timelineAt,
     setTimelineAt,
-    currentSaleStart: saleConfig?.saleStart,
+    currentSaleStart,
     hasSaleConfig: Boolean(saleConfig),
     save: () => mutate(),
     isLoading: isPending,

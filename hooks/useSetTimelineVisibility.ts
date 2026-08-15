@@ -4,12 +4,8 @@ import { usePrivy } from "@privy-io/react-auth";
 import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { setSale } from "@/lib/moment/setSale";
+import saleStartToDate from "@/lib/moment/saleStartToDate";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
-
-const saleStartToDate = (saleStart: number | string) =>
-  BigInt(saleStart) === BigInt(0)
-    ? new Date()
-    : new Date(parseInt(saleStart.toString(), 10) * 1000);
 
 const useSetTimelineVisibility = () => {
   const { moment, saleConfig, fetchMomentData } = useMomentProvider();

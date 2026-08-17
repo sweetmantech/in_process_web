@@ -1,4 +1,5 @@
 import { classNames } from "@/lib/utils/classNames";
+import { CHAIN_ID } from "@/lib/consts";
 import connectEOA from "@/lib/wallets/connectEOA";
 import { signWalletConnectMessage } from "@/lib/wallets/signWalletConnectMessage";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
@@ -16,6 +17,7 @@ const ConnectButton = () => {
     onSuccess: async ({ wallet }: any) => {
       setIsLoading(true);
       try {
+        await wallet.switchChain(CHAIN_ID);
         const provider = await wallet?.getEthereumProvider?.();
         if (!provider) throw new Error("No Ethereum provider found");
         const { message, signature } = await signWalletConnectMessage(

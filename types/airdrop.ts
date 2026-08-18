@@ -2,6 +2,7 @@ import type { MomentMetadata, Protocol } from "@/types/moment";
 
 export interface AirdropItem {
   address: string;
+  email: string;
   status: "validating" | "invalid" | "valid";
   ensName: string;
 }

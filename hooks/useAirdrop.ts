@@ -10,6 +10,7 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import { AirdropItem } from "@/types/airdrop";
 import { processAirdropItems } from "@/lib/airdrop/processAirdropItems";
 import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
+import isEmail from "@/lib/utils/isEmail";
 
 const useAirdrop = () => {
   const { moment } = useMomentProvider();
@@ -29,6 +30,20 @@ const useAirdrop = () => {
         ...prev,
         {
           address: value,
+          email: "",
+          status: "valid",
+          ensName: "",
+        },
+      ]);
+      return;
+    }
+
+    if (isEmail(value)) {
+      setAirdropToItems((prev) => [
+        ...prev,
+        {
+          address: "",
+          email: value.trim().toLowerCase(),
           status: "valid",
           ensName: "",
         },
@@ -39,6 +54,7 @@ const useAirdrop = () => {
     // For ENS names, add with "validating" status first for immediate UI feedback
     const newItem: AirdropItem = {
       address: "",
+      email: "",
       status: "validating",
       ensName: value,
     };
@@ -90,7 +106,7 @@ const useAirdrop = () => {
 
       if (validItems.length === 0) {
         setLoading(false);
-        toast.error("No valid addresses to airdrop");
+        toast.error("No valid recipients to airdrop");
         return;
       }
 

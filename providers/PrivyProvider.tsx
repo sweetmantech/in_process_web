@@ -14,11 +14,27 @@ export default function PrivyProvider({ children }: { children: React.ReactNode 
         appearance: {
           theme: "light",
           accentColor: "#676FFF",
+          walletList: [
+            "detected_ethereum_wallets",
+            "metamask",
+            "coinbase_wallet",
+            "rainbow",
+            "wallet_connect",
+          ],
         },
         loginMethods: ["email"],
         embeddedWallets: {
           ethereum: {
             createOnLogin: "users-without-wallets",
+          },
+        },
+        externalWallets: {
+          coinbaseWallet: {
+            config: {
+              preference: {
+                options: "eoaOnly",
+              },
+            },
           },
         },
       }}

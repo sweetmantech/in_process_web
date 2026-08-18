@@ -3,13 +3,13 @@ import { Moment } from "@/types/moment";
 import buildHeaders from "@/lib/http/buildHeaders";
 
 interface ExecuteAirdropParams {
-  airdropToItems: Array<{ address: string }>;
+  airdropToItems: Array<{ address: string; email?: string }>;
   moment: Moment;
   headers: HeadersInit;
 }
 
 export const executeAirdrop = async ({ airdropToItems, moment, headers }: ExecuteAirdropParams) => {
-  const recipients = airdropToItems.map((item) => item.address);
+  const recipients = airdropToItems.map((item) => item.email || item.address);
 
   // Execute airdrop API call
   const response = await fetch(`${IN_PROCESS_API}/moment/airdrop`, {

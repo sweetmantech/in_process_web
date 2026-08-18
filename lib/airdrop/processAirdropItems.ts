@@ -14,11 +14,9 @@ export const processAirdropItems = async (
   const alreadyValidItems: AirdropItem[] = [];
 
   airdropToItems.forEach((item, index) => {
-    if (item.status === "validating" || (item.status === "valid" && !item.address)) {
-      // Item needs resolution - preserve original index for mapping
+    if (item.status === "validating") {
       itemsNeedingResolution.push({ item, originalIndex: index });
     } else if (item.status === "valid" && item.address) {
-      // Item is already valid - keep as is
       alreadyValidItems.push(item);
     }
   });
@@ -40,7 +38,9 @@ export const processAirdropItems = async (
   });
 
   // Filter out invalid items for airdrop execution
-  const validItems = finalItems.filter((item) => item.status === "valid" && item.address);
+  const validItems = finalItems.filter(
+    (item) => item.status === "valid" && (item.address || item.email)
+  );
 
   return {
     finalItems,

@@ -20,7 +20,7 @@ const AddressChip = ({ item, index }: AddressChipProps) => {
     >
       {item.status === "validating"
         ? "validating..."
-        : item.ensName || truncateAddress(item.address)}
+        : item.email || item.ensName || truncateAddress(item.address)}
       <button
         type="button"
         onClick={() => removeAddress(index)}

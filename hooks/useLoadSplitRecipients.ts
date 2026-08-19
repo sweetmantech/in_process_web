@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useFieldArray, useWatch } from "react-hook-form";
+import { useWatch } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
@@ -20,11 +19,6 @@ const useLoadSplitRecipients = () => {
   const { moment } = useMomentProvider();
   const { form } = useMetadataFormProvider();
   const { isSplit, fundsRecipient } = useIsSplitContract();
-  const { replace } = useFieldArray({
-    control: form.control,
-    name: "splits",
-  });
-  const [hydratedAddress, setHydratedAddress] = useState<string | null>(null);
   const formSplits = useWatch({ control: form.control, name: "splits" });
 
   const { data: recipients } = useQuery({
@@ -35,19 +29,10 @@ const useLoadSplitRecipients = () => {
     refetchOnWindowFocus: false,
   });
 
-  useEffect(() => {
-    if (!recipients || !fundsRecipient) return;
-    if (hydratedAddress === fundsRecipient) return;
-    replace(recipients);
-    setHydratedAddress(fundsRecipient);
-  }, [recipients, fundsRecipient, hydratedAddress, replace]);
-
-  const hasSplitsChanged =
-    hydratedAddress === fundsRecipient &&
-    Boolean(recipients) &&
-    !areSplitsEqual(formSplits, recipients);
+  const hasSplitsChanged = Boolean(recipients) && !areSplitsEqual(formSplits, recipients);
 
   return {
+    recipients,
     showCreate: isSplit !== true || hasSplitsChanged,
   };
 };

@@ -3,9 +3,11 @@
 import { Plus, X } from "lucide-react";
 import { Controller } from "react-hook-form";
 import useSplitsForm from "@/hooks/useSplitsForm";
+import type { SplitRecipientInput } from "@/lib/splits/createSplit";
 
-const SplitsForm = () => {
-  const { form, fields, handleAddressChange, handleAddSplit, handleRemoveSplit } = useSplitsForm();
+const SplitsForm = ({ chainRecipients }: { chainRecipients?: SplitRecipientInput[] }) => {
+  const { form, fields, handleAddressChange, handleAddSplit, handleRemoveSplit } =
+    useSplitsForm(chainRecipients);
 
   return (
     <div className="w-full">

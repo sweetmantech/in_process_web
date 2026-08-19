@@ -23,7 +23,7 @@ const Splits = () => {
     showPermissionModal,
     closePermissionModal,
   } = useManageSplits();
-  const { showCreate } = useLoadSplitRecipients();
+  const { showCreate, recipients } = useLoadSplitRecipients();
   const { isOwner, moment, saleConfig } = useMomentProvider();
 
   const isBusy = isCreating || isDistributing;
@@ -44,7 +44,7 @@ const Splits = () => {
 
       <FundsRecipientHint />
 
-      <SplitsForm />
+      <SplitsForm chainRecipients={isSplit === true ? recipients : undefined} />
 
       <div className="mt-[18px] flex items-center justify-end gap-3 border-t border-grey-moss-50 pt-4">
         <button

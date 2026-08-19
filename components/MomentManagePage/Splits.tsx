@@ -2,12 +2,16 @@
 
 import SplitsForm from "@/components/CreateForm/SplitsForm";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
+import CopyButton from "@/components/CopyButton";
 import useManageSplits from "@/hooks/useManageSplits";
 import useLoadSplitRecipients from "@/hooks/useLoadSplitRecipients";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import FundsRecipientHint from "./FundsRecipientHint";
 
 const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300";
+
+const SPLIT_ADDRESS_PILL_CLASS =
+  "rounded-full border border-grey-moss-100 bg-white px-2.5 py-1 font-mono text-[11.5px] text-grey-moss-300 hover:text-grey-moss-900";
 
 const Splits = () => {
   const {
@@ -20,7 +24,7 @@ const Splits = () => {
     closePermissionModal,
   } = useManageSplits();
   const { showCreate } = useLoadSplitRecipients();
-  const { isOwner, moment } = useMomentProvider();
+  const { isOwner, moment, saleConfig } = useMomentProvider();
 
   const isBusy = isCreating || isDistributing;
   const isDisabled = isBusy || !isOwner;
@@ -28,9 +32,14 @@ const Splits = () => {
 
   return (
     <div className="rounded-lg border border-grey-moss-100 bg-white p-4 shadow-sm md:p-6">
-      <div className="mb-4 flex items-center gap-1.5">
-        <span className="size-1.5 rounded-full bg-[#887bff]" />
-        <span className={FIELD_LABEL_CLASS}>splits</span>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          <span className="size-1.5 rounded-full bg-[#887bff]" />
+          <span className={FIELD_LABEL_CLASS}>splits</span>
+        </div>
+        {isSplit === true && saleConfig?.fundsRecipient && (
+          <CopyButton text={saleConfig.fundsRecipient} className={SPLIT_ADDRESS_PILL_CLASS} />
+        )}
       </div>
 
       <FundsRecipientHint />

@@ -5,22 +5,14 @@ import PermissionErrorModal from "@/components/PermissionErrorModal";
 import CopyButton from "@/components/CopyButton";
 import useManageSplits from "@/hooks/useManageSplits";
 import useLoadSplitRecipients from "@/hooks/useLoadSplitRecipients";
+import getExplorerBaseUrl from "@/lib/chains/getExplorerBaseUrl";
 import { useMomentProvider } from "@/providers/MomentProvider";
-import { mainnet, optimism, base, baseSepolia, zora } from "viem/chains";
 import FundsRecipientHint from "./FundsRecipientHint";
 
 const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300";
 
 const SPLIT_ADDRESS_PILL_CLASS =
   "rounded-full border border-grey-moss-100 bg-white px-2.5 py-1 font-mono text-[11.5px] text-grey-moss-300 hover:text-grey-moss-900";
-
-const EXPLORER_BY_CHAIN_ID: Record<number, string> = {
-  [mainnet.id]: "https://etherscan.io",
-  [optimism.id]: "https://optimistic.etherscan.io",
-  [base.id]: "https://basescan.org",
-  [baseSepolia.id]: "https://sepolia.basescan.org",
-  [zora.id]: "https://explorer.zora.energy",
-};
 
 const Splits = () => {
   const { handleCreate, isCreating, isSplit, showPermissionModal, closePermissionModal } =
@@ -31,7 +23,7 @@ const Splits = () => {
   const isBusy = isCreating;
   const isDisabled = isBusy || !isOwner;
   const fundsRecipientAddress = saleConfig?.fundsRecipient;
-  const explorerBaseUrl = EXPLORER_BY_CHAIN_ID[moment.chainId] ?? "https://basescan.org";
+  const explorerBaseUrl = getExplorerBaseUrl(moment.chainId);
   const splitUrl =
     fundsRecipientAddress && isSplit === true
       ? `https://app.splits.org/accounts/${fundsRecipientAddress}`

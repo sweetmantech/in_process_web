@@ -3,6 +3,7 @@
 import SplitsForm from "@/components/CreateForm/SplitsForm";
 import PermissionErrorModal from "@/components/PermissionErrorModal";
 import useManageSplits from "@/hooks/useManageSplits";
+import useLoadSplitRecipients from "@/hooks/useLoadSplitRecipients";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import FundsRecipientHint from "./FundsRecipientHint";
 
@@ -18,6 +19,7 @@ const Splits = () => {
     showPermissionModal,
     closePermissionModal,
   } = useManageSplits();
+  const { showCreate } = useLoadSplitRecipients();
   const { isOwner, moment } = useMomentProvider();
 
   const isBusy = isCreating || isDistributing;
@@ -44,14 +46,16 @@ const Splits = () => {
         >
           {isDistributing ? "Distributing..." : "Distribute"}
         </button>
-        <button
-          type="button"
-          onClick={handleCreate}
-          disabled={isDisabled}
-          className="rounded-full border border-grey-moss-900 bg-grey-moss-900 px-[18px] py-2 font-archivo-medium text-xs text-white transition-colors hover:bg-black disabled:opacity-50"
-        >
-          {isCreating ? "Creating..." : "Create"}
-        </button>
+        {showCreate && (
+          <button
+            type="button"
+            onClick={handleCreate}
+            disabled={isDisabled}
+            className="rounded-full border border-grey-moss-900 bg-grey-moss-900 px-[18px] py-2 font-archivo-medium text-xs text-white transition-colors hover:bg-black disabled:opacity-50"
+          >
+            {isCreating ? "Creating..." : "Create"}
+          </button>
+        )}
       </div>
 
       <PermissionErrorModal

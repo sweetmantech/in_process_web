@@ -32,30 +32,31 @@ const Splits = () => {
 
   return (
     <div className="rounded-lg border border-grey-moss-100 bg-white p-4 shadow-sm md:p-6">
-      <div className="mb-4 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-[#887bff]" />
-          <span className={FIELD_LABEL_CLASS}>splits</span>
-        </div>
-        {isSplit === true && saleConfig?.fundsRecipient && (
-          <CopyButton text={saleConfig.fundsRecipient} className={SPLIT_ADDRESS_PILL_CLASS} />
-        )}
+      <div className="mb-4 flex items-center gap-1.5">
+        <span className="size-1.5 rounded-full bg-[#887bff]" />
+        <span className={FIELD_LABEL_CLASS}>splits</span>
       </div>
+
+      {isSplit === true && saleConfig?.fundsRecipient && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-grey-moss-100 bg-grey-moss-50/60 px-3.5 py-2.5">
+          <CopyButton text={saleConfig.fundsRecipient} className={SPLIT_ADDRESS_PILL_CLASS} />
+          <button
+            type="button"
+            onClick={handleDistribute}
+            disabled={isDistributeDisabled}
+            className="shrink-0 rounded-full border border-grey-moss-900 bg-white px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-900 transition-colors hover:bg-grey-moss-50 disabled:opacity-50"
+          >
+            {isDistributing ? "Distributing..." : "Distribute"}
+          </button>
+        </div>
+      )}
 
       <FundsRecipientHint />
 
       <SplitsForm chainRecipients={isSplit === true ? recipients : undefined} />
 
-      <div className="mt-[18px] flex items-center justify-end gap-3 border-t border-grey-moss-50 pt-4">
-        <button
-          type="button"
-          onClick={handleDistribute}
-          disabled={isDistributeDisabled}
-          className="rounded-full border border-grey-moss-900 bg-white px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-900 transition-colors hover:bg-grey-moss-50 disabled:opacity-50"
-        >
-          {isDistributing ? "Distributing..." : "Distribute"}
-        </button>
-        {showCreate && (
+      {showCreate && (
+        <div className="mt-[18px] flex items-center justify-end gap-3 border-t border-grey-moss-50 pt-4">
           <button
             type="button"
             onClick={handleCreate}
@@ -64,8 +65,8 @@ const Splits = () => {
           >
             {isCreating ? "Creating..." : "Create"}
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       <PermissionErrorModal
         open={showPermissionModal}

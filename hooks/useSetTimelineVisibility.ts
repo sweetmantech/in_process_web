@@ -25,7 +25,7 @@ const useSetTimelineVisibility = () => {
       const accessToken = await getAccessToken();
       if (!accessToken) throw new Error("Authentication required");
       const saleStart = Math.floor(timelineAt.getTime() / 1000);
-      await setSale(accessToken, moment, saleStart);
+      await setSale(accessToken, moment, { saleStart });
       return saleStart;
     },
     onSuccess: (saleStart) => {

@@ -38,7 +38,7 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
               onClick={() => onChangeTab(MANAGE_TABS.SALE)}
             />
             <TabButton
-              label="Splits"
+              label="Earnings"
               active={selectedTab === MANAGE_TABS.SPLITS}
               onClick={() => onChangeTab(MANAGE_TABS.SPLITS)}
             />

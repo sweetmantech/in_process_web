@@ -5,6 +5,7 @@ import PermissionErrorModal from "@/components/PermissionErrorModal";
 import CopyButton from "@/components/CopyButton";
 import useManageSplits from "@/hooks/useManageSplits";
 import useLoadSplitRecipients from "@/hooks/useLoadSplitRecipients";
+import getExplorerBaseUrl from "@/lib/chains/getExplorerBaseUrl";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import FundsRecipientHint from "./FundsRecipientHint";
 
@@ -14,21 +15,21 @@ const SPLIT_ADDRESS_PILL_CLASS =
   "rounded-full border border-grey-moss-100 bg-white px-2.5 py-1 font-mono text-[11.5px] text-grey-moss-300 hover:text-grey-moss-900";
 
 const Splits = () => {
-  const {
-    handleCreate,
-    handleDistribute,
-    isCreating,
-    isDistributing,
-    isSplit,
-    showPermissionModal,
-    closePermissionModal,
-  } = useManageSplits();
+  const { handleCreate, isCreating, isSplit, showPermissionModal, closePermissionModal } =
+    useManageSplits();
   const { showCreate, recipients } = useLoadSplitRecipients();
   const { isOwner, moment, saleConfig } = useMomentProvider();
 
-  const isBusy = isCreating || isDistributing;
+  const isBusy = isCreating;
   const isDisabled = isBusy || !isOwner;
-  const isDistributeDisabled = isDisabled || isSplit !== true;
+  const fundsRecipientAddress = saleConfig?.fundsRecipient;
+  const explorerBaseUrl = getExplorerBaseUrl(moment.chainId);
+  const splitUrl =
+    fundsRecipientAddress && isSplit === true
+      ? `https://app.splits.org/accounts/${fundsRecipientAddress}`
+      : fundsRecipientAddress
+        ? `${explorerBaseUrl}/address/${fundsRecipientAddress}`
+        : undefined;
 
   return (
     <div className="rounded-lg border border-grey-moss-100 bg-white p-4 shadow-sm md:p-6">
@@ -37,17 +38,17 @@ const Splits = () => {
         <span className={FIELD_LABEL_CLASS}>splits</span>
       </div>
 
-      {isSplit === true && saleConfig?.fundsRecipient && (
+      {fundsRecipientAddress && splitUrl && (
         <div className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-grey-moss-100 bg-grey-moss-50/60 px-3.5 py-2.5">
-          <CopyButton text={saleConfig.fundsRecipient} className={SPLIT_ADDRESS_PILL_CLASS} />
-          <button
-            type="button"
-            onClick={handleDistribute}
-            disabled={isDistributeDisabled}
+          <CopyButton text={fundsRecipientAddress} className={SPLIT_ADDRESS_PILL_CLASS} />
+          <a
+            href={splitUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="shrink-0 rounded-full border border-grey-moss-900 bg-white px-[18px] py-2 font-archivo-medium text-xs text-grey-moss-900 transition-colors hover:bg-grey-moss-50 disabled:opacity-50"
           >
-            {isDistributing ? "Distributing..." : "Distribute"}
-          </button>
+            {isSplit === true ? "View on 0xSplits" : "View on Explorer"}
+          </a>
         </div>
       )}
 

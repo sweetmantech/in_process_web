@@ -4,20 +4,16 @@ import { toast } from "sonner";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { createSplit } from "@/lib/splits/createSplit";
-import { distributeSplit } from "@/lib/splits/distributeSplit";
 import { setSale } from "@/lib/moment/setSale";
 import { isPermissionError } from "@/lib/errors/isPermissionError";
-import { MomentType } from "@/types/moment";
-import { USDC_ADDRESS } from "@/lib/consts";
 import useIsSplitContract from "@/hooks/useIsSplitContract";
 
 const useManageSplits = () => {
-  const { moment, saleConfig, fetchMomentData } = useMomentProvider();
+  const { moment, fetchMomentData } = useMomentProvider();
   const { isSplit } = useIsSplitContract();
   const { form } = useMetadataFormProvider();
   const { getAccessToken } = usePrivy();
   const [isCreating, setIsCreating] = useState(false);
-  const [isDistributing, setIsDistributing] = useState(false);
   const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   const handleCreate = async () => {
@@ -52,35 +48,9 @@ const useManageSplits = () => {
     }
   };
 
-  const handleDistribute = async () => {
-    const splitAddress = saleConfig?.fundsRecipient;
-    if (!splitAddress || isSplit !== true) {
-      toast.error("No split to distribute");
-      return;
-    }
-
-    setIsDistributing(true);
-    try {
-      const tokenAddress =
-        saleConfig.type === MomentType.Erc20Mint ? USDC_ADDRESS[moment.chainId] : undefined;
-      await distributeSplit({
-        splitAddress,
-        tokenAddress,
-        chainId: moment.chainId,
-      });
-      toast.success("Split distributed");
-    } catch (error: unknown) {
-      toast.error((error as Error)?.message || "Failed to distribute split");
-    } finally {
-      setIsDistributing(false);
-    }
-  };
-
   return {
     handleCreate,
-    handleDistribute,
     isCreating,
-    isDistributing,
     isSplit,
     showPermissionModal,
     closePermissionModal: () => setShowPermissionModal(false),

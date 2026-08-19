@@ -45,7 +45,11 @@ const useSetSale = () => {
         : parseEther(priceInput).toString();
       const saleStartUnix = Math.floor(saleStart.getTime() / 1000);
       const saleEndUnix = saleEnd ? Math.floor(saleEnd.getTime() / 1000) : undefined;
-      return setSale(accessToken, moment, saleStartUnix, pricePerToken, saleEndUnix);
+      return setSale(accessToken, moment, {
+        saleStart: saleStartUnix,
+        pricePerToken,
+        saleEnd: saleEndUnix,
+      });
     },
     onSuccess: () => toast.success("Sale updated successfully"),
     onError: (error: any) => {

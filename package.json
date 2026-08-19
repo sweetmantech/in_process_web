@@ -11,6 +11,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@0xsplits/splits-sdk": "^6.5.0",
     "@ar.io/wayfinder-core": "^1.9.1",
     "@ar.io/wayfinder-react": "^1.0.28",
     "@farcaster/miniapp-sdk": "^0.3.0",

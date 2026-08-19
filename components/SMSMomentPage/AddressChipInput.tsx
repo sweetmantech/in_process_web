@@ -12,7 +12,11 @@ const AddressChipInput = () => {
   return (
     <div className="flex flex-wrap items-center gap-1.5 border-b-2 border-grey-moss-900 py-2">
       {airdropToItems.map((item: AirdropItem, index) => (
-        <AddressChip item={item} index={index} key={`${index}-${item.address || item.email || item.ensName}`} />
+        <AddressChip
+          item={item}
+          index={index}
+          key={`${index}-${item.address || item.email || item.ensName}`}
+        />
       ))}
       <input
         type="text"

@@ -56,6 +56,8 @@ const ArtistPageContent = ({ address }: { address: Address }) => {
           stats={stats}
           toolbar={
             <ArtistFilters
+              address={address}
+              view="timeline"
               protocol={protocolFilter}
               contentType={contentTypeFilter}
               period={periodFilter}

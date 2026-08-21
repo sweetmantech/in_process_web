@@ -8,8 +8,11 @@ import {
 } from "@/lib/timeline/timelineFilters";
 import type { ArtistFiltersProps } from "@/types/artistFilters";
 import FilterSelect from "./FilterSelect";
+import ProfileViewTabs from "./ProfileViewTabs";
 
 const ArtistFilters = ({
+  address,
+  view,
   protocol,
   contentType,
   period,
@@ -46,6 +49,7 @@ const ArtistFilters = ({
         onChange={onChainChange}
         withChainLogo
       />
+      <ProfileViewTabs address={address} active={view} />
     </div>
   );
 };

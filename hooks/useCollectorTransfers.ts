@@ -1,15 +1,20 @@
 import getCollectorTransfers from "@/lib/transfers/getCollectorTransfers";
+import type { AnalyticsContentType } from "@/types/timeline";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import type { Address } from "viem";
 
 const PAGE_LIMIT = 100;
 
-export function useCollectorTransfers(address?: Address) {
+export function useCollectorTransfers(address?: Address, contentType?: AnalyticsContentType) {
   const query = useInfiniteQuery({
-    queryKey: ["collector_transfers", address, PAGE_LIMIT],
+    queryKey: ["collector_transfers", address, PAGE_LIMIT, contentType],
     queryFn: ({ pageParam = 1 }) =>
-      getCollectorTransfers(address as Address, pageParam, PAGE_LIMIT),
+      getCollectorTransfers(address as Address, {
+        page: pageParam,
+        limit: PAGE_LIMIT,
+        contentType,
+      }),
     enabled: Boolean(address),
     staleTime: 0,
     refetchOnMount: true,

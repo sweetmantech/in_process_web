@@ -1,13 +1,19 @@
 import { CHAIN_ID, IN_PROCESS_API } from "@/lib/consts";
 import type { CollectorTransfersResponse } from "@/types/collectorTransfer";
+import type { AnalyticsContentType } from "@/types/timeline";
 import type { Address } from "viem";
 
 const DEFAULT_LIMIT = 100;
 
+type Options = {
+  page?: number;
+  limit?: number;
+  contentType?: AnalyticsContentType;
+};
+
 const getCollectorTransfers = async (
   collector: Address,
-  page = 1,
-  limit = DEFAULT_LIMIT
+  { page = 1, limit = DEFAULT_LIMIT, contentType }: Options = {}
 ): Promise<CollectorTransfersResponse> => {
   const params = new URLSearchParams({
     collector,
@@ -15,6 +21,7 @@ const getCollectorTransfers = async (
     page: String(page),
     limit: String(limit),
   });
+  if (contentType) params.append("content_type", contentType);
 
   const res = await fetch(`${IN_PROCESS_API}/transfers?${params.toString()}`);
   if (!res.ok) throw new Error("Failed to fetch collector transfers");

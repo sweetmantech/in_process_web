@@ -1,30 +1,32 @@
 "use client";
 
+import { useState } from "react";
 import { Address } from "viem";
 import { useParams } from "next/navigation";
 import ProfileProvider from "@/providers/ProfileProvider";
 import ProfileWithStats from "@/components/ProfileWithStats";
 import CollectedToolbar from "./CollectedToolbar";
 import CollectedCard from "./CollectedCard";
-import { useCollectedPageState } from "./useCollectedPageState";
 import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import FetchMore from "@/components/FetchMore";
 import { formatStatValue } from "@/lib/stats/formatStatValue";
+import type { ContentTypeFilter } from "@/lib/timeline/timelineFilters";
+import type { AnalyticsContentType } from "@/types/timeline";
 
 const CollectedPageContent = ({ address }: { address: Address }) => {
+  const [contentTypeFilter, setContentTypeFilter] = useState<ContentTypeFilter>("All");
+  const contentType =
+    contentTypeFilter === "All" ? undefined : (contentTypeFilter as AnalyticsContentType);
+
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
+  const { collectedCount } = useCollectorTransfers(address);
   const {
-    transfers: sourceTransfers,
-    collectedCount,
+    transfers,
     isLoading: isTransfersLoading,
     hasNextPage,
     fetchMore,
-  } = useCollectorTransfers(address);
-
-  const { transfers, typeTabs, contentType, setContentType } = useCollectedPageState({
-    transfers: sourceTransfers,
-  });
+  } = useCollectorTransfers(address, contentType);
 
   const showStatsLoading = isStatsLoading && !collectingStats;
   const showCountLoading = isTransfersLoading && collectedCount == null;
@@ -50,8 +52,16 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
   return (
     <div className="relative flex min-h-full w-full grow flex-col text-[#1c1a17]">
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
-        <ProfileWithStats stats={stats} />
-        <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
+        <ProfileWithStats
+          stats={stats}
+          toolbar={
+            <CollectedToolbar
+              address={address}
+              active={contentTypeFilter}
+              onChange={setContentTypeFilter}
+            />
+          }
+        />
         {isTransfersLoading ? (
           <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
             Loading collected moments…

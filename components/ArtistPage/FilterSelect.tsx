@@ -17,8 +17,9 @@ function FilterSelect<T extends string>({
   options,
   onChange,
   withChainLogo = false,
+  active,
 }: FilterSelectProps<T>) {
-  const isActive = value !== "All";
+  const isActive = active ?? value !== "All";
 
   return (
     <Select value={value} onValueChange={(v) => onChange(v as T)}>

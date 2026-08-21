@@ -1,14 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+import { useState } from "react";
 import { Address } from "viem";
 import { useParams } from "next/navigation";
 import ProfileProvider from "@/providers/ProfileProvider";
 import ProfileWithStats from "@/components/ProfileWithStats";
 import CollectedToolbar from "./CollectedToolbar";
 import CollectedCard from "./CollectedCard";
-import { useCollectedPageState } from "./useCollectedPageState";
 import { useCollectingStats } from "@/hooks/useCollectingStats";
 import { useCollectorTransfers } from "@/hooks/useCollectorTransfers";
 import FetchMore from "@/components/FetchMore";
@@ -16,23 +14,25 @@ import { formatStatValue } from "@/lib/stats/formatStatValue";
 import { useMasonryColumnCount } from "@/hooks/useMasonryColumnCount";
 import { useFeedScroll } from "@/hooks/useFeedScroll";
 import { distributeIntoColumns } from "@/lib/moment/distributeIntoColumns";
-import IconHint from "@/components/ArtistPage/IconHint";
+import type { ContentTypeFilter } from "@/lib/timeline/timelineFilters";
+import type { AnalyticsContentType } from "@/types/timeline";
 
 const RENDER_PAGE_SIZE = 30;
 
 const CollectedPageContent = ({ address }: { address: Address }) => {
+  const [contentTypeFilter, setContentTypeFilter] = useState<ContentTypeFilter>("All");
+  const contentType =
+    contentTypeFilter === "All" ? undefined : (contentTypeFilter as AnalyticsContentType);
+
   const { data: collectingStats, isLoading: isStatsLoading } = useCollectingStats(address);
+  const { collectedCount } = useCollectorTransfers(address);
   const {
-    transfers: sourceTransfers,
-    collectedCount,
+    transfers,
     isLoading: isTransfersLoading,
     hasNextPage,
     fetchMore,
-  } = useCollectorTransfers(address);
+  } = useCollectorTransfers(address, contentType);
 
-  const { transfers, typeTabs, contentType, setContentType } = useCollectedPageState({
-    transfers: sourceTransfers,
-  });
   const columnCount = useMasonryColumnCount();
   const {
     visibleMoments: visibleTransfers,
@@ -66,18 +66,12 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
         <ProfileWithStats
           stats={stats}
-          extraSocials={
-            <Link
-              href={`/${address}`}
-              aria-label="Timeline"
-              className="group relative flex size-8 items-center justify-center rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 text-[#8a8578] transition-colors hover:border-[rgba(28,26,23,0.4)] hover:bg-white/75 hover:opacity-80 active:opacity-70"
-            >
-              <Image src="/footer_logo.svg" alt="" width={17} height={17} className="opacity-60" />
-              <IconHint label="Timeline" />
-            </Link>
-          }
           toolbar={
-            <CollectedToolbar tabs={typeTabs} active={contentType} onChange={setContentType} />
+            <CollectedToolbar
+              address={address}
+              active={contentTypeFilter}
+              onChange={setContentTypeFilter}
+            />
           }
         />
         {isTransfersLoading ? (

@@ -3,6 +3,7 @@
 import { Fragment, useState } from "react";
 import ManageTabs, { MANAGE_TABS } from "./ManageTabs";
 import Sale from "./Sale";
+import Splits from "./Splits";
 import MomentMedia from "../Media/MomentMedia";
 import { useParams } from "next/navigation";
 import { MomentProvider } from "@/providers/MomentProvider";
@@ -44,6 +45,7 @@ const MomentManagePage = () => {
               <div className="pb-2">
                 {selectedTab === MANAGE_TABS.AIRDROP && <MomentAirdrop />}
                 {selectedTab === MANAGE_TABS.SALE && <Sale />}
+                {selectedTab === MANAGE_TABS.SPLITS && <Splits />}
                 {selectedTab === MANAGE_TABS.MEDIA && <MomentMedia />}
                 {selectedTab === MANAGE_TABS.ADMIN && <Admins />}
               </div>

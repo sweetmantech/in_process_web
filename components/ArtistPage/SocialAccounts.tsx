@@ -1,10 +1,15 @@
+import { ReactNode } from "react";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { Icons } from "../ui/icons";
 import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 
-const SocialAccounts = () => {
+type Props = {
+  extras?: ReactNode;
+};
+
+const SocialAccounts = ({ extras }: Props) => {
   const {
     twitter,
     instagram,
@@ -16,7 +21,8 @@ const SocialAccounts = () => {
     setTelegram,
   } = useProfileProvider();
 
-  const iconWrapClass = "rounded-full border border-[rgba(28,26,23,0.2)] p-1.5 text-[#8a8578]";
+  const iconWrapClass =
+    "rounded-full border border-[rgba(28,26,23,0.2)] bg-white/55 p-1.5 text-[#8a8578]";
 
   const instagramIcon = <InstagramIcon className="size-[18px] text-current" />;
   const twitterIcon = <Icons.twitter className="size-[16px] fill-current" />;
@@ -54,17 +60,27 @@ const SocialAccounts = () => {
 
   return (
     <div className="flex items-center gap-1">
+      {extras}
       {instagram && (
         <Social
           link={`https://instagram.com/${extractSocialUsername(instagram)}`}
           icon={instagramIcon}
+          label="Instagram"
         />
       )}
       {twitter && (
-        <Social link={`https://x.com/@${extractSocialUsername(twitter)}`} icon={twitterIcon} />
+        <Social
+          link={`https://x.com/@${extractSocialUsername(twitter)}`}
+          icon={twitterIcon}
+          label="X"
+        />
       )}
       {telegram && (
-        <Social link={`https://t.me/${extractSocialUsername(telegram)}`} icon={telegramIcon} />
+        <Social
+          link={`https://t.me/${extractSocialUsername(telegram)}`}
+          icon={telegramIcon}
+          label="Telegram"
+        />
       )}
     </div>
   );

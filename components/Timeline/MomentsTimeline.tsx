@@ -1,28 +1,13 @@
-import Loading from "../Loading";
-import { useTimelineProvider } from "@/providers/TimelineProvider";
-import FetchMoreInspector from "../FetchMoreInspector";
-import Moments from "../MomentsGrid/Moments";
+import MomentsMasonryGrid from "@/components/HomePage/MomentsMasonryGrid";
+import CollectDrawer from "@/components/HomePage/CollectDrawer";
+import CommentDrawer from "@/components/HomePage/CommentDrawer";
 
-const MomentsTimeline = () => {
-  const { moments, isLoading, fetchMore } = useTimelineProvider();
-
-  if (!moments.length)
-    return (
-      <div className="flex w-full items-center justify-center">
-        {isLoading ? (
-          <Loading className="aspect-[1/1] w-[100px] md:w-[200px]" />
-        ) : (
-          <p className="font-archivo text-lg md:text-5xl">No moments yet!</p>
-        )}
-      </div>
-    );
-
-  return (
-    <>
-      <Moments />
-      <FetchMoreInspector fetchMore={fetchMore} />
-    </>
-  );
-};
+const MomentsTimeline = () => (
+  <>
+    <MomentsMasonryGrid />
+    <CollectDrawer />
+    <CommentDrawer />
+  </>
+);
 
 export default MomentsTimeline;

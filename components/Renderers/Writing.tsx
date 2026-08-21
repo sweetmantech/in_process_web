@@ -47,12 +47,12 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
     updateScrollState();
   }, [text, isLoading, updateScrollState]);
 
-  if (isLoading && !text) return <Skeleton className="size-full min-h-[200px]" />;
+  if (isLoading && !text) return <Skeleton className="min-h-[80px] w-full" />;
 
   return (
-    <div className="relative size-full border border-grey-moss-300 bg-white !font-spectral shadow-[5px_6px_2px_2px_#0000000f]">
+    <div className="writing-root relative w-full max-h-[min(70vh,560px)] overflow-hidden bg-grey-eggshell !font-spectral">
       <div
-        className="relative z-[2] size-full overflow-y-auto whitespace-pre-wrap break-words bg-grey-eggshell p-2 pt-24 text-sm md:p-4 md:text-base"
+        className="max-h-[min(70vh,560px)] overflow-y-auto whitespace-pre-wrap break-words p-3 text-sm md:p-4 md:text-base"
         onScroll={handleScroll}
         ref={scrollerRef}
         tabIndex={0}
@@ -64,13 +64,13 @@ const Writing = ({ fileUrl, description }: WritingProps) => {
       {canScroll && scrollPosition !== "top" && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 z-[3] h-24 w-full bg-gradientTopBottom"
+          className="pointer-events-none absolute left-0 top-0 z-[3] h-16 w-full bg-gradientTopBottom"
         />
       )}
       {canScroll && scrollPosition !== "bottom" && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 left-0 z-[3] h-24 w-full bg-gradientBottomTop"
+          className="pointer-events-none absolute bottom-0 left-0 z-[3] h-16 w-full bg-gradientBottomTop"
         />
       )}
     </div>

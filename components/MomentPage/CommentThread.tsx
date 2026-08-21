@@ -67,7 +67,7 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
           {commentText?.trim() ? (
             <EmojiText
               text={commentText}
-              className="mb-1 font-spectral text-[14.5px] leading-snug text-grey-moss-900"
+              className="mb-1 whitespace-pre-wrap font-spectral text-[14.5px] leading-snug text-grey-moss-900"
             />
           ) : (
             <div className="mb-1 inline-flex items-center gap-1.5 font-archivo text-[11.5px] text-[#8B8474]">

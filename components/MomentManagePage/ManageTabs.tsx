@@ -5,6 +5,7 @@ export enum MANAGE_TABS {
   MEDIA,
   AIRDROP,
   SALE,
+  SPLITS,
   ADMIN,
 }
 
@@ -35,6 +36,11 @@ const ManageTabs = ({ selectedTab, onChangeTab }: ManageTabsProps) => {
               label="Sale"
               active={selectedTab === MANAGE_TABS.SALE}
               onClick={() => onChangeTab(MANAGE_TABS.SALE)}
+            />
+            <TabButton
+              label="Earnings"
+              active={selectedTab === MANAGE_TABS.SPLITS}
+              onClick={() => onChangeTab(MANAGE_TABS.SPLITS)}
             />
             <TabButton
               label="Admins"

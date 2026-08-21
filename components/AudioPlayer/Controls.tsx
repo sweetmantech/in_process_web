@@ -72,7 +72,7 @@ const Controls = () => {
             togglePlayPause();
           }}
           disabled={isLoading && !isPlaying}
-          className="flex size-12 items-center justify-center rounded-full bg-white text-black shadow-lg transition-transform active:scale-95 disabled:opacity-50 sm:size-14 sm:hover:scale-105"
+          className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white text-black shadow-lg transition-transform active:scale-95 disabled:opacity-50 sm:size-14 sm:hover:scale-105"
         >
           {isLoading ? (
             <Loader2 className="size-6 animate-spin sm:size-7" />

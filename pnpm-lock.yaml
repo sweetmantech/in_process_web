@@ -7,6 +7,9 @@ settings:
 importers:
   .:
     dependencies:
+      "@0xsplits/splits-sdk":
+        specifier: ^6.5.0
+        version: 6.5.0(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
       "@ar.io/wayfinder-core":
         specifier: ^1.9.1
         version: 1.9.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
@@ -313,6 +316,28 @@ importers:
         version: 5.9.3
 
 packages:
+  "@0no-co/graphql.web@1.2.0":
+    resolution:
+      {
+        integrity: sha512-/1iHy9TTr63gE1YcR5idjx8UREz1s0kFhydf3bBLCXyqjhkIc6igAzTOx3zPifCwFR87tsh/4Pa9cNts6d2otw==,
+      }
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+
+  "@0xsplits/splits-sdk@6.5.0":
+    resolution:
+      {
+        integrity: sha512-npgB9u7FsTs0ab2m5FCfYvP/lRZwUUoezZuLvl/xS3PtjSMm6QIJ5fSfifhzKt2jvzuwQdgGUImBQalQF9pdog==,
+      }
+    peerDependencies:
+      viem: ^2.0.0
+    peerDependenciesMeta:
+      viem:
+        optional: true
+
   "@acemir/cssom@0.9.29":
     resolution:
       {
@@ -4718,6 +4743,12 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  "@urql/core@4.3.0":
+    resolution:
+      {
+        integrity: sha512-wT+FeL8DG4x5o6RfHEnONNFVDM3616ouzATMYUClB6CB+iIu2mwfBKd7xSUxYOZmwtxna5/hDRQdMl3nbQZlnw==,
+      }
+
   "@vercel/analytics@1.6.1":
     resolution:
       {
@@ -5496,6 +5527,12 @@ packages:
     resolution:
       {
         integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==,
+      }
+
+  base-64@1.0.0:
+    resolution:
+      {
+        integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==,
       }
 
   base-x@3.0.11:
@@ -7408,6 +7445,13 @@ packages:
         integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==,
       }
 
+  graphql@16.14.0:
+    resolution:
+      {
+        integrity: sha512-BBvQ/406p+4CZbTpCbVPSxfzrZrbnuWSP1ELYgyS6B+hNeKzgrdB4JczCa5VZUBQrDa9hUngm0KnexY6pJRN5Q==,
+      }
+    engines: { node: "^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0" }
+
   h3@1.15.4:
     resolution:
       {
@@ -8361,6 +8405,12 @@ packages:
     resolution:
       {
         integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==,
+      }
+
+  lodash@4.18.1:
+    resolution:
+      {
+        integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==,
       }
 
   log-update@6.1.0:
@@ -11456,6 +11506,12 @@ packages:
     engines: { node: ">= 8" }
     hasBin: true
 
+  wonka@6.3.6:
+    resolution:
+      {
+        integrity: sha512-MXH+6mDHAZ2GuMpgKS055FR6v0xVP3XwquxIMYXgiW+FejHQlMGlvVRZT4qMCxR+bEo/FCtIdKxwej9WV3YQag==,
+      }
+
   word-wrap@1.2.5:
     resolution:
       {
@@ -11743,6 +11799,19 @@ packages:
         optional: true
 
 snapshots:
+  "@0no-co/graphql.web@1.2.0(graphql@16.14.0)":
+    optionalDependencies:
+      graphql: 16.14.0
+
+  "@0xsplits/splits-sdk@6.5.0(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))":
+    dependencies:
+      "@urql/core": 4.3.0(graphql@16.14.0)
+      base-64: 1.0.0
+      graphql: 16.14.0
+      lodash: 4.18.1
+    optionalDependencies:
+      viem: 2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+
   "@acemir/cssom@0.9.29": {}
 
   "@adraffy/ens-normalize@1.11.1": {}
@@ -15865,6 +15934,13 @@ snapshots:
   "@unrs/resolver-binding-win32-x64-msvc@1.11.1":
     optional: true
 
+  "@urql/core@4.3.0(graphql@16.14.0)":
+    dependencies:
+      "@0no-co/graphql.web": 1.2.0(graphql@16.14.0)
+      wonka: 6.3.6
+    transitivePeerDependencies:
+      - graphql
+
   "@vercel/analytics@1.6.1(next@16.0.7(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)":
     optionalDependencies:
       next: 16.0.7(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -17247,6 +17323,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
+  base-64@1.0.0: {}
+
   base-x@3.0.11:
     dependencies:
       safe-buffer: 5.2.1
@@ -18516,6 +18594,8 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  graphql@16.14.0: {}
+
   h3@1.15.4:
     dependencies:
       cookie-es: 1.2.2
@@ -19082,6 +19162,8 @@ snapshots:
   lodash.merge@4.6.2: {}
 
   lodash@4.17.21: {}
+
+  lodash@4.18.1: {}
 
   log-update@6.1.0:
     dependencies:
@@ -21242,6 +21324,8 @@ snapshots:
   which@2.0.2:
     dependencies:
       isexe: 2.0.0
+
+  wonka@6.3.6: {}
 
   word-wrap@1.2.5: {}
 

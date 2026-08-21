@@ -10,6 +10,7 @@ import Description from "../MomentPage/Description";
 import SaveMediaButton from "../MomentManagePage/SaveMediaButton";
 import CollectLinkRow from "./CollectLinkRow";
 import MomentThumbnailField from "./MomentThumbnailField";
+import TimelineVisibilityField from "./TimelineVisibilityField";
 
 const MomentDetailsCard = () => {
   const { metadata, isOwner } = useMomentProvider();
@@ -73,6 +74,7 @@ const MomentDetailsCard = () => {
           <SaveMediaButton className="rounded-full px-5 py-1.5 font-archivo text-sm font-semibold" />
         </div>
       )}
+      {isOwner && <TimelineVisibilityField disabled={!canEdit} />}
     </div>
   );
 };

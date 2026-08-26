@@ -82,9 +82,20 @@ const useMetadataForm = () => {
   }, []);
 
   const resetForm = useCallback(() => {
-    form.setValue("name", "", { shouldValidate: false });
-    form.setValue("description", undefined, { shouldValidate: false });
+    form.reset({
+      name: "",
+      price: "1",
+      priceUnit: "usdc" as Currency,
+      description: undefined,
+      startDate: undefined,
+      splits: undefined,
+      totalSupply: undefined,
+    });
     clearMediaState();
+    setIsOpenAdvanced(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   }, [form, clearMediaState]);
 
   const resetFiles = useCallback(() => {

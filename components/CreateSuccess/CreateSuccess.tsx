@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
-import { getCollectionTimelineUrl } from "@/lib/collection/getCollectionTimelineUrl";
 import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 import MomentCreatedHeader from "./MomentCreatedHeader";
 import Buttons from "./Buttons";
@@ -19,7 +18,7 @@ import getCreateSuccessDisplayState from "@/lib/createSuccess/getCreateSuccessDi
 import getCreateSuccessRequestState from "@/lib/createSuccess/getCreateSuccessRequestState";
 
 const CreateSuccess = () => {
-  const { name, description, price, priceUnit, writingText, resetForm } = useMetadataFormProvider();
+  const { name, description, price, priceUnit, writingText } = useMetadataFormProvider();
   const { selectedCollection, collections } = useCollectionsProvider();
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { push } = useRouter();
@@ -62,7 +61,6 @@ const CreateSuccess = () => {
   });
 
   const handleBackToCreate = () => {
-    resetForm();
     setCreatedTokenId("");
     push("/create");
   };

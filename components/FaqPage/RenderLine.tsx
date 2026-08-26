@@ -11,7 +11,7 @@ export const RenderLine = (line: string, lineIndex: number) => {
   return (
     <div key={lineIndex} className={`mb-1 ${isBulletPoint || isNumberedItem ? "ml-4" : ""}`}>
       <span
-        className={`font-spectral text-[14px] font-normal leading-[200%] tracking-[-0.05em] text-[#1B1504] antialiased md:text-[18px] [&_a]:font-spectral-italic [&_a]:italic [&_a]:text-grey-moss-300 [&_a]:underline [&_a]:underline-offset-2`}
+        className={`font-spectral text-[15px] font-normal leading-[1.75] tracking-[-0.01em] text-[#4A4437] antialiased md:text-[16px] [&_a]:text-[#A8862F] [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-[#1B1504]`}
       >
         {parseHTML(line, false)}
       </span>

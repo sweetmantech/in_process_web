@@ -1,90 +1,115 @@
 "use client";
 
-import { faqSections } from "@/lib/faq/faqContent";
-import { faqImageGalleries } from "@/lib/faq/faqImages";
-import FaqHeader from "./FaqHeader";
-import FaqSection from "./FaqSection";
-import ImageGallery from "./ImageGallery";
+import { faqItemKey, faqSections } from "@/lib/faq/faqContent";
+import useFaqPage from "@/hooks/useFaqPage";
+import FaqAccordionItem from "./FaqAccordionItem";
+import FaqAccordionSection from "./FaqAccordionSection";
+import FaqSearch from "./FaqSearch";
 
 const FaqPage = () => {
+  const { main, additional, telegram, final, join, community, wallet } = faqSections;
+
   const {
-    main: faqData,
-    additional: additionalFaqData,
-    telegram: telegramFaqData,
-    final: finalFaqData,
-    join: joinFaqData,
-    community: communityFaqData,
-    wallet: walletFaqData,
-  } = faqSections;
+    query,
+    openIds,
+    filtered,
+    countLabel,
+    handleQueryChange,
+    toggleItem,
+    hasOpenItems,
+    collapseAll,
+    expandAll,
+  } = useFaqPage();
 
   return (
-    <div className="relative flex w-full grow justify-center px-2 pt-8 md:px-6 md:pt-16">
-      <div className="w-full max-w-full px-4 md:mx-20 md:px-20">
-        <FaqHeader />
+    <div className="relative w-full grow text-[#1B1504]">
+      <main className="mx-auto max-w-[1100px] px-5 pb-[120px] pt-16 md:px-10 md:pt-24">
+        <h1 className="mb-5 font-spectral text-[40px] font-normal leading-[1.02] tracking-[-0.025em] md:text-[64px]">
+          Questions
+        </h1>
+        <p className="mb-11 font-spectral text-[16px] leading-[1.65] text-[#6B6456] md:text-[18px]">
+          A platform for documenting and monetizing the creative journey — not just the final
+          product.
+        </p>
 
-        <FaqSection faqData={faqData} />
+        <FaqSearch
+          query={query}
+          countLabel={countLabel}
+          onQueryChange={handleQueryChange}
+          hasOpenItems={hasOpenItems}
+          onCollapseAll={collapseAll}
+          onExpandAll={expandAll}
+        />
 
-        <div className="md:mt-18 mt-14 px-1 md:px-2">
-          <ImageGallery images={faqImageGalleries.timelineExamples} />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={additionalFaqData} />
-        </div>
-
-        <div className="md:mt-18 mt-14 px-1 md:px-2">
-          <ImageGallery images={faqImageGalleries.contentTypes} />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={telegramFaqData} />
-        </div>
-
-        <div className="md:mt-18 mt-14 px-1 md:px-2">
-          <ImageGallery images={faqImageGalleries.telegramCommands} columns={3} />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={finalFaqData} />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={joinFaqData} />
-        </div>
-
-        <div className="px-1 md:px-2">
-          <ImageGallery
-            images={faqImageGalleries.gettingStarted.slice(0, 2)}
-            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
-          />
-        </div>
-
-        <div className="mt-8 px-1 md:mt-12 md:px-2">
-          <ImageGallery
-            images={faqImageGalleries.gettingStarted.slice(2, 4)}
-            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
-          />
-        </div>
-
-        <div className="mt-8 px-1 md:mt-12 md:px-2">
-          <ImageGallery
-            images={faqImageGalleries.gettingStarted.slice(4, 6)}
-            captionClassName="font-spectral text-left font-medium tracking-tight text-[#1B1504] text-[14px] md:text-[20px] ml-6 md:ml-4"
-          />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={walletFaqData} />
-        </div>
-
-        <div className="md:mt-18 mt-14 px-1 md:px-2">
-          <ImageGallery images={faqImageGalleries.externalWallet} shadow className="lg:gap-16" />
-        </div>
-
-        <div className="md:mt-18 mt-14">
-          <FaqSection faqData={communityFaqData} />
-        </div>
-      </div>
+        {filtered ? (
+          <>
+            <div>
+              {filtered.map((item, index) => {
+                const id = faqItemKey(item, `search-${index}`);
+                return (
+                  <FaqAccordionItem
+                    key={id}
+                    item={item}
+                    fallbackKey={`search-${index}`}
+                    open={!!openIds[id]}
+                    onToggle={() => toggleItem(id)}
+                  />
+                );
+              })}
+            </div>
+            {filtered.length === 0 ? (
+              <div className="px-0.5 py-[60px] font-spectral text-[18px] italic text-[#6B6456]">
+                Nothing found for “{query}”.
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <FaqAccordionSection
+              items={main}
+              keyPrefix="main"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={additional}
+              keyPrefix="additional"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={telegram}
+              keyPrefix="telegram"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={final}
+              keyPrefix="final"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={join}
+              keyPrefix="join"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={wallet}
+              keyPrefix="wallet"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+            <FaqAccordionSection
+              items={community}
+              keyPrefix="community"
+              openIds={openIds}
+              onToggle={toggleItem}
+            />
+          </>
+        )}
+      </main>
     </div>
   );
 };

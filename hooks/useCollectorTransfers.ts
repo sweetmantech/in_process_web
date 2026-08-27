@@ -3,21 +3,21 @@ import type { AnalyticsContentType } from "@/types/timeline";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useCallback, useMemo } from "react";
 import type { Address } from "viem";
-
-const PAGE_LIMIT = 100;
+import { collectorTransfersKey } from "@/lib/react-query/queryKeys";
+import { PROFILE_COLLECTOR_TRANSFERS_LIMIT } from "@/lib/react-query/profileLimits";
+import { PROFILE_READ_STALE_MS } from "@/lib/react-query/staleTimes";
 
 export function useCollectorTransfers(address?: Address, contentType?: AnalyticsContentType) {
   const query = useInfiniteQuery({
-    queryKey: ["collector_transfers", address, PAGE_LIMIT, contentType],
+    queryKey: collectorTransfersKey(address, PROFILE_COLLECTOR_TRANSFERS_LIMIT, contentType),
     queryFn: ({ pageParam = 1 }) =>
       getCollectorTransfers(address as Address, {
         page: pageParam,
-        limit: PAGE_LIMIT,
+        limit: PROFILE_COLLECTOR_TRANSFERS_LIMIT,
         contentType,
       }),
     enabled: Boolean(address),
-    staleTime: 0,
-    refetchOnMount: true,
+    staleTime: PROFILE_READ_STALE_MS,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const { page, total_pages } = lastPage.pagination;

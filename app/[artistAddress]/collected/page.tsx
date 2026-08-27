@@ -1,9 +1,13 @@
-import { Metadata, NextPage } from "next";
+import { Metadata } from "next";
+import { dehydrate } from "@tanstack/react-query";
 import CollectedPage from "@/components/CollectedPage";
+import ProfileHydrationBoundary from "@/components/Profile/ProfileHydrationBoundary";
 import { SITE_ORIGINAL_URL, IN_PROCESS_API } from "@/lib/consts";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import { Address } from "viem";
 import { getArtistProfile } from "@/lib/artists/getArtistProfile";
+import { getQueryClient } from "@/lib/react-query/getQueryClient";
+import { prefetchCollectedProfilePage } from "@/lib/react-query/prefetchCollectedProfilePage";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -54,6 +58,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const Collected: NextPage = () => <CollectedPage />;
+const Collected = async ({ params }: Props) => {
+  const { artistAddress } = await params;
+  const address = artistAddress.toLowerCase() as Address;
+  const queryClient = getQueryClient();
+
+  try {
+    await prefetchCollectedProfilePage(queryClient, address);
+  } catch {
+    // Client hooks refetch if prefetch fails
+  }
+
+  return (
+    <ProfileHydrationBoundary state={dehydrate(queryClient)}>
+      <CollectedPage />
+    </ProfileHydrationBoundary>
+  );
+};
 
 export default Collected;

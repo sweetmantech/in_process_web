@@ -18,6 +18,7 @@ import type {
   ProtocolFilter,
 } from "@/lib/timeline/timelineFilters";
 import type { AnalyticsContentType, AnalyticsPeriod, TimelineProtocol } from "@/types/timeline";
+import { PROFILE_TIMELINE_LIMIT } from "@/lib/react-query/profileLimits";
 
 const ArtistPageContent = ({ address }: { address: Address }) => {
   const [protocolFilter, setProtocolFilter] = useState<ProtocolFilter>("All");
@@ -86,6 +87,7 @@ const ArtistPageContent = ({ address }: { address: Address }) => {
           <TimelineProvider
             artistAddress={address}
             curated={false}
+            limit={PROFILE_TIMELINE_LIMIT}
             protocol={protocol}
             contentType={contentType}
             period={period}

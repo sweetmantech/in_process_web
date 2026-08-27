@@ -1,9 +1,13 @@
-import { Metadata, NextPage } from "next";
+import { Metadata } from "next";
+import { dehydrate } from "@tanstack/react-query";
 import ArtistPage from "@/components/ArtistPage";
+import ProfileHydrationBoundary from "@/components/Profile/ProfileHydrationBoundary";
 import { SITE_ORIGINAL_URL, IN_PROCESS_API } from "@/lib/consts";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import { Address } from "viem";
 import { getArtistProfile } from "@/lib/artists/getArtistProfile";
+import { getQueryClient } from "@/lib/react-query/getQueryClient";
+import { prefetchArtistProfilePage } from "@/lib/react-query/prefetchArtistProfilePage";
 
 type Props = {
   params: Promise<{ artistAddress: string }>;
@@ -53,6 +57,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-const Artist: NextPage = () => <ArtistPage />;
+const Artist = async ({ params }: Props) => {
+  const { artistAddress } = await params;
+  const address = artistAddress.toLowerCase() as Address;
+  const queryClient = getQueryClient();
+
+  try {
+    await prefetchArtistProfilePage(queryClient, address);
+  } catch {
+    // Client hooks refetch if prefetch fails
+  }
+
+  return (
+    <ProfileHydrationBoundary state={dehydrate(queryClient)}>
+      <ArtistPage />
+    </ProfileHydrationBoundary>
+  );
+};
 
 export default Artist;

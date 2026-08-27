@@ -3,6 +3,7 @@ import { useState } from "react";
 import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 import { UseTimelineParams } from "@/types/timeline";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
+import { infiniteTimelineKey } from "@/lib/react-query/queryKeys";
 
 export function useInfiniteTimeline({
   page = 1,
@@ -26,11 +27,10 @@ export function useInfiniteTimeline({
   const chainId = chainIdParam ?? collectionChainId;
 
   const query = useInfiniteQuery({
-    queryKey: [
-      "timeline",
+    queryKey: infiniteTimelineKey({
       limit,
       artistAddress,
-      normalizedCollection,
+      collection,
       includeHidden,
       type,
       chainId,
@@ -39,7 +39,7 @@ export function useInfiniteTimeline({
       contentType,
       protocol,
       curated,
-    ],
+    }),
     queryFn: ({ pageParam = 1 }) => {
       return fetchTimeline({
         page: pageParam,
@@ -59,7 +59,6 @@ export function useInfiniteTimeline({
     enabled,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
-    refetchOnMount: true,
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage) => {
       const { page, total_pages } = lastPage.pagination;

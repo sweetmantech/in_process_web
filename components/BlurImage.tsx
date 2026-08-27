@@ -6,11 +6,13 @@ import getBlurUrl from "@/lib/media/getBlurUrl";
 
 type BlurImageProps = ImageProps & {
   src: string | undefined | null;
+  /** When true, fetch a tiny proxy preview first. Default false — LQIP doubles Arweave/proxy work. */
+  lqip?: boolean;
 };
 
-const BlurImage = ({ src, className = "", alt, ...props }: BlurImageProps) => {
+const BlurImage = ({ src, className = "", alt, lqip = false, ...props }: BlurImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const blurUrl = getBlurUrl(src);
+  const blurUrl = lqip ? getBlurUrl(src) : null;
   const hasFill = "fill" in props && props.fill;
 
   // For local images or when blur URL can't be generated, use regular Image

@@ -1,6 +1,7 @@
 "use client";
 
 import ContentRenderer from "../Renderers";
+import { DETAIL_IMAGE_SIZES } from "../Renderers/ImageContent";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { Protocol } from "@/types/moment";
 
@@ -14,6 +15,7 @@ const MomentMediaFrame = () => {
         <ContentRenderer
           metadata={metadata}
           variant="natural"
+          sizes={DETAIL_IMAGE_SIZES}
           onRefresh={async () => {
             const result = await fetchMomentData();
             return result.data?.metadata?.animation_url;

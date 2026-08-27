@@ -1,4 +1,5 @@
 import BlurImage from "@/components/BlurImage";
+import { FEED_IMAGE_SIZES } from "@/components/Renderers/ImageContent";
 import { type KeyboardEvent, type SyntheticEvent } from "react";
 import FilmPlaceholder from "./FilmPlaceholder";
 
@@ -9,6 +10,7 @@ interface VideoPreviewProps {
   isLoading?: boolean;
   isError?: boolean;
   variant?: "fill" | "natural";
+  sizes?: string;
 }
 
 const VideoPreview = ({
@@ -18,6 +20,7 @@ const VideoPreview = ({
   isLoading,
   isError,
   variant = "fill",
+  sizes = FEED_IMAGE_SIZES,
 }: VideoPreviewProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -42,16 +45,23 @@ const VideoPreview = ({
     >
       {thumbnail ? (
         isFill ? (
-          <BlurImage src={thumbnail} alt="Video thumbnail" fill style={{ objectFit: "contain" }} />
+          <BlurImage
+            src={thumbnail}
+            alt="Video thumbnail"
+            fill
+            sizes={sizes}
+            className="bg-[#EDEAE2]"
+            style={{ objectFit: "contain" }}
+          />
         ) : (
           <BlurImage
             src={thumbnail}
             alt="Video thumbnail"
             width={0}
             height={0}
-            sizes="(max-width: 768px) 100vw, 800px"
+            sizes={sizes}
             style={{ width: "100%", height: "auto" }}
-            className="rounded-md"
+            className="rounded-md bg-[#EDEAE2]"
           />
         )
       ) : (

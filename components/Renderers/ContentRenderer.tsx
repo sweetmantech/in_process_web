@@ -6,7 +6,7 @@ import AudioContent from "./AudioContent";
 import VideoContent from "./VideoContent";
 import HtmlContent from "./HtmlContent";
 import TextContent from "./TextContent";
-import ImageContent from "./ImageContent";
+import ImageContent, { FEED_IMAGE_SIZES } from "./ImageContent";
 import GlbContent from "./GlbContent";
 import { MomentMetadata } from "@/types/moment";
 import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
@@ -16,10 +16,16 @@ import { isModelGltfMime } from "@/lib/media/isModelGltfMime";
 interface ContentRendererProps {
   metadata?: MomentMetadata;
   variant?: "fill" | "natural";
+  sizes?: string;
   onRefresh?: () => Promise<string | undefined | void>;
 }
 
-const ContentRenderer = ({ metadata, variant = "fill", onRefresh }: ContentRendererProps) => {
+const ContentRenderer = ({
+  metadata,
+  variant = "fill",
+  sizes = FEED_IMAGE_SIZES,
+  onRefresh,
+}: ContentRendererProps) => {
   const {
     mimeType,
     rawAnimationUri,
@@ -52,6 +58,7 @@ const ContentRenderer = ({ metadata, variant = "fill", onRefresh }: ContentRende
         rawAnimationUri={rawAnimationUri || rawContentUri}
         rawImageUri={rawImageUri}
         variant={variant}
+        sizes={sizes}
         onRefresh={onRefresh}
       />
     );
@@ -91,6 +98,7 @@ const ContentRenderer = ({ metadata, variant = "fill", onRefresh }: ContentRende
       rawImageUri={rawImageUri}
       alt={metadata?.name || metadata?.description || "Moment image"}
       variant={variant}
+      sizes={sizes}
     />
   );
 };

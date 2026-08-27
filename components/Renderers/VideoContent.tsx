@@ -8,10 +8,17 @@ interface VideoContentProps {
   rawAnimationUri: string;
   rawImageUri: string;
   variant: "fill" | "natural";
+  sizes?: string;
   onRefresh?: () => Promise<string | undefined | void>;
 }
 
-const VideoContent = ({ rawAnimationUri, rawImageUri, variant, onRefresh }: VideoContentProps) => {
+const VideoContent = ({
+  rawAnimationUri,
+  rawImageUri,
+  variant,
+  sizes,
+  onRefresh,
+}: VideoContentProps) => {
   const [videoUri, setVideoUri] = useState(rawAnimationUri);
 
   useEffect(() => {
@@ -34,6 +41,7 @@ const VideoContent = ({ rawAnimationUri, rawImageUri, variant, onRefresh }: Vide
       url={videoUri}
       thumbnail={rawImageUri || undefined}
       variant={variant}
+      sizes={sizes}
       onError={handleError}
     />
   );

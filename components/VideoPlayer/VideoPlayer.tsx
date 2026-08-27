@@ -8,10 +8,11 @@ interface VideoPlayerProps {
   url: string;
   thumbnail?: string;
   variant?: "fill" | "natural";
+  sizes?: string;
   onError?: () => Promise<boolean>;
 }
 
-const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerProps) => {
+const VideoPlayer = ({ url, thumbnail, variant = "fill", sizes, onError }: VideoPlayerProps) => {
   const {
     videoRef,
     isPlaying,
@@ -30,6 +31,7 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
         onPlay={handlePlay}
         onStopPropagation={stopPropagation}
         variant={variant}
+        sizes={sizes}
       />
     );
   }
@@ -46,6 +48,7 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", onError }: VideoPlayerP
           isLoading={!isError}
           isError={isError}
           variant={variant}
+          sizes={sizes}
         />
       )}
       <video

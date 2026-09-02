@@ -10,6 +10,7 @@ import {
   AnalyticsChannel,
   AnalyticsContentType,
   TimelineProtocol,
+  TimelineSortOrder,
 } from "@/types/timeline";
 
 interface TimelineContextValue {
@@ -42,6 +43,7 @@ interface TimelineProviderProps {
   contentType?: AnalyticsContentType;
   protocol?: TimelineProtocol;
   curated?: boolean;
+  sortOrder?: TimelineSortOrder;
 }
 
 export const TimelineProvider = ({
@@ -58,6 +60,7 @@ export const TimelineProvider = ({
   contentType,
   protocol,
   curated = true,
+  sortOrder = "created_at_desc",
 }: TimelineProviderProps) => {
   const infiniteResult = useInfiniteTimeline({
     page: 1,
@@ -73,6 +76,7 @@ export const TimelineProvider = ({
     contentType,
     protocol,
     curated,
+    sortOrder,
   });
 
   const paginatedResult = usePaginatedTimeline({

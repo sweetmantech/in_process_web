@@ -4,6 +4,7 @@ import type {
   AnalyticsContentType,
   AnalyticsPeriod,
   TimelineProtocol,
+  TimelineSortOrder,
 } from "@/types/timeline";
 import type { Address } from "viem";
 
@@ -39,6 +40,7 @@ export function infiniteTimelineKey({
   contentType,
   protocol,
   curated = true,
+  sortOrder = "created_at_desc",
 }: {
   limit: number;
   artistAddress?: string;
@@ -51,6 +53,7 @@ export function infiniteTimelineKey({
   contentType?: AnalyticsContentType;
   protocol?: TimelineProtocol;
   curated?: boolean;
+  sortOrder?: TimelineSortOrder;
 }) {
   const { chainId: collectionChainId, address: normalizedCollection } =
     parseCollectionAddress(collection);
@@ -69,5 +72,6 @@ export function infiniteTimelineKey({
     contentType,
     protocol,
     curated,
+    sortOrder,
   ] as const;
 }

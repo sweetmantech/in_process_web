@@ -4,6 +4,7 @@ import { fetchTimeline } from "@/lib/timeline/fetchTimeline";
 import { UseTimelineParams } from "@/types/timeline";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
 import { infiniteTimelineKey } from "@/lib/react-query/queryKeys";
+import { sortTimelineMoments } from "@/lib/timeline/sortTimelineMoments";
 
 export function useInfiniteTimeline({
   page = 1,
@@ -19,6 +20,7 @@ export function useInfiniteTimeline({
   contentType,
   protocol,
   curated = true,
+  sortOrder = "created_at_desc",
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -39,6 +41,7 @@ export function useInfiniteTimeline({
       contentType,
       protocol,
       curated,
+      sortOrder,
     }),
     queryFn: ({ pageParam = 1 }) => {
       return fetchTimeline({
@@ -67,10 +70,10 @@ export function useInfiniteTimeline({
     initialPageParam: 1,
   });
 
-  const moments =
-    query.data?.pages
-      .flatMap((page) => page.moments)
-      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()) ?? [];
+  const moments = sortTimelineMoments(
+    query.data?.pages.flatMap((page) => page.moments) ?? [],
+    sortOrder
+  );
 
   const pagination = query.data?.pages[query.data.pages.length - 1]?.pagination;
 

@@ -16,6 +16,8 @@ export type AnalyticsChannel = "telegram" | "sms" | "web" | "api";
 export type AnalyticsContentType = "audio" | "image" | "video";
 export type TimelineProtocol = "in_process" | "catalog" | "sound.xyz" | "zora_media" | "zora";
 
+export type TimelineSortOrder = "created_at_desc" | "token_id_asc";
+
 export interface AnalyticsFilters {
   period?: AnalyticsPeriod;
   channel?: AnalyticsChannel;
@@ -37,6 +39,7 @@ export interface UseTimelineParams {
   contentType?: AnalyticsContentType;
   protocol?: TimelineProtocol;
   curated?: boolean;
+  sortOrder?: TimelineSortOrder;
 }
 
 export interface FetchTimelineParams {
@@ -52,4 +55,5 @@ export interface FetchTimelineParams {
   contentType?: AnalyticsContentType;
   protocol?: TimelineProtocol;
   curated?: boolean;
+  sortOrder?: TimelineSortOrder;
 }

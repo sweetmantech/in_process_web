@@ -1,6 +1,7 @@
 "use client";
 
 import { useActiveArtists } from "@/hooks/useActiveArtists";
+import { AnalyticsPeriod } from "@/types/timeline";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
 type ActiveArtistsContextValue = ReturnType<typeof useActiveArtists>;
@@ -10,11 +11,15 @@ const ActiveArtistsContext = createContext<ActiveArtistsContextValue | null>(nul
 export const ActiveArtistsProvider = ({
   children,
   limit = 10,
+  period,
+  artist,
 }: {
   children: ReactNode;
   limit?: number;
+  period?: AnalyticsPeriod;
+  artist?: string;
 }) => {
-  const activeArtists = useActiveArtists({ limit });
+  const activeArtists = useActiveArtists({ limit, period, artist });
 
   const value = useMemo(() => activeArtists, [activeArtists]);
 

@@ -12,17 +12,23 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 export interface UseArweaveUploadsParams {
   aggregation: boolean;
+  period?: AnalyticsPeriod;
+  artist?: string;
 }
 
-export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
+export function useArweaveUploads({
+  aggregation,
+  period,
+  artist: pageArtist = "",
+}: UseArweaveUploadsParams) {
   const limit = 10;
   const defaultSort = useMemo<SortingState>(
     () => (aggregation ? [{ id: "usdc_cost", desc: true }] : [{ id: "created_at", desc: true }]),
     [aggregation]
   );
   const [currentPage, setCurrentPage] = useState(1);
-  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>("week");
-  const [artist, setArtist] = useState<string>("");
+  const [artistOverride, setArtist] = useState<string | null>(null);
+  const artist = artistOverride ?? pageArtist;
   const [sorting, setSorting] = useState<SortingState>(defaultSort);
   const activeSort = sorting[0] ?? defaultSort[0];
   const sortBy = activeSort.id as ArweaveUploadsSortBy;
@@ -30,12 +36,8 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [artist, period]);
-
-  const applyPeriod = useCallback((next: AnalyticsPeriod | undefined) => {
-    setPeriod(next);
-    setCurrentPage(1);
-  }, []);
+    setArtist(null);
+  }, [pageArtist, period]);
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback(
     (updater) => {
@@ -122,12 +124,10 @@ export function useArweaveUploads({ aggregation }: UseArweaveUploadsParams) {
     goPrevPage,
     goNextPage,
     limit,
-    period,
-    applyPeriod,
-    artist,
     setArtist,
     sorting,
     onSortingChange,
     totalUsdcLabel,
+    totalCount: query.data?.count ?? 0,
   };
 }

@@ -3,20 +3,29 @@ import { ActiveArtistsSortBy } from "@/types/activeArtists";
 import { AnalyticsPeriod } from "@/types/timeline";
 import { useQuery } from "@tanstack/react-query";
 import { OnChangeFn, SortingState } from "@tanstack/react-table";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 const DEFAULT_SORT: SortingState = [{ id: "created_count", desc: true }];
 
 interface UseActiveArtistsOptions {
   initialPage?: number;
   limit?: number;
+  period?: AnalyticsPeriod;
+  artist?: string;
 }
 
-export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtistsOptions = {}) {
+export function useActiveArtists({
+  initialPage = 1,
+  limit = 10,
+  period,
+  artist = "",
+}: UseActiveArtistsOptions = {}) {
   const [currentPage, setCurrentPage] = useState(initialPage);
-  const [period, setPeriod] = useState<AnalyticsPeriod | undefined>("week");
-  const [artist, setArtist] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>(DEFAULT_SORT);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [period, artist]);
 
   const activeSort = sorting[0] ?? DEFAULT_SORT[0];
   const sortBy = activeSort.id as ActiveArtistsSortBy;
@@ -36,11 +45,6 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
   });
-
-  const applyPeriod = useCallback((next: AnalyticsPeriod | undefined) => {
-    setPeriod(next);
-    setCurrentPage(1);
-  }, []);
 
   const onSortingChange: OnChangeFn<SortingState> = useCallback((updater) => {
     setSorting((prev) => {
@@ -75,10 +79,6 @@ export function useActiveArtists({ initialPage = 1, limit = 10 }: UseActiveArtis
     hasNextPage,
     goPrevPage,
     goNextPage,
-    period,
-    applyPeriod,
-    artist,
-    setArtist,
     sorting,
     onSortingChange,
   };

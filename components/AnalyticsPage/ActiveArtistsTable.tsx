@@ -3,10 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useActiveArtistsProvider } from "@/providers/ActiveArtistsProvider";
 import ActiveArtistsDataTable from "./ActiveArtistsDataTable";
-import ActiveArtistsTableFilters from "./ActiveArtistsTableFilters";
 import ActiveArtistsTableLoading from "./ActiveArtistsTableLoading";
 
 const ActiveArtistsTable = () => {
@@ -17,7 +15,6 @@ const ActiveArtistsTable = () => {
     error,
     currentPage,
     totalPages,
-    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
@@ -28,16 +25,10 @@ const ActiveArtistsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5">
-            {isLoading || !data ? <Skeleton className="h-6 w-10" /> : <span>{totalCount}</span>}
-            <span>Active Artists</span>
-          </span>
-          <div className="flex flex-wrap items-center gap-2">
-            <ActiveArtistsTableFilters />
-            <Badge variant="outline">
+          <span>Active Artists</span>
+          <Badge variant="outline">
               Page {currentPage} / {totalPages}
-            </Badge>
-          </div>
+          </Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>

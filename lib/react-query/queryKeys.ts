@@ -1,4 +1,5 @@
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
+import type { AnalyticsStatsPeriod } from "@/types/analyticsStats";
 import type {
   AnalyticsChannel,
   AnalyticsContentType,
@@ -18,6 +19,10 @@ export function timelineStatsKey(address?: Address) {
 
 export function collectingStatsKey(address?: Address) {
   return ["collecting_stats", address] as const;
+}
+
+export function analyticsStatsKey(period: AnalyticsStatsPeriod, artist?: string) {
+  return ["analytics_stats", period, artist ?? ""] as const;
 }
 
 export function collectorTransfersKey(

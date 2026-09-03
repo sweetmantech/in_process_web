@@ -25,7 +25,7 @@ const AnalyticsPeriodPills = ({ value, onChange }: Props) => {
             key={period}
             type="button"
             onClick={() => onChange(period)}
-            className={`rounded-[20px] border px-[15px] py-2 text-[12.5px] font-semibold transition-colors ${
+            className={`h-8 rounded-[20px] border px-[15px] text-[12.5px] font-semibold leading-none transition-colors ${
               active
                 ? "border-[#1B1504] bg-[#1B1504] text-white"
                 : "border-[#E4E0D7] bg-white text-[#6B6456] hover:border-[#1B1504] hover:text-[#1B1504]"

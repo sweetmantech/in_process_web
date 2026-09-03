@@ -3,10 +3,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useCollectorsProvider } from "@/providers/CollectorsProvider";
 import CollectorsDataTable from "./CollectorsDataTable";
-import CollectorsTableFilters from "./CollectorsTableFilters";
 import CollectorsTableLoading from "./CollectorsTableLoading";
 
 const CollectorsTable = () => {
@@ -16,8 +14,6 @@ const CollectorsTable = () => {
     isLoading,
     error,
     currentPage,
-    totalPages,
-    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
@@ -28,16 +24,8 @@ const CollectorsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span className="inline-flex items-center gap-1.5">
-            {isLoading || !data ? <Skeleton className="h-6 w-10" /> : <span>{totalCount}</span>}
-            <span>Collectors</span>
-          </span>
-          <div className="flex flex-wrap items-center gap-2">
-            <CollectorsTableFilters />
-            <Badge variant="outline">
-              Page {currentPage} / {totalPages}
-            </Badge>
-          </div>
+          <span>Collectors</span>
+          <Badge variant="outline">Page {currentPage}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -54,9 +42,7 @@ const CollectorsTable = () => {
               <Button variant="outline" size="sm" onClick={goPrevPage} disabled={!hasPrevPage}>
                 Previous
               </Button>
-              <span className="text-sm text-muted-foreground">
-                {currentPage} of {totalPages}
-              </span>
+              <span className="text-sm text-muted-foreground">Page {currentPage}</span>
               <Button variant="outline" size="sm" onClick={goNextPage} disabled={!hasNextPage}>
                 Next
               </Button>

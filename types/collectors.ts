@@ -9,9 +9,7 @@ export interface CollectorStats {
 
 export interface CollectorsResponse {
   collectors: CollectorStats[];
-  total_count: number;
   page: number;
-  total_pages: number;
 }
 
 export type CollectorsSortBy = "collected_count" | "eth_spent" | "usdc_spent";

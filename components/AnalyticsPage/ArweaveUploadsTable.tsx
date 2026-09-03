@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { useArweaveUploadsProvider } from "@/providers/ArweaveUploadsProvider";
 import ArweaveUploadsTableContents from "./ArweaveUploadsTableContents";
 import ArweaveUploadsTableEmpty from "./ArweaveUploadsTableEmpty";
-import ArweaveUploadsTableFilters from "./ArweaveUploadsTableFilters";
 import ArweaveUploadsTableLoading from "./ArweaveUploadsTableLoading";
 
 const ArweaveUploadsTable = () => {
@@ -28,9 +27,8 @@ const ArweaveUploadsTable = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span>Arweave expenses</span>
+          <span>Arweave Expenses</span>
           <div className="flex flex-wrap items-center gap-2">
-            <ArweaveUploadsTableFilters />
             {totalUsdcLabel !== null ? (
               <Badge variant="secondary">Total USDC {totalUsdcLabel}</Badge>
             ) : null}

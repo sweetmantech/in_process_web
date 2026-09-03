@@ -12,9 +12,7 @@ export interface ActiveArtistStats {
 
 export interface ActiveArtistsResponse {
   artists: ActiveArtistStats[];
-  total_count: number;
   page: number;
-  total_pages: number;
 }
 
 export type ActiveArtistsSortBy =

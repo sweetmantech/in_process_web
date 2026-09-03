@@ -14,7 +14,6 @@ const ArtistsCollectorsStatsTable = () => {
     isLoading,
     error,
     currentPage,
-    totalPages,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
@@ -26,9 +25,7 @@ const ArtistsCollectorsStatsTable = () => {
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span>Artists & Collectors</span>
-          <Badge variant="outline">
-            Page {currentPage} / {totalPages}
-          </Badge>
+          <Badge variant="outline">Page {currentPage}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -45,9 +42,7 @@ const ArtistsCollectorsStatsTable = () => {
               <Button variant="outline" size="sm" onClick={goPrevPage} disabled={!hasPrevPage}>
                 Previous
               </Button>
-              <span className="text-sm text-muted-foreground">
-                {currentPage} of {totalPages}
-              </span>
+              <span className="text-sm text-muted-foreground">Page {currentPage}</span>
               <Button variant="outline" size="sm" onClick={goNextPage} disabled={!hasNextPage}>
                 Next
               </Button>

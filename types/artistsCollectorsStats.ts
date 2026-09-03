@@ -8,9 +8,7 @@ export interface ArtistsCollectorsStats {
 
 export interface ArtistsCollectorsStatsResponse {
   artists: ArtistsCollectorsStats[];
-  total_count: number;
   page: number;
-  total_pages: number;
 }
 
 export type ArtistsCollectorsStatsSortBy = "total_created_count" | "total_collected_count";

@@ -1,4 +1,5 @@
 import { getArtistsCollectorsStats } from "@/lib/admin/getArtistsCollectorsStats";
+import hasNextPageFromRowCount from "@/lib/pagination/hasNextPageFromRowCount";
 import {
   ArtistsCollectorsStatsSortBy,
   ArtistsCollectorsStatsSortOrder,
@@ -75,17 +76,13 @@ export function useArtistsCollectorsStats({
 
   const artists = useMemo(() => query.data?.artists ?? [], [query.data?.artists]);
 
-  const totalPages = Math.max(1, query.data?.total_pages ?? 1);
   const hasPrevPage = currentPage > 1;
-  const hasNextPage = currentPage < totalPages;
-  const totalCount = query.data?.total_count ?? 0;
+  const hasNextPage = hasNextPageFromRowCount(artists.length, limit);
 
   return {
     ...query,
     artists,
     currentPage,
-    totalPages,
-    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

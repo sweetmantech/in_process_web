@@ -1,4 +1,5 @@
 import { getCollectors } from "@/lib/admin/getCollectors";
+import hasNextPageFromRowCount from "@/lib/pagination/hasNextPageFromRowCount";
 import { CollectorsSortBy, CollectorsSortOrder } from "@/types/collectors";
 import { AnalyticsPeriod } from "@/types/timeline";
 import { useQuery } from "@tanstack/react-query";
@@ -64,17 +65,13 @@ export function useCollectors({
 
   const collectors = useMemo(() => query.data?.collectors ?? [], [query.data?.collectors]);
 
-  const totalPages = Math.max(1, query.data?.total_pages ?? 1);
   const hasPrevPage = currentPage > 1;
-  const hasNextPage = currentPage < totalPages;
-  const totalCount = query.data?.total_count ?? 0;
+  const hasNextPage = hasNextPageFromRowCount(collectors.length, limit);
 
   return {
     ...query,
     collectors,
     currentPage,
-    totalPages,
-    totalCount,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

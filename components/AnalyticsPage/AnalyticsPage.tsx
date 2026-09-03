@@ -4,7 +4,6 @@ import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import ActiveArtistsTable from "./ActiveArtistsTable";
 import MomentsTimelineChart from "./MomentsTimelineChart";
-import AnalyticsFiltersBar from "./AnalyticsFilters";
 import ArweaveUploadsTable from "./ArweaveUploadsTable";
 import ActiveArtistsProvider from "@/providers/ActiveArtistsProvider";
 import ArweaveUploadsProvider from "@/providers/ArweaveUploadsProvider";
@@ -12,6 +11,7 @@ import CollectorsProvider from "@/providers/CollectorsProvider";
 import CollectorsTable from "./CollectorsTable";
 import ArtistsCollectorsStatsProvider from "@/providers/ArtistsCollectorsStatsProvider";
 import ArtistsCollectorsStatsTable from "./ArtistsCollectorsStatsTable";
+import AnalyticsHeader from "./AnalyticsHeader";
 import AnalyticsKpiRow from "./AnalyticsKpiRow";
 import AnalyticsTableTabs from "./AnalyticsTableTabs";
 import AnalyticsProvider from "@/providers/AnalyticsProvider";
@@ -21,9 +21,8 @@ const AnalyticsPageContent = () => {
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
-      <h1 className="mb-6 text-2xl font-bold">Analytics</h1>
+      <AnalyticsHeader />
       <div className="flex flex-col gap-6">
-        <AnalyticsFiltersBar />
         <AnalyticsKpiRow />
         <TimelineProvider
           includeHidden={true}

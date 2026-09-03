@@ -66,11 +66,7 @@ const AnalyticsPage = () => {
           </ArtistsCollectorsStatsProvider>
         ) : null}
         {activeTab === "arweave" ? (
-          <ArweaveUploadsProvider
-            aggregation
-            period={filters.period}
-            artist={filters.artist}
-          >
+          <ArweaveUploadsProvider aggregation period={filters.period} artist={filters.artist}>
             <ArweaveUploadsTable />
           </ArweaveUploadsProvider>
         ) : null}

@@ -27,7 +27,7 @@ const ActiveArtistsTable = () => {
         <CardTitle className="flex flex-wrap items-center justify-between gap-2">
           <span>Active Artists</span>
           <Badge variant="outline">
-              Page {currentPage} / {totalPages}
+            Page {currentPage} / {totalPages}
           </Badge>
         </CardTitle>
       </CardHeader>

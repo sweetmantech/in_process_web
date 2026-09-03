@@ -24,17 +24,10 @@ const AnalyticsKpiRow = ({ period, artist }: Props) => {
 
   return (
     <div>
-      {error ? (
-        <p className="mb-3 text-sm text-red-500">Error loading analytics stats</p>
-      ) : null}
-      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[10px] border border-[#E4E0D7] bg-[#E4E0D7] md:grid-cols-3 lg:grid-cols-6">
+      {error ? <p className="mb-3 text-sm text-red-500">Error loading analytics stats</p> : null}
+      <div className="grid grid-cols-3 gap-px overflow-hidden rounded-[10px] border border-[#E4E0D7] bg-[#E4E0D7]">
         {KPI_ITEMS.map(({ key, label }) => (
-          <AnalyticsKpiCard
-            key={key}
-            label={label}
-            metric={data?.[key]}
-            loading={isLoading}
-          />
+          <AnalyticsKpiCard key={key} label={label} metric={data?.[key]} loading={isLoading} />
         ))}
       </div>
     </div>

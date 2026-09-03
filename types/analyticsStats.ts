@@ -17,3 +17,9 @@ export type AnalyticsStats = {
 };
 
 export type AnalyticsKpiKey = keyof Omit<AnalyticsStats, "period">;
+
+export type AnalyticsTableTabId =
+  | "active-artists"
+  | "collectors"
+  | "artists-collectors"
+  | "arweave";

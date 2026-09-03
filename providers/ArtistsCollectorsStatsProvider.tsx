@@ -1,8 +1,8 @@
 "use client";
 
 import { useArtistsCollectorsStats } from "@/hooks/useArtistsCollectorsStats";
-import { AnalyticsPeriod } from "@/types/timeline";
-import { createContext, useContext, useMemo, type ReactNode } from "react";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
+import { createContext, useContext, type ReactNode } from "react";
 
 type ArtistsCollectorsStatsContextValue = ReturnType<typeof useArtistsCollectorsStats>;
 
@@ -13,15 +13,16 @@ const ArtistsCollectorsStatsContext = createContext<ArtistsCollectorsStatsContex
 export const ArtistsCollectorsStatsProvider = ({
   children,
   limit = 10,
-  period,
-  artist,
 }: {
   children: ReactNode;
   limit?: number;
-  period?: AnalyticsPeriod;
-  artist?: string;
 }) => {
-  const value = useArtistsCollectorsStats({ limit, period, artist });
+  const { filters } = useAnalyticsProvider();
+  const value = useArtistsCollectorsStats({
+    limit,
+    period: filters.period,
+    artist: filters.artist,
+  });
 
   return (
     <ArtistsCollectorsStatsContext.Provider value={value}>

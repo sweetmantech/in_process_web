@@ -1,8 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { TimelineProvider } from "@/providers/TimelineProvider";
-import { AnalyticsFilters } from "@/types/timeline";
 import ActiveArtistsTable from "./ActiveArtistsTable";
 import MomentsTimelineChart from "./MomentsTimelineChart";
 import AnalyticsFiltersBar from "./AnalyticsFilters";
@@ -14,32 +13,18 @@ import CollectorsTable from "./CollectorsTable";
 import ArtistsCollectorsStatsProvider from "@/providers/ArtistsCollectorsStatsProvider";
 import ArtistsCollectorsStatsTable from "./ArtistsCollectorsStatsTable";
 import AnalyticsKpiRow from "./AnalyticsKpiRow";
-import AnalyticsTableTabs, { AnalyticsTableTabId } from "./AnalyticsTableTabs";
-import { useAnalyticsStats } from "@/hooks/useAnalyticsStats";
+import AnalyticsTableTabs from "./AnalyticsTableTabs";
+import AnalyticsProvider from "@/providers/AnalyticsProvider";
 
-const AnalyticsPage = () => {
-  const [filters, setFilters] = useState<AnalyticsFilters>({ period: "week" });
-  const [activeTab, setActiveTab] = useState<AnalyticsTableTabId>("active-artists");
-  const { data: stats } = useAnalyticsStats({
-    period: filters.period,
-    artist: filters.artist,
-  });
-
-  const tabCounts = useMemo(
-    () => ({
-      "active-artists": stats?.active_artists.value,
-      collectors: stats?.collectors.value,
-      "artists-collectors": stats?.artists_collectors.value,
-    }),
-    [stats]
-  );
+const AnalyticsPageContent = () => {
+  const { filters, activeTab } = useAnalyticsProvider();
 
   return (
     <div className="container mx-auto max-w-6xl px-4 py-8">
       <h1 className="mb-6 text-2xl font-bold">Analytics</h1>
       <div className="flex flex-col gap-6">
-        <AnalyticsFiltersBar filters={filters} onChange={setFilters} />
-        <AnalyticsKpiRow period={filters.period} artist={filters.artist} />
+        <AnalyticsFiltersBar />
+        <AnalyticsKpiRow />
         <TimelineProvider
           includeHidden={true}
           period={filters.period}
@@ -49,24 +34,24 @@ const AnalyticsPage = () => {
         >
           <MomentsTimelineChart />
         </TimelineProvider>
-        <AnalyticsTableTabs activeTab={activeTab} onChange={setActiveTab} counts={tabCounts} />
+        <AnalyticsTableTabs />
         {activeTab === "active-artists" ? (
-          <ActiveArtistsProvider period={filters.period} artist={filters.artist}>
+          <ActiveArtistsProvider>
             <ActiveArtistsTable />
           </ActiveArtistsProvider>
         ) : null}
         {activeTab === "collectors" ? (
-          <CollectorsProvider period={filters.period} artist={filters.artist}>
+          <CollectorsProvider>
             <CollectorsTable />
           </CollectorsProvider>
         ) : null}
         {activeTab === "artists-collectors" ? (
-          <ArtistsCollectorsStatsProvider period={filters.period} artist={filters.artist}>
+          <ArtistsCollectorsStatsProvider>
             <ArtistsCollectorsStatsTable />
           </ArtistsCollectorsStatsProvider>
         ) : null}
         {activeTab === "arweave" ? (
-          <ArweaveUploadsProvider aggregation period={filters.period} artist={filters.artist}>
+          <ArweaveUploadsProvider aggregation>
             <ArweaveUploadsTable />
           </ArweaveUploadsProvider>
         ) : null}
@@ -74,5 +59,11 @@ const AnalyticsPage = () => {
     </div>
   );
 };
+
+const AnalyticsPage = () => (
+  <AnalyticsProvider>
+    <AnalyticsPageContent />
+  </AnalyticsProvider>
+);
 
 export default AnalyticsPage;

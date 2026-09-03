@@ -7,17 +7,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { AnalyticsFilters as Filters } from "@/types/timeline";
 import AnalyticsArtistSearchInput from "./AnalyticsArtistSearchInput";
 import AnalyticsPeriodSelect from "./AnalyticsPeriodSelect";
 
-interface AnalyticsFiltersProps {
-  filters: Filters;
-  onChange: (filters: Filters) => void;
-}
-
-const AnalyticsFilters = ({ filters, onChange }: AnalyticsFiltersProps) => {
-  const set = (patch: Partial<Filters>) => onChange({ ...filters, ...patch });
+const AnalyticsFilters = () => {
+  const { filters, patchFilters } = useAnalyticsProvider();
+  const set = (patch: Partial<Filters>) => patchFilters(patch);
 
   return (
     <div className="flex flex-wrap justify-end gap-2">

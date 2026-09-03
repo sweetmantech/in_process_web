@@ -53,10 +53,7 @@ const AnalyticsStatsTable = <TData,>({ table, minWidthClass, emptyColSpan }: Pro
         ))
       ) : (
         <TableRow className="border-0 hover:bg-transparent">
-          <TableCell
-            colSpan={emptyColSpan}
-            className="h-24 text-center text-sm text-[#6B6456]"
-          >
+          <TableCell colSpan={emptyColSpan} className="h-24 text-center text-sm text-[#6B6456]">
             No results.
           </TableCell>
         </TableRow>

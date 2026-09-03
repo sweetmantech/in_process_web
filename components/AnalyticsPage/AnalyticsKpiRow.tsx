@@ -1,9 +1,8 @@
 "use client";
 
 import AnalyticsKpiCard from "./AnalyticsKpiCard";
-import { useAnalyticsStats } from "@/hooks/useAnalyticsStats";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import type { AnalyticsKpiKey } from "@/types/analyticsStats";
-import type { AnalyticsPeriod } from "@/types/timeline";
 
 const KPI_ITEMS: { key: AnalyticsKpiKey; label: string }[] = [
   { key: "moments_created", label: "Moments Created" },
@@ -14,13 +13,10 @@ const KPI_ITEMS: { key: AnalyticsKpiKey; label: string }[] = [
   { key: "artists_collectors", label: "Artists & Collectors" },
 ];
 
-type Props = {
-  period?: AnalyticsPeriod;
-  artist?: string;
-};
-
-const AnalyticsKpiRow = ({ period, artist }: Props) => {
-  const { data, isLoading, error } = useAnalyticsStats({ period, artist });
+const AnalyticsKpiRow = () => {
+  const {
+    stats: { data, isLoading, error },
+  } = useAnalyticsProvider();
 
   return (
     <div>

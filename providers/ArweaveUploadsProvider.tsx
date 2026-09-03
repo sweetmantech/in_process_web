@@ -1,7 +1,7 @@
 "use client";
 
 import { useArweaveUploads } from "@/hooks/useArweaveUploads";
-import { AnalyticsPeriod } from "@/types/timeline";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 
 type ArweaveUploadsContextValue = ReturnType<typeof useArweaveUploads>;
@@ -11,15 +11,16 @@ const ArweaveUploadsContext = createContext<ArweaveUploadsContextValue | null>(n
 export const ArweaveUploadsProvider = ({
   children,
   aggregation,
-  period,
-  artist,
 }: {
   children: ReactNode;
   aggregation: boolean;
-  period?: AnalyticsPeriod;
-  artist?: string;
 }) => {
-  const arweaveUploads = useArweaveUploads({ aggregation, period, artist });
+  const { filters } = useAnalyticsProvider();
+  const arweaveUploads = useArweaveUploads({
+    aggregation,
+    period: filters.period,
+    artist: filters.artist,
+  });
 
   const value = useMemo(() => arweaveUploads, [arweaveUploads]);
 

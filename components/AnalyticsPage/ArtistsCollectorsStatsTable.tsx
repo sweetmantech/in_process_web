@@ -1,56 +1,55 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { useArtistsCollectorsStatsProvider } from "@/providers/ArtistsCollectorsStatsProvider";
 import ArtistsCollectorsStatsDataTable from "./ArtistsCollectorsStatsDataTable";
 import ArtistsCollectorsStatsTableLoading from "./ArtistsCollectorsStatsTableLoading";
+import AnalyticsTableFooter from "./AnalyticsTableFooter";
 
 const ArtistsCollectorsStatsTable = () => {
+  const { tabCounts } = useAnalyticsProvider();
   const {
     data,
     artists,
     isLoading,
     error,
     currentPage,
+    limit,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
     goNextPage,
   } = useArtistsCollectorsStatsProvider();
 
+  if (isLoading || !data) {
+    return (
+      <div className="px-6 py-4">
+        <ArtistsCollectorsStatsTableLoading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="px-6 py-8 text-sm text-red-500">Error loading artists collectors stats</p>;
+  }
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span>Artists & Collectors</span>
-          <Badge variant="outline">Page {currentPage}</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {isLoading || !data ? (
-          <ArtistsCollectorsStatsTableLoading />
-        ) : error ? (
-          <p className="text-red-500">Error loading artists collectors stats</p>
-        ) : artists.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No data found for this filter.</p>
-        ) : (
-          <>
-            <ArtistsCollectorsStatsDataTable />
-            <div className="flex items-center justify-between pt-4">
-              <Button variant="outline" size="sm" onClick={goPrevPage} disabled={!hasPrevPage}>
-                Previous
-              </Button>
-              <span className="text-sm text-muted-foreground">Page {currentPage}</span>
-              <Button variant="outline" size="sm" onClick={goNextPage} disabled={!hasNextPage}>
-                Next
-              </Button>
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      {artists.length === 0 ? (
+        <p className="px-6 py-8 text-sm text-[#6B6456]">No data found for this filter.</p>
+      ) : (
+        <ArtistsCollectorsStatsDataTable />
+      )}
+      <AnalyticsTableFooter
+        rowCount={tabCounts["artists-collectors"] ?? 0}
+        currentPage={currentPage}
+        limit={limit}
+        hasPrevPage={hasPrevPage}
+        hasNextPage={hasNextPage}
+        onPrevPage={goPrevPage}
+        onNextPage={goNextPage}
+      />
+    </>
   );
 };
 

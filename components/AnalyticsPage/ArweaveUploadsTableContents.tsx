@@ -1,6 +1,10 @@
 "use client";
 
 import {
+  ANALYTICS_TABLE_CELL_CLASS,
+  ANALYTICS_TABLE_HEAD_CLASS,
+} from "@/lib/analytics/analyticsTableStyles";
+import {
   Table,
   TableBody,
   TableCell,
@@ -12,6 +16,7 @@ import ArweaveUploadsProvider, {
   useArweaveUploadsProvider,
 } from "@/providers/ArweaveUploadsProvider";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { ChevronRight } from "lucide-react";
 import { Fragment, useMemo, useState } from "react";
 import ArtistArweaveTransactions from "./ArtistArweaveTransactions";
 import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
@@ -19,7 +24,6 @@ import getArweaveUploadsColumnDefs from "./getArweaveUploadsColumnDefs";
 const ArweaveUploadsTableContents = () => {
   const { uploads, sorting, onSortingChange } = useArweaveUploadsProvider();
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
-
   const columns = useMemo(() => getArweaveUploadsColumnDefs(), []);
 
   const table = useReactTable({
@@ -42,81 +46,74 @@ const ArweaveUploadsTableContents = () => {
   });
 
   return (
-    <div className="overflow-auto rounded-md border">
-      <Table className="min-w-[560px] md:min-w-0">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className={
-                    header.column.id === "usdc_cost" ||
-                    header.column.id === "winc_cost" ||
-                    header.column.id === "size"
-                      ? "w-32 whitespace-normal text-right"
-                      : header.column.id === "artist"
-                        ? "min-w-[12rem] whitespace-normal"
-                        : "whitespace-normal"
-                  }
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows.map((row) => {
-            const isExpanded = expandedRowId === row.id;
-            const colSpan = row.getVisibleCells().length;
+    <Table className="w-full min-w-[560px] border-collapse md:min-w-0">
+      <TableHeader>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <TableRow key={headerGroup.id} className="border-0 hover:bg-transparent">
+            {headerGroup.headers.map((header) => (
+              <TableHead
+                key={header.id}
+                className={`${ANALYTICS_TABLE_HEAD_CLASS} ${
+                  header.column.getCanSort() ? "text-right" : ""
+                }`}
+              >
+                {header.isPlaceholder
+                  ? null
+                  : flexRender(header.column.columnDef.header, header.getContext())}
+              </TableHead>
+            ))}
+          </TableRow>
+        ))}
+      </TableHeader>
+      <TableBody>
+        {table.getRowModel().rows.map((row) => {
+          const isExpanded = expandedRowId === row.id;
+          const colSpan = row.getVisibleCells().length;
 
-            return (
-              <Fragment key={row.id}>
-                <TableRow
-                  data-state={isExpanded ? "open" : undefined}
-                  className="hover:bg-muted/50 cursor-pointer"
-                  onClick={() => setExpandedRowId((prev) => (prev === row.id ? null : row.id))}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={
-                        cell.column.id === "usdc_cost" ||
-                        cell.column.id === "winc_cost" ||
-                        cell.column.id === "size"
-                          ? "text-right"
-                          : undefined
-                      }
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-                {isExpanded ? (
-                  <TableRow key={`${row.id}-detail`} className="hover:bg-transparent">
-                    <TableCell
-                      colSpan={colSpan}
-                      className="bg-muted/20 border-muted-foreground/20 border-l-2 py-3 pr-3 pl-6 sm:pl-8"
-                    >
-                      <ArweaveUploadsProvider aggregation={false}>
-                        <ArtistArweaveTransactions
-                          artist={
-                            row.original.artist_username?.trim() || row.original.artist_address
-                          }
+          return (
+            <Fragment key={row.id}>
+              <TableRow
+                data-state={isExpanded ? "open" : undefined}
+                className={`cursor-pointer border-0 hover:bg-transparent ${
+                  isExpanded ? "bg-[#FAF8F3]" : "bg-transparent"
+                }`}
+                onClick={() => setExpandedRowId((prev) => (prev === row.id ? null : row.id))}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id} className={ANALYTICS_TABLE_CELL_CLASS}>
+                    {cell.column.id === "artist" ? (
+                      <div className="flex items-center gap-2.5">
+                        <ChevronRight
+                          className={`size-3.5 shrink-0 text-[#B6B2A8] transition-transform duration-200 ${
+                            isExpanded ? "rotate-90" : ""
+                          }`}
                         />
-                      </ArweaveUploadsProvider>
-                    </TableCell>
-                  </TableRow>
-                ) : null}
-              </Fragment>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
+                  </TableCell>
+                ))}
+              </TableRow>
+              {isExpanded ? (
+                <TableRow key={`${row.id}-detail`} className="border-0 hover:bg-transparent">
+                  <TableCell colSpan={colSpan} className="bg-[#FAF8F3] px-6 py-3">
+                    <ArweaveUploadsProvider aggregation={false}>
+                      <ArtistArweaveTransactions
+                        artist={
+                          row.original.artist_username?.trim() || row.original.artist_address
+                        }
+                      />
+                    </ArweaveUploadsProvider>
+                  </TableCell>
+                </TableRow>
+              ) : null}
+            </Fragment>
+          );
+        })}
+      </TableBody>
+    </Table>
   );
 };
 

@@ -72,6 +72,7 @@ export function useActiveArtists({
     ...query,
     artists,
     currentPage,
+    limit,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

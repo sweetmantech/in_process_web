@@ -1,56 +1,55 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAnalyticsProvider } from "@/providers/AnalyticsProvider";
 import { useCollectorsProvider } from "@/providers/CollectorsProvider";
 import CollectorsDataTable from "./CollectorsDataTable";
 import CollectorsTableLoading from "./CollectorsTableLoading";
+import AnalyticsTableFooter from "./AnalyticsTableFooter";
 
 const CollectorsTable = () => {
+  const { tabCounts } = useAnalyticsProvider();
   const {
     data,
     collectors,
     isLoading,
     error,
     currentPage,
+    limit,
     hasPrevPage,
     hasNextPage,
     goPrevPage,
     goNextPage,
   } = useCollectorsProvider();
 
+  if (isLoading || !data) {
+    return (
+      <div className="px-6 py-4">
+        <CollectorsTableLoading />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="px-6 py-8 text-sm text-red-500">Error loading collectors</p>;
+  }
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex flex-wrap items-center justify-between gap-2">
-          <span>Collectors</span>
-          <Badge variant="outline">Page {currentPage}</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {isLoading || !data ? (
-          <CollectorsTableLoading />
-        ) : error ? (
-          <p className="text-red-500">Error loading collectors</p>
-        ) : collectors.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No collectors found for this filter.</p>
-        ) : (
-          <>
-            <CollectorsDataTable />
-            <div className="flex items-center justify-between pt-4">
-              <Button variant="outline" size="sm" onClick={goPrevPage} disabled={!hasPrevPage}>
-                Previous
-              </Button>
-              <span className="text-sm text-muted-foreground">Page {currentPage}</span>
-              <Button variant="outline" size="sm" onClick={goNextPage} disabled={!hasNextPage}>
-                Next
-              </Button>
-            </div>
-          </>
-        )}
-      </CardContent>
-    </Card>
+    <>
+      {collectors.length === 0 ? (
+        <p className="px-6 py-8 text-sm text-[#6B6456]">No collectors found for this filter.</p>
+      ) : (
+        <CollectorsDataTable />
+      )}
+      <AnalyticsTableFooter
+        rowCount={tabCounts.collectors ?? 0}
+        currentPage={currentPage}
+        limit={limit}
+        hasPrevPage={hasPrevPage}
+        hasNextPage={hasNextPage}
+        onPrevPage={goPrevPage}
+        onNextPage={goNextPage}
+      />
+    </>
   );
 };
 

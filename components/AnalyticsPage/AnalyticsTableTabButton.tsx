@@ -9,7 +9,7 @@ const AnalyticsTableTabButton = ({ label, count, active, onClick }: Props) => (
   <button
     type="button"
     onClick={onClick}
-    className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors ${
+    className={`inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-[15px] py-[9px] text-[13px] ${
       active
         ? "bg-[#F5F3EE] font-semibold text-[#1B1504]"
         : "font-medium text-[#6B6456] hover:text-[#1B1504]"
@@ -17,7 +17,9 @@ const AnalyticsTableTabButton = ({ label, count, active, onClick }: Props) => (
   >
     <span>{label}</span>
     {count !== undefined ? (
-      <span className={active ? "text-[#A8862F]" : "text-[#B6B2A8]"}>{count}</span>
+      <span className={`text-[11px] tabular-nums ${active ? "text-[#A8862F]" : "text-[#B6B2A8]"}`}>
+        {count}
+      </span>
     ) : null}
   </button>
 );

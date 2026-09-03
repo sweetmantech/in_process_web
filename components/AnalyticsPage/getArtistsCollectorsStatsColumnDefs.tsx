@@ -1,10 +1,10 @@
 "use client";
 
-import truncateAddress from "@/lib/utils/truncateAddress";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import { ArtistsCollectorsStats } from "@/types/artistsCollectorsStats";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+import AnalyticsTableArtistCell from "./AnalyticsTableArtistCell";
+import AnalyticsTableNumericCell from "./AnalyticsTableNumericCell";
 import SortableColumnHeader from "./SortableColumnHeader";
 
 export default function getArtistsCollectorsStatsColumnDefs(): ColumnDef<ArtistsCollectorsStats>[] {
@@ -12,38 +12,29 @@ export default function getArtistsCollectorsStatsColumnDefs(): ColumnDef<Artists
     {
       id: "username",
       accessorFn: (row) => row.username ?? row.artist_id,
-      header: () => <span className="text-sm font-medium">Artist</span>,
+      header: () => <span>Artist</span>,
       enableSorting: false,
       cell: ({ row }) => {
         const { wallets, username, artist_id } = row.original;
         const primaryAddress = getPrimaryWalletAddress(wallets);
         const href = primaryAddress ? `/${primaryAddress.toLowerCase()}` : `/${artist_id}`;
-        const label = username || (primaryAddress ? truncateAddress(primaryAddress) : artist_id);
-        return (
-          <Link
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium hover:underline"
-          >
-            {label}
-          </Link>
-        );
+        const name = username || primaryAddress || artist_id;
+        return <AnalyticsTableArtistCell name={name} href={href} />;
       },
     },
     {
       accessorKey: "total_created_count",
       header: ({ column }) => (
-        <SortableColumnHeader title="Moments Created" column={column} align="right" />
+        <SortableColumnHeader title="Created" column={column} align="right" />
       ),
-      cell: ({ row }) => <div className="text-right">{row.getValue("total_created_count")}</div>,
+      cell: ({ row }) => <AnalyticsTableNumericCell value={row.getValue("total_created_count")} />,
     },
     {
       accessorKey: "total_collected_count",
       header: ({ column }) => (
-        <SortableColumnHeader title="Moments Collected" column={column} align="right" />
+        <SortableColumnHeader title="Collected" column={column} align="right" />
       ),
-      cell: ({ row }) => <div className="text-right">{row.getValue("total_collected_count")}</div>,
+      cell: ({ row }) => <AnalyticsTableNumericCell value={row.getValue("total_collected_count")} />,
     },
   ];
 }

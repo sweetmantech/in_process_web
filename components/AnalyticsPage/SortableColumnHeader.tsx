@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Column } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
 
 type SortableColumnHeaderSize = "default" | "compact";
 
@@ -13,49 +11,39 @@ interface SortableColumnHeaderProps<TData> {
   size?: SortableColumnHeaderSize;
 }
 
-const SIZE_CLASSES: Record<
-  SortableColumnHeaderSize,
-  { left: string; right: string; icon: string }
-> = {
-  default: {
-    left: "-ml-3 h-8 px-2 lg:px-3",
-    right: "-mr-3 h-8 px-2 lg:px-3",
-    icon: "ml-2 h-4 w-4",
-  },
-  compact: {
-    left: "-ml-2 h-7 px-2 text-xs",
-    right: "-mr-2 h-7 px-2 text-xs",
-    icon: "ml-1.5 h-3 w-3",
-  },
-};
-
 const SortableColumnHeader = <TData,>({
   title,
   column,
   align = "left",
   size = "default",
 }: SortableColumnHeaderProps<TData>) => {
-  const classes = SIZE_CLASSES[size];
+  const sorted = column.getIsSorted();
+  const caret = sorted === "asc" ? "↑" : sorted === "desc" ? "↓" : "⇅";
+  const compact = size === "compact";
 
-  const button = (
-    <Button
+  return (
+    <button
       type="button"
-      variant="ghost"
-      className={align === "right" ? classes.right : classes.left}
+      className={`inline-flex w-full items-center gap-1.5 uppercase tracking-[0.11em] ${
+        align === "right" ? "justify-end" : "justify-start"
+      } ${sorted ? "text-[#1B1504]" : "text-[#6B6456] hover:text-[#1B1504]"} ${
+        compact ? "text-[10px]" : "text-[10.5px] font-semibold"
+      }`}
       onClick={() => {
-        const sorted = column.getIsSorted();
-        column.toggleSorting(sorted !== "desc");
+        const current = column.getIsSorted();
+        column.toggleSorting(current !== "desc");
       }}
     >
       {title}
-      <ArrowUpDown className={classes.icon} />
-    </Button>
+      <span
+        className={`shrink-0 text-[11px] leading-none ${
+          sorted ? "text-[#A8862F]" : "text-[#C9C5BB]"
+        }`}
+      >
+        {caret}
+      </span>
+    </button>
   );
-
-  if (align === "right") {
-    return <div className="flex justify-end">{button}</div>;
-  }
-  return button;
 };
 
 export default SortableColumnHeader;

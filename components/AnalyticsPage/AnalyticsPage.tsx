@@ -34,27 +34,29 @@ const AnalyticsPageContent = () => {
         >
           <MomentsTimelineChart />
         </TimelineProvider>
-        <AnalyticsTableTabs />
-        {activeTab === "active-artists" ? (
-          <ActiveArtistsProvider>
-            <ActiveArtistsTable />
-          </ActiveArtistsProvider>
-        ) : null}
-        {activeTab === "collectors" ? (
-          <CollectorsProvider>
-            <CollectorsTable />
-          </CollectorsProvider>
-        ) : null}
-        {activeTab === "artists-collectors" ? (
-          <ArtistsCollectorsStatsProvider>
-            <ArtistsCollectorsStatsTable />
-          </ArtistsCollectorsStatsProvider>
-        ) : null}
-        {activeTab === "arweave" ? (
-          <ArweaveUploadsProvider aggregation>
-            <ArweaveUploadsTable />
-          </ArweaveUploadsProvider>
-        ) : null}
+        <div className="overflow-hidden rounded-[10px] border border-[#E4E0D7] bg-white">
+          <AnalyticsTableTabs />
+          {activeTab === "active-artists" ? (
+            <ActiveArtistsProvider>
+              <ActiveArtistsTable />
+            </ActiveArtistsProvider>
+          ) : null}
+          {activeTab === "collectors" ? (
+            <CollectorsProvider>
+              <CollectorsTable />
+            </CollectorsProvider>
+          ) : null}
+          {activeTab === "artists-collectors" ? (
+            <ArtistsCollectorsStatsProvider>
+              <ArtistsCollectorsStatsTable />
+            </ArtistsCollectorsStatsProvider>
+          ) : null}
+          {activeTab === "arweave" ? (
+            <ArweaveUploadsProvider aggregation>
+              <ArweaveUploadsTable />
+            </ArweaveUploadsProvider>
+          ) : null}
+        </div>
       </div>
     </div>
   );

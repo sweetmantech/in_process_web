@@ -1,34 +1,35 @@
 "use client";
 
-import truncateAddress from "@/lib/utils/truncateAddress";
 import { getPrimaryWalletAddress } from "@/lib/wallets/getPrimaryWalletAddress";
 import { CollectorStats } from "@/types/collectors";
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
+import AnalyticsTableArtistCell from "./AnalyticsTableArtistCell";
+import AnalyticsTableNumericCell from "./AnalyticsTableNumericCell";
 import SortableColumnHeader from "./SortableColumnHeader";
+
+const formatEth = (value: string) => {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? "0.0000" : parsed.toFixed(4);
+};
+
+const formatUsdc = (value: string) => {
+  const parsed = parseFloat(value);
+  return isNaN(parsed) ? "0.00" : parsed.toFixed(2);
+};
 
 export default function getCollectorsColumnDefs(): ColumnDef<CollectorStats>[] {
   return [
     {
       id: "username",
       accessorFn: (row) => row.username ?? row.artist_id,
-      header: () => <span className="text-sm font-medium">Collector</span>,
+      header: () => <span>Collector</span>,
       enableSorting: false,
       cell: ({ row }) => {
         const { wallets, username, artist_id } = row.original;
         const primaryAddress = getPrimaryWalletAddress(wallets);
         const href = primaryAddress ? `/${primaryAddress.toLowerCase()}` : `/${artist_id}`;
-        const label = username || (primaryAddress ? truncateAddress(primaryAddress) : artist_id);
-        return (
-          <Link
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium hover:underline"
-          >
-            {label}
-          </Link>
-        );
+        const name = username || primaryAddress || artist_id;
+        return <AnalyticsTableArtistCell name={name} href={href} />;
       },
     },
     {
@@ -36,27 +37,23 @@ export default function getCollectorsColumnDefs(): ColumnDef<CollectorStats>[] {
       header: ({ column }) => (
         <SortableColumnHeader title="Collected" column={column} align="right" />
       ),
-      cell: ({ row }) => <div className="text-right">{row.getValue("collected_count")}</div>,
+      cell: ({ row }) => <AnalyticsTableNumericCell value={row.getValue("collected_count")} />,
     },
     {
       accessorKey: "eth_spent",
       header: ({ column }) => (
-        <SortableColumnHeader title="ETH Spent" column={column} align="right" />
+        <SortableColumnHeader title="ETH spent" column={column} align="right" />
       ),
-      cell: ({ row }) => {
-        const val = parseFloat(row.getValue<string>("eth_spent"));
-        return <div className="text-right">{isNaN(val) ? "0" : val.toFixed(4)}</div>;
-      },
+      cell: ({ row }) => <AnalyticsTableNumericCell value={formatEth(row.getValue("eth_spent"))} />,
     },
     {
       accessorKey: "usdc_spent",
       header: ({ column }) => (
-        <SortableColumnHeader title="USDC Spent" column={column} align="right" />
+        <SortableColumnHeader title="USDC spent" column={column} align="right" />
       ),
-      cell: ({ row }) => {
-        const val = parseFloat(row.getValue<string>("usdc_spent"));
-        return <div className="text-right">{isNaN(val) ? "0" : val.toFixed(2)}</div>;
-      },
+      cell: ({ row }) => (
+        <AnalyticsTableNumericCell value={formatUsdc(row.getValue("usdc_spent"))} />
+      ),
     },
   ];
 }

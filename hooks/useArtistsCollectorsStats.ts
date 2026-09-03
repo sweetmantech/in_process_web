@@ -83,6 +83,7 @@ export function useArtistsCollectorsStats({
     ...query,
     artists,
     currentPage,
+    limit,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

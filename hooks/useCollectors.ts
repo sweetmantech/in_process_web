@@ -72,6 +72,7 @@ export function useCollectors({
     ...query,
     collectors,
     currentPage,
+    limit,
     hasPrevPage,
     hasNextPage,
     goPrevPage,

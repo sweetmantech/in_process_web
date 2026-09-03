@@ -44,7 +44,7 @@ const AnalyticsArtistSearchInput = ({
         className={cn(
           "relative",
           isLeftIcon &&
-            "flex items-center gap-2 rounded-[20px] border border-[#E4E0D7] bg-white py-0 pl-3.5 pr-1.5"
+            "flex h-8 items-center gap-2 rounded-[20px] border border-[#E4E0D7] bg-white pl-3.5 pr-1.5"
         )}
       >
         {isLeftIcon ? (
@@ -61,8 +61,8 @@ const AnalyticsArtistSearchInput = ({
           className={cn(
             "ring-0 placeholder:text-[#B6B2A8] focus-visible:outline-none",
             isLeftIcon
-              ? "h-auto w-[190px] border-none bg-transparent py-[9px] text-[13px] text-[#1B1504]"
-              : "border border-[#E4E0D7] bg-white text-[#1B1504] h-7 w-44 rounded-full pl-3 pr-8 text-xs",
+              ? "h-full w-[190px] border-none bg-transparent py-0 text-[13px] leading-none text-[#1B1504]"
+              : "h-7 w-44 rounded-full border border-[#E4E0D7] bg-white pl-3 pr-8 text-xs text-[#1B1504]",
             inputClassName
           )}
         />

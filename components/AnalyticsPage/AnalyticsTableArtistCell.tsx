@@ -3,7 +3,10 @@ import truncateAddress from "@/lib/utils/truncateAddress";
 import Link from "next/link";
 
 const initialFromName = (name: string) =>
-  name.replace(/[^A-Za-z0-9]/g, "").charAt(0).toUpperCase() || "·";
+  name
+    .replace(/[^A-Za-z0-9]/g, "")
+    .charAt(0)
+    .toUpperCase() || "·";
 
 type Props = {
   name: string;

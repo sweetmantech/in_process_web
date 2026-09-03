@@ -101,9 +101,7 @@ const ArweaveUploadsTableContents = () => {
                   <TableCell colSpan={colSpan} className="bg-[#FAF8F3] px-6 py-3">
                     <ArweaveUploadsProvider aggregation={false}>
                       <ArtistArweaveTransactions
-                        artist={
-                          row.original.artist_username?.trim() || row.original.artist_address
-                        }
+                        artist={row.original.artist_username?.trim() || row.original.artist_address}
                       />
                     </ArweaveUploadsProvider>
                   </TableCell>

@@ -34,7 +34,9 @@ export default function getArtistsCollectorsStatsColumnDefs(): ColumnDef<Artists
       header: ({ column }) => (
         <SortableColumnHeader title="Collected" column={column} align="right" />
       ),
-      cell: ({ row }) => <AnalyticsTableNumericCell value={row.getValue("total_collected_count")} />,
+      cell: ({ row }) => (
+        <AnalyticsTableNumericCell value={row.getValue("total_collected_count")} />
+      ),
     },
   ];
 }

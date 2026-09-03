@@ -24,13 +24,7 @@ type TooltipPayload = {
   };
 };
 
-const ChartTooltip = ({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload?: TooltipPayload[];
-}) => {
+const ChartTooltip = ({ active, payload }: { active?: boolean; payload?: TooltipPayload[] }) => {
   if (!active || !payload?.length) return null;
   const point = payload[0]?.payload;
   if (!point) return null;
@@ -54,10 +48,7 @@ const MomentsTimelineChart = () => {
     }
   }, [filters.period, hasNextPage, isFetchingNextPage, fetchMore]);
 
-  const data = useMemo(
-    () => buildChartData(moments, filters.period),
-    [moments, filters.period]
-  );
+  const data = useMemo(() => buildChartData(moments, filters.period), [moments, filters.period]);
 
   const chartTotal =
     stats.data?.moments_created.value ?? data.reduce((sum, point) => sum + point.created, 0);
@@ -118,7 +109,10 @@ const MomentsTimelineChart = () => {
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip content={<ChartTooltip />} cursor={{ stroke: "#B6B2A8", strokeDasharray: "3 3" }} />
+          <Tooltip
+            content={<ChartTooltip />}
+            cursor={{ stroke: "#B6B2A8", strokeDasharray: "3 3" }}
+          />
           <Area
             type="monotone"
             dataKey="created"

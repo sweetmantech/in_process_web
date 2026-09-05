@@ -3,9 +3,10 @@
 import { useTimelineProvider } from "@/providers/TimelineProvider";
 import { useFeedScroll } from "@/hooks/useFeedScroll";
 import MomentFeedCard from "@/components/HomePage/MomentFeedCard";
+import FetchMore from "@/components/FetchMore";
 
 const MobileMomentsFeed = () => {
-  const { moments } = useTimelineProvider();
+  const { moments, hasNextPage, fetchMore } = useTimelineProvider();
   const { visibleMoments, hasMore, sentinelRef } = useFeedScroll(moments);
 
   return (
@@ -13,7 +14,11 @@ const MobileMomentsFeed = () => {
       {visibleMoments.map((moment) => (
         <MomentFeedCard key={moment.id} moment={moment} />
       ))}
-      {hasMore && <div ref={sentinelRef} className="h-px" />}
+      {hasMore ? (
+        <div ref={sentinelRef} className="h-px" />
+      ) : (
+        hasNextPage && <FetchMore fetchMore={fetchMore} />
+      )}
     </div>
   );
 };

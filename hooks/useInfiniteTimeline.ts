@@ -61,7 +61,7 @@ export function useInfiniteTimeline({
     },
     enabled,
     staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage) => {
       const { page, total_pages } = lastPage.pagination;

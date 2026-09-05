@@ -17,6 +17,8 @@ interface ContentRendererProps {
   metadata?: MomentMetadata;
   variant?: "fill" | "natural";
   sizes?: string;
+  /** Feed cards: use cover image instead of mounting pdf.js per card. */
+  preferPoster?: boolean;
   onRefresh?: () => Promise<string | undefined | void>;
 }
 
@@ -24,6 +26,7 @@ const ContentRenderer = ({
   metadata,
   variant = "fill",
   sizes = FEED_IMAGE_SIZES,
+  preferPoster = false,
   onRefresh,
 }: ContentRendererProps) => {
   const {
@@ -40,8 +43,19 @@ const ContentRenderer = ({
   const youtubeId = getYoutubeVideoId(metadata?.external_url ?? "");
   if (youtubeId) return <YoutubeContent videoId={youtubeId} />;
 
-  if (mimeType.includes("pdf"))
+  if (mimeType.includes("pdf")) {
+    if (preferPoster && rawImageUri) {
+      return (
+        <ImageContent
+          rawImageUri={rawImageUri}
+          alt={metadata?.name || metadata?.description || "Moment image"}
+          variant={variant}
+          sizes={sizes}
+        />
+      );
+    }
     return <PdfContent animationLoading={animationLoading} animationUrl={animationUrl} />;
+  }
 
   if (mimeType.includes("audio"))
     return (

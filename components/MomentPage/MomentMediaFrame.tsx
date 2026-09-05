@@ -5,11 +5,11 @@ import ContentRenderer from "../Renderers";
 import { DETAIL_IMAGE_SIZES } from "../Renderers/ImageContent";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { Protocol } from "@/types/moment";
-import useMomentCollectionCarousel from "@/hooks/useMomentCollectionCarousel";
+import { useMomentCollectionCarouselProvider } from "@/providers/MomentCollectionCarouselProvider";
 
 const MomentMediaFrame = () => {
   const { metadata, fetchMomentData, protocol } = useMomentProvider();
-  const { canNavigate, counter, goPrev, goNext } = useMomentCollectionCarousel();
+  const { canNavigate, counter, goPrev, goNext } = useMomentCollectionCarouselProvider();
 
   if (!metadata) return null;
 

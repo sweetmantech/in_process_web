@@ -8,11 +8,11 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import BlurImage from "@/components/BlurImage";
 import { cn } from "@/lib/utils";
-import useMomentCollectionCarousel from "@/hooks/useMomentCollectionCarousel";
+import { useMomentCollectionCarouselProvider } from "@/providers/MomentCollectionCarouselProvider";
 
 const MomentCollectionCarousel = () => {
   const { canNavigate, moments, currentIndex, goToIndex, collectionName, collectionHref } =
-    useMomentCollectionCarousel();
+    useMomentCollectionCarouselProvider();
 
   if (!canNavigate) return null;
 

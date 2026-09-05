@@ -8,9 +8,11 @@ import { MomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { MomentCollectProvider } from "@/providers/MomentCollectProvider";
 import { MomentTransfersProvider } from "@/providers/MomentCollectorsProvider";
 import { TimelineProvider } from "@/providers/TimelineProvider";
+import {
+  MomentCollectionCarouselProvider,
+  useMomentCollectionCarouselProvider,
+} from "@/providers/MomentCollectionCarouselProvider";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
-import useMomentCollectionCarousel from "@/hooks/useMomentCollectionCarousel";
-import MomentCollectionCarouselRoot from "./MomentCollectionCarouselRoot";
 import { timelineMomentToApiResponse } from "@/lib/moment/timelineMomentToApiResponse";
 
 const MomentProviders = ({
@@ -20,7 +22,7 @@ const MomentProviders = ({
   collectionAddress: Address;
   chainId: number;
 }) => {
-  const { tokenId, activeMoment } = useMomentCollectionCarousel();
+  const { tokenId, activeMoment } = useMomentCollectionCarouselProvider();
 
   return (
     <MomentProvider
@@ -61,13 +63,13 @@ const MomentPage = () => {
           curated={false}
           sortOrder="token_id_asc"
         >
-          <MomentCollectionCarouselRoot
+          <MomentCollectionCarouselProvider
             collectionAddress={address as Address}
             chainId={chainId}
             initialTokenId={tokenId}
           >
             <MomentProviders collectionAddress={address as Address} chainId={chainId} />
-          </MomentCollectionCarouselRoot>
+          </MomentCollectionCarouselProvider>
         </TimelineProvider>
       </div>
     </main>

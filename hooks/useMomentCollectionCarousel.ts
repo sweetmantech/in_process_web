@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Address } from "viem";
 import { useTimelineProvider } from "@/providers/TimelineProvider";
@@ -17,27 +9,8 @@ import { getMomentUrl } from "@/lib/moment/getMomentUrl";
 import { timelineMomentToApiResponse } from "@/lib/moment/timelineMomentToApiResponse";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
-import { TimelineMoment } from "@/types/moment";
 
-export type MomentCollectionCarouselValue = {
-  tokenId: string;
-  moments: TimelineMoment[];
-  currentIndex: number;
-  activeMoment: TimelineMoment | undefined;
-  canNavigate: boolean;
-  counter: string | null;
-  goPrev: () => void;
-  goNext: () => void;
-  goToIndex: (index: number) => void;
-  collectionName: string;
-  collectionHref: string | undefined;
-};
-
-export const MomentCollectionCarouselContext = createContext<MomentCollectionCarouselValue | null>(
-  null
-);
-
-export const useMomentCollectionCarouselState = ({
+const useMomentCollectionCarousel = ({
   collectionAddress,
   chainId,
   initialTokenId,
@@ -45,7 +18,7 @@ export const useMomentCollectionCarouselState = ({
   collectionAddress: Address;
   chainId: number;
   initialTokenId: string;
-}): MomentCollectionCarouselValue => {
+}) => {
   const queryClient = useQueryClient();
   const { moments, hasNextPage, isFetchingNextPage, fetchMore } = useTimelineProvider();
   const [tokenId, setTokenId] = useState(initialTokenId);
@@ -156,14 +129,6 @@ export const useMomentCollectionCarouselState = ({
     collectionName,
     collectionHref,
   };
-};
-
-const useMomentCollectionCarousel = () => {
-  const ctx = useContext(MomentCollectionCarouselContext);
-  if (!ctx) {
-    throw new Error("useMomentCollectionCarousel must be used within MomentCollectionCarouselRoot");
-  }
-  return ctx;
 };
 
 export default useMomentCollectionCarousel;

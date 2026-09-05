@@ -165,13 +165,9 @@
   height: 100%;
 }
 
-/* Hide theme / fullscreen / open / print / more; keep Download for PDF moments */
-.rpv-toolbar__right > .rpv-toolbar__item {
+/* Right slot wraps each control in a responsive display div — hide all but Download */
+.rpv-toolbar__right > *:not(:has([data-testid="get-file__download-button"])) {
   display: none !important;
-}
-
-.rpv-toolbar__right > .rpv-toolbar__item:has([data-testid="get-file__download-button"]) {
-  display: flex !important;
 }
 
 .rpv-toolbar__left > .rpv-toolbar__item:first-child {

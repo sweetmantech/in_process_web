@@ -52,7 +52,7 @@ const CollectedCard = ({ transfer }: Props) => {
         className="group mb-3 w-full cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white text-left shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)] md:mb-2"
       >
         <div className="relative isolate z-0 w-full overflow-hidden">
-          <ContentRenderer metadata={metadata ?? undefined} variant="natural" />
+          <ContentRenderer metadata={metadata ?? undefined} variant="natural" preferPoster />
         </div>
         <div className="px-2.5 pb-3 pt-2.5 md:px-[15px] md:pb-[15px] md:pt-[13px]">
           <div className="mb-[5px] flex flex-col gap-[2px]">

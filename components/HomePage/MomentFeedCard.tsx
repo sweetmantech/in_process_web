@@ -44,7 +44,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
         className="group mb-2 cursor-pointer overflow-hidden rounded-[6px] border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,.14)]"
       >
         <div className="relative isolate z-0 w-full overflow-hidden">
-          <ContentRenderer metadata={metadata} variant="natural" />
+          <ContentRenderer metadata={metadata} variant="natural" preferPoster />
         </div>
         <div className="px-[15px] pb-[15px] pt-[13px]">
           <div className="mb-[5px] flex flex-col gap-[2px]">

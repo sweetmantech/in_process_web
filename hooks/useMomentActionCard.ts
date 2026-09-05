@@ -24,7 +24,7 @@ const useMomentActionCard = () => {
   const { isPrepared } = useUserProvider();
   const { balanceOf } = useBalanceOf();
   const { share } = useShareMoment();
-  const { download } = useDownload();
+  const { download } = useDownload(metadata);
   const { priceLabel, priceUnit } = getSalePriceParts(saleConfig);
 
   const creatorName = artistProfile?.username || (owner ? truncateAddress(owner) : "");

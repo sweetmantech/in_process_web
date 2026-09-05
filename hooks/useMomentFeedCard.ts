@@ -5,7 +5,7 @@ import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { isSaleEnded } from "@/lib/moment/isSaleEnded";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
 import { useMomentClick } from "@/hooks/useMomentClick";
-import useContentDownload from "@/hooks/useContentDownload";
+import useDownload from "@/hooks/useDownload";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
@@ -18,7 +18,7 @@ export const useMomentFeedCard = (moment: TimelineMoment) => {
   const commentCount = moment.comments ?? 0;
   const showComments = moment.protocol === Protocol.InProcess;
   const showDownload = Boolean(metadata?.content?.mime?.includes("pdf"));
-  const { download, isDownloading } = useContentDownload(showDownload ? metadata : null);
+  const { download, isDownloading } = useDownload(showDownload ? metadata : null);
   const shortName = getShortNameFromChainId(moment.chain_id);
   const collectionName = moment.collection?.name?.trim() || truncateAddress(moment.address);
   const collectionHref = shortName ? `/collection/${shortName}:${moment.address}` : undefined;

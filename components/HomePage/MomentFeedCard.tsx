@@ -100,6 +100,14 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
               >
                 {isSoldOut ? "Sold Out" : "Collect"}
               </button>
+              {priceLabel && (
+                <span className="font-archivo-bold text-xs uppercase text-tan-gold">
+                  {priceLabel}
+                </span>
+              )}
+            </div>
+
+            <div className="flex shrink-0 items-center gap-2">
               {showDownload && (
                 <button
                   type="button"
@@ -114,29 +122,23 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
                   <Download className="h-[17px] w-[17px]" strokeWidth={1.75} />
                 </button>
               )}
-              {priceLabel && (
-                <span className="font-archivo-bold text-xs uppercase text-tan-gold">
-                  {priceLabel}
-                </span>
+              {showComments && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCommentClick();
+                  }}
+                  className={actionButtonClass}
+                  aria-label={`${commentCount} comments`}
+                >
+                  <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
+                  <span className="font-archivo text-sm tabular-nums">
+                    {commentCount.toLocaleString()}
+                  </span>
+                </button>
               )}
             </div>
-
-            {showComments && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCommentClick();
-                }}
-                className={actionButtonClass}
-                aria-label={`${commentCount} comments`}
-              >
-                <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
-                <span className="font-archivo text-sm tabular-nums">
-                  {commentCount.toLocaleString()}
-                </span>
-              </button>
-            )}
           </div>
         </div>
       </div>

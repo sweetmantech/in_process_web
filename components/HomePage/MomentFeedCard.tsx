@@ -1,7 +1,7 @@
 "use client";
 
 import { TimelineMoment } from "@/types/moment";
-import { MessageCircle } from "lucide-react";
+import { Download, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMomentFeedCard } from "@/hooks/useMomentFeedCard";
@@ -21,10 +21,13 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
     isSoldOut,
     onCollect,
     onCommentClick,
+    onDownloadClick,
     handleMomentClick,
     momentHref,
     commentCount,
     showComments,
+    showDownload,
+    isDownloading,
     collectionName,
     collectionHref,
   } = useMomentFeedCard(moment);
@@ -97,6 +100,20 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
               >
                 {isSoldOut ? "Sold Out" : "Collect"}
               </button>
+              {showDownload && (
+                <button
+                  type="button"
+                  disabled={isDownloading}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDownloadClick();
+                  }}
+                  className={actionButtonClass}
+                  aria-label="Download"
+                >
+                  <Download className="h-[17px] w-[17px]" strokeWidth={1.75} />
+                </button>
+              )}
               {priceLabel && (
                 <span className="font-archivo-bold text-xs uppercase text-tan-gold">
                   {priceLabel}

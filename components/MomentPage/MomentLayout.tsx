@@ -9,9 +9,13 @@ import MomentCollectBar from "./MomentCollectBar";
 import MomentAirdropAccordion from "./MomentAirdropAccordion";
 import MomentCollectDialog from "./MomentCollectDialog";
 
+/** Same viewport band as the right rail — keeps a 2rem floor gap. */
+const DESKTOP_VIEWPORT_BAND =
+  "md:sticky md:top-[calc(64px+2rem)] md:h-[calc(100dvh-64px-4rem)] md:max-h-[calc(100dvh-64px-4rem)]";
+
 const MomentLayout = () => {
   return (
-    <div className="mx-auto w-full max-w-[1080px] px-[18px] pb-[88px] pt-2 md:px-10 md:pb-0">
+    <div className="mx-auto w-full max-w-[1080px] px-[18px] pb-[88px] pt-2 md:px-10 md:pb-8">
       <div className="md:hidden">
         <BackToTimeline />
       </div>
@@ -25,7 +29,9 @@ const MomentLayout = () => {
             <div className="order-2 md:order-1">
               <MomentMeta />
             </div>
-            <div className="order-1 md:order-2">
+            <div
+              className={`order-1 md:order-2 md:min-h-0 md:overflow-hidden ${DESKTOP_VIEWPORT_BAND}`}
+            >
               <MomentMediaFrame />
             </div>
           </div>
@@ -35,7 +41,9 @@ const MomentLayout = () => {
           </div>
         </div>
 
-        <div className="hidden w-full shrink-0 flex-col gap-4 md:sticky md:top-[calc(64px+2rem)] md:grid md:h-[calc(100dvh-64px-4rem)] md:w-[340px] md:grid-rows-[auto,minmax(0,1fr)]">
+        <div
+          className={`hidden w-full shrink-0 flex-col gap-4 md:grid md:w-[340px] md:min-h-0 md:grid-rows-[auto,minmax(0,1fr)] md:overflow-hidden ${DESKTOP_VIEWPORT_BAND}`}
+        >
           <MomentActionCard />
           <MomentActivityCard />
         </div>

@@ -10,8 +10,8 @@ const MomentMediaFrame = () => {
   if (!metadata) return null;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_8px_26px_-12px_rgba(27,21,4,.3)] md:shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]">
-      <div className="relative max-h-[calc(100vh-260px)] w-full overflow-hidden font-spectral [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:max-h-[calc(100vh-260px)] [&_iframe]:w-full [&_img]:max-h-[calc(100vh-260px)] [&_img]:object-contain [&_video]:h-auto [&_video]:max-h-[calc(100vh-260px)] [&_video]:w-full [&_video]:object-contain [&_.pdf-viewer-root]:!h-[calc(100vh-260px)] [&_.pdf-viewer-root]:!max-h-[calc(100vh-260px)] [&_.pdf-viewer-root]:!min-h-0 [&_.writing-root]:!h-[calc(100vh-260px)] [&_.writing-root]:!max-h-[calc(100vh-260px)] [&_.writing-root>[role=region]]:!h-full [&_.writing-root>[role=region]]:!max-h-full [&_.writing-root>[role=region]]:!pt-12">
+    <div className="relative h-[min(70vh,560px)] w-full overflow-hidden rounded-[12px] border border-[#E4E0D7] bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)] shadow-[0_8px_26px_-12px_rgba(27,21,4,.3)] md:h-full md:min-h-0 md:shadow-[0_10px_34px_-14px_rgba(27,21,4,.32)]">
+      <div className="relative h-full min-h-0 w-full overflow-hidden font-spectral [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:max-h-full [&_iframe]:w-full [&_img]:max-h-full [&_img]:object-contain [&_video]:h-auto [&_video]:max-h-full [&_video]:w-full [&_video]:object-contain [&_.pdf-viewer-root]:!h-full [&_.pdf-viewer-root]:!max-h-full [&_.pdf-viewer-root]:!min-h-0 [&_.writing-root]:!h-full [&_.writing-root]:!max-h-full [&_.writing-root>[role=region]]:!h-full [&_.writing-root>[role=region]]:!max-h-full [&_.writing-root>[role=region]]:!pt-12">
         <ContentRenderer
           metadata={metadata}
           variant="natural"

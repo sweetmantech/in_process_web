@@ -40,9 +40,14 @@ const useDownload = () => {
         }).then((res) => res.blob());
       }
 
+      const mime = metadata.content.mime || "";
+      const baseName = metadata.name || "download";
+      const fileName =
+        mime.includes("pdf") && !/\.pdf$/i.test(baseName) ? `${baseName}.pdf` : baseName;
+
       const link = document.createElement("a");
-      link.download = metadata.name;
-      link.href = window.URL.createObjectURL(new Blob([data], { type: metadata.content.mime }));
+      link.download = fileName;
+      link.href = window.URL.createObjectURL(new Blob([data], { type: mime }));
       link.click();
       link.remove();
       window.URL.revokeObjectURL(link.href);

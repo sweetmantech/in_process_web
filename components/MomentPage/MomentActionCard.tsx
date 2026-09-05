@@ -124,7 +124,7 @@ const MomentActionCard = () => {
           <Share2 className="size-[13px]" strokeWidth={1.75} />
           Share
         </button>
-        {balanceOf > 0 && (
+        {(balanceOf > 0 || metadata.content?.mime?.includes("pdf")) && (
           <button type="button" onClick={download} className={PILL_BTN_CLASS} aria-label="Download">
             <Download className="size-[13px]" strokeWidth={1.75} />
           </button>

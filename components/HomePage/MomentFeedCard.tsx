@@ -1,7 +1,7 @@
 "use client";
 
 import { TimelineMoment } from "@/types/moment";
-import { MessageCircle } from "lucide-react";
+import { Download, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import ContentRenderer from "@/components/Renderers";
 import { useMomentFeedCard } from "@/hooks/useMomentFeedCard";
@@ -21,10 +21,13 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
     isSoldOut,
     onCollect,
     onCommentClick,
+    onDownloadClick,
     handleMomentClick,
     momentHref,
     commentCount,
     showComments,
+    showDownload,
+    isDownloading,
     collectionName,
     collectionHref,
   } = useMomentFeedCard(moment);
@@ -104,22 +107,38 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
               )}
             </div>
 
-            {showComments && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onCommentClick();
-                }}
-                className={actionButtonClass}
-                aria-label={`${commentCount} comments`}
-              >
-                <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
-                <span className="font-archivo text-sm tabular-nums">
-                  {commentCount.toLocaleString()}
-                </span>
-              </button>
-            )}
+            <div className="flex shrink-0 items-center gap-2">
+              {showDownload && (
+                <button
+                  type="button"
+                  disabled={isDownloading}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDownloadClick();
+                  }}
+                  className={actionButtonClass}
+                  aria-label="Download"
+                >
+                  <Download className="h-[17px] w-[17px]" strokeWidth={1.75} />
+                </button>
+              )}
+              {showComments && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCommentClick();
+                  }}
+                  className={actionButtonClass}
+                  aria-label={`${commentCount} comments`}
+                >
+                  <MessageCircle className="h-[17px] w-[17px]" strokeWidth={1.75} />
+                  <span className="font-archivo text-sm tabular-nums">
+                    {commentCount.toLocaleString()}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

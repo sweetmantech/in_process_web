@@ -36,8 +36,7 @@ export async function downloadMomentContent({
 
   const mime = metadata.content.mime || "";
   const baseName = metadata.name || "download";
-  const fileName =
-    mime.includes("pdf") && !/\.pdf$/i.test(baseName) ? `${baseName}.pdf` : baseName;
+  const fileName = mime.includes("pdf") && !/\.pdf$/i.test(baseName) ? `${baseName}.pdf` : baseName;
 
   const link = document.createElement("a");
   link.download = fileName;

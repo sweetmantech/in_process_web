@@ -35,7 +35,8 @@ const AudioPlayer = ({
     <div
       className={cn(
         "relative flex w-full flex-col overflow-hidden bg-gradient-to-b from-neutral-900 to-neutral-950",
-        isNatural ? "aspect-[10/11]" : "size-full rounded-2xl"
+        // max-h-full: detail frames are shorter than 10/11 — keep Controls (play) from clipping
+        isNatural ? "aspect-[10/11] max-h-full" : "size-full rounded-2xl"
       )}
     >
       {/* Blurred background - Apple Music style (fill layout only) */}

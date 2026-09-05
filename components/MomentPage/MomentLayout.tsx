@@ -3,6 +3,7 @@
 import BackToTimeline from "./BackToTimeline";
 import MomentMeta from "./MomentMeta";
 import MomentMediaFrame from "./MomentMediaFrame";
+import MomentCollectionCarousel from "./MomentCollectionCarousel";
 import MomentActionCard from "./MomentActionCard";
 import MomentActivityCard from "./MomentActivityCard";
 import MomentCollectBar from "./MomentCollectBar";
@@ -22,17 +23,20 @@ const MomentLayout = () => {
 
       <div className="flex flex-col gap-4 md:grid md:grid-cols-[minmax(0,1fr)_340px] md:items-start md:gap-10">
         <div className="flex min-w-0 flex-1 flex-col">
-          <div className="hidden md:block">
-            <BackToTimeline />
-          </div>
-          <div className="flex flex-col md:gap-4">
-            <div className="order-2 md:order-1">
+          <div
+            className={`flex flex-col gap-2.5 md:min-h-0 md:overflow-hidden ${DESKTOP_VIEWPORT_BAND}`}
+          >
+            <div className="hidden shrink-0 md:block">
+              <BackToTimeline />
+            </div>
+            <div className="no-scrollbar order-2 shrink-0 md:order-1 md:min-h-0 md:max-h-[30%] md:overflow-y-auto">
               <MomentMeta />
             </div>
-            <div
-              className={`order-1 md:order-2 md:min-h-0 md:overflow-hidden ${DESKTOP_VIEWPORT_BAND}`}
-            >
-              <MomentMediaFrame />
+            <div className="order-1 flex min-h-0 flex-1 flex-col gap-2.5 md:order-2">
+              <div className="min-h-0 flex-1 overflow-hidden">
+                <MomentMediaFrame />
+              </div>
+              <MomentCollectionCarousel />
             </div>
           </div>
           <MomentAirdropAccordion />

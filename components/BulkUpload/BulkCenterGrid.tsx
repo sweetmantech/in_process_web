@@ -4,13 +4,10 @@ import { X } from "lucide-react";
 import useBulkCenterGrid from "@/hooks/useBulkCenterGrid";
 import BulkMediaPreview from "./BulkMediaPreview";
 import BulkThumbSwiper from "./BulkThumbSwiper";
-import { Textarea } from "@/components/ui/textarea";
 
 const BulkCenterGrid = () => {
   const {
     bulkItems,
-    setItemName,
-    setItemDescription,
     isCreating,
     inputRef,
     onChange,
@@ -84,50 +81,12 @@ const BulkCenterGrid = () => {
           </div>
         </div>
 
-        <div className="mt-3 flex w-full shrink-0 flex-col gap-[18px]">
-          <div className="flex w-full flex-col items-start">
-            <label
-              htmlFor={`bulk-title-${selectedItem.id}`}
-              className="mb-1 font-archivo-medium text-[10.5px] uppercase tracking-[0.14em] text-[#A8A296]"
-            >
-              title
-            </label>
-            <input
-              id={`bulk-title-${selectedItem.id}`}
-              type="text"
-              value={selectedItem.name}
-              onChange={(e) => setItemName(selectedItem.id, e.target.value)}
-              disabled={isCreating}
-              placeholder="Name this moment"
-              className="w-full border-0 border-b-[1.5px] border-[#DCD6CA] bg-transparent px-0.5 py-[9px] font-archivo text-[15px] text-grey-moss-900 outline-none transition-colors placeholder:text-[#B4AEA2] focus:border-grey-moss-900 disabled:opacity-60"
-            />
-          </div>
-
-          <div className="flex w-full flex-col items-start">
-            <label
-              htmlFor={`bulk-description-${selectedItem.id}`}
-              className="mb-1 font-archivo-medium text-[10.5px] uppercase tracking-[0.14em] text-[#A8A296]"
-            >
-              description
-            </label>
-            <Textarea
-              id={`bulk-description-${selectedItem.id}`}
-              value={selectedItem.description}
-              onChange={(e) => setItemDescription(selectedItem.id, e.target.value)}
-              disabled={isCreating}
-              placeholder="What's the story behind this?"
-              minRows={2}
-              className="resize-none rounded-none border-0 border-b-[1.5px] border-[#DCD6CA] bg-transparent px-0.5 py-2 font-archivo text-[15px] text-grey-moss-900 shadow-none outline-none ring-0 placeholder:text-[#B4AEA2] focus-visible:border-grey-moss-900 focus-visible:ring-0 focus-visible:ring-offset-0 disabled:opacity-60"
-            />
-          </div>
-        </div>
-
         <BulkThumbSwiper
           items={bulkItems}
           selectedIndex={selectedIndex}
           isCreating={isCreating}
           inputRef={inputRef}
-          onSelect={setSelectedIndex}
+          onSelect={(index) => setSelectedIndex(index)}
           onRemove={handleRemoveAt}
         />
       </div>

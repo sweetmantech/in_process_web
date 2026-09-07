@@ -7,14 +7,17 @@ import { useMomentProvider } from "@/providers/MomentProvider";
 import TransferItem from "./TransferItem";
 import FetchMore from "../FetchMore";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Protocol } from "@/types/moment";
+import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 import { cn } from "@/lib/utils";
 
 type ActivityTab = "comments" | "collectors";
 
 const MomentActivityCard = () => {
-  const { protocol } = useMomentProvider();
-  const showComments = protocol === Protocol.InProcess;
+  const { protocol, moment } = useMomentProvider();
+  const showComments = supportsMomentComments({
+    protocol,
+    collectionAddress: moment.collectionAddress,
+  });
   const [tab, setTab] = useState<ActivityTab>("comments");
   const activeTab: ActivityTab = showComments ? tab : "collectors";
   const { transfers, isLoading, hasMore, fetchMore } = useMomentTransfersProvider();

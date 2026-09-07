@@ -2,3 +2,6 @@
 export const IN_PUBLIC_1155 = "0x3f209430017e4Fa79FEcf663Faff8584c0feAc78";
 
 export const IN_PUBLIC_CHAIN_ID = 8453;
+
+export const isInPublicCollection = (address?: string | null) =>
+  Boolean(address) && address!.toLowerCase() === IN_PUBLIC_1155.toLowerCase();

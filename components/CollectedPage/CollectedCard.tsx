@@ -11,7 +11,7 @@ import { toTimelineMoment } from "@/lib/collected/toTimelineMoment";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
 import truncateAddress from "@/lib/utils/truncateAddress";
 import type { CollectorTransfer } from "@/types/collectorTransfer";
-import { Protocol } from "@/types/moment";
+import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 
 type Props = {
   transfer: CollectorTransfer;
@@ -30,7 +30,10 @@ const CollectedCard = ({ transfer }: Props) => {
     ? new Date(transfer.transferred_at).toLocaleString()
     : "—";
   const momentName = metadata?.name?.trim() || "—";
-  const showComments = String(collection.protocol) === Protocol.InProcess;
+  const showComments = supportsMomentComments({
+    protocol: collection.protocol,
+    collectionAddress: collection.address,
+  });
   const commentCount = transfer.moment.comments ?? 0;
 
   const handleMomentClick = () => {

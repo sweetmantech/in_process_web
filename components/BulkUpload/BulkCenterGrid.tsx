@@ -8,7 +8,6 @@ import BulkThumbSwiper from "./BulkThumbSwiper";
 const BulkCenterGrid = () => {
   const {
     bulkItems,
-    setItemName,
     isCreating,
     inputRef,
     onChange,
@@ -82,21 +81,12 @@ const BulkCenterGrid = () => {
           </div>
         </div>
 
-        <input
-          type="text"
-          value={selectedItem.name}
-          onChange={(e) => setItemName(selectedItem.id, e.target.value)}
-          disabled={isCreating}
-          placeholder="name"
-          className="mt-3 w-full shrink-0 bg-transparent font-archivo text-[14px] text-[#6B6456] outline-none placeholder-[#B4AEA2] disabled:opacity-60"
-        />
-
         <BulkThumbSwiper
           items={bulkItems}
           selectedIndex={selectedIndex}
           isCreating={isCreating}
           inputRef={inputRef}
-          onSelect={setSelectedIndex}
+          onSelect={(index) => setSelectedIndex(index)}
           onRemove={handleRemoveAt}
         />
       </div>

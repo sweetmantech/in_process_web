@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { Address } from "viem";
@@ -29,6 +29,7 @@ const useBulkCreate = () => {
     addFiles,
     removeFile,
     setItemName,
+    setItemDescription,
     updateItemStatus,
     markUploadingAsError,
     clearItems,
@@ -36,6 +37,15 @@ const useBulkCreate = () => {
 
   const [isCreating, setIsCreating] = useState(false);
   const [result, setResult] = useState<BulkResult | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (bulkItems.length === 0) {
+      setSelectedIndex(0);
+      return;
+    }
+    setSelectedIndex((current) => Math.min(current, bulkItems.length - 1));
+  }, [bulkItems.length]);
 
   const { isPrepared } = useUserProvider();
   const { walletsReady, primaryWallet, hasEOA } = useWalletsProvider();
@@ -48,7 +58,10 @@ const useBulkCreate = () => {
   const clearAll = useCallback(() => {
     clearItems();
     setResult(null);
+    setSelectedIndex(0);
   }, [clearItems]);
+
+  const selectedItem = bulkItems[Math.min(selectedIndex, Math.max(bulkItems.length - 1, 0))];
 
   const createBatch = useCallback(async () => {
     if (!isPrepared()) return;
@@ -80,7 +93,7 @@ const useBulkCreate = () => {
           previewFile: item.previewFile,
           mimeType: item.mimeType,
           name: item.name,
-          description: "",
+          description: item.description,
           link: "",
           onProgress: (p) => updateItemStatus(item.id, { progress: Math.round(p) }),
         });
@@ -148,11 +161,15 @@ const useBulkCreate = () => {
     addFiles,
     removeFile,
     setItemName,
+    setItemDescription,
     clearAll,
     createBatch,
     isCreating,
     result,
     setResult,
+    selectedIndex,
+    setSelectedIndex,
+    selectedItem,
   };
 };
 

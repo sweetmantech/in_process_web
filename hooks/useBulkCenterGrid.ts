@@ -1,22 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
 
 const useBulkCenterGrid = () => {
-  const { bulkItems, removeFile, setItemName, addFiles, isCreating } = useBulkCreateProvider();
+  const {
+    bulkItems,
+    removeFile,
+    addFiles,
+    isCreating,
+    selectedIndex,
+    setSelectedIndex,
+    selectedItem,
+  } = useBulkCreateProvider();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    if (bulkItems.length === 0) {
-      setSelectedIndex(0);
-      return;
-    }
-    setSelectedIndex((current) => Math.min(current, bulkItems.length - 1));
-  }, [bulkItems.length]);
-
-  const selectedItem = bulkItems[Math.min(selectedIndex, bulkItems.length - 1)];
 
   const onChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +29,7 @@ const useBulkCenterGrid = () => {
     const nextIndex = selectedIndex > 0 ? selectedIndex - 1 : 0;
     removeFile(selectedItem.id);
     setSelectedIndex(nextIndex);
-  }, [removeFile, selectedIndex, selectedItem]);
+  }, [removeFile, selectedIndex, selectedItem, setSelectedIndex]);
 
   const handleRemoveAt = useCallback(
     (id: string, index: number) => {
@@ -44,12 +41,11 @@ const useBulkCenterGrid = () => {
         return current;
       });
     },
-    [bulkItems.length, removeFile]
+    [bulkItems.length, removeFile, setSelectedIndex]
   );
 
   return {
     bulkItems,
-    setItemName,
     isCreating,
     inputRef,
     onChange,

@@ -5,6 +5,7 @@ import { inferFileMimeType } from "@/lib/fileSelect/inferFileMimeType";
 
 export type BulkMediaSource = {
   name: string;
+  description?: string;
   mimeType: string;
   previewUrl: string;
   fileName?: string;
@@ -23,7 +24,7 @@ export const buildBulkItemMetadata = (item: BulkMediaSource, fileUrl: string): M
 
   return {
     name: item.name,
-    description: "",
+    description: item.description ?? "",
     image: item.previewUrl || (isImage ? fileUrl : ""),
     animation_url: isImage ? undefined : fileUrl,
     content: {

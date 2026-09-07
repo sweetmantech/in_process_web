@@ -62,6 +62,7 @@ export const processFileToItem = async (file: File): Promise<BulkItem> => {
     previewFile,
     mimeType,
     name: baseName,
+    description: "",
     fileUrl,
     previewUrl,
     status: "idle",

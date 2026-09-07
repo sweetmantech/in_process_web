@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useBulkCreateProvider } from "@/providers/BulkCreateProvider";
 
 const useBulkCenterGrid = () => {
-  const { bulkItems, removeFile, setItemName, addFiles, isCreating } = useBulkCreateProvider();
+  const { bulkItems, removeFile, setItemName, setItemDescription, addFiles, isCreating } =
+    useBulkCreateProvider();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -50,6 +51,7 @@ const useBulkCenterGrid = () => {
   return {
     bulkItems,
     setItemName,
+    setItemDescription,
     isCreating,
     inputRef,
     onChange,

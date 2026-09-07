@@ -15,6 +15,7 @@ const BulkMediaPreview = ({ item }: BulkMediaPreviewProps) => {
       buildBulkItemMetadata(
         {
           name: item.name,
+          description: item.description,
           mimeType: item.mimeType,
           previewUrl: item.previewUrl,
           fileName: item.file.name,

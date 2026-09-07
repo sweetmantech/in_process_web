@@ -8,6 +8,7 @@ export interface BulkItem {
   previewFile: File | null;
   mimeType: string;
   name: string;
+  description: string;
   /** Object URL for the primary media file (video/pdf/audio/glb/image). */
   fileUrl: string;
   /** Object URL for thumbnail/poster when different from the primary file. */

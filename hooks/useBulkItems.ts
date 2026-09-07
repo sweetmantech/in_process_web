@@ -50,6 +50,10 @@ const useBulkItems = () => {
     setBulkItems((prev) => prev.map((i) => (i.id === id ? { ...i, name } : i)));
   }, []);
 
+  const setItemDescription = useCallback((id: string, description: string) => {
+    setBulkItems((prev) => prev.map((i) => (i.id === id ? { ...i, description } : i)));
+  }, []);
+
   const updateItemStatus = useCallback((id: string, patch: Partial<BulkItem>) => {
     setBulkItems((prev) => prev.map((i) => (i.id === id ? { ...i, ...patch } : i)));
   }, []);
@@ -77,6 +81,7 @@ const useBulkItems = () => {
     addFiles,
     removeFile,
     setItemName,
+    setItemDescription,
     updateItemStatus,
     markUploadingAsError,
     clearItems,

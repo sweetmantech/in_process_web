@@ -27,7 +27,7 @@ const BulkSideForm = () => {
       <div className="flex h-fit flex-col gap-6 pb-4 md:min-h-full md:pb-0">
         <div className="flex items-center justify-between gap-3">
           <div className="font-spectral-italic text-lg text-grey-moss-900 md:text-[22px]">
-            Details
+            {bulkItems.length} media selected
           </div>
           <button
             type="button"

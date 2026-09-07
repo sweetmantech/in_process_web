@@ -1,6 +1,7 @@
 "use client";
 
-import { Protocol, TimelineMoment } from "@/types/moment";
+import { TimelineMoment } from "@/types/moment";
+import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { isSaleEnded } from "@/lib/moment/isSaleEnded";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
@@ -16,7 +17,10 @@ export const useMomentFeedCard = (moment: TimelineMoment) => {
   const { sale } = moment;
   const isSoldOut = isSaleEnded(sale);
   const commentCount = moment.comments ?? 0;
-  const showComments = moment.protocol === Protocol.InProcess;
+  const showComments = supportsMomentComments({
+    protocol: moment.protocol,
+    collectionAddress: moment.address,
+  });
   const showDownload = Boolean(metadata?.content?.mime?.includes("pdf"));
   const { download, isDownloading } = useDownload(showDownload ? metadata : null);
   const shortName = getShortNameFromChainId(moment.chain_id);

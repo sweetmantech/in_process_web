@@ -6,6 +6,7 @@ import fetchReplies from "@/lib/moment/fetchReplies";
 import withCommentDefaults from "@/lib/moment/withCommentDefaults";
 import updateCommentInTree from "@/lib/moment/updateCommentInTree";
 import { useMomentProvider } from "@/providers/MomentProvider";
+import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 
 const COMMENTS_PER_PAGE = 20;
 
@@ -22,7 +23,12 @@ export function useComments() {
         moment,
         offset: pageParam as number,
       }),
-    enabled: Boolean(collectionAddress && tokenId && chainId && protocol === "in_process"),
+    enabled: Boolean(
+      collectionAddress &&
+      tokenId &&
+      chainId &&
+      supportsMomentComments({ protocol, collectionAddress })
+    ),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
     getNextPageParam: (lastPage, allPages) => {

@@ -5,14 +5,16 @@ import CommentThread from "./CommentThread";
 import CommentComposer from "./CommentComposer";
 import FetchMore from "../FetchMore";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
-import { Protocol } from "@/types/moment";
+import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 import { Fragment } from "react";
 
 const Comments = () => {
   const { comments, hasMore, isLoading, fetchMore } = useMomentCommentsProvider();
-  const { protocol } = useMomentProvider();
-  const isInProcess = protocol === Protocol.InProcess;
-  const commentsHidden = !isInProcess;
+  const { protocol, moment } = useMomentProvider();
+  const commentsHidden = !supportsMomentComments({
+    protocol,
+    collectionAddress: moment.collectionAddress,
+  });
 
   if (commentsHidden) return <Fragment />;
 

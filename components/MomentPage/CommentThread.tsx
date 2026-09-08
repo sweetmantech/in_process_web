@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { EmojiText } from "@/components/EmojiText";
 import { useArtistProfile } from "@/hooks/useArtistProfile";
+import { canComposeMomentComments } from "@/lib/moment/supportsMomentComments";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import flattenReplyEntries from "@/lib/moment/flattenReplyEntries";
 import getCommentPreview from "@/lib/moment/getCommentPreview";
 import truncateAddress from "@/lib/utils/truncateAddress";
@@ -36,10 +38,11 @@ export const CommentThread = ({ comment, depth = 0, replyTo }: CommentThreadProp
     replyCount,
     commentId,
   } = comment;
+  const { protocol } = useMomentProvider();
   const { data } = useArtistProfile(!username ? (sender as Address) : undefined);
   const displayName = username || data?.username || truncateAddress(sender);
   const timelineHref = `/${(sender as Address).toLowerCase()}`;
-  const showReply = canReplyTo(comment);
+  const showReply = canComposeMomentComments({ protocol }) && canReplyTo(comment);
   const hiddenReplyCount = Math.max(0, replyCount - replies.length);
   const childReplyTo: ReplyToTarget = {
     displayName,

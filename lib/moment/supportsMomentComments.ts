@@ -1,10 +1,13 @@
 import { isInPublicCollection } from "@/lib/inpublic/constants";
 import { Protocol } from "@/types/moment";
 
-export const supportsMomentComments = ({
-  protocol,
-  collectionAddress,
-}: {
+type MomentCommentAccess = {
   protocol?: string | null;
   collectionAddress?: string | null;
-}) => protocol === Protocol.InProcess || isInPublicCollection(collectionAddress);
+};
+
+export const supportsMomentComments = ({ protocol, collectionAddress }: MomentCommentAccess) =>
+  protocol === Protocol.InProcess || isInPublicCollection(collectionAddress);
+
+export const canComposeMomentComments = ({ protocol }: MomentCommentAccess) =>
+  protocol === Protocol.InProcess;

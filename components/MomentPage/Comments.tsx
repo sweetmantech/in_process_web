@@ -5,7 +5,10 @@ import CommentThread from "./CommentThread";
 import CommentComposer from "./CommentComposer";
 import FetchMore from "../FetchMore";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
-import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
+import {
+  canComposeMomentComments,
+  supportsMomentComments,
+} from "@/lib/moment/supportsMomentComments";
 import { Fragment } from "react";
 
 const Comments = () => {
@@ -15,6 +18,7 @@ const Comments = () => {
     protocol,
     collectionAddress: moment.collectionAddress,
   });
+  const canCompose = canComposeMomentComments({ protocol });
 
   if (commentsHidden) return <Fragment />;
 
@@ -31,16 +35,20 @@ const Comments = () => {
 
   return (
     <CommentsContainer>
-      <div className="border-b border-[#EDEAE2] pb-3 pt-2">
-        <CommentComposer placeholder="add a comment…" submitLabel="comment" />
-      </div>
+      {canCompose && (
+        <div className="border-b border-[#EDEAE2] pb-3 pt-2">
+          <CommentComposer placeholder="add a comment…" submitLabel="comment" />
+        </div>
+      )}
       <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto">
         {comments.length === 0 ? (
           <div className="py-6">
             <p className="font-archivo text-sm text-grey-moss-900">no comments yet</p>
-            <p className="mt-1 font-spectral-italic text-sm tracking-tight text-[#8B8474]">
-              be the first to comment
-            </p>
+            {canCompose && (
+              <p className="mt-1 font-spectral-italic text-sm tracking-tight text-[#8B8474]">
+                be the first to comment
+              </p>
+            )}
           </div>
         ) : (
           <>

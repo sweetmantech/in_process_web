@@ -94,7 +94,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
                 className={cn(
                   "rounded-[22px] px-4 py-2 font-archivo-medium text-sm",
                   isSoldOut
-                    ? "cursor-not-allowed bg-grey-moss-300 text-white"
+                    ? "cursor-default border border-[#E4E0D7] bg-[#F7F5F0] text-grey-moss-300"
                     : "bg-grey-moss-900 text-white active:opacity-80"
                 )}
               >

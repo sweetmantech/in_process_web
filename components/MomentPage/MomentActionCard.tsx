@@ -98,7 +98,7 @@ const MomentActionCard = () => {
             type="button"
             onClick={handleCollect}
             disabled={isCollectDisabled}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-grey-moss-900 py-3.5 font-archivo-medium text-base text-white shadow-[0_6px_16px_-8px_rgba(27,21,4,.28)] transition-all hover:bg-black hover:shadow-[0_8px_18px_-8px_rgba(27,21,4,.32)] active:scale-[0.98] disabled:cursor-not-allowed disabled:bg-[#C7C1B4] disabled:text-[#F1EEE8] disabled:shadow-none disabled:active:scale-100"
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-grey-moss-900 py-3.5 font-archivo-medium text-base text-white shadow-[0_6px_16px_-8px_rgba(27,21,4,.28)] transition-all hover:bg-black hover:shadow-[0_8px_18px_-8px_rgba(27,21,4,.32)] active:scale-[0.98] disabled:cursor-default disabled:border disabled:border-[#E4E0D7] disabled:bg-[#F7F5F0] disabled:text-grey-moss-300 disabled:shadow-none disabled:active:scale-100"
           >
             <CircleDot className="size-[18px]" strokeWidth={1.75} />
             {collectCtaLabel}

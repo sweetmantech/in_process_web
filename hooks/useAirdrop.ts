@@ -131,6 +131,8 @@ const useAirdrop = () => {
         collectionAddress: moment.collectionAddress,
         tokenId: moment.tokenId,
         chainId: moment.chainId,
+        items: validItems,
+        transactionHash: hash,
       });
 
       return hash;

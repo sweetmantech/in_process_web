@@ -4,11 +4,13 @@ import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { useState } from "react";
 import { isAddress } from "viem";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { executeAirdrop } from "@/lib/moment/executeAirdrop";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { AirdropItem } from "@/types/airdrop";
 import { processAirdropItems } from "@/lib/airdrop/processAirdropItems";
+import refreshCollectorsAfterAirdrop from "@/lib/airdrop/refreshCollectorsAfterAirdrop";
 import resolveAddressForAirdrop from "@/lib/ens/resolveAddressForAirdrop";
 import isEmail from "@/lib/utils/isEmail";
 
@@ -19,6 +21,7 @@ const useAirdrop = () => {
   const { primaryWallet } = useWalletsProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
   const { smartWallet } = useSmartAccountProvider();
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeAddress = async (value: string, displayName?: string) => {
@@ -122,6 +125,16 @@ const useAirdrop = () => {
       setAirdropToItems([]);
       setLoading(false);
       toast.success("airdropped!");
+
+      void refreshCollectorsAfterAirdrop({
+        queryClient,
+        collectionAddress: moment.collectionAddress,
+        tokenId: moment.tokenId,
+        chainId: moment.chainId,
+        items: validItems,
+        transactionHash: hash,
+      });
+
       return hash;
     } catch (error) {
       toast.error((error as any)?.message);

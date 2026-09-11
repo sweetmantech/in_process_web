@@ -41,7 +41,7 @@ export function useMomentTransfers() {
 
   return {
     transfers,
-    isLoading: query.isLoading || query.isFetching,
+    isLoading: query.isLoading,
     hasMore: query.hasNextPage ?? false,
     fetchMore,
   };

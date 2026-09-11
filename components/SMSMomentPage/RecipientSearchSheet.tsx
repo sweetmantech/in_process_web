@@ -52,7 +52,7 @@ const RecipientSearchSheet = () => {
           <button
             type="button"
             key={recipient.address}
-            onClick={() => selectFromSearch(recipient.address)}
+            onClick={() => selectFromSearch(recipient.address, recipient.username)}
             className={`flex w-full items-center gap-3 border-b border-grey-moss-50 px-2.5 py-2.5 text-left ${
               isRecipientActive(recipient.address) ? "bg-grey-moss-50" : "hover:bg-grey-moss-50"
             }`}

@@ -21,7 +21,7 @@ const useAirdrop = () => {
   const { smartWallet } = useSmartAccountProvider();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const onChangeAddress = async (value: string) => {
+  const onChangeAddress = async (value: string, displayName?: string) => {
     if (!value) return;
 
     // If it's already a valid address, add it immediately
@@ -32,7 +32,7 @@ const useAirdrop = () => {
           address: value,
           email: "",
           status: "valid",
-          ensName: "",
+          ensName: displayName || "",
         },
       ]);
       return;

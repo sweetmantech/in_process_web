@@ -25,7 +25,7 @@ const RecentRecipientsRow = () => {
           <button
             type="button"
             key={recipient.address}
-            onClick={() => toggleRecipient(recipient.address)}
+            onClick={() => toggleRecipient(recipient.address, recipient.username)}
             className={`rounded-full px-3.5 py-1.5 font-archivo text-xs text-grey-moss-900 ${
               isRecipientActive(recipient.address) ? "bg-grey-moss-100" : "bg-grey-moss-50"
             }`}

@@ -435,6 +435,7 @@ export type Database = {
           id: string;
           max_supply: number;
           token_id: number;
+          total_minted: number;
           updated_at: string;
           uri: string;
         };
@@ -445,6 +446,7 @@ export type Database = {
           id?: string;
           max_supply: number;
           token_id: number;
+          total_minted?: number;
           updated_at: string;
           uri: string;
         };
@@ -455,6 +457,7 @@ export type Database = {
           id?: string;
           max_supply?: number;
           token_id?: number;
+          total_minted?: number;
           updated_at?: string;
           uri?: string;
         };

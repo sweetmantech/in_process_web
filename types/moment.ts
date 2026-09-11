@@ -76,6 +76,8 @@ export interface TimelineMoment {
   metadata?: MomentMetadata;
   sale?: MomentSaleConfig | null;
   comments?: number;
+  /** True when max_supply is reached (from timeline RPC). */
+  sold_out?: boolean;
   collection?: {
     name: string | null;
   };

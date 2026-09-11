@@ -11,7 +11,7 @@ const useAirdropRecipientsPopup = () => {
   } = useAirdropProvider();
 
   const handleRecipientClick = useCallback(
-    (address: string) => {
+    (address: string, username?: string | null) => {
       if (!address) return;
       // Check if recipient is already in airdropToItems
       const existingIndex = airdropToItems.findIndex(
@@ -25,8 +25,8 @@ const useAirdropRecipientsPopup = () => {
         // Remove if already added
         removeAddress(existingIndex);
       } else {
-        // Add if not already added
-        onChangeAddress(address);
+        // Pass username (e.g. ENS) so the chip shows it instead of the raw address
+        onChangeAddress(address, username || undefined);
       }
     },
     [airdropToItems, onChangeAddress, removeAddress]

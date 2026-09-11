@@ -30,8 +30,8 @@ const useRecipientSearch = () => {
     query,
     setQuery,
     filteredRecipients,
-    selectFromSearch: (address: string) => {
-      handleRecipientClick(address);
+    selectFromSearch: (address: string, username?: string | null) => {
+      handleRecipientClick(address, username);
       setIsOpen(false);
     },
   };

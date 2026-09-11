@@ -22,7 +22,7 @@ export default function CommentButton({
         if (success) onSuccess?.();
       }}
       type="button"
-      className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-not-allowed disabled:bg-grey-moss-300"
+      className="w-full bg-black py-3 font-archivo text-xl text-grey-eggshell hover:bg-grey-moss-300 disabled:cursor-default disabled:border disabled:border-[#E4E0D7] disabled:bg-[#F7F5F0] disabled:text-grey-moss-300 disabled:hover:bg-[#F7F5F0]"
       disabled={isLoading || disabled}
     >
       {isLoading ? "Collecting..." : label}

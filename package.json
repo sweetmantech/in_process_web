@@ -123,31 +123,5 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ]
-  },
-  "pnpm": {
-    "ignoredBuiltDependencies": [
-      "bigint-buffer",
-      "bufferutil",
-      "canvas",
-      "keccak",
-      "protobufjs",
-      "secp256k1",
-      "sharp",
-      "tiny-secp256k1",
-      "utf-8-validate"
-    ],
-    "onlyBuiltDependencies": [
-      "bigint-buffer",
-      "bufferutil",
-      "canvas",
-      "core-js",
-      "es5-ext",
-      "keccak",
-      "protobufjs",
-      "secp256k1",
-      "sharp",
-      "tiny-secp256k1",
-      "utf-8-validate"
-    ]
   }
 }

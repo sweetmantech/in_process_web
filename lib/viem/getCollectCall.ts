@@ -1,12 +1,6 @@
 import { MomentSaleConfig, MomentType } from "@/types/moment";
 import { erc20MinterABI, zoraCreator1155ImplABI } from "@zoralabs/protocol-deployments";
-import {
-  Address,
-  encodeAbiParameters,
-  encodeFunctionData,
-  Hex,
-  parseAbiParameters,
-} from "viem";
+import { Address, encodeAbiParameters, encodeFunctionData, Hex, parseAbiParameters } from "viem";
 import { CHAIN_ID, USDC_ADDRESS } from "@/lib/consts";
 import {
   erc20MinterAddresses,

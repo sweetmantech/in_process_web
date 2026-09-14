@@ -1,5 +1,5 @@
 allowBuilds:
-  "@reown/appkit": true
+  '@reown/appkit': true
   bigint-buffer: true
   bufferutil: true
   canvas: true

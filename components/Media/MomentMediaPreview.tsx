@@ -36,7 +36,7 @@ const MomentMediaPreview = ({ metadata, isOwner, isSaving }: MomentMediaPreviewP
     <div className="flex h-full min-h-[260px] flex-col gap-1.5 md:min-h-0">
       <div className="flex items-center justify-between gap-2">
         <span className="font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300">
-          preview
+          file
         </span>
         {typeLabel && (
           <span className="rounded-full bg-grey-moss-50 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-grey-moss-400">

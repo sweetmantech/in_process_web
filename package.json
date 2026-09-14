@@ -47,7 +47,6 @@
     "alchemy-sdk": "^3.5.9",
     "arweave": "^1.15.7",
     "buffer": "^6.0.3",
-    "canvas": "3.2.0",
     "canvas-confetti": "^1.9.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

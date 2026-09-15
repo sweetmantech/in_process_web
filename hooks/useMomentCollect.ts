@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Address } from "viem";
+import { InfiniteData, useQueryClient } from "@tanstack/react-query";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useMiniAppProvider } from "@/providers/MiniAppProvider";
@@ -9,9 +10,13 @@ import { toast } from "sonner";
 import useCollectBalanceValidation from "./useCollectBalanceValidation";
 import useFarcasterCollect from "./useFarcasterCollect";
 import { collectMomentApi } from "@/lib/moment/collectMomentApi";
+import { getMomentApi } from "@/lib/moment/getMomentApi";
 import fireCollectConfetti from "@/lib/moment/fireCollectConfetti";
 import { useMomentCommentsProvider } from "@/providers/MomentCommentsProvider";
 import { Protocol } from "@/types/moment";
+import { TimelineResponse } from "@/types/timeline";
+import { bumpTimelineCommentCount } from "@/lib/timeline/bumpTimelineCommentCount";
+import { patchTimelineSoldOut } from "@/lib/timeline/patchTimelineSoldOut";
 import { showInsufficientBalanceError } from "@/lib/balance/showInsufficientBalanceError";
 import { isUserRejection } from "@/lib/viem/isUserRejection";
 
@@ -26,6 +31,7 @@ const useMomentCollect = () => {
   const { getAuthHeaders } = useAuthorizationProvider();
   const { collectWithFarcasterWallet } = useFarcasterCollect();
   const { smartWallet } = useSmartAccountProvider();
+  const queryClient = useQueryClient();
 
   const collectWithComment = async (): Promise<boolean> => {
     setIsLoading(true);
@@ -64,11 +70,30 @@ const useMomentCollect = () => {
           comment,
           timestamp: new Date().getTime(),
         } as any);
+        queryClient.setQueriesData<InfiniteData<TimelineResponse>>(
+          { queryKey: ["timeline"] },
+          (data) => bumpTimelineCommentCount(data, moment)
+        );
       }
       setComment("");
       setIsOpenCommentModal(false);
       toast.success("collected!");
       fireCollectConfetti();
+
+      // Refresh the moment's sold-out state right away instead of waiting on the feed's staleTime.
+      getMomentApi(moment)
+        .then(({ soldOut }) => {
+          queryClient.setQueriesData<InfiniteData<TimelineResponse>>(
+            { queryKey: ["timeline"] },
+            (data) => patchTimelineSoldOut(data, moment, soldOut)
+          );
+          queryClient.setQueryData(
+            ["tokenInfo", moment.collectionAddress, moment.tokenId, moment.chainId],
+            (prev: any) => (prev ? { ...prev, soldOut } : prev)
+          );
+        })
+        .catch(() => {});
+
       return true;
     } catch (error: any) {
       if (isUserRejection(error)) {

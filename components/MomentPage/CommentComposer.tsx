@@ -52,7 +52,7 @@ const CommentComposer = ({
         autoFocus={autoFocus}
         rows={2}
         disabled={isSubmitting}
-        className="w-full resize-none rounded-lg border border-[#EDEAE2] bg-grey-moss-50 px-3 py-2 font-spectral text-[14px] text-grey-moss-900 outline-none ring-0 placeholder:text-[#8B8474] focus:border-tan-gold"
+        className="w-full resize-none rounded-lg border border-[#EDEAE2] bg-grey-moss-50 px-3 py-2 font-spectral text-base text-grey-moss-900 outline-none ring-0 placeholder:text-[#8B8474] focus:border-tan-gold"
       />
       <div className="flex justify-end">
         <button

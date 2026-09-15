@@ -22,7 +22,7 @@ const CollectAdvanced = () => {
       </button>
       {isOpen && (
         <textarea
-          className="w-full !border-none bg-grey-moss-50 p-3 font-spectral text-sm !outline-none !ring-0"
+          className="w-full !border-none bg-grey-moss-50 p-3 font-spectral text-base !outline-none !ring-0"
           rows={4}
           placeholder="leave a comment"
           value={comment}

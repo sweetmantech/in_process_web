@@ -47,7 +47,7 @@ const SearchModal = () => {
           <input
             type="text"
             placeholder="search artist"
-            className="min-w-0 flex-1 border-none font-archivo text-[15px] text-grey-moss-900 outline-none placeholder-grey-moss-300"
+            className="min-w-0 flex-1 border-none font-archivo text-base text-grey-moss-900 outline-none placeholder-grey-moss-300"
             value={searchKey}
             onChange={onChangeSearchKey}
             onKeyDown={onKeyDown}

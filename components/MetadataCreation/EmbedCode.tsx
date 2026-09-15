@@ -28,7 +28,7 @@ const EmbedCode = () => {
             </p>
           </div>
           <textarea
-            className={`min-h-[140px] w-full rounded-[10px] border bg-[#FBFAF7] p-3.5 font-mono text-[12.5px] leading-[1.6] text-grey-moss-900 !outline-none !ring-0 placeholder:text-[#B4AEA2] md:min-h-0 md:grow md:rounded-none md:border-0 md:bg-grey-moss-50 md:p-2 md:font-spectral md:text-base ${
+            className={`min-h-[140px] w-full rounded-[10px] border bg-[#FBFAF7] p-3.5 font-mono text-base leading-[1.6] text-grey-moss-900 !outline-none !ring-0 placeholder:text-[#B4AEA2] md:min-h-0 md:grow md:rounded-none md:border-0 md:bg-grey-moss-50 md:p-2 md:font-spectral ${
               isInvalidHtml ? "border-red-dark" : "border-[#E4E0D7]"
             }`}
             value={embedCode}

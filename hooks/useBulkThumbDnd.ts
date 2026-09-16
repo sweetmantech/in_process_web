@@ -6,9 +6,7 @@ import { arrayMove } from "@dnd-kit/sortable";
 import { BulkItem } from "@/types/bulk";
 
 const useBulkThumbDnd = (items: BulkItem[], onReorder: (orderedIds: string[]) => void) => {
-  const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
-  );
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
 
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {

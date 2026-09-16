@@ -33,6 +33,16 @@ const useBulkItems = () => {
     setBulkItems((prev) => [...prev, ...processed]);
   }, []);
 
+  const reorderItems = useCallback((orderedIds: string[]) => {
+    setBulkItems((prev) => {
+      const byId = new Map(prev.map((item) => [item.id, item]));
+      const reordered = orderedIds
+        .map((id) => byId.get(id))
+        .filter((item): item is BulkItem => Boolean(item));
+      return reordered.length === prev.length ? reordered : prev;
+    });
+  }, []);
+
   const removeFile = useCallback((id: string) => {
     setBulkItems((prev) => {
       const item = prev.find((i) => i.id === id);
@@ -80,6 +90,7 @@ const useBulkItems = () => {
     bulkItems,
     addFiles,
     removeFile,
+    reorderItems,
     setItemName,
     setItemDescription,
     updateItemStatus,

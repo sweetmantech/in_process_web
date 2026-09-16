@@ -28,6 +28,7 @@ const useBulkCreate = () => {
     bulkItems,
     addFiles,
     removeFile,
+    reorderItems: reorderBulkItems,
     setItemName,
     setItemDescription,
     updateItemStatus,
@@ -62,6 +63,18 @@ const useBulkCreate = () => {
   }, [clearItems]);
 
   const selectedItem = bulkItems[Math.min(selectedIndex, Math.max(bulkItems.length - 1, 0))];
+
+  const reorderItems = useCallback(
+    (orderedIds: string[]) => {
+      const selectedId = selectedItem?.id;
+      reorderBulkItems(orderedIds);
+      if (selectedId) {
+        const newIndex = orderedIds.indexOf(selectedId);
+        if (newIndex !== -1) setSelectedIndex(newIndex);
+      }
+    },
+    [reorderBulkItems, selectedItem]
+  );
 
   const createBatch = useCallback(async () => {
     if (!isPrepared()) return;
@@ -160,6 +173,7 @@ const useBulkCreate = () => {
     isBulkMode: bulkItems.length > 0,
     addFiles,
     removeFile,
+    reorderItems,
     setItemName,
     setItemDescription,
     clearAll,

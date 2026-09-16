@@ -11,6 +11,7 @@ interface BulkFileCardProps {
   item: BulkItem;
   selected: boolean;
   isCreating?: boolean;
+  isDragging?: boolean;
   onSelect: () => void;
   onRemove: () => void;
 }
@@ -19,6 +20,7 @@ const BulkFileCard = ({
   item,
   selected,
   isCreating = false,
+  isDragging = false,
   onSelect,
   onRemove,
 }: BulkFileCardProps) => {
@@ -32,7 +34,8 @@ const BulkFileCard = ({
         "relative w-[78px] overflow-hidden rounded-[11px] border-2 bg-white transition-colors",
         selected
           ? "border-grey-moss-900 shadow-[0_8px_22px_-10px_rgba(27,21,4,.4)]"
-          : "border-[#E4E0D7]"
+          : "border-[#E4E0D7]",
+        isDragging && "z-10 scale-105 opacity-90 shadow-[0_12px_28px_-10px_rgba(27,21,4,.5)]"
       )}
     >
       {!isCreating && selected && (

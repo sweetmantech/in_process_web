@@ -7,6 +7,7 @@ const useBulkCenterGrid = () => {
   const {
     bulkItems,
     removeFile,
+    reorderItems,
     addFiles,
     isCreating,
     selectedIndex,
@@ -54,6 +55,7 @@ const useBulkCenterGrid = () => {
     selectedItem,
     handleRemoveSelected,
     handleRemoveAt,
+    reorderItems,
   };
 };
 

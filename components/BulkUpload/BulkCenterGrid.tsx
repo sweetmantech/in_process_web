@@ -16,6 +16,7 @@ const BulkCenterGrid = () => {
     selectedItem,
     handleRemoveSelected,
     handleRemoveAt,
+    reorderItems,
   } = useBulkCenterGrid();
 
   if (!selectedItem) return null;
@@ -88,6 +89,7 @@ const BulkCenterGrid = () => {
           inputRef={inputRef}
           onSelect={(index) => setSelectedIndex(index)}
           onRemove={handleRemoveAt}
+          onReorder={reorderItems}
         />
       </div>
     </div>

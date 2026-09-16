@@ -3,6 +3,7 @@
 import { RefObject } from "react";
 import { Plus } from "lucide-react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
+import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import { SortableContext, horizontalListSortingStrategy } from "@dnd-kit/sortable";
 import { BulkItem } from "@/types/bulk";
 import useBulkThumbDnd from "@/hooks/useBulkThumbDnd";
@@ -31,7 +32,12 @@ const BulkThumbSwiper = ({
 
   return (
     <div className="mt-3.5 min-w-0 w-full shrink-0 overflow-x-auto overflow-y-hidden">
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToHorizontalAxis]}
+        onDragEnd={handleDragEnd}
+      >
         <SortableContext
           items={items.map((item) => item.id)}
           strategy={horizontalListSortingStrategy}

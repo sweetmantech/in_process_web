@@ -6,6 +6,8 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import useTypeParam from "./useTypeParam";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { buildMetadataPayload } from "@/lib/metadata/buildMetadataPayload";
+import { isInstagramUrl } from "@/lib/url/isInstagramUrl";
+import { uploadInstagramMedia } from "@/lib/instagram/uploadInstagramMedia";
 import { MomentMetadata } from "@/types/moment";
 
 const useMetadataUpload = () => {
@@ -42,6 +44,33 @@ const useMetadataUpload = () => {
         existingMetadata,
       });
       return metadataResult.uri;
+    }
+
+    if (isInstagramUrl(link)) {
+      setIsUploading(true);
+      setUploadProgress(0);
+      try {
+        const media = await uploadInstagramMedia(link);
+        if (!media) throw new Error("Failed to load Instagram media");
+
+        const metadataResult = await buildMetadataPayload({
+          name,
+          description,
+          externalUrl: link,
+          image: media.image,
+          animationUrl: "",
+          mime: media.mime,
+          contentUri: media.uri,
+          existingMetadata,
+        });
+        setUploadProgress(100);
+        return metadataResult.uri;
+      } catch (err) {
+        setUploadProgress(0);
+        throw err;
+      } finally {
+        setIsUploading(false);
+      }
     }
 
     const hasFilesToUpload = Boolean(previewFile || imageFile || animationFile);

@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { isInstagramUrl } from "@/lib/url/isInstagramUrl";
 import { fetchLinkBlob } from "@/lib/link/fetchLinkBlob";
 import { fetchLinkPreview } from "@/lib/link/fetchLinkPreview";
 
@@ -12,10 +11,7 @@ const useLinkPreview = () => {
     queryKey: ["link_preview", link],
     queryFn: () => fetchLinkPreview(link),
     staleTime: 1000 * 60 * 5,
-    // Instagram previews are rendered live (see LinkPreview.tsx) instead of
-    // fetched here, so pasting/editing the link doesn't burn an Apify run
-    // before the user has even decided to mint.
-    enabled: !!link && !isInstagramUrl(link),
+    enabled: !!link,
     refetchOnMount: true,
   });
 

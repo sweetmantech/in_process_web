@@ -11,6 +11,8 @@ import GlbContent from "./GlbContent";
 import { MomentMetadata } from "@/types/moment";
 import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
 import YoutubeContent from "./YoutubeContent";
+import CarouselContent from "./CarouselContent";
+import { useCarouselItems } from "@/hooks/useCarouselItems";
 import { isModelGltfMime } from "@/lib/media/isModelGltfMime";
 
 interface ContentRendererProps {
@@ -39,9 +41,21 @@ const ContentRenderer = ({
     contentUrl,
     contentLoading,
   } = useMediaContent(metadata);
+  const { items: carouselItems } = useCarouselItems(metadata);
 
   const youtubeId = getYoutubeVideoId(metadata?.external_url ?? "");
   if (youtubeId) return <YoutubeContent videoId={youtubeId} />;
+
+  if (carouselItems.length) {
+    return (
+      <CarouselContent
+        items={carouselItems}
+        alt={metadata?.name || metadata?.description || "Moment carousel"}
+        variant={variant}
+        sizes={sizes}
+      />
+    );
+  }
 
   if (mimeType.includes("pdf")) {
     if (preferPoster && rawImageUri) {

@@ -5,6 +5,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import { toast } from "sonner";
 import { CircleDot } from "lucide-react";
+import { isInstagramUrl } from "@/lib/url/isInstagramUrl";
 
 const CreateButton = () => {
   const { create, creating } = useMomentCreateProvider();
@@ -12,7 +13,9 @@ const CreateButton = () => {
     useMetadataFormProvider();
 
   const hasMedia = Boolean(link || embedCode || imageFile || animationFile || writingText);
-  const hasPreview = Boolean(previewFile || writingText);
+  // Instagram links skip the previewFile fetch (see useLinkPreview) and show
+  // the live embed as their preview instead, so previewFile is never set here.
+  const hasPreview = Boolean(previewFile || writingText || isInstagramUrl(link));
 
   const toastCreateError = () => {
     const formIsValid = form.formState.isValid;

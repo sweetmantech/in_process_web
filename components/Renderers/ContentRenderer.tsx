@@ -11,6 +11,8 @@ import GlbContent from "./GlbContent";
 import { MomentMetadata } from "@/types/moment";
 import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
 import YoutubeContent from "./YoutubeContent";
+import { getInstagramPostUrl } from "@/lib/url/getInstagramPostUrl";
+import InstagramContent from "./InstagramContent";
 import { isModelGltfMime } from "@/lib/media/isModelGltfMime";
 
 interface ContentRendererProps {
@@ -42,6 +44,9 @@ const ContentRenderer = ({
 
   const youtubeId = getYoutubeVideoId(metadata?.external_url ?? "");
   if (youtubeId) return <YoutubeContent videoId={youtubeId} />;
+
+  const instagramPostUrl = getInstagramPostUrl(metadata?.external_url ?? "");
+  if (instagramPostUrl) return <InstagramContent postUrl={instagramPostUrl} />;
 
   if (mimeType.includes("pdf")) {
     if (preferPoster && rawImageUri) {

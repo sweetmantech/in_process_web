@@ -1,25 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { LinkPreview } from "@/types/link";
-import { IN_PROCESS_API } from "@/lib/consts";
-
-async function fetchLinkPreview(link: string): Promise<LinkPreview> {
-  const response = await fetch(`${IN_PROCESS_API}/link/get_detail?url=${encodeURIComponent(link)}`);
-  if (!response.ok) throw Error("failed to get link preview.");
-
-  const data = await response.json();
-  return data;
-}
-
-async function fetchBlob(link: string): Promise<File> {
-  const response = await fetch(`${IN_PROCESS_API}/link/get_blob?url=${encodeURIComponent(link)}`);
-  const type = response.headers.get("content-type") || "";
-  const arrayBuffer = await response.arrayBuffer();
-  const blob = new Blob([arrayBuffer], { type });
-  const file = new File([blob], "uploadedFile", { type });
-  return file;
-}
+import { isInstagramUrl } from "@/lib/url/isInstagramUrl";
+import { fetchLinkBlob } from "@/lib/link/fetchLinkBlob";
+import { fetchLinkPreview } from "@/lib/link/fetchLinkPreview";
 
 const useLinkPreview = () => {
   const { setPreviewFile, link } = useMetadataFormProvider();
@@ -28,7 +12,10 @@ const useLinkPreview = () => {
     queryKey: ["link_preview", link],
     queryFn: () => fetchLinkPreview(link),
     staleTime: 1000 * 60 * 5,
-    enabled: !!link,
+    // Instagram previews are rendered live (see LinkPreview.tsx) instead of
+    // fetched here, so pasting/editing the link doesn't burn an Apify run
+    // before the user has even decided to mint.
+    enabled: !!link && !isInstagramUrl(link),
     refetchOnMount: true,
   });
 
@@ -39,7 +26,7 @@ const useLinkPreview = () => {
       if (!data) return;
       if (data.images?.[0] || data.favicons?.[0]) {
         try {
-          const file = await fetchBlob(data.images?.[0] || data.favicons?.[0]);
+          const file = await fetchLinkBlob(data.images?.[0] || data.favicons?.[0]);
           setPreviewFile(file);
         } catch (error) {
           console.error(error);

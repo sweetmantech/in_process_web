@@ -2,9 +2,12 @@ import LinkInput from "./LinkInput";
 import Image from "next/image";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { Globe } from "lucide-react";
+import { getInstagramPostUrl } from "@/lib/url/getInstagramPostUrl";
+import InstagramContent from "@/components/Renderers/InstagramContent";
 
 const LinkPreview = () => {
-  const { previewFileUrl } = useMetadataFormProvider();
+  const { previewFileUrl, link } = useMetadataFormProvider();
+  const instagramPostUrl = getInstagramPostUrl(link);
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3 rounded-[12px] border border-[#E4E0D7] bg-white px-4 py-4 shadow-[0_16px_40px_-22px_rgba(27,21,4,.3)] md:m-4 md:gap-2 md:rounded-2xl md:px-4 md:py-6 md:shadow-none">
@@ -24,7 +27,11 @@ const LinkPreview = () => {
       <div className="shrink-0">
         <LinkInput />
       </div>
-      {previewFileUrl ? (
+      {instagramPostUrl ? (
+        <div className="relative min-h-0 w-full flex-1 overflow-hidden rounded-[11px] md:mt-4">
+          <InstagramContent postUrl={instagramPostUrl} />
+        </div>
+      ) : previewFileUrl ? (
         <div className="relative min-h-0 w-full flex-1 overflow-hidden rounded-[11px] md:mt-4">
           <Image
             src={previewFileUrl}

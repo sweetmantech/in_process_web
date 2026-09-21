@@ -32,6 +32,8 @@ export const Z_BEHIND_PRIVY = 999999;
 
 export const PDFJS_DIST_VERSION = "2.16.105";
 
+export const INSTAGRAM_CAROUSEL_MIME = "application/vnd.inprocess.carousel+json";
+
 /**
  * Comprehensive list of event handler attributes to forbid
  * Includes all on* event handlers to prevent XSS via event handlers

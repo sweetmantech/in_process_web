@@ -1,6 +1,7 @@
 import { TimelineMoment } from "@/types/moment";
 import { validateUrl } from "@/lib/url/validateUrl";
 import { isYoutubeUrl } from "@/lib/url/isYoutubeUrl";
+import { isInstagramUrl } from "@/lib/url/isInstagramUrl";
 import { isDeprecatedUrl } from "@/lib/url/isDeprecatedUrl";
 import { isSupabaseStorageUrl } from "@/lib/url/isSupabaseStorageUrl";
 import { getShortNameFromChainId } from "@/lib/zora/getShortNameFromChainId";
@@ -17,6 +18,7 @@ export const getMomentUrl = (moment: TimelineMoment): MomentUrl | undefined => {
     externalUrl &&
     !isDeprecatedUrl(externalUrl) &&
     !isYoutubeUrl(externalUrl) &&
+    !isInstagramUrl(externalUrl) &&
     !isSupabaseStorageUrl(externalUrl)
   ) {
     const validatedUrl = validateUrl(externalUrl);

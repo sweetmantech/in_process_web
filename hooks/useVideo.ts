@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from "react";
+import { flushSync } from "react-dom";
 
 const useVideo = (url?: string) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -20,7 +21,15 @@ const useVideo = (url?: string) => {
 
   const handlePlay = (e: SyntheticEvent) => {
     e.stopPropagation();
-    setIsPlaying(true);
+    // Mount the <video> synchronously so play() runs inside the tap gesture;
+    // iOS Safari may never fire canplay for a video it hasn't been asked to play.
+    flushSync(() => setIsPlaying(true));
+    const p = videoRef.current?.play();
+    // If playback is blocked, reveal the native controls instead of spinning.
+    if (p)
+      p.catch((err) => {
+        if (err?.name === "NotAllowedError") setIsLoaded(true);
+      });
   };
 
   const handleLoaded = () => {

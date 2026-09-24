@@ -54,6 +54,7 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", sizes, onError }: Video
       <video
         ref={videoRef}
         controls
+        playsInline
         className={`rounded-md bg-grey-moss-900 ${
           isNatural ? "h-auto max-h-full w-full object-contain" : "w-full"
         } ${!isLoaded ? "absolute inset-0 opacity-0" : ""}`}
@@ -62,6 +63,7 @@ const VideoPlayer = ({ url, thumbnail, variant = "fill", sizes, onError }: Video
         onPointerDown={stopPropagation}
         onTouchStart={stopPropagation}
         onCanPlay={handleLoaded}
+        onPlaying={handleLoaded}
         onError={async () => {
           try {
             const recovered = await onError?.();

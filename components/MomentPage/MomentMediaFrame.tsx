@@ -8,7 +8,7 @@ import { Protocol } from "@/types/moment";
 import { useMomentCollectionCarouselProvider } from "@/providers/MomentCollectionCarouselProvider";
 
 const MomentMediaFrame = () => {
-  const { metadata, fetchMomentData, protocol } = useMomentProvider();
+  const { metadata, video, fetchMomentData, protocol } = useMomentProvider();
   const { canNavigate, counter, goPrev, goNext } = useMomentCollectionCarouselProvider();
 
   if (!metadata) return null;
@@ -18,6 +18,7 @@ const MomentMediaFrame = () => {
       <div className="relative h-full min-h-0 w-full overflow-hidden font-spectral [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:max-h-full [&_iframe]:w-full [&_img]:max-h-full [&_img]:object-contain [&_video]:h-auto [&_video]:max-h-full [&_video]:w-full [&_video]:object-contain [&_.pdf-viewer-root]:!h-full [&_.pdf-viewer-root]:!max-h-full [&_.pdf-viewer-root]:!min-h-0 [&_.writing-root]:!h-full [&_.writing-root]:!max-h-full [&_.writing-root>[role=region]]:!h-full [&_.writing-root>[role=region]]:!max-h-full [&_.writing-root>[role=region]]:!pt-12">
         <ContentRenderer
           metadata={metadata}
+          video={video}
           variant="fill"
           sizes={DETAIL_IMAGE_SIZES}
           onRefresh={async () => {

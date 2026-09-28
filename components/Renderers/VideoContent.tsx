@@ -2,11 +2,15 @@
 
 import { useState, useEffect } from "react";
 import VideoPlayer from "@/components/VideoPlayer";
+import useMuxPlayback from "@/hooks/useMuxPlayback";
+import { MomentVideo } from "@/types/moment";
 import ErrorContent from "./ErrorContent";
+import MuxVideoContent from "./MuxVideoContent";
 
 interface VideoContentProps {
   rawAnimationUri: string;
   rawImageUri: string;
+  video?: MomentVideo | null;
   variant: "fill" | "natural";
   sizes?: string;
   onRefresh?: () => Promise<string | undefined | void>;
@@ -15,11 +19,17 @@ interface VideoContentProps {
 const VideoContent = ({
   rawAnimationUri,
   rawImageUri,
+  video,
   variant,
   sizes,
   onRefresh,
 }: VideoContentProps) => {
   const [videoUri, setVideoUri] = useState(rawAnimationUri);
+  const { muxPlaybackId, muxPoster, onMuxError } = useMuxPlayback(
+    video,
+    rawAnimationUri,
+    rawImageUri
+  );
 
   useEffect(() => {
     setVideoUri(rawAnimationUri);
@@ -34,6 +44,16 @@ const VideoContent = ({
     }
     return false;
   };
+
+  if (muxPlaybackId)
+    return (
+      <MuxVideoContent
+        playbackId={muxPlaybackId}
+        poster={muxPoster}
+        variant={variant}
+        onError={onMuxError}
+      />
+    );
 
   if (!videoUri) return <ErrorContent />;
   return (

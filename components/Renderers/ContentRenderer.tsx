@@ -8,7 +8,7 @@ import HtmlContent from "./HtmlContent";
 import TextContent from "./TextContent";
 import ImageContent, { FEED_IMAGE_SIZES } from "./ImageContent";
 import GlbContent from "./GlbContent";
-import { MomentMetadata } from "@/types/moment";
+import { MomentMetadata, MomentVideo } from "@/types/moment";
 import { getYoutubeVideoId } from "@/lib/url/getYoutubeVideoId";
 import YoutubeContent from "./YoutubeContent";
 import CarouselContent from "./CarouselContent";
@@ -17,6 +17,8 @@ import { isModelGltfMime } from "@/lib/media/isModelGltfMime";
 
 interface ContentRendererProps {
   metadata?: MomentMetadata;
+  /** Ready streaming playback (Mux); preferred over animation_url for video. */
+  video?: MomentVideo | null;
   variant?: "fill" | "natural";
   sizes?: string;
   /** Feed cards: use cover image instead of mounting pdf.js per card. */
@@ -26,6 +28,7 @@ interface ContentRendererProps {
 
 const ContentRenderer = ({
   metadata,
+  video,
   variant = "fill",
   sizes = FEED_IMAGE_SIZES,
   preferPoster = false,
@@ -85,6 +88,7 @@ const ContentRenderer = ({
       <VideoContent
         rawAnimationUri={rawAnimationUri || rawContentUri}
         rawImageUri={rawImageUri}
+        video={video}
         variant={variant}
         sizes={sizes}
         onRefresh={onRefresh}

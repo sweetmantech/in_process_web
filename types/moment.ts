@@ -53,6 +53,12 @@ export interface MomentMetadata {
   animation_url?: string;
 }
 
+/** Streaming playback copy of a moment's video (Mux), present once ready. */
+export interface MomentVideo {
+  provider: string;
+  playback_id: string;
+}
+
 export enum MomentType {
   Erc20Mint = "erc20Mint",
   TimedMint = "timed",
@@ -81,6 +87,7 @@ export interface TimelineMoment {
   collection?: {
     name: string | null;
   };
+  video?: MomentVideo | null;
 }
 
 export type MomentSaleConfig = {
@@ -102,6 +109,7 @@ export interface MomentApiResponse {
   protocol: Protocol | null;
   admins: Address[];
   metadata: MomentMetadata | null;
+  video?: MomentVideo | null;
 }
 
 export interface MigrateMomentsApiInput {

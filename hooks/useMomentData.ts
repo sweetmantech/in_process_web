@@ -27,6 +27,7 @@ const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
 
   const saleConfig = (query.data?.sale as MomentSaleConfig) ?? null;
   const metadata = query.data?.metadata ?? null;
+  const video = query.data?.video ?? null;
   const owner = query.data?.owner ?? null;
   const tokenUri = query.data?.uri ?? null;
   const momentAdmins = query.data?.admins ?? null;
@@ -53,6 +54,7 @@ const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
     saleConfig,
     protocol,
     metadata,
+    video,
     tokenUri,
     momentAdmins,
     isLoading: query.isLoading,

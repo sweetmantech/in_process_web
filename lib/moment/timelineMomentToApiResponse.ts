@@ -2,7 +2,6 @@ import { Address } from "viem";
 import { MomentApiResponse, TimelineMoment } from "@/types/moment";
 import { isMomentSoldOut } from "@/lib/moment/isMomentSoldOut";
 
-/** Map a collection-timeline moment into the /moment API shape for instant carousel switches. */
 export const timelineMomentToApiResponse = (moment: TimelineMoment): MomentApiResponse => {
   const sale = moment.sale ?? null;
 
@@ -16,5 +15,6 @@ export const timelineMomentToApiResponse = (moment: TimelineMoment): MomentApiRe
     protocol: moment.protocol ?? null,
     admins: (moment.admins ?? []) as Address[],
     metadata: moment.metadata ?? null,
+    video: moment.video ?? null,
   };
 };

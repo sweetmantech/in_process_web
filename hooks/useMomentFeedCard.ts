@@ -5,6 +5,7 @@ import { supportsMomentComments } from "@/lib/moment/supportsMomentComments";
 import { formatSalePriceLabel } from "@/lib/moment/formatSalePriceLabel";
 import { isMomentSoldOut } from "@/lib/moment/isMomentSoldOut";
 import { useMobileDrawersProvider } from "@/providers/MobileDrawersProvider";
+import { useUserProvider } from "@/providers/UserProvider";
 import { useMomentClick } from "@/hooks/useMomentClick";
 import useDownload from "@/hooks/useDownload";
 import { getMomentUrl } from "@/lib/moment/getMomentUrl";
@@ -13,6 +14,7 @@ import truncateAddress from "@/lib/utils/truncateAddress";
 
 export const useMomentFeedCard = (moment: TimelineMoment) => {
   const { openCollect, openComment } = useMobileDrawersProvider();
+  const { isPrepared } = useUserProvider();
   const { handleMomentClick, data: metadata } = useMomentClick(moment);
   const { sale } = moment;
   const isSoldOut = isMomentSoldOut(sale, moment.sold_out);
@@ -29,6 +31,7 @@ export const useMomentFeedCard = (moment: TimelineMoment) => {
   const momentHref = getMomentUrl(moment)?.href;
 
   const onCollect = () => {
+    if (!isPrepared()) return;
     openCollect(moment);
   };
 

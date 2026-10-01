@@ -1,63 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
+import { paymentsGridClassName } from "@/lib/payments/paymentsGridClassName";
 
-const PaymentsTableLoading = () => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Payments</span>
-          <Skeleton className="h-5 w-28 rounded-full" />
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="overflow-auto rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Buyer</TableHead>
-                <TableHead>Moment</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Time</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {[...Array(5)].map((_, i) => (
-                <TableRow key={i}>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Skeleton className="h-8 w-8 rounded-full" />
-                      <Skeleton className="h-4 w-24" />
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Skeleton className="h-8 w-8 rounded" />
-                      <Skeleton className="h-4 w-20" />
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-5 w-16 rounded-full" />
-                  </TableCell>
-                  <TableCell>
-                    <Skeleton className="h-4 w-24" />
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+const PaymentsTableLoading = () => (
+  <div className="mt-[50px] overflow-hidden rounded-[14px] border border-[#E4E0D7] bg-white/60">
+    {[...Array(5)].map((_, i) => (
+      <div
+        key={i}
+        className={`${paymentsGridClassName} items-center border-t border-[#ECE8E0] px-4 py-3 first:border-t-0`}
+      >
+        <div className="flex items-center gap-[13px]">
+          <Skeleton className="size-[42px] rounded-[9px]" />
+          <Skeleton className="h-4 w-40" />
         </div>
-      </CardContent>
-    </Card>
-  );
-};
+        <Skeleton className="hidden h-4 w-24 md:block" />
+        <Skeleton className="h-6 w-20 rounded-full" />
+        <Skeleton className="hidden h-4 w-32 lg:block" />
+      </div>
+    ))}
+  </div>
+);
 
 export default PaymentsTableLoading;

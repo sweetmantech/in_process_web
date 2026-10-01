@@ -1,31 +1,30 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import PaymentsTableLoading from "./PaymentsTableLoading";
 import PaymentsTableError from "./PaymentsTableError";
 import NoPaymentsFound from "./NoPaymentsFound";
-import PaymentsTableContents from "./PaymentsTableContents";
+import PaymentsColumnLabels from "./PaymentsColumnLabels";
+import PaymentRow from "./PaymentRow";
+import FetchMore from "@/components/FetchMore";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
 
 const PaymentsTable = () => {
-  const { paymentsTab, payments, isPending, error, data } = usePaymentsProvider();
+  const { payments, isPending, error, data, fetchMore, hasNextPage } = usePaymentsProvider();
 
   if (error) return <PaymentsTableError error={error} />;
   if (isPending && !data) return <PaymentsTableLoading />;
+  if (payments.length === 0) return <NoPaymentsFound />;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>{paymentsTab === "income" ? "Income" : "Expenses"}</span>
-          <Badge variant="outline">{payments.length} transactions</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {payments.length === 0 ? <NoPaymentsFound /> : <PaymentsTableContents />}
-      </CardContent>
-    </Card>
+    <section>
+      <PaymentsColumnLabels />
+      <div className="mt-3.5 overflow-hidden rounded-[14px] border border-[#E4E0D7] bg-white/60">
+        {payments.map((payment) => (
+          <PaymentRow key={String(payment.id)} payment={payment} />
+        ))}
+      </div>
+      {hasNextPage && <FetchMore fetchMore={fetchMore} />}
+    </section>
   );
 };
 

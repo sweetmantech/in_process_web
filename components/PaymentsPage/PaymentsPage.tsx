@@ -3,10 +3,10 @@
 import PaymentsTable from "@/components/PaymentsPage/PaymentsTable";
 import PaymentsTabs from "@/components/PaymentsPage/PaymentsTabs";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import { WithdrawModal } from "@/components/PaymentsPage/WithdrawModal";
 import PaymentsPageSkeleton from "./PaymentsPageSkeleton";
 import SignToInProcess from "../ManagePage/SignToInProcess";
 import { PaymentsProvider } from "@/providers/PaymentsProvider";
+import BalanceCard from "./BalanceCard";
 
 const PaymentsPage = () => {
   const { primaryWallet, walletsReady } = useWalletsProvider();
@@ -16,10 +16,8 @@ const PaymentsPage = () => {
 
   return (
     <PaymentsProvider>
-      <main className="flex flex-col gap-4 font-archivo">
-        <div className="flex justify-end">
-          <WithdrawModal />
-        </div>
+      <main className="flex min-w-0 flex-col font-archivo text-grey-moss-900">
+        <BalanceCard />
         <PaymentsTabs />
         <PaymentsTable />
       </main>

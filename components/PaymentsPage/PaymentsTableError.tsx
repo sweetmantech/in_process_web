@@ -1,22 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 interface PaymentsTableErrorProps {
   error: Error;
 }
 
-const PaymentsTableError = ({ error }: PaymentsTableErrorProps) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Payments</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="py-8 text-center">
-          <p className="text-red-600 dark:text-red-400">Failed to load payments: {error.message}</p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+const PaymentsTableError = ({ error }: PaymentsTableErrorProps) => (
+  <div className="mt-[50px] rounded-[14px] border border-[#E4E0D7] bg-white/60 py-8 text-center">
+    <p className="text-sm text-red-600">failed to load payments: {error.message}</p>
+  </div>
+);
 
 export default PaymentsTableError;

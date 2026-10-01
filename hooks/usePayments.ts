@@ -4,7 +4,6 @@ import { getTransferPayments } from "@/lib/payments/getTransferPayments";
 import type { PaymentTransferRow, PaymentsTab, TransferPaymentsResponse } from "@/types/payments";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 
-/** Matches API default and other list endpoints (e.g. notifications, timeline). */
 const PAYMENTS_QUERY_PAGE_LIMIT = 20;
 
 const usePayments = () => {
@@ -31,8 +30,6 @@ const usePayments = () => {
     [paymentsQuery.data]
   );
 
-  const isExpense = paymentsTab === "income";
-
   return useMemo(
     () => ({
       paymentsTab,
@@ -41,14 +38,12 @@ const usePayments = () => {
       payments,
       fetchMore: paymentsQuery.fetchNextPage,
       hasNextPage: Boolean(paymentsQuery.hasNextPage),
-      isExpense,
       data: paymentsQuery.data,
       isPending: paymentsQuery.isPending,
       error: paymentsQuery.error instanceof Error ? paymentsQuery.error : null,
     }),
     [
       primaryWallet,
-      isExpense,
       payments,
       paymentsTab,
       paymentsQuery.data,

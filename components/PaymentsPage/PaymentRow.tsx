@@ -1,43 +1,25 @@
 "use client";
 
-import { TableCell, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import type { PaymentTransferRow } from "@/types/payments";
-import MomentCell from "@/components/NotificationsPage/MomentCell";
-import NotificationDateCell from "@/components/NotificationsPage/NotificationDateCell";
-import BuyerCell from "./BuyerCell";
-import { getPaymentAmount } from "@/lib/payments/getPaymentAmount";
-import { usePaymentsProvider } from "@/providers/PaymentsProvider";
-import { useWalletsProvider } from "@/providers/WalletsProvider";
+import { paymentsGridClassName } from "@/lib/payments/paymentsGridClassName";
+import PaymentMomentCell from "./PaymentMomentCell";
+import PaymentPartyCell from "./PaymentPartyCell";
+import PaymentAmount from "./PaymentAmount";
+import PaymentTimeCell from "./PaymentTimeCell";
 
 interface PaymentRowProps {
   payment: PaymentTransferRow;
 }
 
-const PaymentRow = ({ payment }: PaymentRowProps) => {
-  const { isExpense, paymentsTab } = usePaymentsProvider();
-  const { primaryWallet } = useWalletsProvider();
-  const amount = getPaymentAmount(payment, primaryWallet, paymentsTab);
-  return (
-    <TableRow className="border border-transparent hover:border-b-grey-moss-200">
-      <BuyerCell payment={payment} />
-      <MomentCell moment={payment.moment} />
-      <TableCell>
-        <Badge
-          variant="secondary"
-          className={`font-mono ${
-            isExpense
-              ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-              : "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
-          }`}
-        >
-          {isExpense ? "+" : "-"}
-          {amount}
-        </Badge>
-      </TableCell>
-      <NotificationDateCell payment={payment} />
-    </TableRow>
-  );
-};
+const PaymentRow = ({ payment }: PaymentRowProps) => (
+  <div
+    className={`${paymentsGridClassName} items-center border-t border-[#ECE8E0] px-4 py-3 transition-colors first:border-t-0 hover:bg-white/75`}
+  >
+    <PaymentMomentCell moment={payment.moment} />
+    <PaymentPartyCell payment={payment} />
+    <PaymentAmount payment={payment} />
+    <PaymentTimeCell payment={payment} />
+  </div>
+);
 
 export default PaymentRow;

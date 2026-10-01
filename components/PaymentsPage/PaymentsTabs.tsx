@@ -1,24 +1,22 @@
 "use client";
 
-import TabButton from "@/components/MomentManagePage/TabButton";
+import usePaymentsCount from "@/hooks/usePaymentsCount";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
+import PaymentsTabButton from "./PaymentsTabButton";
+
 const PaymentsTabs = () => {
-  const { paymentsTab, setPaymentsTab } = usePaymentsProvider();
+  const { paymentsTab } = usePaymentsProvider();
+  const count = usePaymentsCount(paymentsTab);
 
   return (
-    <section className="w-full pb-2">
-      <div className="flex gap-1 md:gap-4">
-        <TabButton
-          label="Income"
-          active={paymentsTab === "income"}
-          onClick={() => setPaymentsTab("income")}
-        />
-        <TabButton
-          label="Expenses"
-          active={paymentsTab === "expense"}
-          onClick={() => setPaymentsTab("expense")}
-        />
+    <section className="mt-[30px] flex items-center justify-between gap-4 border-b border-[#E4E0D7]">
+      <div className="flex gap-7">
+        <PaymentsTabButton tab="income" label="income" />
+        <PaymentsTabButton tab="expense" label="expenses" />
       </div>
+      {count !== undefined && (
+        <span className="pb-[13px] text-[12.5px] text-[#A8A296]">{count} transactions</span>
+      )}
     </section>
   );
 };

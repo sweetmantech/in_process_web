@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { useWithdraw } from "@/hooks/useWithdraw";
 import { TotalBalances } from "./TotalBalances";
 import { SmartWalletAddress } from "./SmartWalletAddress";
@@ -23,9 +24,10 @@ export function WithdrawModal() {
       <DialogTrigger asChild>
         <Button
           onClick={() => setIsOpen(true)}
-          className="rounded-md bg-grey-moss-900 px-4 py-2 font-archivo text-grey-eggshell hover:bg-grey-eggshell hover:text-grey-moss-900"
+          className="inline-flex h-auto items-center gap-2 rounded-xl bg-grey-moss-900 px-[22px] py-[13px] font-archivo-bold text-sm text-white hover:bg-black"
         >
-          Withdraw
+          <ArrowUpRight className="size-4" />
+          withdraw
         </Button>
       </DialogTrigger>
 

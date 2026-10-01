@@ -1,9 +1,7 @@
-const NoPaymentsFound = () => {
-  return (
-    <div className="py-8 text-center">
-      <p className="text-neutral-600 dark:text-neutral-400">No payments found</p>
-    </div>
-  );
-};
+const NoPaymentsFound = () => (
+  <div className="mt-[50px] rounded-[14px] border border-[#E4E0D7] bg-white/60 py-8 text-center">
+    <p className="text-sm text-[#A8A296]">no payments found</p>
+  </div>
+);
 
 export default NoPaymentsFound;

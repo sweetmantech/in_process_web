@@ -7,7 +7,7 @@ interface PaymentTimeCellProps {
 
 const PaymentTimeCell = ({ payment }: PaymentTimeCellProps) => (
   <div className="hidden items-center justify-between gap-2.5 lg:flex">
-    <span className="text-[12.5px] text-[#8C8678]">
+    <span className="text-xs text-grey-moss-300">
       {new Date(payment.transferred_at).toLocaleString()}
     </span>
     <a
@@ -15,7 +15,7 @@ const PaymentTimeCell = ({ payment }: PaymentTimeCellProps) => (
       target="_blank"
       rel="noopener noreferrer"
       title="see transaction details"
-      className="flex size-7 flex-none items-center justify-center rounded-lg text-[#A8A296] hover:bg-[#F1EEE8] hover:text-grey-moss-900"
+      className="flex size-7 flex-none items-center justify-center rounded-[9px] text-grey-moss-300 hover:bg-grey-moss-50 hover:text-grey-moss-900"
     >
       <ExternalLink className="size-[15px]" />
     </a>

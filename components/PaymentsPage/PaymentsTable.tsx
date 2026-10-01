@@ -6,6 +6,7 @@ import NoPaymentsFound from "./NoPaymentsFound";
 import PaymentsColumnLabels from "./PaymentsColumnLabels";
 import PaymentRow from "./PaymentRow";
 import FetchMore from "@/components/FetchMore";
+import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
 
 const PaymentsTable = () => {
@@ -16,15 +17,15 @@ const PaymentsTable = () => {
   if (payments.length === 0) return <NoPaymentsFound />;
 
   return (
-    <section>
+    <div className={`${MANAGE_CARD_CLASS} flex flex-col overflow-hidden md:min-h-0`}>
       <PaymentsColumnLabels />
-      <div className="mt-3.5 overflow-hidden rounded-[14px] border border-[#E4E0D7] bg-white/60">
+      <div className="md:min-h-0 md:flex-1 md:overflow-y-auto md:modern-scrollbar">
         {payments.map((payment) => (
           <PaymentRow key={String(payment.id)} payment={payment} />
         ))}
+        {hasNextPage && <FetchMore fetchMore={fetchMore} />}
       </div>
-      {hasNextPage && <FetchMore fetchMore={fetchMore} />}
-    </section>
+    </div>
   );
 };
 

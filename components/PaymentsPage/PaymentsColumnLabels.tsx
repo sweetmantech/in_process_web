@@ -8,7 +8,7 @@ const PaymentsColumnLabels = () => {
 
   return (
     <div
-      className={`${paymentsGridClassName} px-4 pb-2 pt-4 font-archivo-bold text-[11px] uppercase tracking-[.1em] text-[#A8A296]`}
+      className={`${paymentsGridClassName} border-b border-grey-moss-50 px-4 py-3 text-[10px] uppercase tracking-[0.1em] text-grey-moss-300 md:px-6`}
     >
       <span>moment</span>
       <span className="hidden md:block">{paymentsTab === "income" ? "collector" : "artist"}</span>

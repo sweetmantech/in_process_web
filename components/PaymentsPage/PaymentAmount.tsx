@@ -13,11 +13,8 @@ const PaymentAmount = ({ payment }: PaymentAmountProps) => {
   const isIncome = paymentsTab === "income";
 
   return (
-    <span
-      className={`inline-flex items-center justify-self-start whitespace-nowrap rounded-full px-[11px] py-1 font-mono text-xs ${
-        isIncome ? "bg-[#DCF3E2] text-[#1E6B33]" : "bg-[#F2E8CF] text-[#7E621C]"
-      }`}
-    >
+    <span className="inline-flex items-center gap-[5px] justify-self-start whitespace-nowrap rounded-xl bg-grey-moss-50 px-[9px] py-[3px] text-xs text-grey-moss-900">
+      <span className={`h-1.5 w-1.5 rounded-full ${isIncome ? "bg-[#7FD58A]" : "bg-[#FDAD00]"}`} />
       {isIncome ? "+" : "−"}
       {getPaymentAmount(payment, primaryWallet, paymentsTab)}
     </span>

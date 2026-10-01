@@ -13,7 +13,7 @@ interface PaymentRowProps {
 
 const PaymentRow = ({ payment }: PaymentRowProps) => (
   <div
-    className={`${paymentsGridClassName} items-center border-t border-[#ECE8E0] px-4 py-3 transition-colors first:border-t-0 hover:bg-white/75`}
+    className={`${paymentsGridClassName} items-center border-b border-grey-moss-50 px-4 py-3 last:border-b-0 hover:bg-[#FDFCFA] md:px-6`}
   >
     <PaymentMomentCell moment={payment.moment} />
     <PaymentPartyCell payment={payment} />

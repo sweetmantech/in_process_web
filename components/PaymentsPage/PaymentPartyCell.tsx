@@ -14,10 +14,10 @@ const PaymentPartyCell = ({ payment }: PaymentPartyCellProps) => {
 
   return (
     <div className="hidden min-w-0 items-center gap-2 md:flex">
-      <span className="flex size-[22px] flex-none items-center justify-center rounded-full bg-grey-moss-900 font-archivo-bold text-[10px] uppercase text-white">
+      <span className="flex size-[22px] flex-none items-center justify-center rounded-full bg-grey-moss-900 text-[10px] uppercase text-grey-eggshell">
         {party.charAt(0)}
       </span>
-      <span className="truncate text-[13.5px] text-[#4E4A40]">{party}</span>
+      <span className="truncate text-sm text-grey-moss-400">{party}</span>
     </div>
   );
 };

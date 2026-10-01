@@ -2,26 +2,38 @@
 
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { formatStatValue } from "@/lib/stats/formatStatValue";
-import { WithdrawModal } from "./WithdrawModal";
+import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
+import { useWithdraw } from "@/hooks/useWithdraw";
+import CardSectionHeader from "@/components/ManagePage/CardSectionHeader";
 import BalanceValue from "./BalanceValue";
+import { SmartWalletAddress } from "./SmartWalletAddress";
+import { WithdrawForm } from "./WithdrawForm";
 
 const BalanceCard = () => {
   const { isLoading, ethBalance, usdcBalance } = useSmartAccountProvider();
+  const withdrawState = useWithdraw();
 
   return (
-    <section className="flex flex-wrap items-center justify-between gap-5 rounded-2xl border border-[#E4E0D7] bg-white/60 px-6 py-6">
-      <div className="flex flex-col gap-2.5">
-        <span className="font-archivo-bold text-[11px] uppercase tracking-[.1em] text-[#A8A296]">
-          available to withdraw
-        </span>
-        <div className="flex items-baseline gap-[18px] whitespace-nowrap">
+    <div className={`${MANAGE_CARD_CLASS} p-4 md:px-6 md:py-[22px]`}>
+      <CardSectionHeader
+        dotColor="#7FD58A"
+        label="available to withdraw"
+        marginBottom="mb-3.5 md:mb-[18px]"
+      />
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex items-baseline gap-4 whitespace-nowrap">
           <BalanceValue value={isLoading ? "—" : formatStatValue(usdcBalance)} unit="USDC" />
-          <div className="h-6 w-px self-center bg-[#E4E0D7]" />
+          <div className="h-5 w-px self-center bg-grey-moss-100" />
           <BalanceValue value={isLoading ? "—" : formatStatValue(ethBalance)} unit="ETH" />
         </div>
+        <SmartWalletAddress />
       </div>
-      <WithdrawModal />
-    </section>
+
+      <div className="-mx-4 my-4 h-px bg-grey-moss-50 md:-mx-6 md:my-[22px]" />
+
+      <CardSectionHeader dotColor="#FDAD00" label="withdraw" marginBottom="mb-3.5 md:mb-[18px]" />
+      <WithdrawForm {...withdrawState} />
+    </div>
   );
 };
 

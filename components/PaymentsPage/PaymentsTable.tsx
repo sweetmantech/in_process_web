@@ -5,12 +5,24 @@ import PaymentsTableError from "./PaymentsTableError";
 import NoPaymentsFound from "./NoPaymentsFound";
 import PaymentsColumnLabels from "./PaymentsColumnLabels";
 import PaymentRow from "./PaymentRow";
-import FetchMore from "@/components/FetchMore";
+import AnalyticsTableFooter from "@/components/AnalyticsPage/AnalyticsTableFooter";
 import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
 
 const PaymentsTable = () => {
-  const { payments, isPending, error, data, fetchMore, hasNextPage } = usePaymentsProvider();
+  const {
+    payments,
+    isPending,
+    error,
+    data,
+    totalCount,
+    currentPage,
+    limit,
+    hasPrevPage,
+    hasNextPage,
+    goPrevPage,
+    goNextPage,
+  } = usePaymentsProvider();
 
   if (error) return <PaymentsTableError error={error} />;
   if (isPending && !data) return <PaymentsTableLoading />;
@@ -19,12 +31,23 @@ const PaymentsTable = () => {
   return (
     <div className={`${MANAGE_CARD_CLASS} flex flex-col overflow-hidden md:min-h-0`}>
       <PaymentsColumnLabels />
-      <div className="md:min-h-0 md:flex-1 md:overflow-y-auto md:modern-scrollbar">
+      <div
+        key={currentPage}
+        className="md:min-h-0 md:flex-1 md:overflow-y-auto md:modern-scrollbar"
+      >
         {payments.map((payment) => (
           <PaymentRow key={String(payment.id)} payment={payment} />
         ))}
-        {hasNextPage && <FetchMore fetchMore={fetchMore} />}
       </div>
+      <AnalyticsTableFooter
+        rowCount={totalCount}
+        currentPage={currentPage}
+        limit={limit}
+        hasPrevPage={hasPrevPage}
+        hasNextPage={hasNextPage}
+        onPrevPage={goPrevPage}
+        onNextPage={goNextPage}
+      />
     </div>
   );
 };

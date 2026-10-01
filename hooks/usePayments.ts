@@ -1,56 +1,62 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { getTransferPayments } from "@/lib/payments/getTransferPayments";
-import type { PaymentTransferRow, PaymentsTab, TransferPaymentsResponse } from "@/types/payments";
+import type { PaymentsTab } from "@/types/payments";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 
-const PAYMENTS_QUERY_PAGE_LIMIT = 20;
+const PAYMENTS_QUERY_PAGE_LIMIT = 10;
 
 const usePayments = () => {
   const { primaryWallet } = useWalletsProvider();
-  const [paymentsTab, setPaymentsTab] = useState<PaymentsTab>("income");
+  const [paymentsTab, setTab] = useState<PaymentsTab>("income");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const paymentsQuery = useInfiniteQuery({
-    queryKey: ["payments-transfers", PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, primaryWallet],
-    queryFn: async ({ pageParam = 1 }) => {
-      return getTransferPayments(pageParam, PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, primaryWallet!);
-    },
+  const paymentsQuery = useQuery({
+    queryKey: [
+      "payments-transfers",
+      PAYMENTS_QUERY_PAGE_LIMIT,
+      paymentsTab,
+      primaryWallet,
+      currentPage,
+    ],
+    queryFn: () =>
+      getTransferPayments(currentPage, PAYMENTS_QUERY_PAGE_LIMIT, paymentsTab, primaryWallet!),
     enabled: Boolean(primaryWallet),
     staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 3,
-    getNextPageParam: (lastPage: TransferPaymentsResponse) => {
-      const { page, total_pages } = lastPage.pagination;
-      return page < total_pages ? page + 1 : undefined;
-    },
-    initialPageParam: 1,
+    placeholderData: keepPreviousData,
   });
 
-  const payments = useMemo(
-    (): PaymentTransferRow[] => paymentsQuery.data?.pages.flatMap((page) => page.transfers) ?? [],
-    [paymentsQuery.data]
-  );
+  const totalPages = paymentsQuery.data?.pagination.total_pages ?? 1;
 
   return useMemo(
     () => ({
       paymentsTab,
-      setPaymentsTab,
+      setPaymentsTab: (tab: PaymentsTab) => {
+        setTab(tab);
+        setCurrentPage(1);
+      },
       primaryWallet,
-      payments,
-      fetchMore: paymentsQuery.fetchNextPage,
-      hasNextPage: Boolean(paymentsQuery.hasNextPage),
+      payments: paymentsQuery.data?.transfers ?? [],
+      totalCount: paymentsQuery.data?.pagination.total_count ?? 0,
+      currentPage,
+      limit: PAYMENTS_QUERY_PAGE_LIMIT,
+      hasPrevPage: currentPage > 1,
+      hasNextPage: currentPage < totalPages,
+      goPrevPage: () => setCurrentPage((page) => Math.max(1, page - 1)),
+      goNextPage: () => setCurrentPage((page) => Math.min(totalPages, page + 1)),
       data: paymentsQuery.data,
       isPending: paymentsQuery.isPending,
       error: paymentsQuery.error instanceof Error ? paymentsQuery.error : null,
     }),
     [
       primaryWallet,
-      payments,
       paymentsTab,
+      currentPage,
+      totalPages,
       paymentsQuery.data,
       paymentsQuery.isPending,
       paymentsQuery.error,
-      paymentsQuery.fetchNextPage,
-      paymentsQuery.hasNextPage,
     ]
   );
 };

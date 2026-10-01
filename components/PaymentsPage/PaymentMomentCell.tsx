@@ -15,24 +15,22 @@ const PaymentMomentCell = ({ moment }: PaymentMomentCellProps) => {
       href={`${SITE_ORIGINAL_URL}/collect/base:${collection.address}/${token_id}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex min-w-0 items-center gap-[13px] hover:opacity-90"
+      className="flex min-w-0 items-center gap-3 hover:opacity-90"
     >
-      <div className="flex size-[42px] flex-none items-center justify-center overflow-hidden rounded-[9px] bg-[#E3DFD5] text-[#B5AFA2] shadow-[inset_0_0_0_1px_rgba(27,21,4,.06)]">
+      <div className="flex size-9 flex-none items-center justify-center overflow-hidden rounded-[10px] bg-grey-moss-50 text-grey-moss-300">
         {metadata?.image ? (
           <BlurImage
             src={metadata.image}
             alt={metadata.name || "moment"}
-            width={42}
-            height={42}
+            width={36}
+            height={36}
             className="size-full object-cover"
           />
         ) : (
-          <ImageIcon className="size-4" />
+          <ImageIcon className="size-[17px]" />
         )}
       </div>
-      <span className="truncate font-archivo-medium text-sm text-grey-moss-900">
-        {metadata?.name}
-      </span>
+      <span className="truncate text-sm text-grey-moss-900">{metadata?.name}</span>
     </a>
   );
 };

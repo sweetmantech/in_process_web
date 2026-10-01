@@ -9,13 +9,13 @@ const PaymentsTabs = () => {
   const count = usePaymentsCount(paymentsTab);
 
   return (
-    <section className="mt-[30px] flex items-center justify-between gap-4 border-b border-[#E4E0D7]">
-      <div className="flex gap-7">
+    <section className="flex items-center justify-between gap-4 border-b border-grey-moss-200">
+      <div className="flex gap-3 md:gap-5">
         <PaymentsTabButton tab="income" label="income" />
         <PaymentsTabButton tab="expense" label="expenses" />
       </div>
       {count !== undefined && (
-        <span className="pb-[13px] text-[12.5px] text-[#A8A296]">{count} transactions</span>
+        <span className="text-xs text-grey-moss-300">{count} transactions</span>
       )}
     </section>
   );

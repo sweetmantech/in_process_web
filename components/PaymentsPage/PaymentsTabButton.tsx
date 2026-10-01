@@ -1,5 +1,6 @@
 "use client";
 
+import { cn } from "@/lib/utils";
 import usePaymentsCount from "@/hooks/usePaymentsCount";
 import { usePaymentsProvider } from "@/providers/PaymentsProvider";
 import type { PaymentsTab } from "@/types/payments";
@@ -18,16 +19,13 @@ const PaymentsTabButton = ({ tab, label }: PaymentsTabButtonProps) => {
     <button
       type="button"
       onClick={() => setPaymentsTab(tab)}
-      className={`-mb-px inline-flex items-center gap-2 border-b-2 pb-[13px] font-archivo-bold text-[12.5px] uppercase tracking-[.1em] ${
-        active ? "border-grey-moss-900 text-grey-moss-900" : "border-transparent text-[#A8A296]"
-      }`}
+      className={cn(
+        "-mb-px inline-flex min-w-[60px] items-center gap-1.5 border-b-2 border-transparent px-1 py-2.5 font-archivo text-[12.5px] uppercase tracking-wider text-grey-moss-300 hover:text-grey-moss-900",
+        active && "border-b-grey-moss-900 font-archivo-medium text-grey-moss-900"
+      )}
     >
       {label}
-      {count !== undefined && (
-        <span className="font-archivo-medium text-[11px] tracking-normal text-[#A8A296]">
-          {count}
-        </span>
-      )}
+      {count !== undefined && <span className="text-[11px] text-grey-moss-300">{count}</span>}
     </button>
   );
 };

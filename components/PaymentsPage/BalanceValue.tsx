@@ -4,11 +4,11 @@ interface BalanceValueProps {
 }
 
 const BalanceValue = ({ value, unit }: BalanceValueProps) => (
-  <div className="flex items-baseline gap-[7px]">
-    <span className="font-archivo-bold text-[30px] leading-none tracking-[-.02em] text-[#a8862f]">
+  <div className="flex items-baseline gap-1.5">
+    <span className="font-archivo-medium text-2xl leading-none text-grey-moss-900 md:text-[28px]">
       {value}
     </span>
-    <span className="font-archivo-medium text-sm text-[#6B6456]">{unit}</span>
+    <span className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">{unit}</span>
   </div>
 );
 

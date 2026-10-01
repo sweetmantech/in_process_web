@@ -1,6 +1,8 @@
+import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
+
 const NoPaymentsFound = () => (
-  <div className="mt-[50px] rounded-[14px] border border-[#E4E0D7] bg-white/60 py-8 text-center">
-    <p className="text-sm text-[#A8A296]">no payments found</p>
+  <div className={`${MANAGE_CARD_CLASS} px-4 py-8 text-center md:px-6`}>
+    <p className="text-sm text-grey-moss-300">no payments found</p>
   </div>
 );
 

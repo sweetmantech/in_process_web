@@ -14,3 +14,6 @@ export const CARD_CLASS =
 
 export const PILL_BTN_CLASS =
   "flex flex-1 items-center justify-center gap-1.5 rounded-[20px] border border-[#E4E0D7] bg-white/80 px-2 py-2.5 font-archivo-medium text-xs text-[#6B6456] transition-colors hover:border-grey-moss-900 hover:text-grey-moss-900";
+
+export const MANAGE_CARD_CLASS =
+  "rounded-md border border-grey-moss-100 bg-white shadow-[0_4px_16px_-6px_rgba(27,21,4,0.14)] md:rounded-lg";

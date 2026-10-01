@@ -13,17 +13,12 @@ export const useWithdraw = () => {
   const [recipientAddress, setRecipientAddress] = useState<string>("");
   const { hasEOA, primaryWallet } = useWalletsProvider();
   const { getAuthHeaders } = useAuthorizationProvider();
-  const [isOpen, setIsOpen] = useState(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const { refetch, ethBalance, usdcBalance } = useSmartAccountProvider();
 
   useEffect(() => {
-    if (isOpen && hasEOA && primaryWallet) {
-      setRecipientAddress(primaryWallet as string);
-    } else if (isOpen && !hasEOA) {
-      setRecipientAddress("");
-    }
-  }, [isOpen, hasEOA, primaryWallet]);
+    setRecipientAddress(hasEOA && primaryWallet ? (primaryWallet as string) : "");
+  }, [hasEOA, primaryWallet]);
 
   const setMax = () => {
     const maxAmount = currency === "eth" ? ethBalance : usdcBalance;
@@ -77,8 +72,6 @@ export const useWithdraw = () => {
     setCurrency,
     recipientAddress,
     setRecipientAddress,
-    isOpen,
-    setIsOpen,
     withdraw,
     isWithdrawing,
     setMax,

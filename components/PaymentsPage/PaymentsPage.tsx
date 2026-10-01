@@ -16,7 +16,7 @@ const PaymentsPage = () => {
 
   return (
     <PaymentsProvider>
-      <main className="flex min-w-0 flex-col font-archivo text-grey-moss-900">
+      <main className="flex flex-col gap-3 pb-6 font-archivo md:h-full md:gap-4 md:pb-1">
         <BalanceCard />
         <PaymentsTabs />
         <PaymentsTable />

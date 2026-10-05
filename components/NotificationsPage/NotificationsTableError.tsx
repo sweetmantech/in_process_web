@@ -1,24 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
 
 interface NotificationsTableErrorProps {
   error: Error;
 }
 
-const NotificationsTableError = ({ error }: NotificationsTableErrorProps) => {
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Notifications</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="py-8 text-center">
-          <p className="text-red-600 dark:text-red-400">
-            Failed to load notifications: {error.message}
-          </p>
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+const NotificationsTableError = ({ error }: NotificationsTableErrorProps) => (
+  <div className={`${MANAGE_CARD_CLASS} px-4 py-8 text-center md:px-6`}>
+    <p className="text-sm text-red-dark">failed to load notifications: {error.message}</p>
+  </div>
+);
 
 export default NotificationsTableError;

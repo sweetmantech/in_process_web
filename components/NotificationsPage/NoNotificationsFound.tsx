@@ -1,12 +1,9 @@
-const NoNotificationsFound = () => {
-  return (
-    <div className="py-8 text-center">
-      <p className="text-neutral-600 dark:text-neutral-400">
-        No notifications found. You&apos;ll receive notifications when someone purchases your
-        moments.
-      </p>
-    </div>
-  );
-};
+import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
+
+const NoNotificationsFound = () => (
+  <div className={`${MANAGE_CARD_CLASS} px-4 py-8 text-center md:px-6`}>
+    <p className="text-sm text-grey-moss-300">no notifications found</p>
+  </div>
+);
 
 export default NoNotificationsFound;

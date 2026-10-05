@@ -1,7 +1,6 @@
-import { TableCell, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import MomentCell from "./MomentCell";
 import NotificationDateCell from "./NotificationDateCell";
+import { notificationsGridClassName } from "@/lib/notifications/notificationsGridClassName";
 import { InProcessNotification } from "@/types/notification";
 
 interface NotificationRowProps {
@@ -12,28 +11,24 @@ const NotificationRow = ({ notification }: NotificationRowProps) => {
   const { transfer, artist, viewed } = notification;
 
   return (
-    <TableRow className="hover:bg-neutral-50 dark:hover:bg-neutral-900">
-      <TableCell className="w-1/3 font-medium">
-        <div className="flex flex-col gap-2">
-          <span className="font-archivo-medium text-sm">
-            {artist.username || "Unknown"} was paid ${transfer.value ?? 0} by{" "}
-            {transfer.collector.username || "Unknown"}
+    <div
+      className={`${notificationsGridClassName} items-center border-b border-grey-moss-50 px-4 py-3 last:border-b-0 hover:bg-[#FDFCFA] md:px-6`}
+    >
+      <div className="flex min-w-0 flex-col items-start gap-1.5">
+        <span className="text-sm text-grey-moss-900">
+          {artist.username || "Unknown"} was paid ${transfer.value ?? 0} by{" "}
+          {transfer.collector.username || "Unknown"}
+        </span>
+        {!viewed && (
+          <span className="inline-flex items-center gap-[5px] whitespace-nowrap rounded-xl bg-grey-moss-50 px-[9px] py-[3px] text-xs text-grey-moss-900">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#7FD58A]" />
+            new
           </span>
-          {!viewed && (
-            <div className="flex justify-start">
-              <Badge
-                variant="secondary"
-                className="w-fit bg-green-100 text-xs text-green-800 dark:bg-green-900 dark:text-green-200"
-              >
-                New
-              </Badge>
-            </div>
-          )}
-        </div>
-      </TableCell>
-      <MomentCell moment={transfer.moment} className="w-1/3" />
-      <NotificationDateCell payment={transfer} className="w-1/3" />
-    </TableRow>
+        )}
+      </div>
+      <MomentCell moment={transfer.moment} />
+      <NotificationDateCell transfer={transfer} />
+    </div>
   );
 };
 

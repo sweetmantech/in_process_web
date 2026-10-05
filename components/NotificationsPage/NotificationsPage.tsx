@@ -9,20 +9,19 @@ const NotificationsPage = () => {
   useMarkNotificationAsViewed();
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-8">
-          <h1 className="mb-2 font-archivo-medium text-3xl font-bold">Notifications</h1>
-          <p className="text-neutral-600 dark:text-neutral-400">
-            {primaryWallet
-              ? "Your notifications on In Process"
-              : "View all notifications on In Process"}
-          </p>
-        </div>
-
-        <NotificationsTable />
+    <main className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 pb-6 pt-8 font-archivo md:gap-4 md:px-10">
+      <div className="mb-2">
+        <h1 className="font-archivo-medium text-2xl text-grey-moss-900 md:text-3xl">
+          notifications
+        </h1>
+        <p className="mt-1 text-sm text-grey-moss-300">
+          {primaryWallet
+            ? "your notifications on in process"
+            : "view all notifications on in process"}
+        </p>
       </div>
-    </div>
+      <NotificationsTable />
+    </main>
   );
 };
 

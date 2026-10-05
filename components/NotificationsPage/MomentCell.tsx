@@ -1,44 +1,37 @@
-import { TableCell } from "@/components/ui/table";
+import { ImageIcon } from "lucide-react";
 import BlurImage from "@/components/BlurImage";
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
-
-interface MomentCellMoment {
-  token_id: number;
-  collection: { address: string };
-  metadata?: { image: string | null; name: string | null } | null;
-}
+import type { InProcessNotification } from "@/types/notification";
 
 interface MomentCellProps {
-  moment: MomentCellMoment;
-  className?: string;
+  moment: InProcessNotification["transfer"]["moment"];
 }
 
-const MomentCell = ({ moment, className }: MomentCellProps) => {
-  const tokenUrl = `${SITE_ORIGINAL_URL}/collect/base:${moment.collection.address}/${moment.token_id}`;
-  const metadata = moment.metadata;
+const MomentCell = ({ moment }: MomentCellProps) => {
+  const { metadata, collection, token_id } = moment;
 
   return (
-    <TableCell className={className}>
-      <a
-        href={tokenUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-3 hover:opacity-90"
-      >
-        {metadata?.image && (
+    <a
+      href={`${SITE_ORIGINAL_URL}/collect/base:${collection.address}/${token_id}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex min-w-0 items-center gap-3 hover:opacity-90"
+    >
+      <div className="flex size-9 flex-none items-center justify-center overflow-hidden rounded-[10px] bg-grey-moss-50 text-grey-moss-300">
+        {metadata?.image ? (
           <BlurImage
             src={metadata.image}
-            alt={metadata.name || "Moment"}
-            width={48}
-            height={48}
-            className="rounded-md object-cover"
+            alt={metadata.name || "moment"}
+            width={36}
+            height={36}
+            className="size-full object-cover"
           />
+        ) : (
+          <ImageIcon className="size-[17px]" />
         )}
-        <div className="flex flex-col">
-          {metadata?.name && <span className="font-archivo-medium text-sm">{metadata.name}</span>}
-        </div>
-      </a>
-    </TableCell>
+      </div>
+      <span className="truncate text-sm text-grey-moss-900">{metadata?.name}</span>
+    </a>
   );
 };
 

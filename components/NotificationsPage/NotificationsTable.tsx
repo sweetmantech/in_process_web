@@ -1,8 +1,6 @@
 "use client";
 
 import { useNotificationsProvider } from "@/providers/NotificationsProvider";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import NotificationsTableLoading from "./NotificationsTableLoading";
 import NotificationsTableError from "./NotificationsTableError";
 import NoNotificationsFound from "./NoNotificationsFound";
@@ -19,21 +17,16 @@ const NotificationsTable = () => {
   const notifications = data?.notifications || [];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Notifications</span>
-          <Badge variant="outline">{notifications.length} notifications</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {notifications.length === 0 ? (
-          <NoNotificationsFound />
-        ) : (
-          <NotificationsTableContents notifications={notifications} />
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <section className="flex items-center justify-end border-b border-grey-moss-200 pb-2.5">
+        <span className="text-xs text-grey-moss-300">{notifications.length} notifications</span>
+      </section>
+      {notifications.length === 0 ? (
+        <NoNotificationsFound />
+      ) : (
+        <NotificationsTableContents notifications={notifications} />
+      )}
+    </>
   );
 };
 

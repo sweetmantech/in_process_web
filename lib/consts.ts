@@ -164,3 +164,6 @@ export const FORBIDDEN_EVENT_HANDLERS = [
   "onwebkitfullscreenchange",
   "onwebkitfullscreenerror",
 ];
+
+export const ARWEAVE_WALLET_ADDRESS = "PxGZxzvJSx_ER-VdeqCjMZb0owf6bO5ecOQErRROrPw";
+export const TURBO_PAYMENT_URL = "https://payment.ardrive.io/v1";

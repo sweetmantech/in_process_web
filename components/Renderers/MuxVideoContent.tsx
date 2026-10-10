@@ -7,6 +7,7 @@ import type { SyntheticEvent } from "react";
 interface MuxVideoContentProps {
   playbackId: string;
   poster?: string;
+  aspectRatio?: string;
   variant: "fill" | "natural";
   onError: () => void;
 }
@@ -21,12 +22,20 @@ const FILL_STYLE: MuxCSSProperties = {
 };
 const NATURAL_STYLE: MuxCSSProperties = { width: "100%" };
 
-const MuxVideoContent = ({ playbackId, poster, variant, onError }: MuxVideoContentProps) => {
+const MuxVideoContent = ({
+  playbackId,
+  poster,
+  aspectRatio,
+  variant,
+  onError,
+}: MuxVideoContentProps) => {
   const isFill = variant === "fill";
+  const isSized = !isFill && Boolean(aspectRatio);
 
   return (
     <div
       className={isFill ? "size-full" : "w-full"}
+      style={isSized ? { aspectRatio } : undefined}
       onClick={stopPropagation}
       onMouseDown={stopPropagation}
       onPointerDown={stopPropagation}
@@ -41,7 +50,7 @@ const MuxVideoContent = ({ playbackId, poster, variant, onError }: MuxVideoConte
         playsInline
         onError={onError}
         className="rounded-md"
-        style={isFill ? FILL_STYLE : NATURAL_STYLE}
+        style={isFill || isSized ? FILL_STYLE : NATURAL_STYLE}
       />
     </div>
   );

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import VideoPlayer from "@/components/VideoPlayer";
 import useMuxPlayback from "@/hooks/useMuxPlayback";
+import useMuxAspectRatio from "@/hooks/useMuxAspectRatio";
 import { MomentVideo } from "@/types/moment";
 import ErrorContent from "./ErrorContent";
 import MuxVideoContent from "./MuxVideoContent";
@@ -30,6 +31,11 @@ const VideoContent = ({
     rawAnimationUri,
     rawImageUri
   );
+  const muxAspectRatio = useMuxAspectRatio(
+    muxPlaybackId,
+    video?.aspect_ratio,
+    variant === "natural"
+  );
 
   useEffect(() => {
     setVideoUri(rawAnimationUri);
@@ -50,6 +56,7 @@ const VideoContent = ({
       <MuxVideoContent
         playbackId={muxPlaybackId}
         poster={muxPoster}
+        aspectRatio={muxAspectRatio}
         variant={variant}
         onError={onMuxError}
       />

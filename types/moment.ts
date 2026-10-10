@@ -57,6 +57,7 @@ export interface MomentMetadata {
 export interface MomentVideo {
   provider: string;
   playback_id: string;
+  aspect_ratio?: string | null;
 }
 
 export enum MomentType {

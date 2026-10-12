@@ -10,24 +10,22 @@ const useRemoveMomentAdmin = () => {
   const [isRemoving, setIsRemoving] = useState(false);
   const { getAccessToken } = usePrivy();
 
-  const handleRemoveAdmin = async (adminAddress: Address) => {
+  const handleRemoveAdmin = async (adminAddresses: Address[]) => {
     try {
       setIsRemoving(true);
 
-      const normalizedAddress = getAddress(adminAddress);
-
-      // Get access token
       const accessToken = await getAccessToken();
       if (!accessToken) {
         throw new Error("Authentication required");
       }
 
-      // Call API to remove admin
-      await removeMomentAdmin({
-        moment,
-        adminAddress: normalizedAddress,
-        accessToken,
-      });
+      for (const adminAddress of adminAddresses) {
+        await removeMomentAdmin({
+          moment,
+          adminAddress: getAddress(adminAddress),
+          accessToken,
+        });
+      }
 
       toast.success("Admin removed successfully");
     } catch (error: any) {

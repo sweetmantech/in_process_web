@@ -1,7 +1,7 @@
 "use client";
 
-import { Address } from "viem";
 import { Fragment } from "react";
+import useAdminGroups from "@/hooks/useAdminGroups";
 import CollectionAdmin from "./CollectionAdmin";
 import AddCollectionAdmin from "./AddCollectionAdmin";
 import { useCollectionProvider } from "@/providers/CollectionProvider";
@@ -10,10 +10,9 @@ const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider t
 
 const Admins = () => {
   const { data } = useCollectionProvider();
+  const { groups } = useAdminGroups(data?.admins);
 
   if (!data) return <Fragment />;
-
-  const { admins } = data;
 
   return (
     <div className="rounded-lg border border-grey-moss-100 bg-white p-4 shadow-sm md:p-6">
@@ -22,12 +21,14 @@ const Admins = () => {
         <span className={FIELD_LABEL_CLASS}>current admins</span>
       </div>
 
-      {admins.length === 0 ? (
+      {!groups ? (
+        <p className="font-spectral-italic text-sm text-grey-moss-300">Loading...</p>
+      ) : groups.length === 0 ? (
         <p className="font-spectral-italic text-sm text-grey-moss-300">No admins added yet.</p>
       ) : (
         <div className="flex flex-col gap-2.5">
-          {admins.map((address: Address) => (
-            <CollectionAdmin key={address} address={address} />
+          {groups.map((group) => (
+            <CollectionAdmin key={group.key} group={group} />
           ))}
         </div>
       )}

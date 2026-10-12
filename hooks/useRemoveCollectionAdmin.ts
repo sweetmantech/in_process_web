@@ -10,7 +10,7 @@ const useRemoveCollectionAdmin = () => {
   const [isRemoving, setIsRemoving] = useState(false);
   const { getAccessToken } = usePrivy();
 
-  const handleRemoveAdmin = async (adminAddress: Address) => {
+  const handleRemoveAdmin = async (adminAddresses: Address[]) => {
     try {
       if (!data) {
         toast.error("Collection data not available");
@@ -19,24 +19,22 @@ const useRemoveCollectionAdmin = () => {
 
       setIsRemoving(true);
 
-      const normalizedAddress = getAddress(adminAddress);
-
-      // Get access token
       const accessToken = await getAccessToken();
       if (!accessToken) {
         throw new Error("Authentication required");
       }
 
-      // Call API to remove admin using moment with tokenId "0" for collection-level permissions
-      await removeMomentAdmin({
-        moment: {
-          collectionAddress: data.address as `0x${string}`,
-          tokenId: "0",
-          chainId: data.chain_id,
-        },
-        adminAddress: normalizedAddress,
-        accessToken,
-      });
+      for (const adminAddress of adminAddresses) {
+        await removeMomentAdmin({
+          moment: {
+            collectionAddress: data.address as `0x${string}`,
+            tokenId: "0",
+            chainId: data.chain_id,
+          },
+          adminAddress: getAddress(adminAddress),
+          accessToken,
+        });
+      }
 
       toast.success("Admin removed successfully");
     } catch (error: unknown) {

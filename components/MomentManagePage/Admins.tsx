@@ -3,14 +3,15 @@
 import { useMomentProvider } from "@/providers/MomentProvider";
 import AddAdmin from "./AddAdmin";
 import MomentAdmin from "./MomentAdmin";
-import { Address } from "viem";
+import useAdminGroups from "@/hooks/useAdminGroups";
 
 const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300";
 
 const Admins = () => {
   const { momentAdmins } = useMomentProvider();
+  const { groups } = useAdminGroups(momentAdmins);
 
-  if (!momentAdmins) {
+  if (!groups) {
     return (
       <div className="rounded-lg border border-grey-moss-100 bg-white p-4 shadow-sm md:p-6">
         <p className="font-spectral-italic text-sm text-grey-moss-300">Loading...</p>
@@ -25,12 +26,12 @@ const Admins = () => {
         <span className={FIELD_LABEL_CLASS}>current admins</span>
       </div>
 
-      {momentAdmins.length === 0 ? (
+      {groups.length === 0 ? (
         <p className="font-spectral-italic text-sm text-grey-moss-300">No admins added yet.</p>
       ) : (
         <div className="flex flex-col gap-2.5">
-          {momentAdmins.map((address: Address) => (
-            <MomentAdmin key={address} address={address} />
+          {groups.map((group) => (
+            <MomentAdmin key={group.key} group={group} />
           ))}
         </div>
       )}

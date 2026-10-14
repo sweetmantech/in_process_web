@@ -15,10 +15,9 @@ type Props = {
   stats: ProfileStat[];
   /** When set, socials move to a second row with this content on the right. */
   toolbar?: ReactNode;
-  extraSocials?: ReactNode;
 };
 
-const ProfileWithStats = ({ stats, toolbar, extraSocials }: Props) => {
+const ProfileWithStats = ({ stats, toolbar }: Props) => {
   const {
     isEditing,
     toggleEditing,
@@ -83,7 +82,7 @@ const ProfileWithStats = ({ stats, toolbar, extraSocials }: Props) => {
           )}
           {!toolbar && (
             <div className="mt-3">
-              <SocialAccounts extras={extraSocials} />
+              <SocialAccounts />
             </div>
           )}
         </div>
@@ -93,7 +92,7 @@ const ProfileWithStats = ({ stats, toolbar, extraSocials }: Props) => {
 
       {toolbar ? (
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
-          <SocialAccounts extras={extraSocials} />
+          <SocialAccounts />
           <div className="min-w-0 md:ml-auto">{toolbar}</div>
         </div>
       ) : null}

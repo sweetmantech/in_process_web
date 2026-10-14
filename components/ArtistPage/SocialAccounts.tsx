@@ -1,15 +1,10 @@
-import { ReactNode } from "react";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import { Icons } from "../ui/icons";
 import { Send, InstagramIcon } from "lucide-react";
 import Social from "./Social";
 import { extractSocialUsername } from "@/lib/socials/extractSocialUsername";
 
-type Props = {
-  extras?: ReactNode;
-};
-
-const SocialAccounts = ({ extras }: Props) => {
+const SocialAccounts = () => {
   const {
     twitter,
     instagram,
@@ -60,7 +55,6 @@ const SocialAccounts = ({ extras }: Props) => {
 
   return (
     <div className="flex items-center gap-1">
-      {extras}
       {instagram && (
         <Social
           link={`https://instagram.com/${extractSocialUsername(instagram)}`}

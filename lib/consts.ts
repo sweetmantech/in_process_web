@@ -166,4 +166,5 @@ export const FORBIDDEN_EVENT_HANDLERS = [
 ];
 
 export const ARWEAVE_WALLET_ADDRESS = "PxGZxzvJSx_ER-VdeqCjMZb0owf6bO5ecOQErRROrPw";
+export const ARWEAVE_DEPOSIT_ADDRESS = "0x65876114b9B295EeB4912F5048A5e907870E3376";
 export const TURBO_PAYMENT_URL = "https://payment.ardrive.io/v1";

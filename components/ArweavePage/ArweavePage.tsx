@@ -1,17 +1,15 @@
 "use client";
 
 import useArweaveBalance from "@/hooks/useArweaveBalance";
-import useArweaveTopUp from "@/hooks/useArweaveTopUp";
 import { formatStatValue } from "@/lib/stats/formatStatValue";
 import { MANAGE_CARD_CLASS } from "@/lib/utils/classNames";
 import { ARWEAVE_WALLET_ADDRESS } from "@/lib/consts";
 import CardSectionHeader from "@/components/ManagePage/CardSectionHeader";
 import BalanceValue from "@/components/PaymentsPage/BalanceValue";
-import ArweaveTopUpForm from "./ArweaveTopUpForm";
+import ArweaveDepositAddress from "./ArweaveDepositAddress";
 
 const ArweavePage = () => {
-  const { data, isLoading, refetch } = useArweaveBalance();
-  const topUpState = useArweaveTopUp(refetch);
+  const { data, isLoading } = useArweaveBalance();
 
   return (
     <main className="mx-auto w-full max-w-4xl p-4 font-archivo md:p-8">
@@ -49,7 +47,7 @@ const ArweavePage = () => {
           label="top up with usdc"
           marginBottom="mb-3.5 md:mb-[18px]"
         />
-        <ArweaveTopUpForm {...topUpState} />
+        <ArweaveDepositAddress />
       </div>
     </main>
   );

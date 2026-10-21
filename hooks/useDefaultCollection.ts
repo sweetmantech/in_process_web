@@ -10,5 +10,6 @@ export function useDefaultCollection(artist: string | undefined) {
     queryFn: async () => createDefaultCollection(await getAuthHeaders()),
     enabled: Boolean(artist),
     staleTime: 60_000,
+    retry: 1,
   });
 }

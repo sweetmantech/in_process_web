@@ -7,6 +7,7 @@ import PermissionErrorModal from "@/components/PermissionErrorModal";
 import CollectionCoverImage from "./CollectionCoverImage";
 import TitleInput from "./TitleInput";
 import DescriptionInput from "./DescriptionInput";
+import SetDefaultCollectionButton from "./SetDefaultCollectionButton";
 
 const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300";
 
@@ -30,6 +31,11 @@ const CollectionMediaCard = () => {
       <div className="mb-[18px] flex items-center gap-1.5">
         <span className="size-1.5 rounded-full bg-tan" />
         <span className={FIELD_LABEL_CLASS}>media</span>
+        {isOwner && collection?.address && (
+          <div className="ml-auto">
+            <SetDefaultCollectionButton address={collection.address} />
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col items-center gap-5 md:flex-row md:items-center">

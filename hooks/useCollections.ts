@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
-import { fetchCollections } from "@/lib/collections/fetchCollections";
+import { useArtistCollections } from "@/hooks/useArtistCollections";
 import { createDefaultCollection } from "@/lib/collections/createDefaultCollection";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
@@ -25,12 +25,7 @@ export function useCollections() {
   const [defaultCollection, setDefaultCollection] = useState<CollectionItem | null>(null);
   const ensuredProcessForWalletRef = useRef<string | null>(null);
 
-  const query = useQuery({
-    queryKey: ["collections", primaryWallet],
-    queryFn: () => fetchCollections(1, 100, primaryWallet),
-    enabled: Boolean(primaryWallet),
-    staleTime: 60_000,
-  });
+  const query = useArtistCollections(primaryWallet);
 
   useEffect(() => {
     if (!initialAddress) setSelectedCollection(undefined);

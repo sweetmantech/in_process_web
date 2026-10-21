@@ -9,12 +9,14 @@ import Preview from "@/components/MomentsGrid/Preview";
 import ProtocolBadge from "@/components/MomentsGrid/ProtocolBadge";
 import ChainLogo from "@/components/MomentsGrid/ChainLogo";
 import { Skeleton } from "@/components/ui/skeleton";
+import DefaultCollectionButton from "./DefaultCollectionButton";
 
 interface ManageCollectionItemProps {
   collection: CollectionItem;
+  isDefault: boolean;
 }
 
-const ManageCollectionItem = ({ collection }: ManageCollectionItemProps) => {
+const ManageCollectionItem = ({ collection, isDefault }: ManageCollectionItemProps) => {
   const { data: metadata, isLoading } = useMetadata(collection.uri);
   const shortName = getShortNameFromChainId(collection.chain_id);
   const href = shortName ? `/manage/${shortName}:${collection.address}` : undefined;
@@ -49,10 +51,13 @@ const ManageCollectionItem = ({ collection }: ManageCollectionItemProps) => {
         </span>
       </div>
       <div className="mt-[7px] flex w-full items-center justify-between gap-1.5">
-        <ChainLogo chainId={collection.chain_id} />
-        <span className="truncate font-archivo text-[11px] text-grey-moss-300">
-          {truncateAddress(collection.address)}
-        </span>
+        <div className="flex min-w-0 items-center gap-1.5">
+          <ChainLogo chainId={collection.chain_id} />
+          <span className="truncate font-archivo text-[11px] text-grey-moss-300">
+            {truncateAddress(collection.address)}
+          </span>
+        </div>
+        <DefaultCollectionButton address={collection.address} isDefault={isDefault} />
       </div>
     </GridCard>
   );

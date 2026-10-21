@@ -2,15 +2,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
 import { useArtistCollections } from "@/hooks/useArtistCollections";
-import { createDefaultCollection } from "@/lib/collections/createDefaultCollection";
+import { useDefaultCollection } from "@/hooks/useDefaultCollection";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import { useAuthorizationProvider } from "@/providers/AuthorizationProvider";
 import { parseCollectionAddress } from "@/lib/timeline/parseCollectionAddress";
-import type { CollectionItem } from "@/types/collections";
 
 export function useCollections() {
   const { primaryWallet } = useWalletsProvider();
-  const { getAuthHeaders } = useAuthorizationProvider();
   const queryClient = useQueryClient();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -22,51 +19,18 @@ export function useCollections() {
   const selectedCollectionRef = useRef(selectedCollection);
   selectedCollectionRef.current = selectedCollection;
 
-  const [defaultCollection, setDefaultCollection] = useState<CollectionItem | null>(null);
-  const ensuredProcessForWalletRef = useRef<string | null>(null);
-
   const query = useArtistCollections(primaryWallet);
+  const defaultQuery = useDefaultCollection(primaryWallet);
+  const defaultCollection = defaultQuery.data ?? null;
 
   useEffect(() => {
     if (!initialAddress) setSelectedCollection(undefined);
-    setDefaultCollection(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [primaryWallet]);
 
   useEffect(() => {
-    if (!primaryWallet) {
-      ensuredProcessForWalletRef.current = null;
-      return;
-    }
-    if (ensuredProcessForWalletRef.current === primaryWallet) return;
-
-    let cancelled = false;
-    ensuredProcessForWalletRef.current = primaryWallet;
-
-    void (async () => {
-      try {
-        const collection = await createDefaultCollection(await getAuthHeaders());
-        if (cancelled) return;
-        setDefaultCollection(collection);
-        await queryClient.invalidateQueries({
-          queryKey: ["collections", primaryWallet],
-        });
-      } catch (error) {
-        if (cancelled) return;
-        ensuredProcessForWalletRef.current = null;
-        console.error("Failed to ensure Process collection", error);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-      if (ensuredProcessForWalletRef.current === primaryWallet) {
-        ensuredProcessForWalletRef.current = null;
-      }
-    };
-    // Intentionally omit getAuthHeaders: new identity each render would cancel in-flight ensures.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [primaryWallet, queryClient]);
+    if (!defaultCollection?.id || !primaryWallet) return;
+    void queryClient.invalidateQueries({ queryKey: ["collections", primaryWallet] });
+  }, [defaultCollection?.id, primaryWallet, queryClient]);
 
   const collections = useMemo(() => {
     const loaded = query.data?.collections ?? [];
@@ -78,9 +42,10 @@ export function useCollections() {
 
   useEffect(() => {
     if (selectedCollectionRef.current) return;
+    if (defaultQuery.isPending) return;
     if (!collections.length) return;
     setSelectedCollection(collections[0].address.toLowerCase());
-  }, [collections]);
+  }, [collections, defaultQuery.isPending]);
 
   return {
     collections,

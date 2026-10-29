@@ -12,6 +12,7 @@ interface ImageContentProps {
   alt: string;
   variant: "fill" | "natural";
   sizes?: string;
+  eager?: boolean;
 }
 
 const ImageContent = ({
@@ -19,8 +20,11 @@ const ImageContent = ({
   alt,
   variant,
   sizes = FEED_IMAGE_SIZES,
+  eager = false,
 }: ImageContentProps) => {
   const src = rawImageUri;
+  const loading = eager ? "eager" : undefined;
+  const fetchPriority = eager ? "high" : undefined;
 
   if (!src) {
     return <NoPreview className="min-h-32" />;
@@ -34,6 +38,8 @@ const ImageContent = ({
         width={0}
         height={0}
         sizes={sizes}
+        loading={loading}
+        fetchPriority={fetchPriority}
         draggable={false}
         className="bg-[#EDEAE2]"
         style={{ width: "100%", height: "auto" }}
@@ -47,6 +53,8 @@ const ImageContent = ({
       alt={alt}
       fill
       sizes={sizes}
+      loading={loading}
+      fetchPriority={fetchPriority}
       draggable={false}
       className="bg-[#EDEAE2]"
       style={{ objectFit: "contain", objectPosition: "center" }}

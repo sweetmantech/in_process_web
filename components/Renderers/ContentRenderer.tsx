@@ -24,6 +24,7 @@ interface ContentRendererProps {
   /** Feed cards: use cover image instead of mounting pdf.js per card. */
   preferPoster?: boolean;
   onRefresh?: () => Promise<string | undefined | void>;
+  eager?: boolean;
 }
 
 const ContentRenderer = ({
@@ -33,6 +34,7 @@ const ContentRenderer = ({
   sizes = FEED_IMAGE_SIZES,
   preferPoster = false,
   onRefresh,
+  eager = false,
 }: ContentRendererProps) => {
   const {
     mimeType,
@@ -68,6 +70,7 @@ const ContentRenderer = ({
           alt={metadata?.name || metadata?.description || "Moment image"}
           variant={variant}
           sizes={sizes}
+          eager={eager}
         />
       );
     }
@@ -131,6 +134,7 @@ const ContentRenderer = ({
       alt={metadata?.name || metadata?.description || "Moment image"}
       variant={variant}
       sizes={sizes}
+      eager={eager}
     />
   );
 };

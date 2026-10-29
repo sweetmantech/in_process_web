@@ -11,8 +11,8 @@ const MobileMomentsFeed = () => {
 
   return (
     <div className="flex flex-col pb-2">
-      {visibleMoments.map((moment) => (
-        <MomentFeedCard key={moment.id} moment={moment} />
+      {visibleMoments.map((moment, index) => (
+        <MomentFeedCard key={moment.id} moment={moment} eager={index < 2} />
       ))}
       {hasMore ? (
         <div ref={sentinelRef} className="h-px" />

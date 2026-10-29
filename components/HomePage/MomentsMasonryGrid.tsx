@@ -26,8 +26,8 @@ const MomentsMasonryGrid = () => {
             {distributeIntoColumns(visibleMoments, columnCount).map(
               (columnMoments, columnIndex) => (
                 <div key={columnIndex} className="flex min-w-0 flex-1 flex-col">
-                  {columnMoments.map((moment) => (
-                    <MomentFeedCard key={moment.id} moment={moment} />
+                  {columnMoments.map((moment, rowIndex) => (
+                    <MomentFeedCard key={moment.id} moment={moment} eager={rowIndex === 0} />
                   ))}
                 </div>
               )

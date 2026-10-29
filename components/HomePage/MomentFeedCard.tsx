@@ -10,11 +10,12 @@ import { cn } from "@/lib/utils";
 
 interface MomentFeedCardProps {
   moment: TimelineMoment;
+  eager?: boolean;
 }
 
 const actionButtonClass = "inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70";
 
-const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
+const MomentFeedCard = ({ moment, eager = false }: MomentFeedCardProps) => {
   const {
     metadata,
     priceLabel,
@@ -49,6 +50,7 @@ const MomentFeedCard = ({ moment }: MomentFeedCardProps) => {
             video={moment.video}
             variant="natural"
             preferPoster
+            eager={eager}
           />
         </div>
         <div className="px-[15px] pb-[15px] pt-[13px]">

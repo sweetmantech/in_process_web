@@ -1,18 +1,33 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMasonryColumnCount } from "@/hooks/useMasonryColumnCount";
+import useViewport from "@/hooks/useViewport";
+import {
+  FEED_PRE_MOUNT_COLUMN_CLASSES,
+  FEED_PRE_MOUNT_ROW_CLASS,
+  PRE_MOUNT_COLUMN_LIMIT,
+} from "@/lib/masonry/preMountColumns";
+import { cn } from "@/lib/utils";
 
 const heights = [280, 340, 220, 300, 260, 360, 240, 320, 300, 260, 320, 280];
 
 const MasonryGridSkeleton = () => {
-  const columnCount = useMasonryColumnCount();
+  const isPreMount = useViewport() === undefined;
+  const hookColumnCount = useMasonryColumnCount();
+  const columnCount = isPreMount ? PRE_MOUNT_COLUMN_LIMIT : hookColumnCount;
   const columns = Array.from({ length: columnCount }, (_, columnIndex) =>
     heights.filter((_, i) => i % columnCount === columnIndex)
   );
 
   return (
-    <div className="flex gap-5">
+    <div className={cn("flex gap-5", isPreMount && FEED_PRE_MOUNT_ROW_CLASS)}>
       {columns.map((columnHeights, columnIndex) => (
-        <div key={columnIndex} className="flex min-w-0 flex-1 flex-col">
+        <div
+          key={columnIndex}
+          className={cn(
+            "flex min-w-0 flex-1 flex-col",
+            isPreMount && FEED_PRE_MOUNT_COLUMN_CLASSES[columnIndex]
+          )}
+        >
           {columnHeights.map((height, i) => (
             <div
               key={i}

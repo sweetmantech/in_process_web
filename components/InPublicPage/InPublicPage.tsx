@@ -1,7 +1,7 @@
 "use client";
 
 import { useTimelineProvider } from "@/providers/TimelineProvider";
-import useIsMobile from "@/hooks/useIsMobile";
+import useViewport from "@/hooks/useViewport";
 import InPublicHero from "@/components/InPublicPage/InPublicHero";
 import MomentsMasonryGrid from "@/components/HomePage/MomentsMasonryGrid";
 import MobileMomentsFeed from "@/components/HomePage/MobileMomentsFeed";
@@ -10,7 +10,7 @@ import CommentDrawer from "@/components/HomePage/CommentDrawer";
 
 const InPublicPage = () => {
   const { error } = useTimelineProvider();
-  const isMobile = useIsMobile();
+  const isMobile = useViewport() === "mobile";
 
   if (error) return <main>Error loading timeline.</main>;
 

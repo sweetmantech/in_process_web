@@ -1,22 +1,33 @@
 "use client";
 
-import useIsMobile from "@/hooks/useIsMobile";
 import Image from "next/image";
+import MobileOnly from "@/components/Responsive/MobileOnly";
+import DesktopOnly from "@/components/Responsive/DesktopOnly";
 
 const ManifestoPage = () => {
-  const isMobile = useIsMobile();
-
   return (
     <div className="relative flex w-full grow flex-col gap-4 px-4 pb-[8%] pt-6 md:flex-row md:gap-16 md:px-0 md:pt-20">
       <div className="relative aspect-[376/236] w-full md:aspect-[546/1157] md:w-1/4">
-        <Image
-          src={isMobile ? "/spiral_top.svg" : "/left_circles.svg"}
-          blurDataURL={isMobile ? "/spiral_top.png" : "/left_circles.png"}
-          layout="fill"
-          alt="not found artwork"
-          objectFit="cover"
-          objectPosition="right"
-        />
+        <MobileOnly>
+          <Image
+            src="/spiral_top.svg"
+            blurDataURL="/spiral_top.png"
+            layout="fill"
+            alt="not found artwork"
+            objectFit="cover"
+            objectPosition="right"
+          />
+        </MobileOnly>
+        <DesktopOnly>
+          <Image
+            src="/left_circles.svg"
+            blurDataURL="/left_circles.png"
+            layout="fill"
+            alt="not found artwork"
+            objectFit="cover"
+            objectPosition="right"
+          />
+        </DesktopOnly>
       </div>
       <div className="relative flex w-full justify-center overflow-x-hidden text-grey-moss-900 md:w-2/4 md:overflow-x-visible">
         <div className="relative w-fit">
@@ -87,21 +98,34 @@ Here, we document in real time, onchain, on our terms.`}
               src="/signature.svg"
               blurDataURL="/signature.png"
               alt="not found signature"
-              width={isMobile ? 120 : 218}
-              height={isMobile ? 107 : 195}
+              width={218}
+              height={195}
+              className="h-auto w-[120px] min-[769px]:w-[218px]"
             />
           </div>
         </div>
       </div>
       <div className="relative aspect-[376/236] w-full md:aspect-[546/1157] md:w-1/4">
-        <Image
-          src={isMobile ? "/spiral_bottom.svg" : "/right_circles.svg"}
-          blurDataURL={isMobile ? "/spiral_bottom.png" : "/right_circles.png"}
-          layout="fill"
-          alt="not found artwork"
-          objectFit="cover"
-          objectPosition="left"
-        />
+        <MobileOnly>
+          <Image
+            src="/spiral_bottom.svg"
+            blurDataURL="/spiral_bottom.png"
+            layout="fill"
+            alt="not found artwork"
+            objectFit="cover"
+            objectPosition="left"
+          />
+        </MobileOnly>
+        <DesktopOnly>
+          <Image
+            src="/right_circles.svg"
+            blurDataURL="/right_circles.png"
+            layout="fill"
+            alt="not found artwork"
+            objectFit="cover"
+            objectPosition="left"
+          />
+        </DesktopOnly>
       </div>
     </div>
   );

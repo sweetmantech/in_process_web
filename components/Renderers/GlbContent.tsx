@@ -1,10 +1,8 @@
 "use client";
 
-import "@google/model-viewer";
-
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { useHasMounted } from "@/hooks/useHasMounted";
+import { useModelViewerReady } from "@/hooks/useModelViewerReady";
 import { isWebGLAvailable } from "@/lib/media/isWebGLAvailable";
 
 import ErrorContent from "./ErrorContent";
@@ -25,11 +23,11 @@ const GlbContent = ({
   alt,
   variant = "fill",
 }: GlbContentProps) => {
-  const mounted = useHasMounted();
+  const ready = useModelViewerReady();
 
   if (animationLoading) return <Skeleton className="size-full min-h-[280px]" />;
   if (!animationUrl) return <ErrorContent />;
-  if (!mounted) return <Skeleton className="size-full min-h-[280px]" />;
+  if (!ready) return <Skeleton className="size-full min-h-[280px]" />;
 
   if (!isWebGLAvailable()) {
     return <GlbWebGLFallback animationUrl={animationUrl} poster={poster} variant={variant} />;

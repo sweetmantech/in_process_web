@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Mark Privy dependencies as external to avoid bundling test files
   serverExternalPackages: [
-    "@privy-io/react-auth",
     "@walletconnect/ethereum-provider",
     "thread-stream",
     "pino",
     "@ardrive/turbo-sdk",
+    "isomorphic-dompurify",
   ],
   images: {
     loader: "custom",
@@ -15,11 +14,15 @@ const nextConfig = {
   },
   turbopack: {
     resolveAlias: {
-      buffer: "buffer/",
-      crypto: "crypto-browserify",
-      stream: "stream-browserify",
-      process: "process/browser",
-      async_hooks: "./lib/wayfinder/async-hooks-stub.js",
+      buffer: { browser: "buffer/" },
+      crypto: { browser: "crypto-browserify" },
+      stream: { browser: "stream-browserify" },
+      process: { browser: "process/browser" },
+      async_hooks: { browser: "./lib/wayfinder/async-hooks-stub.js" },
+      "@opentelemetry/context-zone": {
+        browser: "@opentelemetry/context-zone",
+        default: "./lib/wayfinder/context-zone-stub.js",
+      },
     },
   },
   webpack: (config, { isServer }) => {
@@ -31,6 +34,11 @@ const nextConfig = {
         stream: require.resolve("stream-browserify"),
         process: require.resolve("process/browser"),
         async_hooks: false,
+      };
+    } else {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        "@opentelemetry/context-zone": require.resolve("./lib/wayfinder/context-zone-stub.js"),
       };
     }
     return config;

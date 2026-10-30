@@ -5,14 +5,14 @@ import truncateAddress from "@/lib/utils/truncateAddress";
 
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);
-  const [username, setUserName] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
+  const [username, setUserName] = useState<string>(data?.username || "");
+  const [bio, setBio] = useState<string>(data?.bio || "");
   const [saving, setSaving] = useState<boolean>(false);
-  const [twitter, setTwitter] = useState<string>("");
-  const [instagram, setInstagram] = useState<string>("");
-  const [telegram, setTelegram] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [phoneVerified, setPhoneVerified] = useState<boolean>(false);
+  const [twitter, setTwitter] = useState<string>(data?.x || "");
+  const [instagram, setInstagram] = useState<string>(data?.instagram || "");
+  const [telegram, setTelegram] = useState(data?.telegram || "");
+  const [phoneNumber, setPhoneNumber] = useState<string>(data?.phone?.phone_number ?? "");
+  const [phoneVerified, setPhoneVerified] = useState<boolean>(data?.phone?.verified ?? false);
 
   useEffect(() => {
     if (data) {

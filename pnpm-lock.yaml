@@ -112,6 +112,9 @@ importers:
       "@vercel/analytics":
         specifier: ^1.6.1
         version: 1.6.1(next@16.0.7(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
+      "@walletconnect/ethereum-provider":
+        specifier: 2.22.4
+        version: 2.22.4(@types/react@19.2.7)(bufferutil@4.0.9)(react@19.2.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       "@zoralabs/protocol-deployments":
         specifier: ^0.3.8
         version: 0.3.11
@@ -249,7 +252,7 @@ importers:
         version: 2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       wagmi:
         specifier: ^3.1.0
-        version: 3.1.0(2073a63727e5a27f25b6ef6586918ad5)
+        version: 3.1.0(be87b7d8c5274409f355af3e950462c8)
       web-streams-polyfill:
         specifier: ^4.1.0
         version: 4.2.0
@@ -16217,7 +16220,7 @@ snapshots:
       - ws
       - zod
 
-  "@wagmi/connectors@7.0.2(f7d8420402618c065d3089a1e9227f2d)":
+  "@wagmi/connectors@7.0.2(77470504c8f2c97c6912d49798b0dfe5)":
     dependencies:
       "@wagmi/core": 3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
       viem: 2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
@@ -16228,7 +16231,7 @@ snapshots:
       "@metamask/sdk": 0.33.1(bufferutil@4.0.9)(utf-8-validate@5.0.10)
       "@safe-global/safe-apps-provider": 0.18.6(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       "@safe-global/safe-apps-sdk": 9.1.0(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
-      "@walletconnect/ethereum-provider": 2.21.1(@types/react@19.2.7)(bufferutil@4.0.9)(react@19.2.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
+      "@walletconnect/ethereum-provider": 2.22.4(@types/react@19.2.7)(bufferutil@4.0.9)(react@19.2.1)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)
       porto: 0.2.35(@tanstack/react-query@5.90.12(react@19.2.1))(@types/react@19.2.7)(@wagmi/core@3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76)))(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))(wagmi@3.1.0)
       typescript: 5.9.3
 
@@ -20018,7 +20021,7 @@ snapshots:
       "@tanstack/react-query": 5.90.12(react@19.2.1)
       react: 19.2.1
       typescript: 5.9.3
-      wagmi: 3.1.0(2073a63727e5a27f25b6ef6586918ad5)
+      wagmi: 3.1.0(be87b7d8c5274409f355af3e950462c8)
     transitivePeerDependencies:
       - "@types/react"
       - immer
@@ -21433,10 +21436,10 @@ snapshots:
       - ws
       - zod
 
-  wagmi@3.1.0(2073a63727e5a27f25b6ef6586918ad5):
+  wagmi@3.1.0(be87b7d8c5274409f355af3e950462c8):
     dependencies:
       "@tanstack/react-query": 5.90.12(react@19.2.1)
-      "@wagmi/connectors": 7.0.2(f7d8420402618c065d3089a1e9227f2d)
+      "@wagmi/connectors": 7.0.2(77470504c8f2c97c6912d49798b0dfe5)
       "@wagmi/core": 3.0.0(@tanstack/query-core@5.90.12)(@types/react@19.2.7)(immer@11.1.4)(react@19.2.1)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.1))(viem@2.41.2(bufferutil@4.0.9)(typescript@5.9.3)(utf-8-validate@5.0.10)(zod@3.25.76))
       react: 19.2.1
       use-sync-external-store: 1.4.0(react@19.2.1)

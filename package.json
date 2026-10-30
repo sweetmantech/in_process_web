@@ -47,6 +47,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@twemoji/api": "^17.0.3",
     "@vercel/analytics": "^1.6.1",
+    "@walletconnect/ethereum-provider": "2.22.4",
     "@zoralabs/protocol-deployments": "^0.3.8",
     "abitype": "^1.0.8",
     "alchemy-sdk": "^3.5.9",

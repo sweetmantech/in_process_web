@@ -56,4 +56,5 @@ export interface FetchTimelineParams {
   protocol?: TimelineProtocol;
   curated?: boolean;
   sortOrder?: TimelineSortOrder;
+  signal?: AbortSignal;
 }

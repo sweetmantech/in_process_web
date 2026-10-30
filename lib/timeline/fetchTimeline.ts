@@ -14,6 +14,7 @@ export async function fetchTimeline({
   contentType,
   protocol,
   curated = true,
+  signal,
 }: FetchTimelineParams = {}): Promise<TimelineResponse> {
   const params = new URLSearchParams({
     page: String(page),
@@ -34,7 +35,7 @@ export async function fetchTimeline({
   if (contentType) params.append("content_type", contentType);
   if (protocol) params.append("protocol", protocol);
   params.append("curated", curated ? "true" : "false");
-  const res = await fetch(`${IN_PROCESS_API}/timeline?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/timeline?${params.toString()}`, { signal });
   if (!res.ok) throw new Error("Failed to fetch timeline");
   return res.json();
 }

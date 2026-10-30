@@ -1,7 +1,10 @@
 import { SITE_ORIGINAL_URL } from "@/lib/consts";
 import { Metadata } from "next";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { TimelineProvider } from "@/providers/TimelineProvider";
 import HomePage from "@/components/HomePage";
+import { getQueryClient } from "@/lib/react-query/getQueryClient";
+import { prefetchHomeTimeline } from "@/lib/react-query/prefetchHomeTimeline";
 
 export const revalidate = 300;
 
@@ -33,11 +36,17 @@ export const metadata: Metadata = {
   },
 };
 
-const Home = () => {
+const Home = async () => {
+  const queryClient = getQueryClient();
+
+  await prefetchHomeTimeline(queryClient).catch(() => null);
+
   return (
-    <TimelineProvider>
-      <HomePage />
-    </TimelineProvider>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <TimelineProvider>
+        <HomePage />
+      </TimelineProvider>
+    </HydrationBoundary>
   );
 };
 

@@ -1,7 +1,7 @@
 import { AudioPlayer } from "@/components/AudioPlayer";
 import Image from "next/image";
 import React, { Fragment } from "react";
-import PdfViewer from "../Renderers/PdfViewer";
+import PdfViewer from "../Renderers/LazyPdfViewer";
 import VideoPlayer from "@/components/VideoPlayer";
 import GlbContent from "@/components/Renderers/GlbContent";
 import UploadProgressOverlay from "./UploadProgressOverlay";

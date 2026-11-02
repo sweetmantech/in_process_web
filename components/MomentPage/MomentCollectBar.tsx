@@ -21,7 +21,7 @@ const MomentCollectBar = () => {
       {priceLabel && (
         <div className="flex min-w-[4.5rem] max-w-[calc(50%-2.75rem)] shrink-0 flex-col justify-center">
           <div className="flex min-w-0 items-baseline gap-1">
-            <span className="truncate font-['Archivo-Bold'] text-[24px] uppercase leading-none tracking-tight text-tan-gold">
+            <span className="truncate font-archivo-heavy text-[24px] uppercase leading-none tracking-tight text-tan-gold">
               {priceLabel}
             </span>
             {priceUnit && (

@@ -2,46 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Archivo-Regular";
-  src: url("/fonts/Archivo-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Archivo-Medium";
-  src: url("/fonts/Archivo-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Archivo-Bold";
-  src: url("/fonts/Archivo-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Spectral-Italic";
-  src: url("/fonts/Spectral-Italic.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Spectral-Regular";
-  src: url("/fonts/Spectral-Regular.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Spectral-Medium";
-  src: url("/fonts/Spectral-Medium.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Spectral-Bold";
-  src: url("/fonts/Spectral-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Spectral-MediumItalic";
-  src: url("/fonts/Spectral-MediumItalic.ttf") format("truetype");
-}
-
 .react-flow__panel.react-flow__attribution {
   display: none !important;
 }
@@ -167,7 +127,7 @@
 
 /* MomentMediaFrame inherits font-spectral — reset so toolbar controls fit the 2.5rem bar */
 .pdf-viewer-root {
-  font-family: "Archivo-Regular", system-ui, sans-serif;
+  font-family: var(--font-archivo), system-ui, sans-serif;
   font-size: 12px;
   line-height: 1;
 }

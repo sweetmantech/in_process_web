@@ -6,33 +6,26 @@ import { MomentMetadata } from "@/types/moment";
 type DownloadMomentContentParams = {
   metadata: MomentMetadata;
   accessToken: string | null;
-  fetchArweave: (uri: string, accessToken: string | null) => Promise<Blob>;
 };
 
 export async function downloadMomentContent({
   metadata,
   accessToken,
-  fetchArweave,
 }: DownloadMomentContentParams): Promise<void> {
   const contentUri = metadata.content?.uri;
   if (!contentUri) return;
 
-  let data: Blob;
-
-  if (isArweaveURL(contentUri)) {
-    data = await fetchArweave(contentUri, accessToken);
-  } else {
-    const fetchableUrl = getFetchableUrl(contentUri);
-    const isLocalUri = fetchableUrl?.startsWith("blob:") || fetchableUrl?.startsWith("data:");
-    if (!fetchableUrl || (!isLocalUri && !validateUrl(fetchableUrl))) {
-      console.error("Invalid or unsafe URL for download");
-      return;
-    }
-
-    data = await fetch(fetchableUrl, {
-      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
-    }).then((res) => res.blob());
+  const fetchableUrl = getFetchableUrl(contentUri);
+  const isLocalUri = fetchableUrl?.startsWith("blob:") || fetchableUrl?.startsWith("data:");
+  if (!fetchableUrl || (!isLocalUri && !validateUrl(fetchableUrl))) {
+    console.error("Invalid or unsafe URL for download");
+    return;
   }
+
+  const sendAuth = accessToken && !isArweaveURL(contentUri);
+  const data = await fetch(fetchableUrl, {
+    headers: sendAuth ? { Authorization: `Bearer ${accessToken}` } : {},
+  }).then((res) => res.blob());
 
   const mime = metadata.content.mime || "";
   const baseName = metadata.name || "download";

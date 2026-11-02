@@ -3,7 +3,7 @@ import { isNormalizeableIPFSUrl, normalizeIPFSUrl } from "./ipfs";
 
 const IPFS_GATEWAY = "https://magic.decentralized-content.com";
 
-const ARWEAVE_GATEWAY = "https://ar-io.net";
+const ARWEAVE_GATEWAY = "https://turbo-gateway.com";
 
 export function arweaveGatewayUrl(normalizedArweaveUrl: string | null) {
   if (!normalizedArweaveUrl || typeof normalizedArweaveUrl !== "string") return null;

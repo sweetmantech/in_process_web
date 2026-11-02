@@ -7,6 +7,7 @@ import ContentRenderer from "@/components/Renderers";
 import { useMomentFeedCard } from "@/hooks/useMomentFeedCard";
 import OpenInNewTabMenu from "@/components/OpenInNewTabMenu";
 import { cn } from "@/lib/utils";
+import LocalDateTime from "@/components/LocalDateTime";
 
 interface MomentFeedCardProps {
   moment: TimelineMoment;
@@ -33,7 +34,6 @@ const MomentFeedCard = ({ moment, eager = false }: MomentFeedCardProps) => {
     collectionHref,
   } = useMomentFeedCard(moment);
   const creatorName = moment.creator.username ?? `${moment.creator.address.slice(0, 6)}...`;
-  const timeStr = new Date(moment.created_at).toLocaleString();
 
   return (
     <OpenInNewTabMenu href={momentHref}>
@@ -63,7 +63,10 @@ const MomentFeedCard = ({ moment, eager = false }: MomentFeedCardProps) => {
               >
                 {creatorName}
               </Link>
-              <span className="shrink-0 font-archivo text-xs text-tan-gold">{timeStr}</span>
+              <LocalDateTime
+                value={moment.created_at}
+                className="shrink-0 font-archivo text-xs text-tan-gold"
+              />
             </div>
             {collectionHref && (
               <div className="flex items-center justify-between gap-[9px]">

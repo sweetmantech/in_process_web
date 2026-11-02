@@ -84,7 +84,7 @@ const MomentActionCard = () => {
         <>
           {priceLabel && (
             <div className="mt-0.5 flex items-baseline gap-1.5">
-              <span className="font-['Archivo-Bold'] text-[42px] uppercase leading-none tracking-tight text-tan-gold">
+              <span className="font-archivo-heavy text-[42px] uppercase leading-none tracking-tight text-tan-gold">
                 {priceLabel}
               </span>
               {priceUnit && (

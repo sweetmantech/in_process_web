@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import ErrorContent from "./ErrorContent";
-import PdfViewer from "./PdfViewer";
+import PdfViewer from "./LazyPdfViewer";
 
 interface PdfContentProps {
   animationLoading: boolean;

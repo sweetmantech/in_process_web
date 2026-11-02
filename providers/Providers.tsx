@@ -9,7 +9,6 @@ import AuthorizationProvider from "./AuthorizationProvider";
 import MiniAppProvider from "./MiniAppProvider";
 import LayoutProvider from "./LayoutProvider";
 import SmartWalletAccountProvider from "./SmartWalletAccountProvider";
-import WayfinderProvider from "./WayfinderProvider";
 import NotificationsProvider from "./NotificationsProvider";
 
 interface ProvidersProps {
@@ -26,9 +25,7 @@ export function Providers({ children }: ProvidersProps): React.ReactElement {
               <WalletsProvider>
                 <SmartWalletAccountProvider>
                   <NotificationsProvider>
-                    <WayfinderProvider>
-                      <LayoutProvider>{children}</LayoutProvider>
-                    </WayfinderProvider>
+                    <LayoutProvider>{children}</LayoutProvider>
                   </NotificationsProvider>
                 </SmartWalletAccountProvider>
               </WalletsProvider>

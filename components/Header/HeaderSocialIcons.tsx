@@ -1,9 +1,10 @@
-import Image from "next/image";
+import XIcon from "@/components/Icons/XIcon";
+import FarcasterIcon from "@/components/Icons/FarcasterIcon";
 
 const HeaderSocialIcons = () => (
   <div className="flex items-center gap-2">
     <a href="https://x.com/stayinprocess" target="_blank" rel="noopener noreferrer" aria-label="X">
-      <Image src="/images/x.svg" alt="X icon" width={22} height={22} />
+      <XIcon width={22} height={22} />
     </a>
     <a
       href="https://farcaster.xyz/~/channel/inprocess"
@@ -11,7 +12,7 @@ const HeaderSocialIcons = () => (
       rel="noopener noreferrer"
       aria-label="Farcaster"
     >
-      <Image src="/images/farcaster.svg" alt="Farcaster icon" width={22} height={22} />
+      <FarcasterIcon width={22} height={22} />
     </a>
   </div>
 );

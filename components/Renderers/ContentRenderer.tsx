@@ -25,6 +25,7 @@ interface ContentRendererProps {
   preferPoster?: boolean;
   onRefresh?: () => Promise<string | undefined | void>;
   eager?: boolean;
+  highPriority?: boolean;
 }
 
 const ContentRenderer = ({
@@ -35,6 +36,7 @@ const ContentRenderer = ({
   preferPoster = false,
   onRefresh,
   eager = false,
+  highPriority = false,
 }: ContentRendererProps) => {
   const {
     mimeType,
@@ -71,6 +73,7 @@ const ContentRenderer = ({
           variant={variant}
           sizes={sizes}
           eager={eager}
+          highPriority={highPriority}
         />
       );
     }
@@ -135,6 +138,7 @@ const ContentRenderer = ({
       variant={variant}
       sizes={sizes}
       eager={eager}
+      highPriority={highPriority}
     />
   );
 };

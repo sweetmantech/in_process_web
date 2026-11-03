@@ -43,6 +43,7 @@ const MomentsMasonryGrid = () => {
                     eager={
                       rowIndex === 0 && (!isPreMount || columnIndex < FEED_PRE_MOUNT_EAGER_COLUMNS)
                     }
+                    highPriority={rowIndex === 0}
                   />
                 ))}
               </div>

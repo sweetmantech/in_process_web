@@ -1,4 +1,4 @@
-import Image from "next/image";
+import LogoIcon from "@/components/Icons/LogoIcon";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -21,7 +21,11 @@ const MobileHeader = () => {
       >
         <div className="flex items-center justify-between px-[22px] py-4">
           <Link href="/" className="relative block h-[22px] w-[97px]">
-            <Image src="/logo.svg" alt="in process" fill />
+            <LogoIcon
+              role="img"
+              aria-label="in process"
+              className="absolute inset-0 size-full text-[#1B1504]"
+            />
           </Link>
           <button
             type="button"

@@ -13,6 +13,7 @@ interface ImageContentProps {
   variant: "fill" | "natural";
   sizes?: string;
   eager?: boolean;
+  highPriority?: boolean;
 }
 
 const ImageContent = ({
@@ -21,10 +22,11 @@ const ImageContent = ({
   variant,
   sizes = FEED_IMAGE_SIZES,
   eager = false,
+  highPriority = false,
 }: ImageContentProps) => {
   const src = rawImageUri;
   const loading = eager ? "eager" : undefined;
-  const fetchPriority = eager ? "high" : undefined;
+  const fetchPriority = eager || highPriority ? "high" : undefined;
 
   if (!src) {
     return <NoPreview className="min-h-32" />;

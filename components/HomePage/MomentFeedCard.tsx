@@ -12,11 +12,12 @@ import LocalDateTime from "@/components/LocalDateTime";
 interface MomentFeedCardProps {
   moment: TimelineMoment;
   eager?: boolean;
+  highPriority?: boolean;
 }
 
 const actionButtonClass = "inline-flex items-center gap-1.5 text-grey-moss-700 active:opacity-70";
 
-const MomentFeedCard = ({ moment, eager = false }: MomentFeedCardProps) => {
+const MomentFeedCard = ({ moment, eager = false, highPriority = false }: MomentFeedCardProps) => {
   const {
     metadata,
     priceLabel,
@@ -51,6 +52,7 @@ const MomentFeedCard = ({ moment, eager = false }: MomentFeedCardProps) => {
             variant="natural"
             preferPoster
             eager={eager}
+            highPriority={highPriority}
           />
         </div>
         <div className="px-[15px] pb-[15px] pt-[13px]">

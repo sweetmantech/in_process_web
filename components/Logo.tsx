@@ -2,7 +2,7 @@
 
 import useIsMobile from "@/hooks/useIsMobile";
 import { useLayoutProvider } from "@/providers/LayoutProvider";
-import Image from "next/image";
+import LogoIcon from "@/components/Icons/LogoIcon";
 import { useRouter } from "next/navigation";
 import OpenInNewTabMenu from "@/components/OpenInNewTabMenu";
 
@@ -21,11 +21,11 @@ const Logo = ({ className = "" }: LogoProps) => {
         type="button"
         onClick={() => push("/")}
       >
-        {isOpenNavbar && isMobile ? (
-          <Image src="/white_logo.svg" blurDataURL="/white_logo.png" alt="not found logo" fill />
-        ) : (
-          <Image src="/logo.svg" blurDataURL="/logo.png" alt="not found logo" fill />
-        )}
+        <LogoIcon
+          role="img"
+          aria-label="in process"
+          className={`absolute inset-0 size-full ${isOpenNavbar && isMobile ? "text-[#FEFEFE]" : "text-[#1B1504]"}`}
+        />
       </button>
     </OpenInNewTabMenu>
   );

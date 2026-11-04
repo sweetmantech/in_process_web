@@ -40,6 +40,7 @@ export interface UseTimelineParams {
   protocol?: TimelineProtocol;
   curated?: boolean;
   sortOrder?: TimelineSortOrder;
+  future?: boolean;
 }
 
 export interface FetchTimelineParams {
@@ -57,4 +58,5 @@ export interface FetchTimelineParams {
   curated?: boolean;
   sortOrder?: TimelineSortOrder;
   signal?: AbortSignal;
+  future?: boolean;
 }

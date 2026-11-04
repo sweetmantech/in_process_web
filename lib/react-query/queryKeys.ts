@@ -46,6 +46,7 @@ export function infiniteTimelineKey({
   protocol,
   curated = true,
   sortOrder = "created_at_desc",
+  future = true,
 }: {
   limit: number;
   artistAddress?: string;
@@ -59,6 +60,7 @@ export function infiniteTimelineKey({
   protocol?: TimelineProtocol;
   curated?: boolean;
   sortOrder?: TimelineSortOrder;
+  future?: boolean;
 }) {
   const { chainId: collectionChainId, address: normalizedCollection } =
     parseCollectionAddress(collection);
@@ -78,5 +80,6 @@ export function infiniteTimelineKey({
     protocol,
     curated,
     sortOrder,
+    future,
   ] as const;
 }

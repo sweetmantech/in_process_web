@@ -11,10 +11,11 @@ export async function prefetchHomeTimeline(queryClient: QueryClient) {
     page: 1,
     limit: HOME_TIMELINE_LIMIT,
     signal: AbortSignal.timeout(HOME_TIMELINE_PREFETCH_TIMEOUT_MS),
+    future: false,
   });
 
   queryClient.setQueryData(
-    infiniteTimelineKey({ limit: HOME_TIMELINE_LIMIT }),
+    infiniteTimelineKey({ limit: HOME_TIMELINE_LIMIT, future: false }),
     { pages: [firstPage], pageParams: [1] },
     { updatedAt: 0 }
   );

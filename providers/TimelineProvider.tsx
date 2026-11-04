@@ -44,6 +44,7 @@ interface TimelineProviderProps {
   protocol?: TimelineProtocol;
   curated?: boolean;
   sortOrder?: TimelineSortOrder;
+  future?: boolean;
 }
 
 export const TimelineProvider = ({
@@ -61,6 +62,7 @@ export const TimelineProvider = ({
   protocol,
   curated = true,
   sortOrder = "created_at_desc",
+  future = true,
 }: TimelineProviderProps) => {
   const infiniteResult = useInfiniteTimeline({
     page: 1,
@@ -77,6 +79,7 @@ export const TimelineProvider = ({
     protocol,
     curated,
     sortOrder,
+    future,
   });
 
   const paginatedResult = usePaginatedTimeline({

@@ -43,7 +43,7 @@ const Home = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <TimelineProvider>
+      <TimelineProvider future={false}>
         <HomePage />
       </TimelineProvider>
     </HydrationBoundary>

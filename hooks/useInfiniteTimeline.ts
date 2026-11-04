@@ -21,6 +21,7 @@ export function useInfiniteTimeline({
   protocol,
   curated = true,
   sortOrder = "created_at_desc",
+  future = true,
 }: UseTimelineParams = {}) {
   const [currentPage, setCurrentPage] = useState(page);
 
@@ -42,6 +43,7 @@ export function useInfiniteTimeline({
       protocol,
       curated,
       sortOrder,
+      future,
     }),
     queryFn: ({ pageParam = 1 }) => {
       return fetchTimeline({
@@ -57,6 +59,7 @@ export function useInfiniteTimeline({
         contentType,
         protocol,
         curated,
+        future,
       });
     },
     enabled,

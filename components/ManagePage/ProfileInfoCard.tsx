@@ -11,6 +11,7 @@ import SocialField from "./SocialField";
 import XIcon from "./XIcon";
 import TelegramMomentHint from "./TelegramMomentHint";
 import ProfileInfoCardActions from "./ProfileInfoCardActions";
+import HandleField from "./HandleField";
 
 const ProfileInfoCard = () => {
   const {
@@ -44,6 +45,7 @@ const ProfileInfoCard = () => {
             onChange={(e) => setUserName(e.target.value)}
           />
         </fieldset>
+        <HandleField />
         <fieldset className="flex flex-col gap-[5px]">
           <Label className="text-[10px] uppercase tracking-[0.1em] text-grey-moss-300">bio</Label>
           <Textarea

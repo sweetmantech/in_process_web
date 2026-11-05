@@ -6,6 +6,7 @@ import truncateAddress from "@/lib/utils/truncateAddress";
 const useProfile = (artistAddress?: Address) => {
   const { data, isLoading, refetch } = useArtistProfile(artistAddress);
   const [username, setUserName] = useState<string>(data?.username || "");
+  const [handle, setHandle] = useState<string>(data?.handle || "");
   const [bio, setBio] = useState<string>(data?.bio || "");
   const [saving, setSaving] = useState<boolean>(false);
   const [twitter, setTwitter] = useState<string>(data?.x || "");
@@ -17,6 +18,7 @@ const useProfile = (artistAddress?: Address) => {
   useEffect(() => {
     if (data) {
       setUserName(data.username || "");
+      setHandle(data.handle || "");
       setBio(data.bio || "");
       setTwitter(data.x || "");
       setTelegram(data.telegram || "");
@@ -35,16 +37,18 @@ const useProfile = (artistAddress?: Address) => {
     if (!data) return false;
     return (
       username !== (data.username || "") ||
+      handle !== (data.handle || "") ||
       bio !== (data.bio || "") ||
       twitter !== (data.x || "") ||
       instagram !== (data.instagram || "") ||
       telegram !== (data.telegram || "")
     );
-  }, [data, username, bio, twitter, instagram, telegram]);
+  }, [data, username, handle, bio, twitter, instagram, telegram]);
 
   const discard = () => {
     if (!data) return;
     setUserName(data.username || "");
+    setHandle(data.handle || "");
     setBio(data.bio || "");
     setTwitter(data.x || "");
     setInstagram(data.instagram || "");
@@ -56,6 +60,8 @@ const useProfile = (artistAddress?: Address) => {
     displayName,
     username,
     setUserName,
+    handle,
+    setHandle,
     bio,
     setBio,
     isLoading,

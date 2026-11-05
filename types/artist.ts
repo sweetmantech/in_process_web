@@ -11,6 +11,7 @@ export interface ArtistProfilePhone {
 export interface ArtistProfile {
   id: string;
   username: string | null;
+  handle: string | null;
   bio: string | null;
   instagram: string | null;
   x: string | null;

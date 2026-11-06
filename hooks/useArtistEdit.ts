@@ -19,7 +19,7 @@ const useArtistEdit = (
 
   const searchParams = useSearchParams();
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { isEditable } = useArtistEditable();
+  const { isEditable } = useArtistEditable(artistAddress);
 
   const toggleEditing = () => setIsEditing(!isEditing);
 

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Address } from "viem";
-import { useParams } from "next/navigation";
 import ProfileProvider from "@/providers/ProfileProvider";
 import ProfileWithStats from "@/components/ProfileWithStats";
 import CollectedToolbar from "./CollectedToolbar";
@@ -67,13 +66,7 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
       <div className="relative grow px-[18px] pb-[30px] pt-[22px] md:px-10 md:pb-11 xl:px-14 2xl:px-20 3xl:px-28">
         <ProfileWithStats
           stats={stats}
-          toolbar={
-            <CollectedToolbar
-              address={address}
-              active={contentTypeFilter}
-              onChange={setContentTypeFilter}
-            />
-          }
+          toolbar={<CollectedToolbar active={contentTypeFilter} onChange={setContentTypeFilter} />}
         />
         {isTransfersLoading ? (
           <div className="py-16 text-center font-archivo text-sm text-[#8a8578]">
@@ -112,15 +105,10 @@ const CollectedPageContent = ({ address }: { address: Address }) => {
   );
 };
 
-const CollectedPage = () => {
-  const { artistAddress } = useParams();
-  const address = artistAddress?.toString().toLowerCase() as Address | undefined;
-
-  return (
-    <ProfileProvider address={address}>
-      {address ? <CollectedPageContent address={address} /> : null}
-    </ProfileProvider>
-  );
-};
+const CollectedPage = ({ address }: { address: Address }) => (
+  <ProfileProvider address={address}>
+    <CollectedPageContent address={address} />
+  </ProfileProvider>
+);
 
 export default CollectedPage;

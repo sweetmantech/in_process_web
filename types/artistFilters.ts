@@ -4,12 +4,10 @@ import type {
   PeriodFilter,
   ProtocolFilter,
 } from "@/lib/timeline/timelineFilters";
-import type { Address } from "viem";
 
 export type ProfileView = "timeline" | "collected";
 
 export type ArtistFiltersProps = {
-  address: Address;
   view: ProfileView;
   protocol: ProtocolFilter;
   contentType: ContentTypeFilter;

@@ -1,3 +1,5 @@
+import type { Address } from "viem";
+
 export interface ArtistWallet {
   address: string;
   type?: string | null;
@@ -17,6 +19,17 @@ export interface ArtistProfile {
   x: string | null;
   telegram: string | null;
   phone?: ArtistProfilePhone;
+}
+
+export interface ArtistByHandle {
+  username: string | null;
+  handle: string | null;
+  wallets: ArtistWallet[];
+}
+
+export interface ResolvedArtistParam {
+  address: Address;
+  handle: string | null;
 }
 
 export interface Artist {

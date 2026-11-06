@@ -5,7 +5,6 @@ import { EditIcon } from "@/components/ui/icons";
 import { useProfileProvider } from "@/providers/ProfileProvider";
 import SocialAccounts from "@/components/ArtistPage/SocialAccounts";
 import { Skeleton } from "@/components/ui/skeleton";
-import useArtistEditable from "@/hooks/useArtistEditable";
 import EditingStatus from "@/components/ArtistPage/EditingStatus";
 import ProfileStats, { type ProfileStat } from "@/components/ProfileStats";
 
@@ -29,8 +28,8 @@ const ProfileWithStats = ({ stats, toolbar }: Props) => {
     isLoading,
     usernameRef,
     bioRef,
+    isEditable,
   } = useProfileProvider();
-  const { isEditable } = useArtistEditable();
 
   return (
     <div className="mb-5 flex flex-col gap-2">

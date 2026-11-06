@@ -1,12 +1,11 @@
+import { Address } from "viem";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
-import { useParams } from "next/navigation";
 
-const useArtistEditable = () => {
+const useArtistEditable = (artistAddress: Address | undefined) => {
   const { primaryWallet } = useWalletsProvider();
-  const { artistAddress } = useParams();
-  const address = artistAddress?.toString().toLowerCase() || "";
+  const address = artistAddress?.toLowerCase() || "";
 
-  const isEditable = address?.toLowerCase() === primaryWallet?.toLowerCase() && Boolean(address);
+  const isEditable = Boolean(address) && address === primaryWallet?.toLowerCase();
 
   return {
     isEditable,

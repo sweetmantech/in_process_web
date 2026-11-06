@@ -11,7 +11,6 @@ import FilterSelect from "./FilterSelect";
 import ProfileViewTabs from "./ProfileViewTabs";
 
 const ArtistFilters = ({
-  address,
   view,
   protocol,
   contentType,
@@ -49,7 +48,7 @@ const ArtistFilters = ({
         onChange={onChainChange}
         withChainLogo
       />
-      <ProfileViewTabs address={address} active={view} />
+      <ProfileViewTabs active={view} />
     </div>
   );
 };

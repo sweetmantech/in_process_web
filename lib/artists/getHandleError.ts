@@ -1,4 +1,4 @@
-const HANDLE_REGEX = /^[a-z0-9][a-z0-9._-]{1,28}[a-z0-9]$/;
+import { HANDLE_REGEX } from "@/lib/consts";
 
 const getHandleError = (handle: string): string | null => {
   if (!handle) return null;

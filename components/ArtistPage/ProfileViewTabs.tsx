@@ -1,12 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { Address } from "viem";
+import { usePathname, useRouter } from "next/navigation";
 import FilterSelect from "./FilterSelect";
 import type { ProfileView } from "@/types/artistFilters";
 
 type Props = {
-  address: Address;
   active: ProfileView;
 };
 
@@ -15,8 +13,9 @@ const VIEW_OPTIONS: { label: ProfileView; displayLabel: string }[] = [
   { label: "collected", displayLabel: "Collected" },
 ];
 
-const ProfileViewTabs = ({ address, active }: Props) => {
+const ProfileViewTabs = ({ active }: Props) => {
   const router = useRouter();
+  const basePath = `/${usePathname().split("/")[1]}`;
 
   return (
     <FilterSelect
@@ -25,7 +24,7 @@ const ProfileViewTabs = ({ address, active }: Props) => {
       options={VIEW_OPTIONS}
       active={false}
       onChange={(view) => {
-        router.push(view === "timeline" ? `/${address}` : `/${address}/collected`);
+        router.push(view === "timeline" ? basePath : `${basePath}/collected`);
       }}
     />
   );

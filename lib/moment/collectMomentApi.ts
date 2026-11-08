@@ -4,7 +4,7 @@ import buildHeaders from "@/lib/http/buildHeaders";
 
 export const collectMomentApi = async (
   moment: Moment,
-  amount: number,
+  quantity: number,
   comment: string,
   headers: HeadersInit
 ): Promise<string> => {
@@ -14,7 +14,7 @@ export const collectMomentApi = async (
       headers: buildHeaders(headers),
       body: JSON.stringify({
         moment,
-        amount,
+        quantity,
         comment,
       }),
     });

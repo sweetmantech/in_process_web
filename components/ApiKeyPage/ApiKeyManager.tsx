@@ -20,7 +20,7 @@ export default function ApiKeyManager({ className }: ApiKeyManagerProps) {
         <CardDescription className="font-spectral-italic text-grey-secondary">
           Create an API key to access In Process programmatically.{" "}
           <a
-            href="https://in-process-docs.vercel.app/"
+            href="https://docs.inprocess.world/"
             className="text-blue-600 underline hover:text-blue-800"
             target="_blank"
             rel="noopener noreferrer"

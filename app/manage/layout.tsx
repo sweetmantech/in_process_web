@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { User, CreditCard, CircleDot, Library, Users } from "lucide-react";
+import { User, CreditCard, CircleDot, Library, Users, Key } from "lucide-react";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { useHasMutualMoments } from "@/hooks/useHasMutualMoments";
 import NavButton from "@/components/ManagePage/NavButton";
@@ -18,6 +18,7 @@ const ManagePage = ({ children }: { children: ReactNode }) => {
         <NavButton label="payment" href="/manage/payment" icon={CreditCard} />
         <NavButton label="moments" href="/manage/moments" icon={CircleDot} />
         <NavButton label="collections" href="/manage/collections" icon={Library} />
+        <NavButton label="api keys" href="/manage/api-keys" icon={Key} />
         {hasMutualMoments && (
           <NavButton label="mutual moments" href="/manage/mutual-moments" icon={Users} />
         )}

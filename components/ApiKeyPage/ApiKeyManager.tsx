@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Key } from "lucide-react";
+import { AccessToken } from "./AccessToken";
 import { ApiKeyForm } from "./ApiKeyForm";
 import { ApiKeyList } from "./ApiKeyList";
 
@@ -30,7 +31,10 @@ export default function ApiKeyManager({ className }: ApiKeyManagerProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <ApiKeyForm />
+        <AccessToken />
+        <div className="border-t border-grey-secondary pt-6">
+          <ApiKeyForm />
+        </div>
         <div className="border-t border-grey-secondary pt-6">
           <h3 className="mb-4 font-archivo-medium text-grey-moss-900">API Keys</h3>
           <ApiKeyList />

@@ -81,6 +81,7 @@ export default function useApiKey(): UseApiKeyReturn {
   };
 
   useEffect(() => {
+    if (!primaryWallet) return;
     loadApiKeys();
   }, [primaryWallet]);
 

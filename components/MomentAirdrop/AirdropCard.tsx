@@ -11,14 +11,15 @@ import { cn } from "@/lib/utils";
 interface AirdropCardProps {
   className?: string;
   title?: string;
+  canAirdrop?: boolean;
 }
 
 const FIELD_LABEL_CLASS = "font-archivo text-[10.5px] uppercase tracking-wider text-grey-moss-300";
 
-const AirdropCard = ({ className, title = "airdrop" }: AirdropCardProps) => {
+const AirdropCard = ({ className, title = "airdrop", canAirdrop }: AirdropCardProps) => {
   const { isOwner } = useMomentProvider();
 
-  if (!isOwner) return null;
+  if (!(canAirdrop ?? isOwner)) return null;
 
   return (
     <AirdropProvider>

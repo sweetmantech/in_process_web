@@ -2,40 +2,31 @@ import { useMemo, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
-import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/MomentCreateProvider";
 import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 import MomentCreatedHeader from "./MomentCreatedHeader";
 import Buttons from "./Buttons";
-import useTokenIdParam from "@/hooks/useTokenIdParam";
-import useMomentData from "@/hooks/useMomentData";
+import { useMomentProvider } from "@/providers/MomentProvider";
+import useCreateSuccessRequestState from "@/hooks/useCreateSuccessRequestState";
 import MomentsGridPreview from "@/components/MomentsGrid/Preview";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFireCreateSuccessConfetti from "@/hooks/useFireCreateSuccessConfetti";
 import ThoughtSuccessPreview from "./ThoughtSuccessPreview";
 import CreateSuccessSkeleton from "./CreateSuccessSkeleton";
 import getCreateSuccessDisplayState from "@/lib/createSuccess/getCreateSuccessDisplayState";
-import getCreateSuccessRequestState from "@/lib/createSuccess/getCreateSuccessRequestState";
 import buildFormPreviewMetadata from "@/lib/createSuccess/buildFormPreviewMetadata";
 
 const CreateSuccess = () => {
   const { name, description, price, priceUnit, writingText, mimeType, blobUrls } =
     useMetadataFormProvider();
-  const { selectedCollection, collections } = useCollectionsProvider();
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { push } = useRouter();
   const [descExpanded, setDescExpanded] = useState(false);
 
   const timestamp = useMemo(() => new Date().toLocaleString(), []);
-  const tokenIdFromUrl = useTokenIdParam();
-  const { activeTokenId, selectedCollectionItem, momentQuery, shareUrl } =
-    getCreateSuccessRequestState({
-      createdTokenId,
-      tokenIdFromUrl,
-      selectedCollection,
-      collections,
-    });
-  const { metadata: momentMetadata, owner, isLoading, isError } = useMomentData(momentQuery);
+  const { activeTokenId, selectedCollectionItem, shareUrl } = useCreateSuccessRequestState();
+  const { metadata: momentMetadata, owner, isOwner, isLoading, isError } = useMomentProvider();
+  const canAirdrop = isOwner || (!owner && Boolean(createdTokenId));
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
   const formPreviewMetadata = buildFormPreviewMetadata({
     name,
@@ -153,11 +144,9 @@ const CreateSuccess = () => {
                   shareTitle={shareTitle}
                 />
 
-                {momentMetadata && (
-                  <div className="mt-7">
-                    <CreatedMomentAirdrop />
-                  </div>
-                )}
+                <div className="mt-7">
+                  <CreatedMomentAirdrop canAirdrop={canAirdrop} />
+                </div>
               </>
             )}
           </div>

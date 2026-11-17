@@ -1,30 +1,19 @@
 "use client";
 
 import MomentAirdrop from "../MomentAirdrop";
-import { Address } from "viem";
-import { MomentProvider } from "@/providers/MomentProvider";
-import { CHAIN_ID } from "@/lib/consts";
-import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { useMomentProvider } from "@/providers/MomentProvider";
 import { Fragment } from "react";
-import useTokenIdParam from "@/hooks/useTokenIdParam";
 
-const CreatedMomentAirdrop = () => {
-  const tokenId = useTokenIdParam();
-  const { selectedCollection: collection } = useCollectionsProvider();
+interface CreatedMomentAirdropProps {
+  canAirdrop: boolean;
+}
 
-  if (!collection) return <Fragment />;
+const CreatedMomentAirdrop = ({ canAirdrop }: CreatedMomentAirdropProps) => {
+  const { moment } = useMomentProvider();
 
-  return (
-    <MomentProvider
-      moment={{
-        collectionAddress: collection as Address,
-        tokenId,
-        chainId: CHAIN_ID,
-      }}
-    >
-      <MomentAirdrop />
-    </MomentProvider>
-  );
+  if (!moment.collectionAddress) return <Fragment />;
+
+  return <MomentAirdrop canAirdrop={canAirdrop} />;
 };
 
 export default CreatedMomentAirdrop;

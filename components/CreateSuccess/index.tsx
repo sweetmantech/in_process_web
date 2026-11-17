@@ -1,3 +1,3 @@
-import CreateSuccess from "./CreateSuccess";
+import CreateSuccessWithMoment from "./CreateSuccessWithMoment";
 
-export default CreateSuccess;
+export default CreateSuccessWithMoment;

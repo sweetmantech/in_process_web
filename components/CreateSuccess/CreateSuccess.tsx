@@ -7,6 +7,7 @@ import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 import MomentCreatedHeader from "./MomentCreatedHeader";
 import Buttons from "./Buttons";
 import { useMomentProvider } from "@/providers/MomentProvider";
+import { useWalletsProvider } from "@/providers/WalletsProvider";
 import useCreateSuccessRequestState from "@/hooks/useCreateSuccessRequestState";
 import MomentsGridPreview from "@/components/MomentsGrid/Preview";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,6 +21,7 @@ const CreateSuccess = () => {
   const { name, description, price, priceUnit, writingText, mimeType, blobUrls } =
     useMetadataFormProvider();
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
+  const { primaryWallet } = useWalletsProvider();
   const { push } = useRouter();
   const [descExpanded, setDescExpanded] = useState(false);
 
@@ -27,7 +29,8 @@ const CreateSuccess = () => {
   const { activeTokenId, selectedCollectionItem, shareUrl } = useCreateSuccessRequestState();
   const { metadata: momentMetadata, owner, isOwner, isLoading, isError } = useMomentProvider();
   const canAirdrop = isOwner || (!owner && Boolean(createdTokenId));
-  const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
+  const timelineAddress = owner ?? primaryWallet;
+  const personalTimelineHref = timelineAddress ? `/${timelineAddress.toLowerCase()}` : undefined;
   const formPreviewMetadata = buildFormPreviewMetadata({
     name,
     description,

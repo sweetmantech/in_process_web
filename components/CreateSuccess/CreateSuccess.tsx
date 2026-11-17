@@ -16,9 +16,11 @@ import ThoughtSuccessPreview from "./ThoughtSuccessPreview";
 import CreateSuccessSkeleton from "./CreateSuccessSkeleton";
 import getCreateSuccessDisplayState from "@/lib/createSuccess/getCreateSuccessDisplayState";
 import getCreateSuccessRequestState from "@/lib/createSuccess/getCreateSuccessRequestState";
+import buildFormPreviewMetadata from "@/lib/createSuccess/buildFormPreviewMetadata";
 
 const CreateSuccess = () => {
-  const { name, description, price, priceUnit, writingText } = useMetadataFormProvider();
+  const { name, description, price, priceUnit, writingText, mimeType, blobUrls } =
+    useMetadataFormProvider();
   const { selectedCollection, collections } = useCollectionsProvider();
   const { createdTokenId, setCreatedTokenId } = useMomentCreateProvider();
   const { push } = useRouter();
@@ -35,7 +37,15 @@ const CreateSuccess = () => {
     });
   const { metadata: momentMetadata, owner, isLoading, isError } = useMomentData(momentQuery);
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
-  const showSuccessSkeleton = Boolean(activeTokenId) && isLoading && !momentMetadata;
+  const formPreviewMetadata = buildFormPreviewMetadata({
+    name,
+    description,
+    mimeType,
+    writingText,
+    blobUrls,
+  });
+  const previewMetadata = momentMetadata ?? formPreviewMetadata;
+  const showSuccessSkeleton = Boolean(activeTokenId) && isLoading && !previewMetadata;
 
   useFireCreateSuccessConfetti({ liveTokenId: activeTokenId, isLoading, momentMetadata });
 
@@ -49,7 +59,7 @@ const CreateSuccess = () => {
     shareTitle,
     isThoughtMoment,
   } = getCreateSuccessDisplayState({
-    momentMetadata,
+    momentMetadata: previewMetadata,
     formName: name,
     formDescription: description,
     collectionName: selectedCollectionItem?.name,
@@ -82,11 +92,11 @@ const CreateSuccess = () => {
             <div className="relative aspect-square w-full overflow-hidden bg-[repeating-linear-gradient(45deg,#F1EEE8_0_12px,#EAE6DD_12px_24px)]">
               {showSuccessSkeleton ? (
                 <Skeleton className="size-full rounded-none" />
-              ) : momentMetadata ? (
+              ) : previewMetadata ? (
                 isThoughtMoment ? (
-                  <ThoughtSuccessPreview text={writingText} metadata={momentMetadata} />
+                  <ThoughtSuccessPreview text={writingText} metadata={previewMetadata} />
                 ) : (
-                  <MomentsGridPreview data={momentMetadata} fit="contain" />
+                  <MomentsGridPreview data={previewMetadata} fit="contain" />
                 )
               ) : (
                 <div className="flex size-full items-center justify-center p-6">

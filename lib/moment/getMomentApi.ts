@@ -1,14 +1,17 @@
 import { Moment, MomentApiResponse } from "@/types/moment";
 import { IN_PROCESS_API } from "@/lib/consts";
 
-export const getMomentApi = async (moment: Moment): Promise<MomentApiResponse> => {
+export const getMomentApi = async (
+  moment: Moment,
+  signal?: AbortSignal
+): Promise<MomentApiResponse> => {
   const { collectionAddress, tokenId, chainId } = moment;
   const params = new URLSearchParams({
     collectionAddress: collectionAddress.toString(),
     tokenId,
     chainId: chainId.toString(),
   });
-  const res = await fetch(`${IN_PROCESS_API}/moment?${params.toString()}`);
+  const res = await fetch(`${IN_PROCESS_API}/moment?${params.toString()}`, { signal });
   if (!res.ok) {
     const error = await res.json().catch(() => ({ error: "Failed to fetch moment info" }));
     throw new Error(error.error || "Failed to fetch moment info");

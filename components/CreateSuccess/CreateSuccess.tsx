@@ -33,7 +33,7 @@ const CreateSuccess = () => {
       selectedCollection,
       collections,
     });
-  const { metadata: momentMetadata, owner, isLoading } = useMomentData(momentQuery);
+  const { metadata: momentMetadata, owner, isLoading, isError } = useMomentData(momentQuery);
   const personalTimelineHref = owner ? `/${owner.toLowerCase()}` : undefined;
   const showSuccessSkeleton = Boolean(activeTokenId) && isLoading && !momentMetadata;
 
@@ -91,7 +91,7 @@ const CreateSuccess = () => {
               ) : (
                 <div className="flex size-full items-center justify-center p-6">
                   <p className="text-center font-archivo text-[12.5px] uppercase tracking-[0.06em] text-[#A8A296]">
-                    Preview
+                    {isError ? "Your moment is still processing. Refresh in a minute." : "Preview"}
                   </p>
                 </div>
               )}
@@ -143,9 +143,11 @@ const CreateSuccess = () => {
                   shareTitle={shareTitle}
                 />
 
-                <div className="mt-7">
-                  <CreatedMomentAirdrop />
-                </div>
+                {momentMetadata && (
+                  <div className="mt-7">
+                    <CreatedMomentAirdrop />
+                  </div>
+                )}
               </>
             )}
           </div>

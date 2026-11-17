@@ -6,6 +6,8 @@ import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentApiResponse, MomentSaleConfig } from "@/types/moment";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
 
+const MOMENT_FETCH_TIMEOUT_MS = 15000;
+
 interface UseMomentDataOptions {
   initialData?: MomentApiResponse;
 }
@@ -17,11 +19,11 @@ const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
-    queryFn: () => getMomentApi(moment),
+    queryFn: () => getMomentApi(moment, AbortSignal.timeout(MOMENT_FETCH_TIMEOUT_MS)),
     enabled: Boolean(collectionAddress && tokenId && chainId),
     initialData,
     initialDataUpdatedAt: initialData ? 0 : undefined,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
     retry: (failureCount) => failureCount < 2,
   });
 
@@ -58,6 +60,7 @@ const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
     tokenUri,
     momentAdmins,
     isLoading: query.isLoading,
+    isError: query.isError,
     isSetSale,
     fetchMomentData: query.refetch,
     owner,

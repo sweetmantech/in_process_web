@@ -10,6 +10,7 @@ import Buttons from "./Buttons";
 import BatchSuccessThumbSwiper from "./BatchSuccessThumbSwiper";
 import BatchSuccessMediaPreview from "./BatchSuccessMediaPreview";
 import BatchSuccessSkeleton from "./BatchSuccessSkeleton";
+import BatchSuccessFallback from "./BatchSuccessFallback";
 
 const BatchSuccess = () => {
   const {
@@ -36,7 +37,15 @@ const BatchSuccess = () => {
 
   if (isLoading) return <BatchSuccessSkeleton />;
 
-  if (items.length === 0 || !selectedItem) return null;
+  if (items.length === 0 || !selectedItem) {
+    return (
+      <BatchSuccessFallback
+        shareUrl={shareUrl}
+        timelineHref={timelineHref}
+        onBackToCreate={handleBackToCreate}
+      />
+    );
+  }
 
   return (
     <div className="col-span-1 w-full md:col-span-2">

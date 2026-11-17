@@ -11,7 +11,6 @@ interface ExecuteAirdropParams {
 export const executeAirdrop = async ({ airdropToItems, moment, headers }: ExecuteAirdropParams) => {
   const recipients = airdropToItems.map((item) => item.email || item.address);
 
-  // Execute airdrop API call
   const response = await fetch(`${IN_PROCESS_API}/moment/airdrop`, {
     method: "POST",
     body: JSON.stringify({
@@ -21,7 +20,10 @@ export const executeAirdrop = async ({ airdropToItems, moment, headers }: Execut
     headers: buildHeaders(headers),
   });
 
-  if (!response.ok) throw new Error();
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(error?.message || `Airdrop failed with status ${response.status}`);
+  }
 
   const data = await response.json();
   return data.hash;

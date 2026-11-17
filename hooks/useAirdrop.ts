@@ -27,7 +27,6 @@ const useAirdrop = () => {
   const onChangeAddress = async (value: string, displayName?: string) => {
     if (!value) return;
 
-    // If it's already a valid address, add it immediately
     if (isAddress(value)) {
       setAirdropToItems((prev) => [
         ...prev,
@@ -54,7 +53,6 @@ const useAirdrop = () => {
       return;
     }
 
-    // For ENS names, add with "validating" status first for immediate UI feedback
     const newItem: AirdropItem = {
       address: "",
       email: "",
@@ -62,16 +60,12 @@ const useAirdrop = () => {
       ensName: value,
     };
 
-    // Add the item to the list
     setAirdropToItems((prev) => [...prev, newItem]);
 
-    // Immediately resolve the ENS name
     const resolvedItem = await resolveAddressForAirdrop(value);
 
-    // Update the item - find the last matching item with this ensName and validating status
     setAirdropToItems((current) => {
       const updated = [...current];
-      // Find the last item that matches (most recently added)
       for (let i = updated.length - 1; i >= 0; i--) {
         if (
           updated[i]?.ensName === value &&
@@ -95,16 +89,14 @@ const useAirdrop = () => {
   const onAirdrop = async () => {
     try {
       if (!isPrepared()) return;
-      if (!Boolean(primaryWallet) || !smartWallet) return;
+      if (!primaryWallet || !smartWallet) return;
 
-      // Check if we have existing items
       if (airdropToItems.length === 0) return;
 
       setLoading(true);
 
       const { finalItems, validItems } = await processAirdropItems(airdropToItems);
 
-      // Update state with all resolved items (preserving order and duplicates)
       setAirdropToItems(finalItems);
 
       if (validItems.length === 0) {
@@ -121,7 +113,6 @@ const useAirdrop = () => {
         headers,
       });
 
-      // Clear airdrop items after successful airdrop
       setAirdropToItems([]);
       setLoading(false);
       toast.success("airdropped!");
@@ -137,7 +128,8 @@ const useAirdrop = () => {
 
       return hash;
     } catch (error) {
-      toast.error((error as any)?.message);
+      console.error(error);
+      toast.error("Airdrop didn't go through. Please try again.");
       setLoading(false);
     }
   };

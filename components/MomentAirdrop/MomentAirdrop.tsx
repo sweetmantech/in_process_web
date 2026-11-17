@@ -2,6 +2,12 @@
 
 import AirdropCard from "./AirdropCard";
 
-const MomentAirdrop = () => <AirdropCard />;
+interface MomentAirdropProps {
+  canAirdrop?: boolean;
+}
+
+const MomentAirdrop = ({ canAirdrop }: MomentAirdropProps) => (
+  <AirdropCard canAirdrop={canAirdrop} />
+);
 
 export default MomentAirdrop;

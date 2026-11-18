@@ -5,8 +5,7 @@ import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { Moment, MomentApiResponse, MomentSaleConfig } from "@/types/moment";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
-
-const MOMENT_FETCH_TIMEOUT_MS = 15000;
+import { MOMENT_FETCH_TIMEOUT_MS } from "@/lib/consts";
 
 interface UseMomentDataOptions {
   initialData?: MomentApiResponse;

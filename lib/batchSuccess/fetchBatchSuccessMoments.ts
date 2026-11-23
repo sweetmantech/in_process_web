@@ -1,5 +1,5 @@
 import { Address } from "viem";
-import { CHAIN_ID, MOMENT_FETCH_TIMEOUT_MS } from "@/lib/consts";
+import { CHAIN_ID, SUCCESS_MOMENT_FETCH_TIMEOUT_MS } from "@/lib/consts";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
 import { BulkResultItem } from "@/types/bulk";
 import { MomentApiResponse } from "@/types/moment";
@@ -41,7 +41,7 @@ const fetchBatchSuccessMoments = async ({
           tokenId,
           chainId: CHAIN_ID,
         },
-        AbortSignal.timeout(MOMENT_FETCH_TIMEOUT_MS)
+        AbortSignal.timeout(SUCCESS_MOMENT_FETCH_TIMEOUT_MS)
       )
     )
   );

@@ -21,6 +21,9 @@ export const TELEGRAM_MAX_FILE_SIZE = 50 * 1024 * 1024;
 export const PERMISSION_BIT_ADMIN = 2;
 
 export const MOMENT_FETCH_TIMEOUT_MS = 15000;
+export const MOMENT_FETCH_RETRY = 2;
+export const SUCCESS_MOMENT_FETCH_TIMEOUT_MS = 10000;
+export const SUCCESS_MOMENT_FETCH_RETRY = 1;
 export const CREATE_REQUEST_TIMEOUT_MS = 120000;
 
 export const USDC_ADDRESS: Record<number, Address> = {

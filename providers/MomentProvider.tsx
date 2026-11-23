@@ -1,6 +1,6 @@
 "use client";
 
-import { Moment, MomentApiResponse } from "@/types/moment";
+import { Moment, MomentApiResponse, MomentFetchOptions } from "@/types/moment";
 import { createContext, useContext, ReactNode } from "react";
 import useMomentData from "@/hooks/useMomentData";
 
@@ -15,10 +15,16 @@ interface MomentProviderProps {
   children: ReactNode;
   moment: Moment;
   initialData?: MomentApiResponse;
+  fetchOptions?: MomentFetchOptions;
 }
 
-export function MomentProvider({ children, moment, initialData }: MomentProviderProps) {
-  const momentdata = useMomentData(moment, { initialData });
+export function MomentProvider({
+  children,
+  moment,
+  initialData,
+  fetchOptions,
+}: MomentProviderProps) {
+  const momentdata = useMomentData(moment, { initialData, ...fetchOptions });
 
   return (
     <MomentContext.Provider

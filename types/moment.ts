@@ -7,6 +7,11 @@ export enum Protocol {
   ZoraMedia = "zora_media",
   Zora = "zora",
 }
+export interface MomentFetchOptions {
+  timeoutMs?: number;
+  retry?: number;
+}
+
 export interface Moment {
   collectionAddress: Address;
   tokenId: string;

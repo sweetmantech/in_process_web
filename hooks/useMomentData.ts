@@ -3,27 +3,31 @@ import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import { getMomentApi } from "@/lib/moment/getMomentApi";
-import { Moment, MomentApiResponse, MomentSaleConfig } from "@/types/moment";
+import { Moment, MomentApiResponse, MomentFetchOptions, MomentSaleConfig } from "@/types/moment";
 import useMigratedCollectionRedirect from "./useMigratedCollectionRedirect";
-import { MOMENT_FETCH_TIMEOUT_MS } from "@/lib/consts";
+import { MOMENT_FETCH_RETRY, MOMENT_FETCH_TIMEOUT_MS } from "@/lib/consts";
 
-interface UseMomentDataOptions {
+interface UseMomentDataOptions extends MomentFetchOptions {
   initialData?: MomentApiResponse;
 }
 
 const useMomentData = (moment: Moment, options?: UseMomentDataOptions) => {
   const { collectionAddress, tokenId, chainId } = moment;
   const { primaryWallet } = useWalletsProvider();
-  const { initialData } = options ?? {};
+  const {
+    initialData,
+    timeoutMs = MOMENT_FETCH_TIMEOUT_MS,
+    retry = MOMENT_FETCH_RETRY,
+  } = options ?? {};
 
   const query = useQuery({
     queryKey: ["tokenInfo", collectionAddress, tokenId, chainId],
-    queryFn: () => getMomentApi(moment, AbortSignal.timeout(MOMENT_FETCH_TIMEOUT_MS)),
+    queryFn: () => getMomentApi(moment, AbortSignal.timeout(timeoutMs)),
     enabled: Boolean(collectionAddress && tokenId && chainId),
     initialData,
     initialDataUpdatedAt: initialData ? 0 : undefined,
     staleTime: 1000 * 60 * 5,
-    retry: (failureCount) => failureCount < 2,
+    retry,
   });
 
   const saleConfig = (query.data?.sale as MomentSaleConfig) ?? null;

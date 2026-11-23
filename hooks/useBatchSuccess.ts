@@ -8,14 +8,14 @@ import { useCollectionsProvider } from "@/providers/CollectionsProvider";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadata } from "@/hooks/useMetadata";
 import useCollection from "@/hooks/useCollection";
-import { CHAIN_ID } from "@/lib/consts";
+import { CHAIN_ID, SUCCESS_MOMENT_FETCH_RETRY } from "@/lib/consts";
 import fetchBatchSuccessMoments from "@/lib/batchSuccess/fetchBatchSuccessMoments";
 import getBatchSuccessRequestState from "@/lib/batchSuccess/getBatchSuccessRequestState";
 import getBatchSuccessDisplayState from "@/lib/batchSuccess/getBatchSuccessDisplayState";
 import resolveBatchSuccessItems from "@/lib/batchSuccess/resolveBatchSuccessItems";
 import { BulkResultItem } from "@/types/bulk";
 
-const BATCH_SUCCESS_MOMENTS_STALE_MS = 1000 * 60 * 5; // match useMomentData; minted metadata rarely changes
+const BATCH_SUCCESS_MOMENTS_STALE_MS = 1000 * 60 * 5;
 
 const useBatchSuccess = () => {
   const { result, clearAll, bulkItems } = useBulkCreateProvider();
@@ -39,6 +39,7 @@ const useBatchSuccess = () => {
     enabled: needsRemoteHydration,
     queryFn: () => fetchBatchSuccessMoments({ contractAddress, tokenIds }),
     staleTime: BATCH_SUCCESS_MOMENTS_STALE_MS,
+    retry: SUCCESS_MOMENT_FETCH_RETRY,
   });
 
   const items = useMemo(() => {

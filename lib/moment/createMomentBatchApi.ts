@@ -1,5 +1,7 @@
-import { IN_PROCESS_API } from "@/lib/consts";
 import { toast } from "sonner";
+import { postCreateRequest } from "./postCreateRequest";
+import CreatePendingError from "./CreatePendingError";
+import { getResponseErrorMessage } from "./getResponseErrorMessage";
 
 interface BatchToken {
   tokenMetadataURI: string;
@@ -32,21 +34,11 @@ export async function createMomentBatchApi(
   const retryDelay = 4000;
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
-    const response = await fetch(`${IN_PROCESS_API}/moment/create-batch`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(parameters),
-    });
+    const response = await postCreateRequest("/moment/create-batch", parameters);
 
     if (!response.ok) {
       const text = await response.text();
-      let errorMessage = "Failed to create moments";
-      try {
-        const error = JSON.parse(text);
-        errorMessage = error.message || errorMessage;
-      } catch {
-        // non-JSON response
-      }
+      const errorMessage = getResponseErrorMessage(text, "Failed to create moments");
 
       if (errorMessage.includes("failed to estimate gas") && attempt < maxRetries - 1) {
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
@@ -56,7 +48,9 @@ export async function createMomentBatchApi(
 
       if (errorMessage.includes("failed to estimate gas")) {
         toast.info("Gas estimation failed. Please try again in a few minutes.");
+        throw new Error(errorMessage);
       }
+      if (response.status >= 500) throw new CreatePendingError();
       throw new Error(errorMessage);
     }
 

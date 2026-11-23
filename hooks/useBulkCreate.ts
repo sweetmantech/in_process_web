@@ -7,6 +7,7 @@ import { Address } from "viem";
 
 import { BulkResult } from "@/types/bulk";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
+import { withUploadErrorMessage } from "@/lib/metadata/withUploadErrorMessage";
 import { createMomentBatchApi } from "@/lib/moment/createMomentBatchApi";
 import { toastCreateError } from "@/lib/moment/toastCreateError";
 
@@ -101,16 +102,18 @@ const useBulkCreate = () => {
         updateItemStatus(item.id, { status: "uploading", progress: 0 });
 
         const isImage = item.mimeType.includes("image");
-        const uri = await generateSingleFileMetadata({
-          imageFile: isImage ? item.file : null,
-          animationFile: isImage ? null : item.file,
-          previewFile: item.previewFile,
-          mimeType: item.mimeType,
-          name: item.name,
-          description: item.description,
-          link: "",
-          onProgress: (p) => updateItemStatus(item.id, { progress: Math.round(p) }),
-        });
+        const uri = await withUploadErrorMessage(() =>
+          generateSingleFileMetadata({
+            imageFile: isImage ? item.file : null,
+            animationFile: isImage ? null : item.file,
+            previewFile: item.previewFile,
+            mimeType: item.mimeType,
+            name: item.name,
+            description: item.description,
+            link: "",
+            onProgress: (p) => updateItemStatus(item.id, { progress: Math.round(p) }),
+          })
+        );
 
         metadataUris.push(uri);
         updateItemStatus(item.id, { status: "done", progress: 100 });

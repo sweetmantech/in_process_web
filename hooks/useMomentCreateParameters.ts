@@ -8,6 +8,7 @@ import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useMetadataUploadProvider } from "@/providers/MetadataUploadProvider";
 import { useSmartAccountProvider } from "@/providers/SmartWalletAccountProvider";
 import { useCollectionsProvider } from "@/providers/CollectionsProvider";
+import { withUploadErrorMessage } from "@/lib/metadata/withUploadErrorMessage";
 
 const useMomentCreateParameters = () => {
   const { isMiniApp } = useMiniAppProvider();
@@ -21,7 +22,7 @@ const useMomentCreateParameters = () => {
     const payoutRecipient = resolvePayoutRecipient(isMiniApp, hasEOA, primaryWallet, smartWallet);
     if (!payoutRecipient) throw new Error("Wallet not ready. Please try again.");
 
-    const momentMetadataUri = await generateMetadataUri();
+    const momentMetadataUri = await withUploadErrorMessage(() => generateMetadataUri());
     if (!name) return;
     const salesConfig = buildSalesConfig(priceUnit, price, startDate);
 
@@ -29,7 +30,6 @@ const useMomentCreateParameters = () => {
     const splitsData = formSplits && formSplits.length > 0 ? formSplits : undefined;
     const totalSupply = form.getValues("totalSupply");
 
-    // Unified contract format: use address if collection exists, otherwise use name/uri for new collection
     const contract = collection
       ? {
           address: collection,

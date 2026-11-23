@@ -1,8 +1,9 @@
-import { IN_PROCESS_API } from "@/lib/consts";
 import { toast } from "sonner";
+import { postCreateRequest } from "./postCreateRequest";
+import CreatePendingError from "./CreatePendingError";
+import { getResponseErrorMessage } from "./getResponseErrorMessage";
 
 interface CreateMomentParameters {
-  // Add the actual parameter types based on what fetchParameters returns
   [key: string]: any;
 }
 
@@ -18,23 +19,12 @@ export async function createMomentApi(
   const retryDelay = 4000;
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
-    const response = await fetch(`${IN_PROCESS_API}/moment/create`, {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(parameters),
-    });
+    const response = await postCreateRequest("/moment/create", parameters);
 
     if (!response.ok) {
       const text = await response.text();
-      let errorMessage = "Failed to create moment";
-      try {
-        const error = JSON.parse(text);
-        errorMessage = error.message || errorMessage;
-      } catch {
-        // non-JSON response (HTML error page from proxy/CDN)
-      }
+      const errorMessage = getResponseErrorMessage(text, "Failed to create moment");
 
-      // Retry on gas estimation errors
       if (errorMessage.includes("failed to estimate gas") && attempt < maxRetries - 1) {
         await new Promise((resolve) => setTimeout(resolve, retryDelay));
         toast.info(`Network is busy. Retrying to create moment... ${attempt + 1} of ${maxRetries}`);
@@ -45,7 +35,9 @@ export async function createMomentApi(
         toast.info(
           "Gas estimation failed. It seems like the network is busy. Please try again in a few minutes."
         );
+        throw new Error(errorMessage);
       }
+      if (response.status >= 500) throw new CreatePendingError();
       throw new Error(errorMessage);
     }
 

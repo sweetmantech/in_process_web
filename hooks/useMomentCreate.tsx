@@ -4,7 +4,7 @@ import { useState } from "react";
 import useMomentCreateParameters from "./useMomentCreateParameters";
 import { useUserProvider } from "@/providers/UserProvider";
 import { createMomentApi } from "@/lib/moment/createMomentApi";
-import { toast } from "sonner";
+import { toastCreateError } from "@/lib/moment/toastCreateError";
 import { useMetadataFormProvider } from "@/providers/MetadataFormProvider";
 import { useRouter } from "next/navigation";
 import useTypeParam from "./useTypeParam";
@@ -16,7 +16,7 @@ export default function useMomentCreate() {
   const [createdTokenId, setCreatedTokenId] = useState<string>("");
   const { fetchParameters } = useMomentCreateParameters();
   const { isPrepared } = useUserProvider();
-  const { walletsReady } = useWalletsProvider();
+  const { walletsReady, primaryWallet } = useWalletsProvider();
   const { setUploadProgress, setIsUploading } = useMetadataFormProvider();
   const { push } = useRouter();
   const type = useTypeParam();
@@ -36,7 +36,7 @@ export default function useMomentCreate() {
       }
       const result = await createMomentApi(parameters);
       setSelectedCollection(result.contractAddress);
-      const INDEXER_SETTLE_MS = 3000; // wait for indexer to pick up newly minted token
+      const INDEXER_SETTLE_MS = 3000;
       await new Promise((resolve) => setTimeout(resolve, INDEXER_SETTLE_MS));
 
       // Navigate while create-stage layout is still intact. Setting createdTokenId
@@ -49,11 +49,17 @@ export default function useMomentCreate() {
       setUploadProgress(100);
       setCreating(false);
       return result;
-    } catch (err: any) {
+    } catch (err) {
       setCreating(false);
       setIsUploading(false);
       setUploadProgress(0);
-      toast.error(err?.message || "Error creating");
+      toastCreateError({
+        error: err,
+        pendingMessage:
+          "Your moment may still be creating. Check your timeline before trying again.",
+        fallbackMessage: "Error creating",
+        onVisitTimeline: primaryWallet ? () => push(`/${primaryWallet.toLowerCase()}`) : undefined,
+      });
     }
   };
 

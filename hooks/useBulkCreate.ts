@@ -8,6 +8,7 @@ import { Address } from "viem";
 import { BulkResult } from "@/types/bulk";
 import { generateSingleFileMetadata } from "@/lib/metadata/generateSingleFileMetadata";
 import { createMomentBatchApi } from "@/lib/moment/createMomentBatchApi";
+import { toastCreateError } from "@/lib/moment/toastCreateError";
 
 import { useUserProvider } from "@/providers/UserProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
@@ -144,8 +145,14 @@ const useBulkCreate = () => {
       push(
         `/create/success?collection=${batchResult.contractAddress}&tokenIds=${batchResult.tokenIds.join(",")}`
       );
-    } catch (err: any) {
-      toast.error(err?.message || "Error creating moments");
+    } catch (err) {
+      toastCreateError({
+        error: err,
+        pendingMessage:
+          "Your moments may still be creating. Check your timeline before trying again.",
+        fallbackMessage: "Error creating moments",
+        onVisitTimeline: primaryWallet ? () => push(`/${primaryWallet.toLowerCase()}`) : undefined,
+      });
       markUploadingAsError();
     } finally {
       setIsCreating(false);

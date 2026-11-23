@@ -7,6 +7,7 @@ import useBatchSuccess from "@/hooks/useBatchSuccess";
 import useFireCreateSuccessConfetti from "@/hooks/useFireCreateSuccessConfetti";
 import BlurImage from "@/components/BlurImage";
 import Buttons from "./Buttons";
+import UsernameFeedHint from "./UsernameFeedHint";
 import BatchSuccessThumbSwiper from "./BatchSuccessThumbSwiper";
 import BatchSuccessMediaPreview from "./BatchSuccessMediaPreview";
 import BatchSuccessSkeleton from "./BatchSuccessSkeleton";
@@ -139,6 +140,7 @@ const BatchSuccess = () => {
                 shareTitle={`${momentCount} moments on ${collectionName}`}
                 shareLabel="Share all"
               />
+              <UsernameFeedHint />
             </div>
           </div>
         </div>

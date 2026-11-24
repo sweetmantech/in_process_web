@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import Buttons from "./Buttons";
+import UsernameFeedHint from "./UsernameFeedHint";
 
 interface BatchSuccessFallbackProps {
   shareUrl?: string;
@@ -30,6 +31,7 @@ const BatchSuccessFallback = ({
           Your moments are still processing. Refresh in a minute.
         </p>
         <Buttons shareUrl={shareUrl} timelineHref={timelineHref} shareLabel="Share all" />
+        <UsernameFeedHint />
       </div>
     </div>
   </div>

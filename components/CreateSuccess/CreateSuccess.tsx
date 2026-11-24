@@ -6,6 +6,7 @@ import { useMomentCreateProvider } from "@/providers/MomentCreateProvider/Moment
 import CreatedMomentAirdrop from "./CreatedMomentAirdrop";
 import MomentCreatedHeader from "./MomentCreatedHeader";
 import Buttons from "./Buttons";
+import UsernameFeedHint from "./UsernameFeedHint";
 import { useMomentProvider } from "@/providers/MomentProvider";
 import { useWalletsProvider } from "@/providers/WalletsProvider";
 import useCreateSuccessRequestState from "@/hooks/useCreateSuccessRequestState";
@@ -146,6 +147,7 @@ const CreateSuccess = () => {
                   timelineHref={personalTimelineHref}
                   shareTitle={shareTitle}
                 />
+                <UsernameFeedHint />
 
                 <div className="mt-7">
                   <CreatedMomentAirdrop canAirdrop={canAirdrop} />

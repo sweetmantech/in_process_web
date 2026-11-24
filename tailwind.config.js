@@ -113,10 +113,15 @@ module.exports = {
             height: "0",
           },
         },
+        "upload-indeterminate": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(300%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "upload-indeterminate": "upload-indeterminate 1.2s ease-in-out infinite",
       },
     },
   },

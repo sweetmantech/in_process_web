@@ -91,6 +91,7 @@ const useBatchSuccess = () => {
 
   return {
     items,
+    contractAddress,
     collectionName,
     collectionImageUrl,
     shareUrl,

@@ -12,10 +12,12 @@ import BatchSuccessThumbSwiper from "./BatchSuccessThumbSwiper";
 import BatchSuccessMediaPreview from "./BatchSuccessMediaPreview";
 import BatchSuccessSkeleton from "./BatchSuccessSkeleton";
 import BatchSuccessFallback from "./BatchSuccessFallback";
+import { getCollectPath } from "@/lib/moment/getCollectPath";
 
 const BatchSuccess = () => {
   const {
     items,
+    contractAddress,
     collectionName,
     collectionImageUrl,
     shareUrl,
@@ -139,6 +141,7 @@ const BatchSuccess = () => {
                 timelineHref={timelineHref}
                 shareTitle={`${momentCount} moments on ${collectionName}`}
                 shareLabel="Share all"
+                momentHref={getCollectPath(contractAddress, selectedItem?.tokenId)}
               />
               <UsernameFeedHint />
             </div>

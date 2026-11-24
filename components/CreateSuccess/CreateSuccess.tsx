@@ -27,7 +27,8 @@ const CreateSuccess = () => {
   const [descExpanded, setDescExpanded] = useState(false);
 
   const timestamp = useMemo(() => new Date().toLocaleString(), []);
-  const { activeTokenId, selectedCollectionItem, shareUrl } = useCreateSuccessRequestState();
+  const { activeTokenId, selectedCollectionItem, shareUrl, momentHref } =
+    useCreateSuccessRequestState();
   const { metadata: momentMetadata, owner, isOwner, isLoading, isError } = useMomentProvider();
   const canAirdrop = isOwner || (!owner && Boolean(createdTokenId));
   const timelineAddress = owner ?? primaryWallet;
@@ -144,6 +145,7 @@ const CreateSuccess = () => {
 
                 <Buttons
                   shareUrl={shareUrl}
+                  momentHref={momentHref}
                   timelineHref={personalTimelineHref}
                   shareTitle={shareTitle}
                 />

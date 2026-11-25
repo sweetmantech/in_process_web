@@ -1,4 +1,5 @@
-import { Check, Copy, LayoutGrid, Share2 } from "lucide-react";
+import { ArrowUpRight, Check, Copy, LayoutGrid, Share2 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -9,6 +10,7 @@ interface ButtonsProps {
   timelineHref?: string;
   shareTitle?: string;
   shareLabel?: string;
+  momentHref?: string;
 }
 
 const PRIMARY_BUTTON_CLASS =
@@ -21,6 +23,7 @@ const Buttons = ({
   timelineHref,
   shareTitle = "moment",
   shareLabel = "Share",
+  momentHref,
 }: ButtonsProps) => {
   const { push } = useRouter();
   const [shareOpen, setShareOpen] = useState(false);
@@ -111,6 +114,15 @@ const Buttons = ({
             <span className="whitespace-nowrap">{copied ? "Copied" : "Copy link"}</span>
           </button>
         </div>
+      )}
+      {momentHref && (
+        <Link
+          href={momentHref}
+          className="mt-3 inline-flex items-center gap-1.5 font-archivo-medium text-[14px] text-[#6B6456] transition-colors hover:text-grey-moss-900"
+        >
+          View moment
+          <ArrowUpRight className="size-[16px]" strokeWidth={1.75} />
+        </Link>
       )}
     </>
   );
